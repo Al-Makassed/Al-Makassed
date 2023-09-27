@@ -1,6 +1,7 @@
 ﻿namespace Makassed.Api.Models
 {
-    public class DependencyType
+    // MT stands for Monitoring Tool
+    public class MT
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
