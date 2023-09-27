@@ -1,12 +1,15 @@
-﻿namespace Makassed.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Makassed.Api.Models
 {
     public class Dependency
     {
+        [Key]
         public string Code { get; set; } = null!;
         public string? PdfUrl { get; set; }
         public int EstimatedTime { get; set; }
         public int PagesCount { get; set; }
-        public string PolicyId { get; set; } = null!;
+        public string PolicyCode { get; set; } = null!;
         public Guid DependencyTypeId { get; set; }
 
         // navigation properties

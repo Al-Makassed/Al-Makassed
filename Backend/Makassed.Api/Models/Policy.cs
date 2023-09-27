@@ -1,7 +1,10 @@
-﻿namespace Makassed.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Makassed.Api.Models
 {
     public class Policy
     {
+        [Key]
         public string Code { get; set; } = null!;
         public string Name { get; set; } = null!;
         public bool state { get; set; } = false;
