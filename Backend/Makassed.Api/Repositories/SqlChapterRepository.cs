@@ -12,9 +12,28 @@ namespace Makassed.Api.Repositories
         {
             _dbContext = dbContext;
         }
+
         public async Task<Chapter?> GetChapterByName(string name)
         {
             return await _dbContext.Chapters.FirstOrDefaultAsync(ch => ch.Name == name);
+        }
+
+        public  async Task<List<Chapter>> GetChaptersAsync()
+        {
+            return await _dbContext.Chapters.Include(ch => ch.Policies).ToListAsync();
+        }
+
+        public async Task<Chapter?> GetChapterByIdAsync(Guid id)
+        {
+            return await _dbContext.Chapters.FindAsync(id);
+        }
+
+        public async Task CreateChapterAsync(Chapter chapter)
+        {
+            await _dbContext.Chapters.AddAsync(chapter);
+            chapter.State = false;
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

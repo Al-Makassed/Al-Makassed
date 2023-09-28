@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Makassed.Api.Models;
-using Makassed.Api.Services.Chapter;
+using Makassed.Api.Services.Chapters;
 
 namespace Makassed.Api.Validators
 {
