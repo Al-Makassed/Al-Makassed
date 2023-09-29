@@ -44,7 +44,7 @@ namespace Makassed.Api.Controllers
             var chapterCreationResult = await _chapterService.CreateChapterAsync(chapter);
 
             return chapterCreationResult.Match(
-                created => CreatedAtAction(
+                _ => CreatedAtAction(
                             nameof(GetChapter), 
                             new { id = chapter.Id }, 
                             _mapper.Map<ChapterDto>(chapter)
