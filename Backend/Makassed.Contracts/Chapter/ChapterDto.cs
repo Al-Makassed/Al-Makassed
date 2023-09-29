@@ -1,13 +1,12 @@
-﻿using Makassed.Contracts.Policy;
+using Makassed.Contracts.Policy;
 
 namespace Makassed.Contracts.Chapter
 {
-    public record ChapterDto
+    public record CreateChapterResponse
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
         public bool State { get; set; }
-
-        public ICollection<PolicyDto> PolicyDtos { get; } = new List<PolicyDto>();
+        public IEnumerable<PolicyDto> Policies { get; } = new List<PolicyDto>();
     }
 }
