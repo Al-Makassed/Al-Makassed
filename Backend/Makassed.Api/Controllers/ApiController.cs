@@ -10,7 +10,7 @@ namespace Makassed.Api.Controllers
     {
         protected IActionResult Problem(IEnumerable<Error> errors)
         {
-            var firstError = errors[0];
+            var firstError = errors.First();
 
             var statusCode = firstError.Type switch
             {
