@@ -16,7 +16,7 @@ namespace Makassed.Api.Services.Chapters
 
         public async Task<bool> IsUniqueName(string name)
         {
-            var chapter = await _chapterRepository.GetChapterByName(name);
+            var chapter = await _chapterRepository.GetChapterByNameAsync(name);
 
             return chapter is null;
         }

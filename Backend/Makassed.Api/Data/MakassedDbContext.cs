@@ -11,7 +11,6 @@ namespace Makassed.Api.Data
 
         public DbSet<Chapter> Chapters { get; set; } = null!;
         public DbSet<Policy> Policies { get; set; } = null!;
-
         public DbSet<Dependency> Dependencies { get; set; } = null!;
 
         // protected override void OnModelCreating(ModelBuilder modelBuilder)

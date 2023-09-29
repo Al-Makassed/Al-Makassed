@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ErrorOr;
 using Makassed.Api.Models;
 using Makassed.Api.Services.Chapters;
 using Makassed.Contracts.Chapter;
@@ -31,15 +30,15 @@ namespace Makassed.Api.Controllers
             var chapterResult = await _chapterService.GetChapterByIdAsync(id);
 
             return chapterResult.Match(
-                chapter => Ok(_mapper.Map<ChapterDto>(chapter)),
+                chapter => Ok(_mapper.Map<CreateChapterResponse>(chapter)),
                 errors => Problem(errors)
             );
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateChapter(CreateChapterDto createChapterDto)
+        public async Task<IActionResult> CreateChapter(CreateChapterRequest createChapterRequest)
         {
-            var chapter = _mapper.Map<Chapter>(createChapterDto);
+            var chapter = _mapper.Map<Chapter>(createChapterRequest);
 
             var chapterCreationResult = await _chapterService.CreateChapterAsync(chapter);
 
@@ -47,7 +46,7 @@ namespace Makassed.Api.Controllers
                 _ => CreatedAtAction(
                             nameof(GetChapter), 
                             new { id = chapter.Id }, 
-                            _mapper.Map<ChapterDto>(chapter)
+                            _mapper.Map<CreateChapterResponse>(chapter)
                            ),
                 errors => Problem(errors)
             );

@@ -13,7 +13,7 @@ namespace Makassed.Api.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Chapter?> GetChapterByName(string name)
+        public async Task<Chapter?> GetChapterByNameAsync(string name)
         {
             return await _dbContext.Chapters.FirstOrDefaultAsync(ch => ch.Name == name);
         }

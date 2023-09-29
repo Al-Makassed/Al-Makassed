@@ -14,7 +14,7 @@ namespace Makassed.Api.Validators
 
             RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Chapter name is required.")
-                .MustAsync(async(name, cancellation) =>
+                .MustAsync(async(name, _) =>
                 {
                     return await _chapterService.IsUniqueName(name);
                 }).WithMessage("Chapter name already exists.");
