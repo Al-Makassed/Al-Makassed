@@ -1,4 +1,3 @@
-﻿using Makassed.Api.Data.Configurations;
 using Makassed.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,17 +9,14 @@ namespace Makassed.Api.Data
         {
         }
 
-        public DbSet<Chapter> Chapters { get; set; }
-        public DbSet<Policy> Policies { get; set; }
-        public DbSet<Dependency> Dependencies { get; set; }
-        public DbSet<DependencyType> DependencyTypes { get; set; }
+        public DbSet<Chapter> Chapters { get; set; } = null!;
+        public DbSet<Policy> Policies { get; set; } = null!;
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        public DbSet<Dependency> Dependencies { get; set; } = null!;
 
-            modelBuilder.ApplyConfiguration(new DependencyTypeConfiguration());
-        }
-
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     base.OnModelCreating(modelBuilder);
+        // }
     }
 }
