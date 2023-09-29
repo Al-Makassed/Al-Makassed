@@ -28,7 +28,7 @@ namespace Makassed.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetChapter(Guid id)
         {
-            ErrorOr<Chapter> chapterResult = await _chapterService.GetChapterByIdAsync(id);
+            var chapterResult = await _chapterService.GetChapterByIdAsync(id);
 
             return chapterResult.Match(
                 chapter => Ok(_mapper.Map<ChapterDto>(chapter)),
