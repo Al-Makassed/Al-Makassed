@@ -1,19 +1,18 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Makassed.Api.Models;
 using Makassed.Contracts.Chapter;
 using Makassed.Contracts.Dependency;
 using Makassed.Contracts.Policy;
 
-namespace Makassed.Api.Mappings
+namespace Makassed.Api.Mappings;
+
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile : Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile()
-        {
-            CreateMap<Chapter, ChapterDto>().ReverseMap();
-            CreateMap<Policy, PolicyDto>().ReverseMap();
-            CreateMap<Dependency, DependencyDto>().ReverseMap();
-            CreateMap<Chapter, CreateChapterDto>().ReverseMap();
-        }
+        CreateMap<Chapter, ChapterDto>().ReverseMap();
+        CreateMap<Policy, PolicyDto>().ReverseMap();
+        CreateMap<Dependency, DependencyDto>().ReverseMap();
+        CreateMap<Chapter, CreateChapterDto>().ReverseMap();
     }
 }
