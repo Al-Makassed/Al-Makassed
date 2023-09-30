@@ -26,8 +26,4 @@
     <ProjectReference Include="..\Makassed.Contracts\Makassed.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Configurations\" />
-  </ItemGroup>
-
 </Project>
