@@ -46,11 +46,14 @@ var app = builder.Build();
 {
     // Configure the HTTP request pipeline.
 
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+    //if (
+    //    app.Environment.IsDevelopment() ||
+    //    Helpers.IsRunningOnSpecificUrl(app, "https://maqasid.azurewebsites.net/api")
+    //    )
+    //{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    //}
 
     #region ErrorOrSetUp
     app.UseExceptionHandler("/error");
