@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
     // Add services to the container.
     builder.Services.AddControllers()
         // FluentValidation Setup
-        .AddFluentValidation(v => 
+        .AddFluentValidation(v =>
         v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
     builder.Services.AddValidatorsFromAssemblyContaining<ChapterValidator>();
@@ -26,12 +26,12 @@ var builder = WebApplication.CreateBuilder(args);
     #endregion
 
     #region DbContext/s Injection
-    builder.Services.AddDbContext<MakassedDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MAKConnectionString")));
+    builder.Services.AddDbContext<MakassedDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MakassedConnectionString")));
     #endregion
 
     #region Dependency Injection
-    builder.Services.AddScoped<IChapterRepository,SqlChapterRepository>();
-    builder.Services.AddScoped<IPolicyRepository,SqlPolicyRepository>();
+    builder.Services.AddScoped<IChapterRepository, SqlChapterRepository>();
+    builder.Services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
     builder.Services.AddScoped<IChapterService, ChapterService>();
     builder.Services.AddScoped<IPolicyService, PolicyService>();
     #endregion
