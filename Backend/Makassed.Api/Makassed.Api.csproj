@@ -26,17 +26,4 @@
     <ProjectReference Include="..\Makassed.Contracts\Makassed.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Data\Configurations\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EditorConfigFiles Remove="C:\code\makassed\Backend\Makassed.Api\Common\Behaviors\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\code\makassed\Backend\Makassed.Api\.editorconfig" />
-  </ItemGroup>
-
 </Project>
