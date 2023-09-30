@@ -10,9 +10,11 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
+        CreateMap<Chapter, GetChapterResponse>().ReverseMap();
         CreateMap<Chapter, CreateChapterResponse>().ReverseMap();
+        CreateMap<Chapter, CreateChapterRequest>().ReverseMap();
+        CreateMap<Chapter, UpdateChapterRequest>().ReverseMap();
         CreateMap<Policy, PolicyDto>().ReverseMap();
         CreateMap<Dependency, DependencyDto>().ReverseMap();
-        CreateMap<Chapter, CreateChapterRequest>().ReverseMap();
     }
 }

@@ -8,5 +8,7 @@ namespace Makassed.Api.Repositories
         Task<List<Chapter>> GetChaptersAsync();
         Task<Chapter?> GetChapterByIdAsync(Guid id);
         Task CreateChapterAsync(Chapter chapter);
+        Task<Chapter?> DeleteChapterAsync(Guid id);
+        Task<Chapter?> UpdateChapterAsync(Guid id, Chapter chapter);
     }
 }

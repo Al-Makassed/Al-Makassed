@@ -16,5 +16,10 @@ namespace Makassed.Api.Repositories
         {
             return await _dbContext.Policies.FirstOrDefaultAsync(p => p.Name == name);
         }
+
+        public async Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes)
+        {
+            return await _dbContext.Policies.Where(p => policiesCodes.Contains(p.Code)).ToListAsync();
+        }
     }
 }

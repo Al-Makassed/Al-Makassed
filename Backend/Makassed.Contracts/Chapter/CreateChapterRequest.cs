@@ -3,5 +3,5 @@ namespace Makassed.Contracts.Chapter;
 
 public record CreateChapterRequest
     {
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
     }

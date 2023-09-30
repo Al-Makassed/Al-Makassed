@@ -20,7 +20,8 @@ namespace Makassed.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetChapters()
         {
-            return Ok(await _chapterService.GetChaptersAsync());
+            var chapters = await _chapterService.GetChaptersAsync();
+            return Ok(_mapper.Map<List<GetChapterResponse>>(chapters                ));
         }
 
 
@@ -30,7 +31,7 @@ namespace Makassed.Api.Controllers
             var chapterResult = await _chapterService.GetChapterByIdAsync(id);
 
             return chapterResult.Match(
-                chapter => Ok(_mapper.Map<CreateChapterResponse>(chapter)),
+                chapter => Ok(_mapper.Map<GetChapterResponse>(chapter)),
                 errors => Problem(errors)
             );
         }
@@ -48,6 +49,31 @@ namespace Makassed.Api.Controllers
                             new { id = chapter.Id }, 
                             _mapper.Map<CreateChapterResponse>(chapter)
                            ),
+                errors => Problem(errors)
+            );
+        }
+        
+        
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateChapter(Guid id,UpdateChapterRequest updateChapterRequest)
+        {
+            var chapter = _mapper.Map<Chapter>(updateChapterRequest);
+
+            var updateChapterResult = await _chapterService.UpdateChapterAsync(id, chapter, updateChapterRequest.PoliciesIdes);
+
+            return updateChapterResult.Match(
+                _ => NoContent(),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteChapter(Guid id)
+        {
+            var deleteChapterResult = await _chapterService.DeleteChapterAsync(id);
+            
+            return deleteChapterResult.Match(
+                _ => NoContent(),
                 errors => Problem(errors)
             );
         }

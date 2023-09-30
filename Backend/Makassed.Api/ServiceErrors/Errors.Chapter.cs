@@ -8,7 +8,12 @@ namespace Makassed.Api.ServiceErrors
         {
             public static Error NotFound => Error.NotFound(
             code: "Chapter.NotFound",
-            description: "Chapter not found");
+            description: "Chapter not found.");
+
+            public static Error ChapterNameExists => Error.Validation(
+                code: "ChapterName.Duplication",
+                description: "Chapter name already exists."
+            );
         }
 
     }

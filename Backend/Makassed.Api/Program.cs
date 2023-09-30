@@ -1,3 +1,4 @@
+using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Makassed.Api.Data;
@@ -7,19 +8,20 @@ using Makassed.Api.Services.Chapters;
 using Makassed.Api.Services.Policy;
 using Makassed.Api.Validators;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     // Add services to the container.
-    builder.Services.AddControllers()
-        // FluentValidation Setup
-        .AddFluentValidation(v =>
-        v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+    builder.Services.AddControllers();
+    builder.Services.AddControllers();
 
-    builder.Services.AddValidatorsFromAssemblyContaining<ChapterValidator>();
+    // FluentValidation Setup
+    builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+
+    builder.Services.AddValidatorsFromAssemblyContaining<CreateChapterRequestValidator>();
     builder.Services.AddValidatorsFromAssemblyContaining<PolicyValidator>();
     builder.Services.AddValidatorsFromAssemblyContaining<DependencyValidator>();
+
 
     #region AutoMapper/s Injection
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));

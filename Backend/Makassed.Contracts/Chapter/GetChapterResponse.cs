@@ -1,10 +1,14 @@
+using Makassed.Contracts.Policy;
+
 namespace Makassed.Contracts.Chapter;
 
-public record CreateChapterResponse
+public record GetChapterResponse
 {
     public Guid Id { get; set; }
         
     public required string Name { get; set; }
         
     public bool EnableState { get; set; }
+    
+    public ICollection<PolicyDto> Policies { get; set; } = new List<PolicyDto>();
 }
