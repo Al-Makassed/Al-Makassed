@@ -8,5 +8,4 @@ deploy-job:
   stage: deploy
   script:
     - az login --service-principal --username $AZURE_CLIENT_ID --password Fpb8Q~nGMqXvQ40ggtPAnq13LsQl~p6HCwEdmcLb --tenant $AZURE_TENANT_ID
-    - az account set --subscription $AZURE_SUBSCRIPTION_ID
     - az group list
