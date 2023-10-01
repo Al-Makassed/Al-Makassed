@@ -58,4 +58,11 @@ public class ChaptersController : ApiController
         await Task.CompletedTask;
         return Ok(updateChapterRequest);
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteChapter([FromRoute] Guid id)
+    {
+        await Task.CompletedTask;
+        return Ok(id);
+    }
 }
