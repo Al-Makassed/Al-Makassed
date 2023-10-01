@@ -6,7 +6,8 @@ import LoginForm from "./components/LoginForm";
 const Login: FC = () => {
     return (
         <Grid
-            maxWidth={{xs: "300px", sm: "100%", height: "100vh"}}
+        
+            maxWidth={{xs: "800px", sm: "100%", height: "100vh"}}
             container
         >
             <CssBaseline/>
