@@ -1,11 +1,13 @@
-deploy-job:
-  image: mcr.microsoft.com/azure-cli
-  variables:
-    AZURE_CLIENT_ID: "7ae3fbcc-53dd-42c3-bb11-3064a7858156"
-    AZURE_CLIENT_SECRET: "Fpb8Q~nGMqXvQ40ggtPAnq13LsQl~p6HCwEdmcLb"
-    AZURE_TENANT_ID: "076a96db-b735-4cdb-a841-a2a80ee5eafe"
-    AZURE_SUBSCRIPTION_ID: "d0dd10d9-ebc7-4a41-be64-ecd2cbdb5df8"
-  stage: deploy
-  script:
-    - az login --service-principal --username $AZURE_CLIENT_ID --password Fpb8Q~nGMqXvQ40ggtPAnq13LsQl~p6HCwEdmcLb --tenant $AZURE_TENANT_ID
-    - az group list
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+stages:
+- test
+sast:
+  stage: test
+include:
+- template: Security/SAST.gitlab-ci.yml
