@@ -21,6 +21,14 @@ install_az_cli:
   only:
     - main
 
+check_az_location:
+  stage: install_az_cli
+  image: mcr.microsoft.com/azure-cli:latest
+  script:
+    - ls /usr/bin
+  only:
+    - main
+
 deploy:
   stage: deploy
   only:
