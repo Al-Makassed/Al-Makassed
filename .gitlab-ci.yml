@@ -1,5 +1,4 @@
 stages:
-  - check_variables
   - install_az_cli
   - deploy
 
@@ -13,17 +12,6 @@ variables:
   CONNECTION_STRING: "Data Source=sqlserver-maqasid.database.windows.net,1433;Initial Catalog=sqldb-maqasid;User ID=admin.maqasid;Password=Krankenhaus@123"
   CI_REPOSITORY_URL: "https://gitlab.com/makassed/makassed.git"
   CI_COMMIT_REF_NAME: "main"
-
-check_variables:
-  stage: check_variables
-  script:
-    - echo "AZURE_CLIENT_ID:" + $AZURE_CLIENT_ID
-    - echo "AZURE_CLIENT_SECRET:" + $AZURE_CLIENT_SECRET"
-    - echo "AZURE_TENANT_ID:" + $AZURE_TENANT_ID"
-    - echo "AZURE_SUBSCRIPTION_ID:" + $AZURE_SUBSCRIPTION_ID"
-    - echo "CI_REPOSITORY_URL:" + $CI_REPOSITORY_URL"
-  only:
-    - main
 
 install_az_cli:
   stage: install_az_cli
