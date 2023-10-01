@@ -1,12 +1,12 @@
 deploy-job:
   image: mcr.microsoft.com/azure-cli
   variables:
-    AZURE_CLIENT_ID: 7ae3fbcc-53dd-42c3-bb11-3064a7858156
-    AZURE_CLIENT_SECRET: Fpb8Q~nGMqXvQ40ggtPAnq13LsQl~p6HCwEdmcLb
-    AZURE_TENANT_ID: 076a96db-b735-4cdb-a841-a2a80ee5eafe
-    AZURE_SUBSCRIPTION_ID: d0dd10d9-ebc7-4a41-be64-ecd2cbdb5df8
+    AZURE_CLIENT_ID: "7ae3fbcc-53dd-42c3-bb11-3064a7858156"
+    AZURE_CLIENT_SECRET: "Fpb8Q~nGMqXvQ40ggtPAnq13LsQl~p6HCwEdmcLb"
+    AZURE_TENANT_ID: "076a96db-b735-4cdb-a841-a2a80ee5eafe"
+    AZURE_SUBSCRIPTION_ID: "d0dd10d9-ebc7-4a41-be64-ecd2cbdb5df8"
   stage: deploy
   script:
-    - az login --service-principal --username $AZURE_SUBSCRIPTION_ID --password $AZURE_CLIENT_SECRET  --tenant $AZURE_TENANT_ID
-    - az account set -s $AZURE_SUBSCRIPTION_ID
+    - az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    - az account set --subscription $AZURE_SUBSCRIPTION_ID
     - az group list
