@@ -7,11 +7,11 @@ variables:
   REACT_APP_API_URL: "https://example.com/api"
 
 before_script:
-  # Setup job installs Yarn and Node.js
+  # Setup job installs Yarn, Node.js, and TypeScript
   - apt-get update -qy
   - apt-get install -y nodejs
   - apt-get install -y npm
-  - npm install -g yarn
+  - npm install -g yarn typescript
 
 setup:
   stage: setup
