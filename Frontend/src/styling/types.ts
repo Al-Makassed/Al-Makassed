@@ -1,13 +1,15 @@
+import { noop } from "src/utils/functionsUtils";
+import { MixinsOptions } from "@mui/material/styles/createMixins";
+
 export interface MaqasidPalette {
   primary: string;
   secondary: string;
 }
 
-export interface MaqasidThemeMixins {
+export interface MaqasidThemeMixins extends MixinsOptions {
   // niceScroll: (configs?: NiceScrollConfigs) => {};
-  niceScroll: () => object;
-  showTextOverflowEllipsis: () => object;
-  removeInputNumberArrows: () => object;
-  hideTextFieldBorder: () => object;
-  toolbar: object;
+  niceScroll: typeof noop;
+  showTextOverflowEllipsis: typeof noop;
+  removeInputNumberArrows: typeof noop;
+  hideTextFieldBorder: typeof noop;
 }
