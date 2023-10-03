@@ -1,30 +1,21 @@
 stages:
-  - setup
   - build
 
 variables:
-  # Define any environment variables needed for your build
   REACT_APP_API_URL: "https://example.com/api"
 
 before_script:
-  # Setup job installs Yarn, Node.js, npm, and TypeScript
   - apt-get update -qy
   - apt-get install -y curl
   - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
   - export NVM_DIR="$HOME/.nvm"
-  - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  - source "$NVM_DIR/nvm.sh"
   - nvm install v20.7.0
   - npm install -g yarn@3.0.1 typescript@^4.3.4
-
-setup:
-  stage: setup
-  script:
-    - cd Frontend/
-    - yarn install
 
 build:
   stage: build
   script:
-    # Build the React project
     - cd Frontend/
+    - yarn install
     - yarn build
