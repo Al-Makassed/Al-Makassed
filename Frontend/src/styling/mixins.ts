@@ -92,10 +92,10 @@ const customMixins: MaqasidThemeMixins = {
       "@media (orientation: landscape)": {
         minHeight: 48,
       },
-    },
+    } as any,
     "@media (min-width:600px)": {
       minHeight: 64,
-    },
+    } as any,
     minHeight: 56,
     height: 64,
   },
