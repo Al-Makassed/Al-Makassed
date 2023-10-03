@@ -1,4 +1,5 @@
 stages:
+  - setup
   - build
 
 variables:
@@ -6,15 +7,21 @@ variables:
   REACT_APP_API_URL: "https://example.com/api"
 
 before_script:
-  # Install dependencies
-  - cd Frontend/
-  - yarn install
+  # Setup job installs Yarn and Node.js
+  - apt-get update -qy
+  - apt-get install -y nodejs
+  - apt-get install -y npm
+  - npm install -g yarn
+
+setup:
+  stage: setup
+  script:
+    - cd Frontend/
+    - yarn install
 
 build:
   stage: build
   script:
     # Build the React project
+    - cd Frontend/
     - yarn build
-
-# Add additional stages or jobs as needed
-# ...
