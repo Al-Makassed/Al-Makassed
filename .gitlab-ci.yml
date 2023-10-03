@@ -12,10 +12,3 @@ sast:
 include:
 - template: Security/SAST.gitlab-ci.yml
 
-deploy_to_azure:
-  stage: deploy
-  script:
-    - echo "Deploying to Azure App Service"
-    # Add your deployment commands here
-  only:
-    - main
