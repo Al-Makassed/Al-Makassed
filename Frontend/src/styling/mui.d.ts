@@ -1,11 +1,11 @@
-import {MaqasidPalette} from "./types.ts";
+import { MaqasidPalette } from "./types.ts";
 
 declare module "@mui/material" {
-    interface Palette {
-        maqasid: MaqasidPalette;
-    }
+  interface Palette {
+    maqasid: MaqasidPalette;
+  }
 
-    interface PaletteOptions {
-        maqasid: MaqasidPalette;
-    }
+  interface PaletteOptions {
+    maqasid: MaqasidPalette;
+  }
 }
