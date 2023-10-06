@@ -2,8 +2,10 @@ import {Avatar, Grid} from "@mui/material";
 import maqasidLogo from "../../../images/logo.jpg";
 
 const LoginBackground = () => {
+    
     return (
         <Grid
+        
             item
             sm={4}
             md={5}

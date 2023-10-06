@@ -22,11 +22,12 @@ const SimpleDialog = (props: SimpleDialogProps) => {
         padding="3em"
         sx={{ color: (theme) => theme.palette.maqasid.primary }}
       >
+        
         <AddCircleIcon fontSize="large" />
         <DialogTitle
           variant="h5"
           sx={{
-            color: (theme) => theme.palette.maqasid.primary,
+            // color: (theme) => theme.palette.maqasid.primary,
             fontWeight: "3em",
           }}
         >

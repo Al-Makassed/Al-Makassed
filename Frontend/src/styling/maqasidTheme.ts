@@ -8,7 +8,8 @@ const maqasidTheme = createTheme({
     palette: {
         maqasid: {
             primary: green[900],
-            secondary: green[500],
+            secondary:"#F0F0F0",
+            
         }
     }
 });

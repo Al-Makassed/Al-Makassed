@@ -2,15 +2,15 @@ import { FC } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Login from "./Pages/Login";
-import Index from "./Pages/Sidebar/index";
+import Sidebar from "./Pages/Sidebar/index";
 const App: FC = () => {
   return (
     <div className="App">
       <Router>
         <Routes>
-          {/* <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} /> */}
-          <Route path="/" element={<Index />} />
+          {/* <Route path="/" element={<Login />} /> */}
+          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/" element={<Sidebar />} />
         </Routes>
       </Router>
     </div>
