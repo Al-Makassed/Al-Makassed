@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using Makassed.Api.Models;
+using Makassed.Api.Models.Domain;
 
 namespace Makassed.Api.Services.Chapters
 {

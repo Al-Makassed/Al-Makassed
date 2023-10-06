@@ -10,5 +10,5 @@ public record GetChapterResponse
         
     public bool EnableState { get; set; }
     
-    public ICollection<PolicyDto> Policies { get; set; } = new List<PolicyDto>();
+    public ICollection<GetPolicyResponse> Policies { get; set; } = new List<GetPolicyResponse>();
 }

@@ -1,4 +1,4 @@
-﻿namespace Makassed.Api.Models
+﻿namespace Makassed.Api.Models.Domain
 {
     // MT stands for Monitoring Tool
     public class MonitoringTool

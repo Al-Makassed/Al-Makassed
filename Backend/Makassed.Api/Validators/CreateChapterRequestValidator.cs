@@ -6,12 +6,8 @@ namespace Makassed.Api.Validators;
 
 public class CreateChapterRequestValidator : AbstractValidator<CreateChapterRequest>
 {
-    private readonly IChapterService _chapterService;
-
-    public CreateChapterRequestValidator(IChapterService chapterService) 
+    public CreateChapterRequestValidator() 
     {
-        _chapterService = chapterService;
-
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Chapter name is required.")
             .MinimumLength(3).WithMessage("Chapter name is too short")

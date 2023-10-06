@@ -1,7 +1,7 @@
 using AutoMapper;
-using Makassed.Api.Models;
+using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Chapter;
-using Makassed.Contracts.Dependency;
+using Makassed.Contracts.PolicyDependency;
 using Makassed.Contracts.Policy;
 
 namespace Makassed.Api.Mappings;
@@ -14,7 +14,11 @@ public class AutoMapperProfile : Profile
         CreateMap<Chapter, CreateChapterResponse>().ReverseMap();
         CreateMap<Chapter, CreateChapterRequest>().ReverseMap();
         CreateMap<Chapter, UpdateChapterRequest>().ReverseMap();
-        CreateMap<Policy, PolicyDto>().ReverseMap();
-        CreateMap<Dependency, DependencyDto>().ReverseMap();
+        
+        CreateMap<Policy, GetPolicyResponse>().ReverseMap();
+        CreateMap<Policy, CreatePolicyRequest>().ReverseMap();
+        
+        CreateMap<Dependency, GetPolicyDependencyResponse>().ReverseMap();
+        CreateMap<Dependency, CreatePolicyDependencyRequest>().ReverseMap();
     }
 }
