@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, FC } from "react";
-const Login = lazy(() => import("src/pages/Login"));
-const Home = lazy(() => import("src/pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Home = lazy(() => import("./pages/Home"));
 
 import { Routes, Route } from "react-router-dom";
 
