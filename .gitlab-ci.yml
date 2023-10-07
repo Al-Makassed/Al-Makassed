@@ -12,3 +12,10 @@ sast:
 include:
 - template: Security/SAST.gitlab-ci.yml
 
+build frontend project:
+  image: node:20
+  script:
+    - yarn install
+    - yarn test
+    - yarn build
+
