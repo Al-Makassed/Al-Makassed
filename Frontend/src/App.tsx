@@ -1,7 +1,8 @@
-import React, { Suspense, FC } from "react";
-import Login from "./pages/Login";
+import React, { lazy, Suspense, FC } from "react";
+const Login = lazy(() => import("src/pages/Login"));
+const Home = lazy(() => import("src/pages/Home"));
+
 import { Routes, Route } from "react-router-dom";
-import Home from "src/pages/Home";
 
 const App: FC = () => {
   return (
