@@ -3,7 +3,7 @@ stages:
   - build
   - deploy
 
-test_frontend:
+test frontend:
   stage: test
   image: node:20
   script:
@@ -11,20 +11,23 @@ test_frontend:
     - yarn install
     - yarn test
     
-build_frontend:
+build frontend:
   stage: build
   image: node:20
   script:
     - cd Frontend
     - yarn install
     - yarn build
+  artifacts:
+    paths: 
+      - build/ # before you through away the docker container, make sure you save this `build` folder somewhere
 
-deploy_frontend_to_netlify:
+deploy frontend to netlify:
   stage: deploy
   image: node:20
   script:
     - cd Frontend
-    - yarn add -g netlify-cli
+    - yarn global add netlify-cli
     - netlify deploy --dir=build --prod
 
 
