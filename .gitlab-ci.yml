@@ -22,15 +22,14 @@ build frontend:
     paths: 
       - build/ # before you through away the docker container, make sure you save this `build` folder somewhere
 
-deploy frontend to netlify:
-  stage: deploy
-  image: node:20
-  script:
-    - cd Frontend
-    - yarn install
-    # - yarn config set prefix ~/.yarn
-    # - yarn global add netlify-cli
-    - netlify deploy --dir=build --prod
+# deploy frontend to netlify:
+#   stage: deploy
+#   image: node:20
+#   script:
+#     - cd Frontend
+#     - yarn install
+#     - yarn global add netlify-cli
+#     - netlify deploy --dir=build --prod
 
 
 
