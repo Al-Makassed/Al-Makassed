@@ -27,7 +27,8 @@ deploy frontend to netlify:
   image: node:20
   script:
     - cd Frontend
-    - yarn add netlify-cli
+    - yarn config set prefix ~/.yarn
+    - yarn global add netlify-cli
     - netlify deploy --dir=build --prod
 
 
