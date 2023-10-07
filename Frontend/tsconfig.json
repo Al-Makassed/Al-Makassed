@@ -13,13 +13,16 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
+    "moduleResolution": "Classic",
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "types": ["vitest/globals"]
   },
-  "include": ["../.eslintrc.json", "src"],
+  "include": [
+    "src/**/*.{ts,tsx,js,jsx}",
+    "tests/**/*.{ts,tsx}",
+    "../.eslintrc.json"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
