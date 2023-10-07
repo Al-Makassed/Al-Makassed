@@ -1,7 +1,5 @@
 stages:
-  - test
   - build
-  - deploy
 
 # test frontend:
 #   stage: test
