@@ -1,13 +1,14 @@
 stages:
+  - test
   - build
 
-# test frontend:
-#   stage: test
-#   image: node:20
-#   script:
-#     - cd Frontend
-#     - yarn install
-#     - yarn test
+test frontend:
+  stage: test
+  image: node:20
+  script:
+    - cd Frontend
+    - yarn install
+    - yarn test
     
 build frontend:
   stage: build
