@@ -34,12 +34,12 @@ const LoginForm = () => {
           component="h1"
           variant="h3"
           fontWeight={500}
-          fontSize={{ xs: "2em", sm: "3em" }}
+          fontSize={{ xs: "1.8em", sm: "2.8em" }}
           sx={{
             color: (theme) => theme.palette.maqasid.primary,
           }}
         >
-          Log In
+          Login to Maqasid
         </Typography>
         <Box
           //onSubmitCapture={handleSubmit(onSubmit)}

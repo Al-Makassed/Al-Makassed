@@ -1,18 +1,15 @@
-import React, { FC } from "react";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { Suspense, FC } from "react";
 import Login from "./Pages/Login";
+import { Routes, Route } from "react-router-dom";
 
 const App: FC = () => {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </Router>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="" element={<h1>Hi</h1>} />
+        <Route path="login" element={<Login />} />
+      </Routes>
+    </Suspense>
   );
 };
 
