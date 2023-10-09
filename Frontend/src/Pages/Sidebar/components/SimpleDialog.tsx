@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogTitle, Stack, TextField } from "@mui/material";
 import { SimpleDialogProps } from "./AddChapter";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useState } from "react";
 
 const SimpleDialog = (props: SimpleDialogProps) => {
   const { onClose, selectedValue, open } = props;
@@ -8,7 +9,8 @@ const SimpleDialog = (props: SimpleDialogProps) => {
   const handleClose = () => {
     onClose(selectedValue);
   };
-
+ const [chapter,setChapter]=useState<string>("");
+ console.log(chapter);
   return (
     <Dialog
       aria-labelledby="responsive-dialog-title"
@@ -40,6 +42,8 @@ const SimpleDialog = (props: SimpleDialogProps) => {
             variant="outlined"
             placeholder="Add Chapter"
             color="success"
+            value={chapter}
+            onChange={(e)=>{setChapter(e.target.value)}}
           />
         </Stack>
 

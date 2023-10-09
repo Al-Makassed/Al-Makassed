@@ -1,7 +1,7 @@
 import { FC } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Login from "./Pages/Login";
+import Login from "./Pages/Login";
 import Sidebar from "./Pages/Sidebar/index";
 const App: FC = () => {
   return (
@@ -9,7 +9,7 @@ const App: FC = () => {
       <Router>
         <Routes>
           {/* <Route path="/" element={<Login />} /> */}
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Sidebar />} />
         </Routes>
       </Router>

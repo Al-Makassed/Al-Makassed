@@ -277,17 +277,22 @@ export default function ListCh() {
             <ListItemIcon>
               <MenuBookIcon sx={{ color: "black" }} />
             </ListItemIcon>
-            <Typography fontSize="1rem" display="inline">
+            <Typography fontWeight={600} display="inline">
               {ch.name}
             </Typography>
-            <ListItemIcon>
-              <AutoFixNormalIcon
-                sx={{
-                  paddingLeft: "1em",
-                  color: (theme) => theme.palette.maqasid.primary,
-                }}
-              />
-            </ListItemIcon>
+
+            <ListItemButton>
+              {" "}
+              <ListItemIcon>
+                <AutoFixNormalIcon
+                  sx={{
+                    paddingLeft: "1em",
+                    color: (theme) => theme.palette.maqasid.primary,
+                  }}
+                />
+              </ListItemIcon>
+            </ListItemButton>
+
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
 
