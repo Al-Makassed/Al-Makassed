@@ -1,6 +1,6 @@
 import {createTheme} from '@mui/material/styles';
 import customMixins from "./mixins";
-import {green,grey} from '@mui/material/colors';
+import {green, grey} from '@mui/material/colors';
 
 
 const maqasidTheme = createTheme({

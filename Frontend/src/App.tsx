@@ -2,7 +2,8 @@ import {FC} from "react";
 import "./App.css";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 // import Login from "./Pages/Login";
-import Header from "./Pages/Policies/Components";
+import Header from "./Pages/Header";
+
 
 const App: FC = () => {
     return (
@@ -12,6 +13,8 @@ const App: FC = () => {
                     {/* <Route path="/" element={<Login/>}/>
                     <Route path="/login" element={<Login/>}/> */}
                     <Route path="/" element={<Header/>}/>
+
+                    
 
                 </Routes>
             </Router>
