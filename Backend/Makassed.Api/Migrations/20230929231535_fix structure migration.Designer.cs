@@ -13,7 +13,7 @@ namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
     [Migration("20230929231535_fix structure migration")]
-    partial class fixstructuremigration
+    partial class Fixstructuremigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
