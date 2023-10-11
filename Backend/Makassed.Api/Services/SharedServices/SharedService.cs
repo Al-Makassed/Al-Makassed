@@ -19,9 +19,7 @@ public class SharedService : ISharedService
         await using var stream = new FileStream(localFilePath, FileMode.Create);
         await file.CopyToAsync(stream);
         
-        var urlFilePath = $"{_accessor.HttpContext?.Request.Scheme}://{_accessor.HttpContext?.Request.Host}{_accessor.HttpContext?.Request.PathBase}/Images/{file.FileName}";
-
-         
+        var urlFilePath = $"{_accessor.HttpContext?.Request.Scheme}://{_accessor.HttpContext?.Request.Host}{_accessor.HttpContext?.Request.PathBase}/Files/{file.FileName}";         
 
         return urlFilePath;
     }
@@ -30,5 +28,14 @@ public class SharedService : ISharedService
     {
         using PdfDocument pdfDoc = new PdfDocument(new PdfReader(file.OpenReadStream()));
         return pdfDoc.GetNumberOfPages();
+    }
+
+    public string GetCode(string parentName, string name, int siblingsCount)
+    {
+        var parentAbbreviation = new string(parentName.Split(' ').Select(s => s[0]).ToArray());
+
+        var instanceNameAbbreviation = new string(name.Split(' ').Select(s => s[0]).ToArray());
+
+        return $"{parentAbbreviation} {instanceNameAbbreviation} -{siblingsCount + 1}";
     }
 }

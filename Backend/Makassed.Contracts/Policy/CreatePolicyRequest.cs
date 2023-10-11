@@ -5,8 +5,6 @@ namespace Makassed.Contracts.Policy;
 
 public record CreatePolicyRequest
 {
-    public required string Code { get; set; }
-    
     public required string Name { get; set; }
     
     public required IFormFile MainFile { get; set; }

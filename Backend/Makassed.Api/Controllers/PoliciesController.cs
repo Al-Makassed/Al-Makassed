@@ -101,14 +101,4 @@ public class PoliciesController : ApiController
             errors => Problem(errors)
         );
     }
-    
-    
-    // EP for testing, don't forget to remove it
-    [HttpPost("Uplo")]
-    public IActionResult UploadFile(IFormFile file)
-    {
-        var myFile = file;
-        return Ok(myFile);
-    }
-
 }

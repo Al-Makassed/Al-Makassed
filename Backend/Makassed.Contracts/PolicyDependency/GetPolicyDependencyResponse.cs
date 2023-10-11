@@ -6,6 +6,8 @@ public record  GetPolicyDependencyResponse
 {
     public string Code { get; set; } = null!;
     
+    public string Name { get; set; } = null!;
+    
     public string? PdfUrl { get; set; }
     
     public int EstimatedTime { get; set; }

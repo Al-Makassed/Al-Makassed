@@ -22,7 +22,7 @@ namespace Makassed.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Makassed.Api.Models.Chapter", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace Makassed.Api.Migrations
                     b.ToTable("Chapters");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Dependency", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(450)");
@@ -48,10 +48,15 @@ namespace Makassed.Api.Migrations
                     b.Property<int>("EstimatedTime")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PagesCount")
                         .HasColumnType("int");
 
                     b.Property<string>("PdfUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PolicyCode")
@@ -68,7 +73,7 @@ namespace Makassed.Api.Migrations
                     b.ToTable("Dependencies");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Policy", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(450)");
@@ -83,9 +88,6 @@ namespace Makassed.Api.Migrations
                     b.Property<string>("PdfUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("State")
-                        .HasColumnType("bit");
-
                     b.HasKey("Code");
 
                     b.HasIndex("ChapterId");
@@ -93,9 +95,9 @@ namespace Makassed.Api.Migrations
                     b.ToTable("Policies");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Dependency", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Policy", "Policy")
+                    b.HasOne("Makassed.Api.Models.Domain.Policy", "Policy")
                         .WithMany("Dependencies")
                         .HasForeignKey("PolicyCode")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -104,9 +106,9 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Policy");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Policy", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Chapter", "Chapter")
+                    b.HasOne("Makassed.Api.Models.Domain.Chapter", "Chapter")
                         .WithMany("Policies")
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -115,12 +117,12 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Chapter");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Chapter", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Navigation("Policies");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Policy", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.Navigation("Dependencies");
                 });

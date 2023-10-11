@@ -7,9 +7,6 @@ namespace Makassed.Api.Validators
     {
         public CreatePolicyRequestValidator()
         {
-            RuleFor(p => p.Code)
-                .NotEmpty().WithMessage("Policy code is required.");
-            
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("Policy name is required.");
 

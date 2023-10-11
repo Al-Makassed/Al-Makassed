@@ -7,6 +7,9 @@ public class CreateDependenciesRequestValidator : AbstractValidator<CreatePolicy
 {
     public CreateDependenciesRequestValidator()
     {
+        RuleFor(d => d.Name)
+            .NotEmpty().WithMessage("Dependency name is required.");
+        
         RuleFor(d => d.File)
             .NotNull().WithMessage("Dependency file should be attached to it.")
             .Must(f => Path.GetExtension(f.FileName) == ".pdf").WithMessage("Unsupported file Extension.");

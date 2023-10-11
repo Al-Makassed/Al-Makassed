@@ -7,7 +7,7 @@ public record CreatePolicyDependencyRequest
 {
     public required PolicyDependencyType PolicyDependencyType { get; set; }
     
-    public required string Code { get; set; }
+    public required string Name { get; set; }
 
     public required IFormFile File { get; set; }
 

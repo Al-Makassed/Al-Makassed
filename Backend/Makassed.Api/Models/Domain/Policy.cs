@@ -8,8 +8,6 @@ namespace Makassed.Api.Models.Domain
         [Key] public string Code { get; set; } = null!;
         
         public string Name { get; set; } = null!;
-        
-        public bool State { get; set; }
 
         [NotMapped] public IFormFile MainFile { get; set; } = null!;
 
