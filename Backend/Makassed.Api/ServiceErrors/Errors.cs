@@ -33,6 +33,11 @@ namespace Makassed.Api.ServiceErrors
                 code: "PolicyName.Duplication",
                 description: "Policy name already exists."
             );
+
+            public static Error NotFoundChapterPolicies => Error.NotFound(
+                code: "ChapterPolicies.NotFound",
+                description: "There is no policies under this chapter."
+            );
         }
         
         public abstract class PolicyDependency

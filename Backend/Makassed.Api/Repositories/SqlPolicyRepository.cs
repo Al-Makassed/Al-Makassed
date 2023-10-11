@@ -1,6 +1,7 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Makassed.Api.Repositories
 {
@@ -90,6 +91,19 @@ namespace Makassed.Api.Repositories
             await _dbContext.SaveChangesAsync();
 
             return existedPolicy;
+        }
+
+        public async Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId)
+        {
+            var policiesToDelete = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
+            
+            if (policiesToDelete.IsNullOrEmpty())
+                return null;
+            
+            _dbContext.RemoveRange(policiesToDelete);
+            await _dbContext.SaveChangesAsync();
+
+            return policiesToDelete;
         }
     }
 }

@@ -101,4 +101,18 @@ public class PoliciesController : ApiController
             errors => Problem(errors)
         );
     }
+    
+    //Delete all policies
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteAllChapterPolicies(Guid chapterId)
+    {
+        var deleteAllPoliciesResult= await _policyService.DeleteAllChapterPoliciesAsync(chapterId);
+        
+        return deleteAllPoliciesResult.Match(
+            _ => Ok(_mapper.Map<List<GetPolicyResponse>>(deleteAllPoliciesResult.Value)),
+            errors => Problem(errors)
+        );
+    }
 }

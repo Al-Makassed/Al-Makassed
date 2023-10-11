@@ -49,15 +49,15 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy, List<Dependency> policyDependencies)
     {
-        var chpaterExistsResult = await CheckChapterExists(policy.ChapterId);
+        var chapterExistsResult = await CheckChapterExists(policy.ChapterId);
 
-        if (chpaterExistsResult.IsError)
-            return chpaterExistsResult.Errors;
+        if (chapterExistsResult.IsError)
+            return chapterExistsResult.Errors;
 
         if (!await IsUniqueName(policy.Name))
             return Errors.Policy.NameDuplication;
 
-        policy.Code = _sharedService.GetCode(chpaterExistsResult.Value.Name, policy.Name, chpaterExistsResult.Value.Policies.Count);
+        policy.Code = _sharedService.GetCode(chapterExistsResult.Value.Name, policy.Name, chapterExistsResult.Value.Policies.Count);
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
 
@@ -92,6 +92,13 @@ public class PolicyService : IPolicyService
         var updatedPolicy = await _policyRepository.UpdatePolicyAsync(code, policy);
             
         return updatedPolicy is null ? Errors.Policy.NotFound : Result.Updated;
+    }
+
+    public async Task<ErrorOr<List<Policy>>> DeleteAllChapterPoliciesAsync(Guid chapterId)
+    {
+        var deletedPolicies = await _policyRepository.DeleteAllChapterPoliciesAsync(chapterId);
+
+        return deletedPolicies is null ? Errors.Policy.NotFoundChapterPolicies : deletedPolicies; 
     }
 }
 
