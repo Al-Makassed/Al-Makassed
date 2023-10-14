@@ -6,8 +6,8 @@ const maqasidTheme = createTheme({
   mixins: customMixins,
   palette: {
     maqasid: {
-      primary: green[900],
-      secondary: grey[500],
+      primary: green[800],
+      secondary: grey[300],
     },
   },
 });

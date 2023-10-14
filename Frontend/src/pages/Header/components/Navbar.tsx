@@ -111,18 +111,25 @@ const Navbar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0.5 }}>
+          <Box
+            sx={{
+              flexGrow: 0.5,
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              color: (theme) => theme.palette.text.secondary,
+            }}
+          >
+            <Typography
+              sx={{ display: { xs: "none", md: "flex" } }}
+              variant="h6"
+              fontWeight={600}
+            >
+              Omar
+            </Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="" />
-                <Typography
-                  sx={{ display: { xs: "none", md: "flex" } }}
-                  variant="h6"
-                  fontWeight={600}
-                  ml="1em"
-                >
-                  Omar
-                </Typography>
               </IconButton>
             </Tooltip>
             <Menu
