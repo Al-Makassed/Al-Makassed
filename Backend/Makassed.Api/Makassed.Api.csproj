@@ -29,8 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\" />
-    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Files\" />
   </ItemGroup>
-
+  
 </Project>
