@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Makassed.Contracts.Chapter;
 
-public record UpdateChapterRequest(string Name);
+public record UpdateChapterRequest
+{
+    public required string Name { get; set; }
+
+    public IEnumerable<string> PoliciesIdes { get; set; } = new List<string>();
+}

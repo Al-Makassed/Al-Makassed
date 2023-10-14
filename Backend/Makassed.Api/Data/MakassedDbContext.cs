@@ -1,4 +1,5 @@
 using Makassed.Api.Models;
+using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Makassed.Api.Data
