@@ -1,5 +1,5 @@
 ﻿using Makassed.Api.Data;
-using Makassed.Api.Models;
+using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Makassed.Api.Repositories
@@ -13,27 +13,57 @@ namespace Makassed.Api.Repositories
             _dbContext = dbContext;
         }
 
+        
         public async Task<Chapter?> GetChapterByNameAsync(string name)
         {
             return await _dbContext.Chapters.FirstOrDefaultAsync(ch => ch.Name == name);
         }
-
+        
         public  async Task<List<Chapter>> GetChaptersAsync()
         {
-            return await _dbContext.Chapters.Include(ch => ch.Policies).ToListAsync();
+            return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).ToListAsync();
         }
 
         public async Task<Chapter?> GetChapterByIdAsync(Guid id)
         {
-            return await _dbContext.Chapters.FindAsync(id);
+            return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).FirstOrDefaultAsync(ch => ch.Id == id);
         }
 
         public async Task CreateChapterAsync(Chapter chapter)
         {
             await _dbContext.Chapters.AddAsync(chapter);
-            chapter.State = false;
+            chapter.EnableState = chapter.Policies.Count > 0;
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Chapter?> UpdateChapterAsync(Guid id, Chapter chapter)
+        {
+            var existedChapter = await _dbContext.Chapters.FindAsync(id);
+            
+            if (existedChapter is null)
+                return null;
+            
+            existedChapter.Name = chapter.Name;
+            existedChapter.Policies = chapter.Policies;
+            existedChapter.EnableState = chapter.Policies.Count > 0;
+            
+            await _dbContext.SaveChangesAsync();
+
+            return existedChapter;
+        }
+
+        public async Task<Chapter?> DeleteChapterAsync(Guid id)
+        {
+            var chapter = await _dbContext.Chapters.FindAsync(id);
+            
+            if (chapter is null)
+                return null;
+            
+            _dbContext.Chapters.Remove(chapter);
+            await _dbContext.SaveChangesAsync();
+
+            return chapter;
         }
     }
 }

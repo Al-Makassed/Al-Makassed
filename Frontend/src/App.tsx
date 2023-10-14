@@ -1,19 +1,19 @@
-import { FC } from "react";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Pages/Login";
-import Sidebar from "./Pages/Sidebar/index";
+import React, { lazy, Suspense, FC } from "react";
+const Login = lazy(() => import("./pages/Login"));
+const Home = lazy(() => import("./pages/Home"));
+const Header = lazy(() => import("./pages/Header"));
+
+import { Routes, Route } from "react-router-dom";
+
 const App: FC = () => {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          {/* <Route path="/" element={<Login />} /> */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Sidebar />} />
-        </Routes>
-      </Router>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="header" element={<Header />} />
+        <Route path="" element={<Home />} />
+        <Route path="login" element={<Login />} />
+      </Routes>
+    </Suspense>
   );
 };
 

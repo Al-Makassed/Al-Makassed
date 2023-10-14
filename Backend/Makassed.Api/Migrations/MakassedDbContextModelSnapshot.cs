@@ -22,87 +22,58 @@ namespace Makassed.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Makassed.Api.Models.Chapter", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("EnableState")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("State")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.ToTable("Chapters");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Dependency", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("DependencyTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("EstimatedTime")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PagesCount")
                         .HasColumnType("int");
 
                     b.Property<string>("PdfUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PolicyCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Code");
+                    b.Property<int>("PolicyDependencyType")
+                        .HasColumnType("int");
 
-                    b.HasIndex("DependencyTypeId");
+                    b.HasKey("Code");
 
                     b.HasIndex("PolicyCode");
 
                     b.ToTable("Dependencies");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.DependencyType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DependencyTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("fc01eb00-6fce-4fcc-a7fe-60164bd9830f"),
-                            Name = "Form"
-                        },
-                        new
-                        {
-                            Id = new Guid("c4e7a739-af60-42e1-9732-52fbb8ade250"),
-                            Name = "Poster"
-                        },
-                        new
-                        {
-                            Id = new Guid("78aef275-1b5e-4744-a5fc-7ec43c5fe8dd"),
-                            Name = "Protocol"
-                        });
-                });
-
-            modelBuilder.Entity("Makassed.Api.Models.Policy", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(450)");
@@ -117,9 +88,6 @@ namespace Makassed.Api.Migrations
                     b.Property<string>("PdfUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("state")
-                        .HasColumnType("bit");
-
                     b.HasKey("Code");
 
                     b.HasIndex("ChapterId");
@@ -127,28 +95,20 @@ namespace Makassed.Api.Migrations
                     b.ToTable("Policies");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Dependency", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.DependencyType", "DependencyType")
-                        .WithMany()
-                        .HasForeignKey("DependencyTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Makassed.Api.Models.Policy", "Policy")
-                        .WithMany()
+                    b.HasOne("Makassed.Api.Models.Domain.Policy", "Policy")
+                        .WithMany("Dependencies")
                         .HasForeignKey("PolicyCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DependencyType");
-
                     b.Navigation("Policy");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Policy", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Chapter", "Chapter")
+                    b.HasOne("Makassed.Api.Models.Domain.Chapter", "Chapter")
                         .WithMany("Policies")
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -157,9 +117,14 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Chapter");
                 });
 
-            modelBuilder.Entity("Makassed.Api.Models.Chapter", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Navigation("Policies");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
+                {
+                    b.Navigation("Dependencies");
                 });
 #pragma warning restore 612, 618
         }
