@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Navbar from "./components/Navbar";
-import LanguageBar from "./components/Languagebars";
+import LanguageBar from "./components/LanguageBar";
 
 const Header: FC = () => {
   return (
