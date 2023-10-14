@@ -1,16 +1,21 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Makassed.Api.Models
+namespace Makassed.Api.Models.Domain
 {
     public class Policy
     {
         [Key] public string Code { get; set; } = null!;
+        
         public string Name { get; set; } = null!;
-        public bool State { get; set; } = false;
+
+        [NotMapped] public IFormFile MainFile { get; set; } = null!;
+
         public string? PdfUrl { get; set; }
+        
         public Guid ChapterId { get; set; }
 
-        // navigation properties
+        // Navigation Properties
         public Chapter Chapter { get; set; } = null!;
 
         public List<Dependency> Dependencies { get; set; } = new();

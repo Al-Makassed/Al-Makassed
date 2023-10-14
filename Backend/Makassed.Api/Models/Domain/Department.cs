@@ -1,4 +1,4 @@
-﻿namespace Makassed.Api.Models
+﻿namespace Makassed.Api.Models.Domain
 {
     public class Department
     {

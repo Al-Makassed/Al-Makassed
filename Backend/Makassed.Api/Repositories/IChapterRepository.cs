@@ -1,4 +1,5 @@
 ﻿using Makassed.Api.Models;
+using Makassed.Api.Models.Domain;
 
 namespace Makassed.Api.Repositories
 {
@@ -8,5 +9,7 @@ namespace Makassed.Api.Repositories
         Task<List<Chapter>> GetChaptersAsync();
         Task<Chapter?> GetChapterByIdAsync(Guid id);
         Task CreateChapterAsync(Chapter chapter);
+        Task<Chapter?> DeleteChapterAsync(Guid id);
+        Task<Chapter?> UpdateChapterAsync(Guid id, Chapter chapter);
     }
 }
