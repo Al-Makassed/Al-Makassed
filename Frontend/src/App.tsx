@@ -9,7 +9,7 @@ const App: FC = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route path="header" element={<Header/>}/>
+        <Route path="header" element={<Header />} />
         <Route path="" element={<Home />} />
         <Route path="login" element={<Login />} />
       </Routes>
