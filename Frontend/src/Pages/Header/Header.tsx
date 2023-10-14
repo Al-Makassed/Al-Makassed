@@ -1,17 +1,14 @@
-import { FC } from "react"
-import Navbar from "./Components/Navbar"
-import Languagebar from "./Components/Languagebar"
-
-
-
+import React, { FC } from "react";
+import Navbar from "./Components/Navbar";
+import LanguageBar from "./Components/LanguageBar";
 
 const Header: FC = () => {
   return (
     <>
-    <Languagebar />
-    <Navbar />
+      <LanguageBar />
+      <Navbar />
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
