@@ -30,8 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Configurations\" />
-    <Folder Include="Files\" />
-    <Folder Include="Models\DTOs\" />
   </ItemGroup>
 
 </Project>

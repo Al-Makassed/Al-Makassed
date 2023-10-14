@@ -1,10 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MaqasidThemeProvider from "./styling/MaqasidThemeProvider";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <MaqasidThemeProvider>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </MaqasidThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>,
-)
+);

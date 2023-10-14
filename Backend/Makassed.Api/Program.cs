@@ -1,5 +1,3 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Makassed.Api.Data;
 using Makassed.Api.Mappings;
 using Makassed.Api.Repositories;
@@ -15,17 +13,12 @@ using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 {
     // Add services to the container.
-    builder.Services.AddControllers();
+    builder.Services.AddControllers()
+        // FluentValidation Setup
+        .AddFluentValidation(v =>
+        v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
-    builder.Services.AddHttpContextAccessor();
-
-    // FluentValidation Setup
-    builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-
-    builder.Services.AddValidatorsFromAssemblyContaining<CreateChapterRequestValidator>();
-    builder.Services.AddValidatorsFromAssemblyContaining<CreatePolicyRequestValidator>();
-    builder.Services.AddValidatorsFromAssemblyContaining<CreatePolicyDependencyRequest>();
-
+    builder.Services.AddMaqasidValidators();
 
     #region AutoMapper/s Injection
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -57,11 +50,14 @@ var app = builder.Build();
 {
     // Configure the HTTP request pipeline.
 
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+    //if (
+    //    app.Environment.IsDevelopment() ||
+    //    Helpers.IsRunningOnSpecificUrl(app, "https://maqasid.azurewebsites.net/api")
+    //    )
+    //{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    //}
 
     #region ErrorOrSetUp
     app.UseExceptionHandler("/error");
