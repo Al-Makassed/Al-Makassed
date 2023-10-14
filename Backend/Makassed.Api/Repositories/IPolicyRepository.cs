@@ -9,7 +9,6 @@ namespace Makassed.Api.Repositories
         Task<List<Policy>> GetPoliciesAsync();
         Task<Policy?> GetPolicyByCodeAsync(string code);
         Task CreatePolicyAsync(Policy policy);
-        Task<bool> CreatePolicyAsync(Policy policy, List<Dependency> dependencies);
         Task<Policy?> DeletePolicyAsync(string code);
         Task<Policy?> UpdatePolicyAsync(string code, Policy policy);
         Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId);

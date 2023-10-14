@@ -34,36 +34,6 @@ namespace Makassed.Api.Repositories
             return await _dbContext.Policies.Include(p => p.Dependencies).FirstOrDefaultAsync(p => p.Code == code);
         }
 
-        public async Task CreatePolicyAsync(Policy policy)
-        {
-            await _dbContext.Policies.AddAsync(policy);
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        
-        public async Task<bool> CreatePolicyAsync(Policy policy, List<Dependency> dependencies)
-        {
-            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
-            try
-            {
-                await _dbContext.Policies.AddAsync(policy);
-
-                // await _dbContext.Dependencies.AddRangeAsync(dependencies);
-
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
-
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                return false;
-            }
-        }
-
         public async Task<Policy?> DeletePolicyAsync(string code)
         {
             var policy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == code);
@@ -104,6 +74,13 @@ namespace Makassed.Api.Repositories
             await _dbContext.SaveChangesAsync();
 
             return policiesToDelete;
+        }
+
+        public async Task CreatePolicyAsync(Policy policy)
+        {
+            await _dbContext.Policies.AddAsync(policy);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

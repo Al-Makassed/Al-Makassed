@@ -11,5 +11,4 @@ public record CreatePolicyRequest
     
     public required Guid ChapterId { get; set; }
 
-    public List<CreatePolicyDependencyRequest> Dependencies { get; set; } = new();
 }

@@ -11,17 +11,15 @@ public class PolicyService : IPolicyService
 {
     private readonly IPolicyRepository _policyRepository;
     private readonly ISharedService _sharedService;
-    private readonly IPolicyDependencyRepository _policyDependencyRepository;
     private readonly IChapterService _chapterService;
 
-    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IPolicyDependencyRepository policyDependencyRepository, IChapterService chapterService)
+    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterService chapterService)
     {
         _policyRepository = policyRepository;
         _sharedService = sharedService;
-        _policyDependencyRepository = policyDependencyRepository;
         _chapterService = chapterService;
     }
-    public async Task<bool> IsUniqueName(string name)
+    private async Task<bool> IsUniqueName(string name)
     {
         var policy = await _policyRepository.GetPolicyByName(name);
 
@@ -47,7 +45,7 @@ public class PolicyService : IPolicyService
         return getChapterResult;
     }
 
-    public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy, List<Dependency> policyDependencies)
+    public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy)
     {
         var chapterExistsResult = await CheckChapterExists(policy.ChapterId);
 
@@ -60,22 +58,10 @@ public class PolicyService : IPolicyService
         policy.Code = _sharedService.GetCode(chapterExistsResult.Value.Name, policy.Name, chapterExistsResult.Value.Policies.Count);
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
-
-        policy.Dependencies = new List<Dependency>();
         
-        var createPolicyResult = await _policyRepository.CreatePolicyAsync(policy, policyDependencies);
+        await _policyRepository.CreatePolicyAsync(policy);
 
-        if (createPolicyResult)
-        {
-            foreach (var policyDependency in policyDependencies)
-            {
-                policyDependency.PolicyCode = policy.Code;            
-            }
-
-            await _policyDependencyRepository.CreatePolicyDependenciesAsync(policyDependencies);
-        }
-
-        return  createPolicyResult ? Result.Created : Errors.Policy.Conflict;
+        return  Result.Created;
     }
 
     public async Task<ErrorOr<Deleted>> DeletePolicyAsync(string code)
