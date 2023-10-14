@@ -1,17 +1,14 @@
 import { FC, useState } from "react";
-
 import { Divider, Drawer, Stack } from "@mui/material";
 import Title from "./components/Title";
-import { Theme as MuiTheme } from "@mui/material/styles";
-import ListCh from "./components/ListChapter";
+import ChaptersList from "./components/ChaptersList";
 import SimpleDialogDemo from "./components/AddChapter";
 import ArrowIcon from "./components/ArrowIcon";
-declare module "@emotion/react" {
-  export interface Theme extends MuiTheme {}
-}
+
 const Sidebar: FC = () => {
-  const drawerWidth: number = 300;
+  const drawerWidth = 400;
   const [open, setOpen] = useState<boolean>(true);
+
   return (
     <Stack>
       <ArrowIcon open={open} setOpen={setOpen} />
@@ -24,6 +21,9 @@ const Sidebar: FC = () => {
             width: drawerWidth,
             boxSizing: "border-box",
           },
+          "& .MuiPaper-root": {
+            backgroundColor: theme => theme.palette.maqasid.secondary,
+          },
         }}
         variant="persistent"
         anchor="left"
@@ -33,7 +33,7 @@ const Sidebar: FC = () => {
         <Divider
           sx={{ background: (theme) => theme.palette.maqasid.primary }}
         />
-        <ListCh />
+        <ChaptersList />
         {/* <Divider sx={{background:theme=>theme.palette.maqasid.primary}}/> */}
         <SimpleDialogDemo />
       </Drawer>

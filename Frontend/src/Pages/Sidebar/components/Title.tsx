@@ -10,9 +10,9 @@ const Title = ({ setOpen }: Props) => {
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 1.5),
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   }));
   const handleDrawerClose = () => {
     setOpen(false);
@@ -37,6 +37,9 @@ const Title = ({ setOpen }: Props) => {
           background: (theme) => theme.palette.maqasid.primary,
           width: "28px",
           height: "28px",
+          "&:hover": {
+            background: (theme) => theme.palette.maqasid.primary,
+          },
         }}
         onClick={handleDrawerClose}
       >
