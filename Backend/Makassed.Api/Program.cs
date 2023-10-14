@@ -1,3 +1,4 @@
+using Makassed.Api;
 using Makassed.Api.Data;
 using Makassed.Api.Mappings;
 using Makassed.Api.Repositories;
@@ -12,11 +13,8 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    // Add services to the container.
-    builder.Services.AddControllers()
-        // FluentValidation Setup
-        .AddFluentValidation(v =>
-        v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+
+    builder.Services.AddControllers();
 
     builder.Services.AddMaqasidValidators();
 
