@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\" />
+    <Folder Include="Files\" />
   </ItemGroup>
-
+  
 </Project>
