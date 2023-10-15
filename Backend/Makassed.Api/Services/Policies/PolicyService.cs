@@ -4,6 +4,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.SharedServices;
 using Makassed.Api.Services.Chapters;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Makassed.Api.Services.Policies;
 
@@ -100,5 +101,20 @@ public class PolicyService : IPolicyService
 
         return deletedPolicies is null ? Errors.Policy.NotFoundChapterPolicies : deletedPolicies; 
     }
-}
 
+    // Edit policies codes due to chapter name change
+    public async Task EditChapterPoliciesCodesAsync(Guid chapterId, string newChapterName)
+    {
+        var chapterPolicies = await _policyRepository.GetChapterPoliciesAsync(chapterId);
+
+        if (chapterPolicies.IsNullOrEmpty())
+            return;
+
+        foreach (var chapterPolicy in chapterPolicies)
+        {
+            chapterPolicy.Code = _sharedService.UpdateCodeFirstSection(chapterPolicy.Code, newChapterName);
+        }
+
+        await _policyRepository.UpdatePoliciesCodesAsync();
+    }
+}

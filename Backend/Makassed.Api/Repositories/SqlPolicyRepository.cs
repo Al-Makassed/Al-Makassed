@@ -68,9 +68,14 @@ public class SqlPolicyRepository : IPolicyRepository
         return existedPolicy;
     }
 
+    public async Task<List<Policy>> GetChapterPoliciesAsync(Guid chapterId)
+    {
+        return await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
+    }
+
     public async Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId)
     {
-        var policiesToDelete = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
+        var policiesToDelete = await GetChapterPoliciesAsync(chapterId);
             
         if (policiesToDelete.IsNullOrEmpty())
             return null;
@@ -79,5 +84,10 @@ public class SqlPolicyRepository : IPolicyRepository
         await _dbContext.SaveChangesAsync();
 
         return policiesToDelete;
+    }
+
+    public async Task UpdatePoliciesCodesAsync()
+    {
+        await _dbContext.SaveChangesAsync();
     }
 }

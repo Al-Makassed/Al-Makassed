@@ -11,5 +11,6 @@ namespace Makassed.Api.Services.Policies
         Task<ErrorOr<Deleted>> DeletePolicyAsync(string code);
         Task<ErrorOr<Updated>> UpdatePolicyAsync(string code, Policy policy);
         Task<ErrorOr<List<Policy>>> DeleteAllChapterPoliciesAsync(Guid chapterId);
+        Task EditChapterPoliciesCodesAsync(Guid chapterId, string newChapterName);
     }
 }

@@ -36,6 +36,15 @@ public class SharedService : ISharedService
 
         var instanceNameAbbreviation = new string(name.Split(' ').Select(s => s[0]).ToArray());
 
-        return $"{parentAbbreviation} {instanceNameAbbreviation} -{siblingsCount + 1}";
+        return $"{parentAbbreviation}. {instanceNameAbbreviation} -{siblingsCount + 1}";
+    }
+
+    public string UpdateCodeFirstSection(string policyCode, string newChapterName)
+    {
+        var parentAbbreviation = new string(newChapterName.Split(' ').Select(s => s[0]).ToArray());
+        
+        var codeParts = policyCode.Split(' ');
+        
+        return $"{parentAbbreviation}. {codeParts[1]} {codeParts[2]}";
     }
 }
