@@ -12,13 +12,13 @@ public class PolicyService : IPolicyService
 {
     private readonly IPolicyRepository _policyRepository;
     private readonly ISharedService _sharedService;
-    private readonly IChapterService _chapterService;
+    private readonly IChapterRepository _chapterRepository;
 
-    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterService chapterService)
+    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterRepository chapterRepository)
     {
         _policyRepository = policyRepository;
         _sharedService = sharedService;
-        _chapterService = chapterService;
+        _chapterRepository = chapterRepository;
     }
     private async Task<bool> IsUniqueName(string name)
     {
@@ -39,24 +39,22 @@ public class PolicyService : IPolicyService
         return policy is null ? Errors.Policy.NotFound : policy;
     }
 
-    private async Task<ErrorOr<Chapter>> CheckChapterExists(Guid id) 
+    private async Task<Chapter?> CheckChapterExists(Guid id) 
     { 
-        var getChapterResult = await _chapterService.GetChapterByIdAsync(id);
-        
-        return getChapterResult;
+        return await _chapterRepository.GetChapterByIdAsync(id);
     }
 
     public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy)
     {
         var chapterExistsResult = await CheckChapterExists(policy.ChapterId);
 
-        if (chapterExistsResult.IsError)
-            return chapterExistsResult.Errors;
+        if (chapterExistsResult is null)
+            return Errors.Chapter.NotFound;
 
         if (!await IsUniqueName(policy.Name))
             return Errors.Policy.NameDuplication;
 
-        policy.Code = _sharedService.GetCode(chapterExistsResult.Value.Name, policy.Name, chapterExistsResult.Value.Policies.Count);
+        policy.Code = _sharedService.GetCode(chapterExistsResult.Name, policy.Name, chapterExistsResult.Policies.Count);
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
 
