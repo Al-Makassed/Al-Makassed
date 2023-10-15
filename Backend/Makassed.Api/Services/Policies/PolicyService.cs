@@ -58,10 +58,12 @@ public class PolicyService : IPolicyService
         policy.Code = _sharedService.GetCode(chapterExistsResult.Value.Name, policy.Name, chapterExistsResult.Value.Policies.Count);
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
+
+        policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);
         
         await _policyRepository.CreatePolicyAsync(policy);
 
-        return  Result.Created;
+        return Result.Created;
     }
 
     public async Task<ErrorOr<Deleted>> DeletePolicyAsync(string code)
@@ -73,11 +75,23 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Updated>> UpdatePolicyAsync(string code, Policy policy)
     {
-        policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
+        var existedPolicyResult = await GetPolicyByCodeAsync(code);
+
+        if (existedPolicyResult.IsError)
+            return existedPolicyResult.Errors;
         
-        var updatedPolicy = await _policyRepository.UpdatePolicyAsync(code, policy);
+        if(!existedPolicyResult.Value.Name.Equals(policy.Name))
+            policy.Code = _sharedService.GetCode(existedPolicyResult.Value.Chapter.Name, policy.Name, existedPolicyResult.Value.Chapter.Policies.Count);
+
+        if (!existedPolicyResult.Value.MainFile.Equals(policy.MainFile))
+        {
+            policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
+            policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);
+        }
+        
+        await _policyRepository.UpdatePolicyAsync(code, policy, existedPolicyResult.Value);
             
-        return updatedPolicy is null ? Errors.Policy.NotFound : Result.Updated;
+        return Result.Updated;
     }
 
     public async Task<ErrorOr<List<Policy>>> DeleteAllChapterPoliciesAsync(Guid chapterId)

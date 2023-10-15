@@ -10,7 +10,7 @@ namespace Makassed.Api.Repositories
         Task<Policy?> GetPolicyByCodeAsync(string code);
         Task CreatePolicyAsync(Policy policy);
         Task<Policy?> DeletePolicyAsync(string code);
-        Task<Policy?> UpdatePolicyAsync(string code, Policy policy);
+        Task<Policy?> UpdatePolicyAsync(string code, Policy policy, Policy existedPolicy);
         Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId);
     }
 }
