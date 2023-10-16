@@ -86,8 +86,20 @@ public class SqlPolicyRepository : IPolicyRepository
         return policiesToDelete;
     }
 
-    public async Task UpdatePoliciesCodesAsync()
+    public async Task UpdatePolicyCodeAsync(string oldPolicyCode, string newPolicyCode)
     {
+        var existedPolicy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == oldPolicyCode);
+
+        if (existedPolicy == null)
+            return;
+
+        var newPolicy = existedPolicy;
+        newPolicy.Code = newPolicyCode;
+
+        await CreatePolicyAsync(newPolicy);
+
+        await DeletePolicyAsync(oldPolicyCode);
+
         await _dbContext.SaveChangesAsync();
     }
 }

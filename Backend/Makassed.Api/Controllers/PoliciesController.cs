@@ -74,7 +74,7 @@ public class PoliciesController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPut("{code}")]
-    public async Task<IActionResult> UpdatePolicy(string code,UpdatePolicyRequest request)
+    public async Task<IActionResult> UpdatePolicy(string code,[FromForm]UpdatePolicyRequest request)
     {
         var policy = _mapper.Map<Policy>(request);
 

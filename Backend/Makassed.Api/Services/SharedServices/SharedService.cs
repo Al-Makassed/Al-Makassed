@@ -39,11 +39,11 @@ public class SharedService : ISharedService
         return $"{parentAbbreviation}. {instanceNameAbbreviation} -{siblingsCount + 1}";
     }
 
-    public string UpdateCodeFirstSection(string policyCode, string newChapterName)
+    public string UpdateCodeFirstSection(string oldCode, string newParentName)
     {
-        var parentAbbreviation = new string(newChapterName.Split(' ').Select(s => s[0]).ToArray());
+        var parentAbbreviation = new string(newParentName.Split(' ').Select(s => s[0]).ToArray());
         
-        var codeParts = policyCode.Split(' ');
+        var codeParts = oldCode.Split(' ');
         
         return $"{parentAbbreviation}. {codeParts[1]} {codeParts[2]}";
     }

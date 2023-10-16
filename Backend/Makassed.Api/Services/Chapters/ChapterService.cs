@@ -3,6 +3,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Policies;
+using Makassed.Api.Services.SharedServices;
 
 namespace Makassed.Api.Services.Chapters;
 
@@ -11,12 +12,14 @@ public class ChapterService : IChapterService
     private readonly IChapterRepository _chapterRepository;
     private readonly IPolicyRepository _policyRepository;
     private readonly IPolicyService _policyService;
+    private readonly ISharedService _sharedService;
 
-    public ChapterService(IChapterRepository chapterRepository, IPolicyRepository policyRepository, IPolicyService policyService)
+    public ChapterService(IChapterRepository chapterRepository, IPolicyRepository policyRepository, IPolicyService policyService, ISharedService sharedService)
     {
         _chapterRepository = chapterRepository;
         _policyRepository = policyRepository;
         _policyService = policyService;
+        _sharedService = sharedService;
     }
 
     public async Task<List<Chapter>> GetChaptersAsync()
@@ -67,13 +70,17 @@ public class ChapterService : IChapterService
     public async Task<ErrorOr<Updated>> UpdateChapterAsync(Guid id, Chapter chapter, IEnumerable<string> policiesCodes)
     {
         chapter = await AddExistedPolicies(chapter, policiesCodes);
+        
+        foreach (var policy in chapter.Policies)
+        {
+            var newCode = _sharedService.UpdateCodeFirstSection(policy.Code, chapter.Name);
+            await _policyRepository.UpdatePolicyCodeAsync(policy.Code, newCode);
+        }
             
         var updatedChapter = await _chapterRepository.UpdateChapterAsync(id, chapter);
 
         if (updatedChapter is null)
             return Errors.Chapter.NotFound;
-        
-        await _policyService.EditChapterPoliciesCodesAsync(id, chapter.Name);
             
         return Result.Updated;
     }
