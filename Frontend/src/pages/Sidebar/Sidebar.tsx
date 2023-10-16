@@ -14,7 +14,7 @@ const Sidebar: FC = () => {
       <ArrowIcon open={open} setOpen={setOpen} />
       <Drawer
         sx={{
-          backgroundColor: "black",
+          // backgroundColor: "black",
           width: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
@@ -23,6 +23,7 @@ const Sidebar: FC = () => {
           },
           "& .MuiPaper-root": {
             backgroundColor: (theme) => theme.palette.maqasid.secondary,
+            // position:"inherit",
           },
         }}
         variant="persistent"
