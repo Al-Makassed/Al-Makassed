@@ -4,6 +4,7 @@ import App from "./App";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MaqasidThemeProvider from "./styling/MaqasidThemeProvider";
+import "./locals/i18n";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
