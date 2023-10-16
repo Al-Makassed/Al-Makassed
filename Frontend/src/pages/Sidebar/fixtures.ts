@@ -1,4 +1,6 @@
-export const CHAPTERS = [
+import { Chapter } from "./types";
+
+export const CHAPTERS: Array<Chapter> = [
   {
     id: "bdb1c189-29d5-434f-51bc-08dbc391f487",
     name: "Patient Safety Goals",
