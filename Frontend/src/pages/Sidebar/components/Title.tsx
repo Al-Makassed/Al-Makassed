@@ -20,7 +20,7 @@ const Title = ({ setOpen }: Props) => {
   const theme = useTheme();
 
   return (
-    <DrawerHeader sx={{ bgcolor: (theme) => theme.palette.maqasid.secondary }}>
+    <DrawerHeader sx={{ bgcolor: (theme) => theme.palette.grey[200] }}>
       <Typography
         paddingRight="1em"
         variant="h6"

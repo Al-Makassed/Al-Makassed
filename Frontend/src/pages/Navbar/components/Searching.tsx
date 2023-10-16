@@ -46,12 +46,12 @@ const Searching = () => {
   return (
     <Search sx={{ flexGrow: 1.5 }}>
       <SearchIconWrapper>
-        <SearchIcon sx={{ color: "grey" }} />
+        <SearchIcon sx={{ color: "white" }} />
       </SearchIconWrapper>
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
-        sx={{ color: "black" }}
+        // sx={{ color: "black" }}
       />
     </Search>
   );
