@@ -30,7 +30,7 @@ public class PoliciesController : ApiController
     }
     
     
-    // Get Policy by code
+    // Get Policy by Code
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -46,7 +46,7 @@ public class PoliciesController : ApiController
     }
     
     
-    // Create a new policy
+    // Create a New Policy
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,7 +74,7 @@ public class PoliciesController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPut("{code}")]
-    public async Task<IActionResult> UpdatePolicy(string code,UpdatePolicyRequest request)
+    public async Task<IActionResult> UpdatePolicy(string code,[FromForm]UpdatePolicyRequest request)
     {
         var policy = _mapper.Map<Policy>(request);
 

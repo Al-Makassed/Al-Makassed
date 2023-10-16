@@ -16,7 +16,7 @@ public class Dependency
     [NotMapped]
     public FormFile File { get; set; } = null!;
 
-    public int EstimatedTime { get; set; }
+    public int EstimatedTimeInMin { get; set; }
 
     public int PagesCount { get; set; }
 
@@ -24,6 +24,6 @@ public class Dependency
 
     public string PolicyCode { get; set; } = null!;
 
-    // navigation properties
+    // Navigation Properties
     public Policy Policy { get; set; } = null!;
 }
