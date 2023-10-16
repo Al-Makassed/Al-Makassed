@@ -36,15 +36,17 @@ public class SharedService : ISharedService
 
         var instanceNameAbbreviation = new string(name.Split(' ').Select(s => s[0]).ToArray());
 
-        return $"{parentAbbreviation}. {instanceNameAbbreviation} -{siblingsCount + 1}";
+        return $"{parentAbbreviation.ToUpper()}. {instanceNameAbbreviation.ToUpper()} -{siblingsCount + 1}";
     }
 
-    public string UpdateCodeFirstSection(string oldCode, string newParentName)
+    public string UpdateCodeFirstSection(string oldCode, string newName, int index)
     {
-        var parentAbbreviation = new string(newParentName.Split(' ').Select(s => s[0]).ToArray());
+        var abbreviationToChange = new string(newName.Split(' ').Select(s => s[0]).ToArray());
         
         var codeParts = oldCode.Split(' ');
-        
-        return $"{parentAbbreviation}. {codeParts[1]} {codeParts[2]}";
+
+        return index == 0 ? $"{abbreviationToChange.ToUpper()}. {codeParts[1]} {codeParts[2]}" : $"{codeParts[0]} {abbreviationToChange.ToUpper()} {codeParts[2]}";
     }
+    
+    
 }

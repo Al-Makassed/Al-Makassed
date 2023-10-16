@@ -54,14 +54,22 @@ public class SqlPolicyRepository : IPolicyRepository
         return policy;
     }
 
-    public async Task<Policy?> UpdatePolicyAsync(string code, Policy policy, Policy existedPolicy)
+    public async Task<Policy?> UpdatePolicyAsync(string code, Policy policy)
     {
-        existedPolicy.Code = policy.Code;
-        existedPolicy.Name = policy.Name;
+        var existedPolicy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == code);
+
+        if (existedPolicy is null)
+            return null;
+
         existedPolicy.PdfUrl = policy.PdfUrl;
         existedPolicy.PageCount = policy.PageCount;
         existedPolicy.EstimatedTimeInMin = policy.EstimatedTimeInMin;
-        existedPolicy.Dependencies = policy.Dependencies;
+
+        if (!existedPolicy.Code.Equals(policy.Code))
+        {
+            await UpdatePolicyCodeAsync(existedPolicy.Code, policy.Code);
+            existedPolicy.Name = policy.Name;
+        }
             
         await _dbContext.SaveChangesAsync();
 

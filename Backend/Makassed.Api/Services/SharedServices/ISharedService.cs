@@ -8,5 +8,5 @@ public interface ISharedService
     
     string GetCode(string patentName, string name, int siblingsCount);
     
-    string UpdateCodeFirstSection(string oldCode, string newParentName);
+    string UpdateCodeFirstSection(string oldCode, string newParentName, int index = 0);
 }
