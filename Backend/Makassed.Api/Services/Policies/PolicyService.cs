@@ -3,6 +3,7 @@ using Makassed.Api.Repositories;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.SharedServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Makassed.Api.Services.Policies;
 
@@ -44,15 +45,15 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy)
     {
-        var chapterExistsResult = await CheckChapterExists(policy.ChapterId);
+        var existedChapterResult = await CheckChapterExists(policy.ChapterId);
 
-        if (chapterExistsResult is null)
+        if (existedChapterResult is null)
             return Errors.Chapter.NotFound;
 
         if (!await IsUniqueName(policy.Name))
             return Errors.Policy.NameDuplication;
 
-        policy.Code = _sharedService.GetCode(chapterExistsResult.Name, policy.Name, chapterExistsResult.Policies.Count);
+        policy.Code = _sharedService.GetCode(existedChapterResult.Name, policy.Name, existedChapterResult.Policies.Count);
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
 
@@ -60,14 +61,21 @@ public class PolicyService : IPolicyService
         
         await _policyRepository.CreatePolicyAsync(policy);
 
+        await _chapterRepository.UpdateChapterEnableStateAsync(existedChapterResult.Id);
+
         return Result.Created;
     }
 
     public async Task<ErrorOr<Deleted>> DeletePolicyAsync(string code)
     {
         var deletedPolicy = await _policyRepository.DeletePolicyAsync(code);
-            
-        return deletedPolicy is null ? Errors.Policy.NotFound : Result.Deleted;
+
+        if (deletedPolicy is null)
+            return Errors.Policy.NotFound;
+
+        await _chapterRepository.UpdateChapterEnableStateAsync(deletedPolicy.ChapterId);
+        
+        return Result.Deleted;
     }
 
     public async Task<ErrorOr<Updated>> UpdatePolicyAsync(string code, Policy policy)
@@ -95,6 +103,11 @@ public class PolicyService : IPolicyService
     {
         var deletedPolicies = await _policyRepository.DeleteAllChapterPoliciesAsync(chapterId);
 
-        return deletedPolicies is null ? Errors.Policy.NotFoundChapterPolicies : deletedPolicies; 
+        if (deletedPolicies is null && deletedPolicies.IsNullOrEmpty())
+            return Errors.Policy.NotFoundChapterPolicies;
+
+        await _chapterRepository.UpdateChapterEnableStateAsync(deletedPolicies![0].ChapterId);
+
+        return deletedPolicies; 
     }
 }
