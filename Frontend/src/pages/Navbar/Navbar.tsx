@@ -11,8 +11,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import maqasidLogo from "../../../images/logo.jpg";
-import Searching from "./Searching";
+import maqasidLogo from "../../images/logo.jpg";
+import Searching from "./components/Searching";
+import LanguageSelector from "./components/LanguageSelector";
 
 const pages = ["Policies and procedures", "Manuals", "Group3", "Group4"];
 const settings = ["Logout"];
@@ -40,11 +41,18 @@ const Navbar = () => {
     <AppBar
       position="static"
       elevation={0}
-      sx={{ bgcolor: (theme) => theme.palette.maqasid.secondary }}
+      sx={{
+        bgcolor: (theme) => theme.palette.maqasid.primary,
+      }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -55,6 +63,7 @@ const Navbar = () => {
             >
               <MenuIcon />
             </IconButton>
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -79,11 +88,9 @@ const Navbar = () => {
             alt="logo"
             variant="circular"
             sx={{
-              width: 90,
-              height: 90,
-              mb: 3.5,
+              height: "75%",
+              width: "auto",
               display: { xs: "none", md: "flex" },
-              ml: 1,
             }}
             src={maqasidLogo}
           />
@@ -93,7 +100,11 @@ const Navbar = () => {
           <Searching />
 
           <Box
-            sx={{ flexGrow: 2, gap: 2, display: { xs: "none", md: "flex" } }}
+            sx={{
+              flexGrow: 2,
+              gap: 2,
+              display: { xs: "none", md: "flex" },
+            }}
           >
             {pages.map((page) => (
               <Button
@@ -102,7 +113,7 @@ const Navbar = () => {
                 sx={{
                   my: 2,
                   textTransform: "none",
-                  color: "black",
+                  color: (theme) => theme.palette.grey[50],
                   display: "block",
                 }}
               >
@@ -117,7 +128,7 @@ const Navbar = () => {
               display: "flex",
               alignItems: "center",
               gap: 2,
-              color: (theme) => theme.palette.text.secondary,
+              color: (theme) => theme.palette.grey[50],
             }}
           >
             <Typography
@@ -149,6 +160,8 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
+
+          <LanguageSelector />
         </Toolbar>
       </Container>
     </AppBar>

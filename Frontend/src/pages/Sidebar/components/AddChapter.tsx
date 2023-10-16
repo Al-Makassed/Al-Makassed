@@ -1,9 +1,7 @@
 import * as React from "react";
 import SimpleDialog from "./SimpleDialog";
-import { IconButton, Stack, Typography } from "@mui/material";
-
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-// const emails = ["username@gmail.com", "user02@gmail.com"];
+import { Button, Stack } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -25,59 +23,42 @@ export default function SimpleDialogDemo() {
   };
 
   return (
-    <Stack
-      sx={{
-        bgcolor: (theme) => theme.palette.maqasid.secondary,
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        borderTop: "1px solid gray",
-        // width:"38.5%",
-        // height:"2em"
-      }}
-      // border="1px dashed black"
-      width="inherit"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      paddingBottom={1}
-      paddingTop={1}
-      // padding="1em"
-    >
+    <>
       <Stack
+        sx={{
+          // bgcolor: (theme) => theme.palette.maqasid.secondary,
+          // bgcolor: green[50],
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          borderTop: "1px solid gray",
+          justifyContent: "center",
+          py: 1,
+          px: 2,
+
+          bgcolor: "rgba(255, 255, 255, 0.24)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+          backdropFilter: "blur(4px)",
+        }}
+        width="inherit"
         display="flex"
         alignItems="center"
-        justifyContent="center"
-        border="1px dashed grey "
-        width="130px"
-        height={1}
-        borderRadius="12px"
-        // paddingTop={2}
+        direction="row"
       >
-        <IconButton>
-          <AddCircleOutlineIcon
-            sx={{ color: (theme) => theme.palette.maqasid.primary }}
-            onClick={handleClickOpen}
-            fontSize="large"
-          />
-        </IconButton>
-        <SimpleDialog
-          selectedValue={selectedValue}
-          open={open}
-          onClose={handleClose}
-        />
-        <Typography
-          variant="subtitle1"
-          // paddingTop="1em"
-          color="black"
-          paddingBottom="1em"
-          fontWeight={700}
-          fontSize="1rem"
+        <Button
+          color="success"
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={handleClickOpen}
         >
-          {" "}
-          Add Chapter{" "}
-        </Typography>
+          Add Chapter
+        </Button>
       </Stack>
-    </Stack>
+      <SimpleDialog
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+      />
+    </>
   );
 }
