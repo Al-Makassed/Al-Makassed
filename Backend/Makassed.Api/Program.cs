@@ -1,16 +1,20 @@
+using Makassed.Api;
 using Makassed.Api.Data;
 using Makassed.Api.Mappings;
 using Makassed.Api.Repositories;
 using Makassed.Api.Services.Chapters;
-using Makassed.Api.Services.Policy;
+using Makassed.Api.Services.Policies;
+using Makassed.Api.Services.PolicyDependencies;
+using Makassed.Api.Services.SharedServices;
+using Makassed.Api.Validators;
+using Makassed.Contracts.PolicyDependency;
 using Microsoft.EntityFrameworkCore;
-using Makassed.Api;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    // Add services to the container.
-    builder.Services
-        .AddControllers();
+
+    builder.Services.AddControllers();
 
     builder.Services.AddMaqasidValidators();
 
@@ -23,10 +27,15 @@ var builder = WebApplication.CreateBuilder(args);
     #endregion
 
     #region Dependency Injection
-    builder.Services.AddScoped<IChapterRepository, SqlChapterRepository>();
-    builder.Services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
+
+    builder.Services.AddScoped<ISharedService ,SharedService>();
     builder.Services.AddScoped<IChapterService, ChapterService>();
     builder.Services.AddScoped<IPolicyService, PolicyService>();
+    builder.Services.AddScoped<IPolicyDependencyService, PolicyDependencyService>();
+    
+    builder.Services.AddScoped<IChapterRepository, SqlChapterRepository>();
+    builder.Services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
+    builder.Services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
     #endregion
 
     #region Swagger Config
@@ -55,6 +64,13 @@ var app = builder.Build();
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
+    
+    // Serve static files from the "Files" directory under the "/Files" URL path.
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+        RequestPath = "/Files"
+    });
 
     app.MapControllers();
 

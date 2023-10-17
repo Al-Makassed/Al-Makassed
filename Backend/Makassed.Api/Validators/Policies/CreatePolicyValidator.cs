@@ -3,7 +3,7 @@ using Makassed.Contracts.Policy;
 
 namespace Makassed.Api.Validators.Policies;
 
-public class CreatePolicyValidator : AbstractValidator<PolicyDto>
+public class CreatePolicyValidator : AbstractValidator<CreatePolicyRequest>
 {
     public CreatePolicyValidator()
     {
