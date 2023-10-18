@@ -80,7 +80,7 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Updated>> UpdatePolicyAsync(string code, Policy policy)
     {
-        policy.Code = _sharedService.UpdateCodeFirstSection(code, policy.Name, 1);
+        policy.Code = _sharedService.UpdateCode(code, policy.Name, 1);
 
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
         policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);

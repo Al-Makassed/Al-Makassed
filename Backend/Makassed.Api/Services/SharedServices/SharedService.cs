@@ -39,7 +39,7 @@ public class SharedService : ISharedService
         return $"{parentAbbreviation.ToUpper()}. {instanceNameAbbreviation.ToUpper()} -{siblingsCount + 1}";
     }
 
-    public string UpdateCodeFirstSection(string oldCode, string newName, int index)
+    public string UpdateCode(string oldCode, string newName, int index)
     {
         var abbreviationToChange = new string(newName.Split(' ').Select(s => s[0]).ToArray());
         

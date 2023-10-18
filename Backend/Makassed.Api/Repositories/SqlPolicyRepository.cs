@@ -76,7 +76,7 @@ public class SqlPolicyRepository : IPolicyRepository
         return existedPolicy;
     }
 
-    public async Task<List<Policy>> GetChapterPoliciesAsync(Guid chapterId)
+    private async Task<List<Policy>> GetChapterPoliciesAsync(Guid chapterId)
     {
         return await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
     }
@@ -94,7 +94,7 @@ public class SqlPolicyRepository : IPolicyRepository
         return policiesToDelete;
     }
 
-    public async Task UpdatePolicyCodeAsync(string oldPolicyCode, string newPolicyCode)
+    private async Task UpdatePolicyCodeAsync(string oldPolicyCode, string newPolicyCode)
     {
         var existedPolicy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == oldPolicyCode);
 
@@ -108,6 +108,27 @@ public class SqlPolicyRepository : IPolicyRepository
 
         await DeletePolicyAsync(oldPolicyCode);
 
+        await _dbContext.SaveChangesAsync();
+    }
+    
+    public async Task UpdatePoliciesCodesAsync(Guid chapterId, List<string> newCodes, IEnumerable<string> oldCodes)
+    {
+        var existedPolicies = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
+        
+        if (existedPolicies.IsNullOrEmpty())
+            return;
+
+        for (int i = 0; i < existedPolicies.Count; i++)
+        {
+            existedPolicies[i].Code = newCodes[i];
+        }
+        
+        await _dbContext.Policies.AddRangeAsync(existedPolicies);
+        await _dbContext.SaveChangesAsync();
+
+        var oldPolicies = await _dbContext.Policies.Where(p => oldCodes.Contains(p.Code)).ToListAsync();
+        
+        _dbContext.Policies.RemoveRange(oldPolicies);
         await _dbContext.SaveChangesAsync();
     }
 }

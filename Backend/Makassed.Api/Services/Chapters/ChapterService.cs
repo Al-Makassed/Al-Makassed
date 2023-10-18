@@ -2,7 +2,6 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
-using Makassed.Api.Services.Policies;
 using Makassed.Api.Services.SharedServices;
 
 namespace Makassed.Api.Services.Chapters;
@@ -11,14 +10,12 @@ public class ChapterService : IChapterService
 {
     private readonly IChapterRepository _chapterRepository;
     private readonly IPolicyRepository _policyRepository;
-    private readonly IPolicyService _policyService;
     private readonly ISharedService _sharedService;
 
-    public ChapterService(IChapterRepository chapterRepository, IPolicyRepository policyRepository, IPolicyService policyService, ISharedService sharedService)
+    public ChapterService(IChapterRepository chapterRepository, IPolicyRepository policyRepository, ISharedService sharedService)
     {
         _chapterRepository = chapterRepository;
         _policyRepository = policyRepository;
-        _policyService = policyService;
         _sharedService = sharedService;
     }
 
@@ -58,29 +55,26 @@ public class ChapterService : IChapterService
         return deletedChapter is null ? Errors.Chapter.NotFound : Result.Deleted;
     }
 
-    private async Task<Chapter> AddExistedPolicies(Chapter chapter, IEnumerable<string> policiesCodes)
+    public async Task<ErrorOr<Updated>> UpdateChapterAsync(Guid id, Chapter chapter)
     {
-        var validPolicies = await _policyRepository.FindValidPoliciesAsync(policiesCodes);
+        if (!await IsUniqueName(chapter.Name))
+            return Errors.Chapter.ChapterNameExists;
 
-        chapter.Policies = validPolicies;
-
-        return chapter;
-    }
-
-    public async Task<ErrorOr<Updated>> UpdateChapterAsync(Guid id, Chapter chapter, IEnumerable<string> policiesCodes)
-    {
-        chapter = await AddExistedPolicies(chapter, policiesCodes);
-        
-        foreach (var policy in chapter.Policies)
-        {
-            var newCode = _sharedService.UpdateCodeFirstSection(policy.Code, chapter.Name);
-            await _policyRepository.UpdatePolicyCodeAsync(policy.Code, newCode);
-        }
-            
         var updatedChapter = await _chapterRepository.UpdateChapterAsync(id, chapter);
 
         if (updatedChapter is null)
             return Errors.Chapter.NotFound;
+
+        var newCodes = new List<string>();
+        var oldCodes = new List<string>();
+
+        foreach (var policy in updatedChapter.Policies)
+        {
+            newCodes.Add(_sharedService.UpdateCode(policy.Code, updatedChapter.Name));
+            oldCodes.Add(policy.Code);
+        }
+        
+        await _policyRepository.UpdatePoliciesCodesAsync(updatedChapter.Id, newCodes, oldCodes);
             
         return Result.Updated;
     }
