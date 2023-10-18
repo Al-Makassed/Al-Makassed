@@ -31,6 +31,7 @@ public class PoliciesDependenciesController : ApiController
         return Ok(_mapper.Map<List<GetPolicyDependencyResponse>>(policyDependencies));
     }
     
+    
     // Get policy dependency by code
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -42,30 +43,7 @@ public class PoliciesDependenciesController : ApiController
 
         return Ok(_mapper.Map<GetPolicyDependencyResponse>(policyDependency));
     }
-
-    // Add list of policy dependencies
-    [HttpPost("multiple")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreatePolicyDependencies([FromForm]List<CreatePolicyDependencyRequest> request,
-        string policyCode)
-    {
-        var policyDependencies = _mapper.Map<List<Dependency>>(request);
-
-        var policyDependencyCreationResult =
-            await _policyDependencyService.CreatePolicyDependenciesAsync(policyDependencies, policyCode);
-
-        return policyDependencyCreationResult.Match(
-            _ => CreatedAtAction(
-                nameof(GetPoliciesDependencies),
-                new { filterOn = "PolicyCode", filterQuery = policyCode },
-                _mapper.Map<List<GetPolicyDependencyResponse>>(policyDependencyCreationResult)
-            ),
-            errors => Problem(errors)
-        );
-    }
+    
     
     // Add policy dependency
     [HttpPost]
