@@ -12,6 +12,7 @@ public class SharedService : ISharedService
         _webHostEnvironment = webHostEnvironment;
         _accessor = accessor;
     }
+    
     public async Task<string> GetFilePathUrl(IFormFile file)
     {
         var localFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Files", $"{file.FileName}");
@@ -47,6 +48,4 @@ public class SharedService : ISharedService
 
         return index == 0 ? $"{abbreviationToChange.ToUpper()}. {codeParts[1]} {codeParts[2]}" : $"{codeParts[0]} {abbreviationToChange.ToUpper()} {codeParts[2]}";
     }
-    
-    
 }

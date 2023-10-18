@@ -6,8 +6,6 @@ using Makassed.Api.Services.Chapters;
 using Makassed.Api.Services.Policies;
 using Makassed.Api.Services.PolicyDependencies;
 using Makassed.Api.Services.SharedServices;
-using Makassed.Api.Validators;
-using Makassed.Contracts.PolicyDependency;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -17,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
 
     builder.Services.AddMaqasidValidators();
+
+    builder.Services.AddCors();
 
     #region AutoMapper/s Injection
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -62,6 +62,8 @@ var app = builder.Build();
     #endregion
 
     app.UseHttpsRedirection();
+    
+    app.ConfigureCores();
 
     app.UseAuthorization();
     

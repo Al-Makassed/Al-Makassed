@@ -33,6 +33,16 @@ public static class DependencyInjection
         return services;
     }
 
+    public static void ConfigureCores(this IApplicationBuilder app)
+    {
+        app.UseCors(options => 
+            options.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials()
+        );
+    }
+
     public static IServiceCollection AddMeao(this IServiceCollection services)
     {
         return services;
