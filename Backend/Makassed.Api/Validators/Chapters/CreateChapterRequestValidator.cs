@@ -1,8 +1,7 @@
 using FluentValidation;
-using Makassed.Api.Services.Chapters;
 using Makassed.Contracts.Chapter;
 
-namespace Makassed.Api.Validators;
+namespace Makassed.Api.Validators.Chapters;
 
 public class CreateChapterRequestValidator : AbstractValidator<CreateChapterRequest>
 {

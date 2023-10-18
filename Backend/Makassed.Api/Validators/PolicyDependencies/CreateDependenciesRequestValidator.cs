@@ -1,7 +1,7 @@
 using FluentValidation;
 using Makassed.Contracts.PolicyDependency;
 
-namespace Makassed.Api.Validators;
+namespace Makassed.Api.Validators.PolicyDependencies;
 
 public class CreateDependenciesRequestValidator : AbstractValidator<CreatePolicyDependencyRequest>
 {
