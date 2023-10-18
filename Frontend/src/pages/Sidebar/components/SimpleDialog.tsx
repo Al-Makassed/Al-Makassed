@@ -3,6 +3,7 @@ import { Button, Dialog, DialogTitle, Stack, TextField } from "@mui/material";
 import { SimpleDialogProps } from "./AddChapter";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useState } from "react";
+import axios from "axios";
 
 const SimpleDialog = (props: SimpleDialogProps) => {
   const { onClose, selectedValue, open } = props;
@@ -11,6 +12,12 @@ const SimpleDialog = (props: SimpleDialogProps) => {
     onClose(selectedValue);
   };
   const [chapter, setChapter] = useState<string>("");
+  // console.log(chapter);
+  const postChapter = async () => {
+    await axios.post("https://maqasid.azurewebsites.net/api/Chapters", {
+      name: chapter,
+    });
+  };
 
   return (
     <Dialog
@@ -51,7 +58,7 @@ const SimpleDialog = (props: SimpleDialogProps) => {
 
         <Button
           variant="contained"
-          onClick={handleClose}
+          onClick={postChapter}
           sx={{
             background: (theme) => theme.palette.maqasid.primary,
             "&:hover": {
