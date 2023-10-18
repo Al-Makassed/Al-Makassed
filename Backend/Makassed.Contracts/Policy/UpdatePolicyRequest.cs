@@ -8,6 +8,6 @@ public record UpdatePolicyRequest
     public required string Name { get; set; }
     
     public required IFormFile MainFile { get; set; }
-
-    public List<UpdatePolicyDependencyRequest> Dependencies { get; set; } = new();
+    
+    public int EstimatedTimeInMin { get; set; }
 }

@@ -8,6 +8,8 @@ public record CreatePolicyRequest
     
     public required IFormFile MainFile { get; set; }
     
+    public int EstimatedTimeInMin { get; set; }
+    
     public required Guid ChapterId { get; set; }
 
 }
