@@ -1,6 +1,11 @@
 ﻿using FluentValidation;
 using System.Reflection;
 using FluentValidation.AspNetCore;
+using Makassed.Api.Repositories;
+using Makassed.Api.Services.Chapters;
+using Makassed.Api.Services.Policies;
+using Makassed.Api.Services.PolicyDependencies;
+using Makassed.Api.Services.SharedServices;
 
 namespace Makassed.Api;
 
@@ -33,8 +38,17 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddMeao(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        services.AddScoped<ISharedService ,SharedService>();
+        services.AddScoped<IChapterService, ChapterService>();
+        services.AddScoped<IPolicyService, PolicyService>();
+        services.AddScoped<IPolicyDependencyService, PolicyDependencyService>();
+    
+        services.AddScoped<IChapterRepository, SqlChapterRepository>();
+        services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
+        services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
+        
         return services;
     }
     

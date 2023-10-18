@@ -18,9 +18,7 @@ public interface IPolicyRepository
     
     Task<Policy?> UpdatePolicyAsync(string code, Policy policy);
     
-    Task<List<Policy>> GetChapterPoliciesAsync(Guid chapterId);
-    
     Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId);
     
-    Task UpdatePolicyCodeAsync(string oldPolicyCode, string newPolicyCode);
+    Task UpdatePoliciesCodesAsync(Guid chapterId, List<string> newCodes, IEnumerable<string> oldCodes);
 }
