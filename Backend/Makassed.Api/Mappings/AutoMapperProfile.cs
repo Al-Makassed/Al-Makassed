@@ -17,6 +17,7 @@ public class AutoMapperProfile : Profile
         
         CreateMap<Policy, GetPolicyResponse>().ReverseMap();
         CreateMap<Policy, CreatePolicyRequest>().ReverseMap();
+        CreateMap<Policy, UpdatePolicyRequest>().ReverseMap();
         
         CreateMap<Dependency, GetPolicyDependencyResponse>().ReverseMap();
         CreateMap<Dependency, CreatePolicyDependencyRequest>().ReverseMap();

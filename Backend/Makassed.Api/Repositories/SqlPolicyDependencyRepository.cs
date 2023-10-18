@@ -76,7 +76,7 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
         existedPolicyDependency.Name = policyDependency.Name;
         existedPolicyDependency.PdfUrl = policyDependency.PdfUrl;
         existedPolicyDependency.PagesCount = policyDependency.PagesCount;
-        existedPolicyDependency.EstimatedTime = policyDependency.EstimatedTime;
+        existedPolicyDependency.EstimatedTimeInMin = policyDependency.EstimatedTimeInMin;
         
         await _dbContext.SaveChangesAsync();
 
