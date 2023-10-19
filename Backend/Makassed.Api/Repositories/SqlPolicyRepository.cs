@@ -96,7 +96,7 @@ public class SqlPolicyRepository : IPolicyRepository
 
     private async Task UpdatePolicyCodeAsync(string oldPolicyCode, string newPolicyCode)
     {
-        var existedPolicy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == oldPolicyCode);
+        var existedPolicy = await _dbContext.Policies.Include(p => p.Dependencies).FirstOrDefaultAsync(p => p.Code == oldPolicyCode);
 
         if (existedPolicy == null)
             return;
@@ -113,7 +113,7 @@ public class SqlPolicyRepository : IPolicyRepository
     
     public async Task UpdatePoliciesCodesAsync(Guid chapterId, List<string> newCodes, IEnumerable<string> oldCodes)
     {
-        var existedPolicies = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
+        var existedPolicies = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).Include(p => p.Dependencies).ToListAsync();
         
         if (existedPolicies.IsNullOrEmpty())
             return;

@@ -16,4 +16,6 @@ public interface IPolicyDependencyRepository
     Task<List<Dependency>?> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, string policyCode);
     
     Task<Dependency?> UpdatePolicyDependencyAsync(string code, Dependency policyDependency);
+    
+    Task UpdatePoliciesDependenciesCodesAsync(string policyCode, List<string> newCodes, List<string> oldCodes);
 }
