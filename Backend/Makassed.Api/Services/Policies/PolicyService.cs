@@ -12,12 +12,14 @@ public class PolicyService : IPolicyService
     private readonly IPolicyRepository _policyRepository;
     private readonly ISharedService _sharedService;
     private readonly IChapterRepository _chapterRepository;
+    private readonly IPolicyDependencyRepository _policyDependencyRepository;
 
-    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterRepository chapterRepository)
+    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterRepository chapterRepository, IPolicyDependencyRepository policyDependencyRepository)
     {
         _policyRepository = policyRepository;
         _sharedService = sharedService;
         _chapterRepository = chapterRepository;
+        _policyDependencyRepository = policyDependencyRepository;
     }
     private async Task<bool> IsUniqueName(string name)
     {
@@ -86,8 +88,22 @@ public class PolicyService : IPolicyService
         policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);
         
         var updatePolicyResult = await _policyRepository.UpdatePolicyAsync(code, policy);
+
+        if (updatePolicyResult is null)
+            return Errors.Policy.NotFound;
+        
+        var newDependenciesCodes = new List<string>();
+        var oldDependenciesCodes = new List<string>();
+
+        foreach (var dependency in updatePolicyResult.Dependencies)
+        {
+            newDependenciesCodes.Add(_sharedService.UpdateCode(dependency.Code, updatePolicyResult.Name));
+            oldDependenciesCodes.Add(dependency.Code);
+        }
+        
+        await _policyDependencyRepository.UpdatePoliciesDependenciesCodesAsync(updatePolicyResult.Code, newDependenciesCodes, oldDependenciesCodes);
             
-        return updatePolicyResult is null ? Errors.Policy.NotFound : Result.Updated;
+        return Result.Updated;
     }
 
     public async Task<ErrorOr<List<Policy>>> DeleteAllChapterPoliciesAsync(Guid chapterId)
