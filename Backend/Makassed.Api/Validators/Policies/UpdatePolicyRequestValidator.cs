@@ -1,11 +1,11 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Makassed.Contracts.Policy;
 
 namespace Makassed.Api.Validators.Policies;
 
-public class CreatePolicyRequestValidator : AbstractValidator<CreatePolicyRequest>
+public class UpdatePolicyRequestValidator : AbstractValidator<UpdatePolicyRequest>
 {
-    public CreatePolicyRequestValidator()
+    public UpdatePolicyRequestValidator()
     {
         RuleFor(p => p.Name)
             .NotEmpty().WithMessage("Policy name is required.");
@@ -16,8 +16,5 @@ public class CreatePolicyRequestValidator : AbstractValidator<CreatePolicyReques
         
         RuleFor(p => p.EstimatedTimeInMin)
             .NotNull().WithMessage("Estimated time shouldn't be null.");
-
-        RuleFor(p => p.ChapterId)
-            .NotEmpty().WithMessage("Chapter ID is required.");
     }
 }

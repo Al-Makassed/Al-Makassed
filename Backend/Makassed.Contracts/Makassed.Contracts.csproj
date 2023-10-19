@@ -12,4 +12,16 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Dependency\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Dependency\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Dependency\**" />
+  </ItemGroup>
+
 </Project>

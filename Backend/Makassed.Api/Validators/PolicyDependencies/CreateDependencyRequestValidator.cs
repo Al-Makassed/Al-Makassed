@@ -3,9 +3,9 @@ using Makassed.Contracts.PolicyDependency;
 
 namespace Makassed.Api.Validators.PolicyDependencies;
 
-public class CreateDependenciesRequestValidator : AbstractValidator<CreatePolicyDependencyRequest>
+public class CreateDependencyRequestValidator : AbstractValidator<CreatePolicyDependencyRequest>
 {
-    public CreateDependenciesRequestValidator()
+    public CreateDependencyRequestValidator()
     {
         RuleFor(d => d.Name)
             .NotEmpty().WithMessage("Dependency name is required.");
@@ -16,5 +16,8 @@ public class CreateDependenciesRequestValidator : AbstractValidator<CreatePolicy
 
         RuleFor(d => d.EstimatedTime)
             .NotNull().WithMessage("Estimated time shouldn't be null.");
+
+        RuleFor(d => d.PolicyDependencyType)
+            .NotNull().WithMessage("Policy dependency type must be specified.");;
     }
 }
