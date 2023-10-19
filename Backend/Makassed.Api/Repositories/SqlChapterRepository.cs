@@ -12,7 +12,6 @@ public class SqlChapterRepository : IChapterRepository
     {
         _dbContext = dbContext;
     }
-
         
     public async Task<Chapter?> GetChapterByNameAsync(string name)
     {
@@ -39,14 +38,15 @@ public class SqlChapterRepository : IChapterRepository
 
     public async Task<Chapter?> UpdateChapterAsync(Guid id, Chapter chapter)
     {
-        var existedChapter = await _dbContext.Chapters.FindAsync(id);
+        var existedChapter = await _dbContext.Chapters
+            .Include(c => c.Policies)
+            .FirstOrDefaultAsync(ch => ch.Id == id);
             
         if (existedChapter is null)
             return null;
             
         existedChapter.Name = chapter.Name;
-        existedChapter.Policies = chapter.Policies;
-        existedChapter.EnableState = chapter.Policies.Count > 0;
+        existedChapter.EnableState = existedChapter.Policies.Count > 0;
             
         await _dbContext.SaveChangesAsync();
 
@@ -68,11 +68,13 @@ public class SqlChapterRepository : IChapterRepository
 
     public async Task UpdateChapterEnableStateAsync(Guid id)
     {
-        var chapter = await _dbContext.Chapters.FindAsync(id);
+        var chapter = await _dbContext.Chapters
+            .Include(c => c.Policies)
+            .FirstOrDefaultAsync(ch => ch.Id == id);
         
         if (chapter is null)
             return;
-
+        
         chapter.EnableState = chapter.Policies.Count > 0;
 
         await _dbContext.SaveChangesAsync();

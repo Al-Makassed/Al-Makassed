@@ -71,7 +71,7 @@ public class ChaptersController : ApiController
     {
         var chapter = _mapper.Map<Chapter>(updateChapterRequest);
 
-        var updateChapterResult = await _chapterService.UpdateChapterAsync(id, chapter, updateChapterRequest.PoliciesIdes);
+        var updateChapterResult = await _chapterService.UpdateChapterAsync(id, chapter);
 
         return updateChapterResult.Match(
             _ => NoContent(),
