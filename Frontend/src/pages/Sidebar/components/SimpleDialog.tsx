@@ -1,23 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Dialog, DialogTitle, Stack, TextField } from "@mui/material";
 import { SimpleDialogProps } from "./AddChapter";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useState } from "react";
 import axios from "axios";
+import { useMutation, QueryClient } from "@tanstack/react-query";
 
 const SimpleDialog = (props: SimpleDialogProps) => {
+  const queryClient = new QueryClient();
   const { onClose, selectedValue, open } = props;
-
+  const [chapter, setChapter] = useState<string>("");
   const handleClose = () => {
     onClose(selectedValue);
   };
-  const [chapter, setChapter] = useState<string>("");
-  // console.log(chapter);
   const postChapter = async () => {
-    await axios.post("https://maqasid.azurewebsites.net/api/Chapters", {
-      name: chapter,
-    });
+    try {
+      const { data } = await axios.post(
+        "https://maqasid.azurewebsites.net/api/Chapters",
+        { name: chapter },
+      );
+      return data;
+    } catch (error) {
+      throw new Error("Error posting data");
+    }
   };
+  const { mutateAsync: addChapterMutation } = useMutation({
+    mutationFn: postChapter,
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
 
   return (
     <Dialog
@@ -58,7 +69,13 @@ const SimpleDialog = (props: SimpleDialogProps) => {
 
         <Button
           variant="contained"
-          onClick={postChapter}
+          onClick={async () => {
+            try {
+              await addChapterMutation();
+            } catch (e) {
+              console.error(e);
+            }
+          }}
           sx={{
             background: (theme) => theme.palette.maqasid.primary,
             "&:hover": {
