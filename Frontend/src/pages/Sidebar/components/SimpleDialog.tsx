@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogTitle, Stack, TextField } from "@mui/material";
 import { SimpleDialogProps } from "./AddChapter";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import axios from "axios";
-import { useMutation, QueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import AddIcon from "@mui/icons-material/Add";
 
 const SimpleDialog = (props: SimpleDialogProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const { onClose, selectedValue, open } = props;
   const [chapter, setChapter] = useState<string>("");
   const handleClose = () => {
@@ -23,68 +23,80 @@ const SimpleDialog = (props: SimpleDialogProps) => {
       throw new Error("Error posting data");
     }
   };
-  const { mutateAsync: addChapterMutation } = useMutation({
+  const { mutate: addChapterMutation } = useMutation({
     mutationFn: postChapter,
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({
+        queryKey: ["chapters"],
+      });
+      console.log("Test");
     },
   });
 
   return (
     <Dialog
+      sx={{
+        "& .MuiPaper-root": {
+          minWidth: 600,
+        },
+      }}
       aria-labelledby="responsive-dialog-title"
       onClose={handleClose}
       open={open}
     >
-      <Stack
+      {/* <Stack
         display="flex"
         alignItems="center"
         justifyContent="center"
-        padding="3em"
-        sx={{ color: (theme) => theme.palette.maqasid.primary }}
-      >
-        <AddCircleIcon fontSize="large" />
-        <DialogTitle
-          variant="h5"
-          sx={{
-            // color: (theme) => theme.palette.maqasid.primary,
-            fontWeight: "3em",
-          }}
-        >
-          Add Chapter
-        </DialogTitle>
-        <Stack padding="1em">
-          <TextField
-            id="outlined-basic"
-            label="Add Chapter"
-            variant="outlined"
-            placeholder="Add Chapter"
-            color="success"
-            value={chapter}
-            onChange={(e) => {
-              setChapter(e.target.value);
-            }}
-          />
-        </Stack>
+        padding="1em"
 
-        <Button
-          variant="contained"
-          onClick={async () => {
-            try {
-              await addChapterMutation();
-            } catch (e) {
-              console.error(e);
-            }
+        // sx={{ color: (theme) => theme.palette.maqasid.primary }}
+      > */}
+      {/* <AddCircleIcon fontSize="large" /> */}
+      <DialogTitle
+        variant="h5"
+        sx={{
+          // color: (theme) => theme.palette.maqasid.primary,
+          fontWeight: "500",
+        }}
+      >
+        Add Chapter
+      </DialogTitle>
+      <Stack padding="1em" gap={2}>
+        <TextField
+          id="outlined-basic"
+          label="Add Chapter"
+          variant="outlined"
+          placeholder="e.g. My awesome chapter"
+          // color="success"
+          value={chapter}
+          onChange={(e) => {
+            setChapter(e.target.value);
           }}
-          sx={{
-            background: (theme) => theme.palette.maqasid.primary,
-            "&:hover": {
-              backgroundColor: "ButtonShadow",
-            },
-          }}
-        >
-          Add
-        </Button>
+        />
+        {/* </Stack> */}
+        <Stack direction="row" justifyContent="center">
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={async () => {
+              try {
+                await addChapterMutation();
+              } catch (e) {
+                console.error(e);
+              }
+            }}
+            // sx={{
+            //   background: (theme) => theme.palette.maqasid.primary,
+            //   "&:hover": {
+            //     backgroundColor: "ButtonShadow",
+            //   },
+            // }}
+          >
+            Add
+          </Button>
+        </Stack>
       </Stack>
     </Dialog>
   );

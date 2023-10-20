@@ -14,6 +14,7 @@ const ChaptersList = () => {
   } = useQuery({
     queryFn: () => fetchData(),
     queryKey: ["chapters"],
+    // staleTime:5000,
   });
 
   if (isLoading) {
