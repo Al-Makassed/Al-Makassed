@@ -1,7 +1,5 @@
 using Makassed.Api;
-using Makassed.Api.Data;
 using Makassed.Api.Mappings;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,16 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddMaqasidValidators();
 
     builder.Services.AddCors();
+   
+    builder.Services.AddDbContexts(builder.Configuration);
 
-    #region AutoMapper/s Injection
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-    #endregion
-
-    #region DbContext/s Injection
-    builder.Services.AddDbContext<MakassedDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MakassedConnectionString")));
-    #endregion
 
     builder.Services.AddApplicationServices();
+
+    builder.Services.AddAndConfigureIdentity();
+
+    builder.Services.AddAuthenticationService(builder.Configuration);
 
     #region Swagger Config
     builder.Services.AddEndpointsApiExplorer();
@@ -49,6 +47,8 @@ var app = builder.Build();
     app.UseHttpsRedirection();
     
     app.ConfigureCores();
+
+    app.UseAuthentication();
 
     app.UseAuthorization();
     
