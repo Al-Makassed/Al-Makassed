@@ -9,7 +9,7 @@ public class CreateChapterRequestValidator : AbstractValidator<CreateChapterRequ
     {
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Chapter name is required.")
-            .MinimumLength(3).WithMessage("Chapter name is too short")
-            .MaximumLength(30).WithMessage("Chapter name is too long");
+            .MinimumLength(7).WithMessage("Chapter name is too short")
+            .MaximumLength(50).WithMessage("Chapter name is too long");
     }
 }

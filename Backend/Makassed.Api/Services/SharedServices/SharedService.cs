@@ -27,7 +27,7 @@ public class SharedService : ISharedService
     
     public int GetFilePageCount(IFormFile file)
     {
-        using PdfDocument pdfDoc = new PdfDocument(new PdfReader(file.OpenReadStream()));
+        using PdfDocument pdfDoc = new(new PdfReader(file.OpenReadStream()));
         return pdfDoc.GetNumberOfPages();
     }
 
