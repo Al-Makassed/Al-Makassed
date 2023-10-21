@@ -1,4 +1,3 @@
-using Makassed.Api.Data.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +25,5 @@ public class MakassedAuthenticationDbContext : IdentityDbContext<IdentityUser>
         builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        //builder.ApplyConfiguration(new IdentityRoleConfiguration());
     }
 } 

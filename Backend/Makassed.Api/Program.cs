@@ -21,6 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddAuthenticationService(builder.Configuration);
 
+    builder.Services.AddEmailConfiguration(builder.Configuration);
+
     #region Swagger Config
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
