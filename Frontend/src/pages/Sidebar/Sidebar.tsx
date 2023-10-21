@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Divider, Drawer, Stack } from "@mui/material";
+import { Drawer, Stack } from "@mui/material";
 import Title from "./components/Title";
 import ChaptersList from "./components/ChaptersList";
 import AddChapter from "./components/AddChapter";
@@ -32,11 +32,9 @@ const Sidebar: FC = () => {
         open={open}
       >
         <Title setOpen={setOpen} />
-        <Divider
-          sx={{ background: (theme) => theme.palette.maqasid.primary }}
-        />
+
         <ChaptersList />
-        {/* <Divider sx={{background:theme=>theme.palette.maqasid.primary}}/> */}
+
         <AddChapter />
       </Drawer>
     </Stack>
