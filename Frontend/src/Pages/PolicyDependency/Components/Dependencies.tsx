@@ -1,33 +1,32 @@
-import Dependency from './Dependency';
-import { Stack } from '@mui/material';
-
+import Dependency from "./Dependency";
+import { Stack } from "@mui/material";
+import React from "react";
 
 const Dependencies = () => {
-    return (
-        <Stack spacing={5} direction={{ xs: "column", md: "row" }}>
-            {names.map((e) => (
-                <Dependency name={e.name} />
-            ))}
-        </Stack>
+  return (
+    <Stack spacing={5} direction={{ xs: "column", md: "row" }}>
+      {names.map((e, index) => (
+        <Dependency key={index} name={e.name} />
+      ))}
+    </Stack>
+  );
+};
 
-    )
-}
-
-export default Dependencies
+export default Dependencies;
 
 const names = [
-    {
-        id: 1,
-        name: 'Form',
-    },
+  {
+    id: 1,
+    name: "Form",
+  },
 
-    {
-        id: 2,
-        name: 'Poster'
-    },
+  {
+    id: 2,
+    name: "Poster",
+  },
 
-    {
-        id: 3,
-        name: 'Protocol'
-    },
+  {
+    id: 3,
+    name: "Protocol",
+  },
 ];
