@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using UserManagement.Service.Models.Domain;
+using UserManagement.Service.Services;
 
 namespace Makassed.Api;
 
@@ -54,6 +56,8 @@ public static class ServicesConfiguration
         services.AddScoped<IChapterRepository, SqlChapterRepository>();
         services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
         services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
+
+        services.AddScoped<IEmailService, EmailService>();
         
         return services;
     }
@@ -103,6 +107,15 @@ public static class ServicesConfiguration
         services.AddDbContext<MakassedDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("MakassedConnectionString")));
         services.AddDbContext<MakassedAuthenticationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("MakassedConnectionString")));
         
+        return services;
+    }
+
+    public static IServiceCollection AddEmailConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+
+        services.AddSingleton(emailConfig!);
+
         return services;
     }
 
