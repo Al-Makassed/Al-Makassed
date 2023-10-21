@@ -4,6 +4,7 @@ using System.Text;
 using FluentValidation.AspNetCore;
 using Makassed.Api.Data;
 using Makassed.Api.Repositories;
+using Makassed.Api.Services.Authentication;
 using Makassed.Api.Services.Chapters;
 using Makassed.Api.Services.Policies;
 using Makassed.Api.Services.PolicyDependencies;
@@ -14,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using UserManagement.Service.Models.Domain;
 using UserManagement.Service.Services.Email;
+
 namespace Makassed.Api;
 
 public static class ServicesConfiguration
@@ -57,6 +59,7 @@ public static class ServicesConfiguration
         services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
 
         services.AddScoped<IEmailService, SmtpEmailService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
         
         return services;
     }
