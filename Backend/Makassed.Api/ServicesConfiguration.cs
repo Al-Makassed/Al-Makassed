@@ -14,8 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using UserManagement.Service.Models.Domain;
 using UserManagement.Service.Services.Email;
-using UserManagement.Service.Services.Message;
-
 namespace Makassed.Api;
 
 public static class ServicesConfiguration
@@ -58,8 +56,7 @@ public static class ServicesConfiguration
         services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
         services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
 
-        services.AddScoped<IEmailService, EmailService>();
-        services.AddScoped<IMessageService, MimeMessageService>();
+        services.AddScoped<IEmailService, SmtpEmailService>();
         
         return services;
     }

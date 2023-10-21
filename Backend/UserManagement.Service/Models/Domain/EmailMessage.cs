@@ -11,8 +11,7 @@ public class EmailMessage
         Subject = subject;
         Content = content;
     }
-
-
+    
     public List<MailboxAddress> To { get; set; }
 
     public string Subject { get; set; }

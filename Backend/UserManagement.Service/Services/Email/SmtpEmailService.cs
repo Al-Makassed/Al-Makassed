@@ -1,24 +1,37 @@
 using MailKit.Net.Smtp;
+using MimeKit;
 using UserManagement.Service.Models.Domain;
-using UserManagement.Service.Services.Message;
 
 namespace UserManagement.Service.Services.Email;
 
-public class EmailService : IEmailService
+public class SmtpEmailService : IEmailService
 {
     private readonly EmailConfiguration _emailConfiguration;
-    private readonly IMessageService _messageService;
 
-    public EmailService(EmailConfiguration emailConfiguration, IMessageService messageService)
+    public SmtpEmailService(EmailConfiguration emailConfiguration)
     {
         _emailConfiguration = emailConfiguration;
-        _messageService = messageService;
     }
 
     public async void SendEmail(EmailMessage message)
     {
-        var emailMessage = _messageService.CreateMessage(message);
-        
+        var emailMessage = CreateMimeMessage(message);
+        await Send(emailMessage);
+    }
+    
+    private MimeMessage CreateMimeMessage(EmailMessage message)
+    {
+        var emailMessage = new MimeMessage();
+        emailMessage.From.Add(new MailboxAddress("Maqasid", _emailConfiguration.From));
+        emailMessage.To.AddRange(message.To);
+        emailMessage.Subject = message.Subject;
+        emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = message.Content };
+
+        return emailMessage;
+    }
+
+    private async Task Send(MimeMessage message)
+    {
         using var smtpClient = new SmtpClient();
         try
         {
@@ -28,12 +41,11 @@ public class EmailService : IEmailService
             await smtpClient.AuthenticateAsync(_emailConfiguration.UserName, _emailConfiguration.Password);
 
             // Send Email
-            await smtpClient.SendAsync(emailMessage);
+            await smtpClient.SendAsync(message);
         }
         finally
         {
             await smtpClient.DisconnectAsync(true);
         }
-        
     }
 }
