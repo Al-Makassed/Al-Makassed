@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using UserManagement.Service.Models.Domain;
-using UserManagement.Service.Services;
+using UserManagement.Service.Services.Email;
+using UserManagement.Service.Services.Message;
 
 namespace Makassed.Api;
 
@@ -58,6 +59,7 @@ public static class ServicesConfiguration
         services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
 
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IMessageService, MimeMessageService>();
         
         return services;
     }
