@@ -58,8 +58,10 @@ public static class ServicesConfiguration
         services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
         services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
 
+
         services.AddScoped<IEmailService, SmtpEmailService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<ITokenService, TokenService>();
         
         return services;
     }

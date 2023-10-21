@@ -1,6 +1,6 @@
 ﻿namespace UserManagement.Service.Models.DTOs;
 
-public class LoginModel
+public class LoginRequest
 {
     public required string UserId { get; set; }
     public required string Password { get; set; }
