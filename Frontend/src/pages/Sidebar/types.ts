@@ -33,3 +33,8 @@ export interface ArrowIconProps {
 export interface ChapterListItemProps {
   chapter: Chapter;
 }
+
+export interface ChapterProps {
+  chapter: Chapter[];
+  setChapter: React.Dispatch<React.SetStateAction<Chapter[]>>;
+}
