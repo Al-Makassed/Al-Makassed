@@ -1,14 +1,5 @@
 using Makassed.Api;
-using Makassed.Api.Data;
 using Makassed.Api.Mappings;
-using Makassed.Api.Repositories;
-using Makassed.Api.Services.Chapters;
-using Makassed.Api.Services.Policies;
-using Makassed.Api.Services.PolicyDependencies;
-using Makassed.Api.Services.SharedServices;
-using Makassed.Api.Validators;
-using Makassed.Contracts.PolicyDependency;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,25 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddMaqasidValidators();
 
-    #region AutoMapper/s Injection
+    builder.Services.AddCors();
+   
+    builder.Services.AddDbContexts(builder.Configuration);
+
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-    #endregion
 
-    #region DbContext/s Injection
-    builder.Services.AddDbContext<MakassedDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MakassedConnectionString")));
-    #endregion
+    builder.Services.AddApplicationServices();
 
-    #region Dependency Injection
+    builder.Services.AddAndConfigureIdentity();
 
-    builder.Services.AddScoped<ISharedService ,SharedService>();
-    builder.Services.AddScoped<IChapterService, ChapterService>();
-    builder.Services.AddScoped<IPolicyService, PolicyService>();
-    builder.Services.AddScoped<IPolicyDependencyService, PolicyDependencyService>();
-    
-    builder.Services.AddScoped<IChapterRepository, SqlChapterRepository>();
-    builder.Services.AddScoped<IPolicyRepository, SqlPolicyRepository>();
-    builder.Services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
-    #endregion
+    builder.Services.AddAuthenticationService(builder.Configuration);
+
+    builder.Services.AddEmailConfiguration(builder.Configuration);
 
     #region Swagger Config
     builder.Services.AddEndpointsApiExplorer();
@@ -62,6 +47,10 @@ var app = builder.Build();
     #endregion
 
     app.UseHttpsRedirection();
+    
+    app.ConfigureCores();
+
+    app.UseAuthentication();
 
     app.UseAuthorization();
     

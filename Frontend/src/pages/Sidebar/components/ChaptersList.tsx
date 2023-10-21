@@ -1,9 +1,34 @@
 import React from "react";
 import List from "@mui/material/List";
-import { CHAPTERS } from "../fixtures";
 import ChapterListItem from "./ChapterListItem";
+import { Chapter } from "../types";
+import { useQuery } from "@tanstack/react-query";
+import { Alert, AlertTitle, Typography } from "@mui/material";
+import { fetchData } from "../fetchData";
 
 const ChaptersList = () => {
+  const {
+    data: chapter,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryFn: () => fetchData(),
+    queryKey: ["chapters"],
+    // staleTime:5000,
+  });
+
+  if (isLoading) {
+    return <Typography variant="subtitle1">Loading...</Typography>;
+  }
+  if (isError) {
+    return (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        Error fetching chapters <strong>-check it out!-</strong>
+      </Alert>
+    );
+  }
+
   return (
     <List
       sx={{
@@ -13,8 +38,8 @@ const ChaptersList = () => {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      {CHAPTERS.map((chapter, index) => (
-        <ChapterListItem key={index} chapter={chapter} />
+      {chapter?.map((chapter: Chapter) => (
+        <ChapterListItem key={chapter.id} chapter={chapter} />
       ))}
     </List>
   );

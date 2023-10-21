@@ -15,12 +15,6 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
         _dbContext = dbContext;
     }
 
-    public async Task CreatePolicyDependenciesAsync(List<Dependency> policyDependencies)
-    {
-        await _dbContext.Dependencies.AddRangeAsync(policyDependencies);
-        await _dbContext.SaveChangesAsync();
-    }
-
     public async Task<List<Dependency>> GetPolicyDependenciesAsync(string? filterOn, string? filterQuery)
     {
         var policyDependencies = _dbContext.Dependencies.AsQueryable();
@@ -39,7 +33,13 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
     {
         return await _dbContext.Dependencies.FirstOrDefaultAsync(d => d.Code == code);
     }
-
+    
+    public async Task CreatePolicyDependencyAsync(Dependency policyDependency)
+    {
+        await _dbContext.Dependencies.AddAsync(policyDependency);
+        await _dbContext.SaveChangesAsync();
+    }
+    
     public async Task<Dependency?> DeletePolicyDependencyAsync(string code)
     {
         var policyDependencyToDelete = await _dbContext.Dependencies.FirstOrDefaultAsync(d => d.Code == code);
@@ -72,14 +72,57 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
 
         if (existedPolicyDependency is null)
             return null;
-
-        existedPolicyDependency.Name = policyDependency.Name;
+        
         existedPolicyDependency.PdfUrl = policyDependency.PdfUrl;
         existedPolicyDependency.PagesCount = policyDependency.PagesCount;
         existedPolicyDependency.EstimatedTimeInMin = policyDependency.EstimatedTimeInMin;
         
+        if (!existedPolicyDependency.Code.Equals(policyDependency.Code))
+        {
+            await UpdatePolicyDependencyCodeAsync(existedPolicyDependency.Code, policyDependency.Code);
+            existedPolicyDependency.Name = policyDependency.Name;
+        }
+        
         await _dbContext.SaveChangesAsync();
 
         return existedPolicyDependency;
+    }
+
+    private async Task UpdatePolicyDependencyCodeAsync(string oldPolicyDependencyCode, string newPolicyDependencyCode)
+    {
+        var existedPolicyDependency = await _dbContext.Dependencies.FirstOrDefaultAsync(d => d.Code == oldPolicyDependencyCode);
+
+        if (existedPolicyDependency == null)
+            return;
+
+        var newPolicyDependency = existedPolicyDependency;
+        newPolicyDependency.Code = newPolicyDependencyCode;
+
+        await CreatePolicyDependencyAsync(newPolicyDependency);
+
+        await DeletePolicyDependencyAsync(oldPolicyDependencyCode);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdatePoliciesDependenciesCodesAsync(string policyCode, List<string> newCodes, List<string> oldCodes)
+    {
+        var existedPolicyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyCode == policyCode).ToListAsync();
+        
+        if (existedPolicyDependencies.IsNullOrEmpty())
+            return;
+
+        for (var i = 0; i < existedPolicyDependencies.Count; i++)
+        {
+            existedPolicyDependencies[i].Code = newCodes[i];
+        }
+        
+        await _dbContext.Dependencies.AddRangeAsync(existedPolicyDependencies);
+        await _dbContext.SaveChangesAsync();
+
+        var oldPolicyDependencies = await _dbContext.Dependencies.Where(d => oldCodes.Contains(d.Code)).ToListAsync();
+        
+        _dbContext.Dependencies.RemoveRange(oldPolicyDependencies);
+        await _dbContext.SaveChangesAsync();
     }
 }
