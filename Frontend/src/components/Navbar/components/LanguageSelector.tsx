@@ -8,13 +8,9 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import { amber } from "@mui/material/colors";
+import { LANGUAGES } from "../constants";
 
 const LanguageSelector = () => {
-  const languages = [
-    { code: "en", name: "English", country_code: "us" },
-    { code: "ar", name: "العربية", country_code: "sa", dir: "rtl" },
-  ];
-
   const { t } = useTranslation();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,11 +39,8 @@ const LanguageSelector = () => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          {/*<LanguageIcon sx={{color: 'white'}}/>*/}
           <Avatar sx={{ bgcolor: amber[500], width: 30, height: 30 }}>
-            <LanguageIcon
-              sx={{ color: (theme) => theme.palette.grey[800], ml: 0.05 }}
-            />
+            <LanguageIcon sx={{ color: (theme) => theme.palette.grey[800] }} />
           </Avatar>
         </IconButton>
       </Tooltip>
@@ -56,8 +49,6 @@ const LanguageSelector = () => {
         anchorEl={anchorEl}
         open={open}
         id="language-selector-menu"
-        // IconComponent={LanguageIcon}
-        // onChange={handleClick}
         onClose={handleClose}
         onClick={handleClose}
         defaultValue={i18next.language}
@@ -65,13 +56,11 @@ const LanguageSelector = () => {
         transformOrigin={{ horizontal: "left", vertical: "top" }}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
-        {languages.map(({ code, name, country_code }) => (
+        {LANGUAGES.map(({ code, name, countryCode }) => (
           <MenuItem
-            key={country_code}
+            key={countryCode}
             value={code}
             onClick={handleSelectLanguage(code)}
-            // onClick={(event) => onSelectLanguage(event)}
-            // onClick={onSelectLanguage}
           >
             <Typography>{name}</Typography>
           </MenuItem>

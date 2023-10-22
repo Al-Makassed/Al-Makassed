@@ -34,24 +34,20 @@ const AccountMenu: FC = () => {
   return (
     <>
       <Tooltip title="Account settings">
-        {/* <IconButton
-          onClick={handleClick}
-          size="small"
-          aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-        >
-          <Avatar sx={{ bgcolor: cyan[50], color: grey[800] }}>
-            {userInitial}
-          </Avatar>
-        </IconButton> */}
         <Button
           onClick={handleClick}
           aria-controls={open ? "account-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           startIcon={
-            <Avatar sx={{ bgcolor: cyan[50], color: "grey.800", width: 30, height: 30 }}>
+            <Avatar
+              sx={{
+                bgcolor: cyan[50],
+                color: "grey.800",
+                width: 30,
+                height: 30,
+              }}
+            >
               {userInitial}
             </Avatar>
           }
