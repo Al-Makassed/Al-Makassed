@@ -40,6 +40,13 @@ public class AuthenticationService : IAuthenticationService
         if (existedUser is not null)
             return Errors.User.AlreadyExists;
 
+        // Check if the email is already used.
+        var existedEmail = await _userManager.FindByEmailAsync(request.Email);
+
+        // If the email is already used, return an "Email Already Exists" error.
+        if (existedEmail is not null)
+            return Errors.User.EmailAlreadyExists;
+
         // Create a new user (IdentityUser).
         var user = new IdentityUser { 
             Id = request.UserId, 

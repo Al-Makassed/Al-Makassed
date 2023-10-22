@@ -72,7 +72,7 @@ public class AuthenticationController : ApiController
         
         await _emailService.SendForgetPasswordEmail(userResult.Value.Email!, forgotPasswordUrl);
 
-        return Ok("Password Recovery Email is sent to your email address");
+        return Ok("Password Recovery Email is sent to your email address.");
     }
 
 

@@ -82,7 +82,12 @@ public abstract class Errors
 
         public static Error AddToRoleFailed => Error.Conflict(
             code: "User.AddToRoleFailed",
-            description: "Adding user to role failed."
+            description: "Adding role to user failed."
+        );
+
+        public static Error EmailAlreadyExists => Error.Conflict(
+            code: "User.EmailAlreadyExists",
+            description: "Email already exists."
         );
     }
 
