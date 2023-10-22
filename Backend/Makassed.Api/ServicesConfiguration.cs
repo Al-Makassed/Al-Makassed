@@ -68,18 +68,30 @@ public static class ServicesConfiguration
 
     public static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = configuration["Jwt:Issuer"],
-                        ValidAudience = configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)) 
-                    });
+        services.AddAuthentication(options => {
+            // JWT bearer authentication will be used to authenticate users when they access protected resources.
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            // If authentication fails, the application will challenge the user with JWT bearer authentication.
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            // This ensures that JWT bearer authentication is the primary method for authenticating and authorizing users in the application.
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; })
+            
+            .AddJwtBearer(options => {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                };
+            });
+
+        services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromHours(2));
 
         return services;
     }
@@ -90,7 +102,8 @@ public static class ServicesConfiguration
             .AddRoles<IdentityRole>()
             .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Makassed")
             .AddEntityFrameworkStores<MakassedAuthenticationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddSignInManager<SignInManager<IdentityUser>>();
 
         services.Configure<IdentityOptions>(options =>
             {
@@ -116,9 +129,9 @@ public static class ServicesConfiguration
 
     public static IServiceCollection AddEmailConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
-        var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+        var emailConfiguration = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 
-        services.AddSingleton(emailConfig!);
+        services.AddSingleton(emailConfiguration!);
 
         return services;
     }
