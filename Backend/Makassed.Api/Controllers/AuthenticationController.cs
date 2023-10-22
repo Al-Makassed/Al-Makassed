@@ -58,7 +58,7 @@ public class AuthenticationController : ApiController
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
-        var userResult = await _authenticationService.GetUserByEmail(request.Email);
+        var userResult = await _authenticationService.GetUserById(request.UserId);
 
         if (userResult.IsError)
             return Problem(userResult.Errors);
@@ -72,7 +72,7 @@ public class AuthenticationController : ApiController
         
         await _emailService.SendForgetPasswordEmail(userResult.Value.Email!, forgotPasswordUrl);
 
-        return Ok("Password Recovery Email is sent to your email address.");
+        return Ok("Password recovery link is sent to your Email.");
     }
 
 

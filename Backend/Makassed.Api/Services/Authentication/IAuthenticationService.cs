@@ -13,6 +13,8 @@ public interface IAuthenticationService
     Task<ErrorOr<string>> ResetPassword(ResetPasswordRequest request);
 
     Task<ErrorOr<IdentityUser>> GetUserByEmail(string requestEmail);
+
+    Task<ErrorOr<IdentityUser>> GetUserById(string id);
     
     Task<ErrorOr<string>> Register(RegisterRequest request);
 }

@@ -29,6 +29,15 @@ public class AuthenticationService : IAuthenticationService
         // If the user is not found, return a "User Not Found" error.
         return user is not null ? user : Errors.User.NotFound;
     }
+    
+    public async Task<ErrorOr<IdentityUser>> GetUserById(string id)
+    {
+        // Attempt to find the user by ID.
+        var user = await _userManager.FindByIdAsync(id);
+
+        // If the user is not found, return a "User Not Found" error.
+        return user is not null ? user : Errors.User.NotFound;
+    }
 
 
     public async Task<ErrorOr<string>> Register(RegisterRequest request)
