@@ -7,9 +7,8 @@ public class ForgotPasswordRequestValidator : AbstractValidator<ForgotPasswordRe
 {
     public ForgotPasswordRequestValidator()
     {
-        RuleFor(f => f.Email)
-            .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().WithMessage("Not valid email address");
+        RuleFor(f => f.UserId)
+            .NotEmpty().WithMessage("User ID is required.");
     }
     
 }
