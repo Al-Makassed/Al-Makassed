@@ -19,6 +19,8 @@ i18n
   .use(initReactI18next)
   .use(HttpApi)
   .init({
+    // Set the default language as 'en'
+    fallbackLng: "en",
     // supportedLanguage:['en','ar'],
     resources,
     interpolation: {
