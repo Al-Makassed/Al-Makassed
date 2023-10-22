@@ -1,8 +1,7 @@
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import { Box, MenuItem, Typography } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import i18next from "i18next";
-import { useTranslation } from "react-i18next";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -11,8 +10,6 @@ import { amber } from "@mui/material/colors";
 import { LANGUAGES } from "../constants";
 
 const LanguageSelector = () => {
-  const { t } = useTranslation();
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -23,11 +20,6 @@ const LanguageSelector = () => {
 
   const handleSelectLanguage = (code: string) => () =>
     i18next.changeLanguage(code);
-
-  useEffect(() => {
-    document.body.dir = i18next.language === "ar" ? "rtl" : "ltr";
-    document.title = t("AppTitle");
-  }, [t]);
 
   return (
     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
