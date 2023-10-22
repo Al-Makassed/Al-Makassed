@@ -1,6 +1,6 @@
-﻿namespace UserManagement.Service.Models.DTOs;
+﻿namespace Makassed.Contracts.Authentication;
 
-public class LoginRequest
+public record LoginRequest
 {
     public required string UserId { get; set; }
     public required string Password { get; set; }

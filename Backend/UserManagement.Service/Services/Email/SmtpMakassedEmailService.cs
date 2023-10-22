@@ -4,21 +4,15 @@ using UserManagement.Service.Models.Domain;
 
 namespace UserManagement.Service.Services.Email;
 
-public class SmtpEmailService : IEmailService
+public class SmtpMakassedEmailService : IMakassedEmailService
 {
     private readonly EmailConfiguration _emailConfiguration;
 
-    public SmtpEmailService(EmailConfiguration emailConfiguration)
+    public SmtpMakassedEmailService(EmailConfiguration emailConfiguration)
     {
         _emailConfiguration = emailConfiguration;
     }
 
-    public async void SendEmail(EmailMessage message)
-    {
-        var emailMessage = CreateMimeMessage(message);
-        await Send(emailMessage);
-    }
-    
     private MimeMessage CreateMimeMessage(EmailMessage message)
     {
         var emailMessage = new MimeMessage();
@@ -47,5 +41,17 @@ public class SmtpEmailService : IEmailService
         {
             await smtpClient.DisconnectAsync(true);
         }
+    }
+
+    public async Task SendEmail(EmailMessage message)
+    {
+        var emailMessage = CreateMimeMessage(message);
+        await Send(emailMessage);
+    }
+
+    public async Task SendForgetPasswordEmail(string email, string url)
+    {
+        EmailMessage message = new(new[] { email }, "Reset Password", url);
+        await SendEmail(message);        
     }
 }

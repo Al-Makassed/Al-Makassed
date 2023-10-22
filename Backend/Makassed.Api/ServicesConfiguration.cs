@@ -59,7 +59,7 @@ public static class ServicesConfiguration
         services.AddScoped<IPolicyDependencyRepository, SqlPolicyDependencyRepository>();
 
 
-        services.AddScoped<IEmailService, SmtpEmailService>();
+        services.AddScoped<IMakassedEmailService, SmtpMakassedEmailService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenService, TokenService>();
         

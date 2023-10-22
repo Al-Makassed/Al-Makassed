@@ -1,5 +1,4 @@
 ﻿using ErrorOr;
-using UserManagement.Service.Models.DTOs;
 
 namespace Makassed.Api.ServiceErrors;
 
@@ -64,6 +63,11 @@ public abstract class Errors
         public static Error WrongPassword => Error.Unauthorized(
             code: "User.WrongPassword",
             description: "Wrong password."
+        );
+
+        public static Error ResetPasswordFailed => Error.Unauthorized(
+            code: "User.ResetPasswordFailed", 
+            description: "Reset password failed."
         );
     }
 }

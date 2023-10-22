@@ -1,7 +1,7 @@
 using ErrorOr;
 using Makassed.Api.ServiceErrors;
+using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
-using UserManagement.Service.Models.DTOs;
 
 namespace Makassed.Api.Services.Authentication;
 
@@ -16,6 +16,13 @@ public class AuthenticationService : IAuthenticationService
         _userManager = userManager;
         _tokenService = tokenService;
         _signInManager = signInManager;
+    }
+
+    public async Task<ErrorOr<IdentityUser>> GetUserByEmail(string requestEmail)
+    {
+        var user = await _userManager.FindByEmailAsync(requestEmail);
+
+        return user is not null ? user : Errors.User.NotFound;
     }
     
     public async Task<ErrorOr<LoginResponse>> LogUserIn(LoginRequest request)
@@ -40,5 +47,25 @@ public class AuthenticationService : IAuthenticationService
 
         // Create a JWT token with roles for the authenticated user.
         return _tokenService.CreateAccessToken(user, roles.ToList());
+    }
+
+    public async Task<string> GenerateForgotPasswordToken(IdentityUser user)
+    {
+        return await _userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
+    public async Task<ErrorOr<string>> ResetPassword(ResetPasswordRequest request)
+    {
+        var user = await _userManager.FindByEmailAsync(request.Email);
+
+        if (user is null)
+            return Errors.User.NotFound;
+
+        var resetPasswordResult = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
+
+        if (!resetPasswordResult.Succeeded)
+            return Errors.User.ResetPasswordFailed;
+
+        return "Password changed successfully.";
     }
 }

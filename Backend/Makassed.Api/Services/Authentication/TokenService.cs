@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using UserManagement.Service.Models.DTOs;
 
 namespace Makassed.Api.Services.Authentication;
 

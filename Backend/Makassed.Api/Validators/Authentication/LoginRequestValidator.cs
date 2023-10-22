@@ -1,11 +1,11 @@
 using FluentValidation;
-using UserManagement.Service.Models.DTOs;
+using Makassed.Contracts.Authentication;
 
 namespace Makassed.Api.Validators.Authentication;
 
-public class LoginModelValidator : AbstractValidator<LoginRequest>
+public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {
-    public LoginModelValidator()
+    public LoginRequestValidator()
     {
         RuleFor(l => l.UserId).NotEmpty().WithMessage("User ID is required.");
         

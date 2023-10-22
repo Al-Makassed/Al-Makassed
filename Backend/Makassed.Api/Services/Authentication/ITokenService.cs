@@ -1,5 +1,5 @@
+using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
-using UserManagement.Service.Models.DTOs;
 
 namespace Makassed.Api.Services.Authentication;
 
