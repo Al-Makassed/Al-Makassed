@@ -31,7 +31,7 @@ i18n
     backend: {
       loadPath: "src/locals/{{lng}}/translation.json",
     },
-    react: { useSuspense: false },
+    react: { useSuspense: true },
   });
 
 export default i18n;

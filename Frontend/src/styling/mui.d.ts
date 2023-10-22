@@ -8,4 +8,8 @@ declare module "@mui/material" {
   interface PaletteOptions {
     maqasid: MaqasidPalette;
   }
+
+  interface Theme {
+    mixins: MaqasidThemeMixins;
+  }
 }

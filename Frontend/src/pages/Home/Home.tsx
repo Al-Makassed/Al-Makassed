@@ -1,15 +1,12 @@
 import React, { FC } from "react";
 import Typography from "@mui/material/Typography";
-import Sidebar from "../Sidebar";
-import Navbar from "../Navbar";
+import { HomeContainer } from "./styled";
 
 const Home: FC = () => {
   return (
-    <>
-      <Navbar />
-      <Sidebar />
-      <Typography variant="h3">Welcome to Al-Maqasid</Typography>
-    </>
+    <HomeContainer>
+      <Typography variant="h4">Welcome to Al-Maqasid</Typography>
+    </HomeContainer>
   );
 };
 
