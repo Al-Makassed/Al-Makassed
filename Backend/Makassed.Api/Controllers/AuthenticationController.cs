@@ -18,6 +18,26 @@ public class AuthenticationController : ApiController
     }
 
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [HttpPost("Register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        var registerResult = await _authenticationService.Register(request);
+
+        return registerResult.Match(
+            Ok,
+            Problem
+        );
+    }
+
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType (StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("Login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
@@ -30,12 +50,15 @@ public class AuthenticationController : ApiController
         );
     }
 
-    
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("ForgotPassword")]
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
-        var userResult = await _authenticationService.GetUserByEmail(request.Email);
+        var userResult = await _authenticationService.GetUserById(request.UserId);
 
         if (userResult.IsError)
             return Problem(userResult.Errors);
@@ -49,19 +72,25 @@ public class AuthenticationController : ApiController
         
         await _emailService.SendForgetPasswordEmail(userResult.Value.Email!, forgotPasswordUrl);
 
-        return Ok("Password Recovery Email is sent to your email address");
+        return Ok("Password recovery link is sent to your Email.");
     }
 
 
-    [HttpGet("reset-password")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet("ResetPassword")]
+    [AllowAnonymous]
     public IActionResult ResetPassword(string token, string email)
     {
         var model = new GetResetPasswordResponse { Token = token, Email = email };
 
-        return Ok(new { model });
+        return Ok(model);
     }
 
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("ResetPassword")]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {

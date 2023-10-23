@@ -1,17 +1,12 @@
-import axios from "axios";
-import {Chapter} from "../types";
+import { Chapter, CreateChapterResponse } from "./types";
+import axios from "src/API/axios";
 
-export const postChapter = async (chapterName: string) => {
-  const { data } = await axios.post(
-    "https://maqasid.azurewebsites.net/api/Chapters",
-    { name: chapterName }
-  );
-  return data;
+export const postChapter = (chapterName: string) => {
+  return axios
+    .post<CreateChapterResponse>("/chapters", { name: chapterName })
+    .then((res) => res.data);
 };
 
-export const getChapters = async (): Promise<Chapter[]> => {
-  const { data } = await axios.get(
-    "https://maqasid.azurewebsites.net/api/Chapters"
-  );
-  return data;
+export const getChapters = async () => {
+  return axios.get<Chapter[]>("/chapters").then((res) => res.data);
 };
