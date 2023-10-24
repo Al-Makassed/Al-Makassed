@@ -12,7 +12,8 @@ public static class CorsConfiguration
         {
             options.AddDefaultPolicy(builder =>
             {
-                builder.WithOrigins(allowedOrigins)
+                builder
+                    .AllowAnyOrigin() // Change this later for security
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
