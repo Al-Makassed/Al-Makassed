@@ -6,7 +6,7 @@ import { setSnackbarOpen } from "src/features/snackbar";
 
 const useSidebarAPI = () => {
   const queryClient = useQueryClient();
-  // const { isOpen, message, severity } = useAppSelector(selectSnackbar);
+
   const dispatch = useAppDispatch();
 
   const { mutate: addNewChapter } = useMutation({
@@ -19,6 +19,15 @@ const useSidebarAPI = () => {
         setSnackbarOpen({
           message: "Chapter added successfully! ",
           severity: "success",
+        }),
+      );
+    },
+
+    onError: () => {
+      dispatch(
+        setSnackbarOpen({
+          message: "Error in entering the chapter name! ",
+          severity: "error",
         }),
       );
     },
