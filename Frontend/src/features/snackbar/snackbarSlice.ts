@@ -1,20 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Define a type for the slice state
+type AlertColor = "success" | "warning" | "error";
+
 interface SnackbarState {
-  snackbar: {
-    snackbarOpen: boolean;
-    snackbarType: string;
-    snackbarMessage: string;
+  snackbarSetting: {
+    isOpen: boolean;
+    message: string;
+    severity: AlertColor | undefined; // You can customize this based on your needs
   };
 }
 
 // Define the initial state using that type
 const initialState: SnackbarState = {
-  snackbar: {
-    snackbarOpen: false,
-    snackbarType: "success",
-    snackbarMessage: "",
+  snackbarSetting: {
+    isOpen: false,
+    message: "",
+    severity: "success", // You can customize this based on your needs
   },
 };
 
@@ -22,27 +24,18 @@ export const snackbarSlice = createSlice({
   name: "snackbar",
   initialState,
   reducers: {
-    snackbarOpen: (state) => {
-      state.snackbar.snackbarOpen = true;
+    setSnackbarOpen: (state, action) => {
+      state.snackbarSetting.isOpen = true;
+      state.snackbarSetting.message = action.payload.message;
+      state.snackbarSetting.severity = action.payload.severity || "success";
     },
-    successType: (state) => {
-      state.snackbar.snackbarType = "success";
-      state.snackbar.snackbarMessage = " Added successfully ";
+    setSnackbarClose: (state) => {
+      state.snackbarSetting.isOpen = false;
     },
-    errorType: (state) => {
-      state.snackbar.snackbarType = "error";
-      state.snackbar.snackbarMessage = "  Addition error ";
-    },
-    // successAdd:(state)=>{
-    //     state.snackbar.snackbarMessage = " Added successfully "
-    // },
-    // errorAdd:(state)=>{
-    //     state.snackbar.snackbarMessage = "  Addition error "
-    // }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { successType, errorType } = snackbarSlice.actions;
+export const { setSnackbarOpen, setSnackbarClose } = snackbarSlice.actions;
 
 export default snackbarSlice.reducer;
