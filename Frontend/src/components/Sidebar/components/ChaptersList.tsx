@@ -2,7 +2,8 @@ import React from "react";
 import List from "@mui/material/List";
 import ChapterListItem from "./ChapterListItem";
 import { Chapter } from "../API/types";
-import { Alert, Snackbar, Stack } from "@mui/material";
+import { Snackbar, Stack } from "@mui/material";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
@@ -12,6 +13,11 @@ import {
   setSnackbarOpen,
 } from "src/features/snackbar";
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  },
+);
 const ChaptersList = () => {
   const { chapters, isFetching, isError } = useFetchChapters();
 
@@ -41,7 +47,13 @@ const ChaptersList = () => {
     );
     return (
       <Stack spacing={2} sx={{ width: "100%" }}>
-        <Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar
+          open={isOpen}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          sx={{ "& .MuiPaper-root": { backgroundColor: "red" } }}
+        >
           <Alert
             onClose={handleClose}
             severity={severity}
@@ -55,19 +67,27 @@ const ChaptersList = () => {
   }
 
   return (
-    <List
-      sx={{
-        width: "100%",
-        bgcolor: (theme) => theme.palette.grey[200],
-      }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-    >
-      {chapters?.map((chapter: Chapter) => (
-        <ChapterListItem key={chapter.id} chapter={chapter} />
-      ))}
+    <>
+      <List
+        sx={{
+          width: "100%",
+          bgcolor: (theme) => theme.palette.grey[200],
+        }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        {chapters?.map((chapter: Chapter) => (
+          <ChapterListItem key={chapter.id} chapter={chapter} />
+        ))}
+      </List>
       <Stack spacing={2} sx={{ width: "100%" }}>
-        <Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar
+          open={isOpen}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          onClose={handleClose}
+          sx={{ "& .MuiPaper-root": { backgroundColor: "green" } }}
+        >
           <Alert
             onClose={handleClose}
             severity={severity}
@@ -77,7 +97,7 @@ const ChaptersList = () => {
           </Alert>
         </Snackbar>
       </Stack>
-    </List>
+    </>
   );
 };
 
