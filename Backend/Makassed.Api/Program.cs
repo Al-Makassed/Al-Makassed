@@ -8,10 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.RegisterMakassedDependencies(builder.Configuration);
 
-    #region Swagger Config
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    #endregion
 }
 
 var app = builder.Build();

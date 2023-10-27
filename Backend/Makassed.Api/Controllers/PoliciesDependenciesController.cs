@@ -3,6 +3,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.PolicyDependencies;
 using Makassed.Contracts.Enums;
 using Makassed.Contracts.PolicyDependency;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
@@ -19,6 +20,7 @@ public class PoliciesDependenciesController : ApiController
 
 
     // Get Policies Dependencies
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet]
@@ -30,9 +32,10 @@ public class PoliciesDependenciesController : ApiController
 
         return Ok(_mapper.Map<List<GetPolicyDependencyResponse>>(policyDependencies));
     }
-    
-    
+
+
     // Get policy dependency by code
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("{code}")]
@@ -43,9 +46,10 @@ public class PoliciesDependenciesController : ApiController
 
         return Ok(_mapper.Map<GetPolicyDependencyResponse>(policyDependency));
     }
-    
-    
+
+
     // Add policy dependency
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -68,9 +72,10 @@ public class PoliciesDependenciesController : ApiController
             errors => Problem(errors)
         );
     }
-    
-    
+
+
     // Delete policy dependency by code
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpDelete("{code}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,10 +87,11 @@ public class PoliciesDependenciesController : ApiController
             _ => NoContent(),
             errors => Problem(errors)
         );
-    } 
-    
-    
+    }
+
+
     //Delete all policy dependencies
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -98,9 +104,10 @@ public class PoliciesDependenciesController : ApiController
             errors => Problem(errors)
         );
     }
-    
-    
+
+
     // Update policy dependency by code
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpPut("{code}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
