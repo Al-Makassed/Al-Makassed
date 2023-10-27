@@ -1,7 +1,7 @@
 import React from "react";
 import List from "@mui/material/List";
 import ChapterListItem from "./ChapterListItem";
-import { Chapter } from "../types";
+import { Chapter } from "../API/types";
 import { Alert, AlertTitle } from "@mui/material";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";

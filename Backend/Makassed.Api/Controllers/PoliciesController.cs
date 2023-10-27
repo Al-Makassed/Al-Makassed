@@ -2,6 +2,7 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Policies;
 using Makassed.Contracts.Policy;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
@@ -16,9 +17,10 @@ public class PoliciesController : ApiController
         _policyService = policyService;
         this._mapper = mapper;
     }
-    
-    
+
+
     // Get All Policies
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -28,9 +30,10 @@ public class PoliciesController : ApiController
         
         return Ok(_mapper.Map<List<GetPolicyResponse>>(policies));
     }
-    
-    
+
+
     // Get Policy by Code
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,9 +47,10 @@ public class PoliciesController : ApiController
             errors => Problem(errors)
         );
     }
-    
-    
+
+
     // Create a New Policy
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,9 +71,10 @@ public class PoliciesController : ApiController
             errors => Problem(errors)
         );
     }
-    
-    
+
+
     // Update a policy by code
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -87,6 +92,7 @@ public class PoliciesController : ApiController
     }
 
     // Delete a policy by code
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpDelete("{code}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,8 +105,9 @@ public class PoliciesController : ApiController
             errors => Problem(errors)
         );
     }
-    
+
     //Delete all policies
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

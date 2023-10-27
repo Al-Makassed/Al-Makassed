@@ -2,7 +2,9 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Chapters;
 using Makassed.Contracts.Chapter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Makassed.Api.Controllers;
 
@@ -16,8 +18,8 @@ public class ChaptersController : ApiController
         _chapterService = chapterService;
         _mapper = mapper;
     }
-    
 
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -27,7 +29,7 @@ public class ChaptersController : ApiController
         return Ok(_mapper.Map<List<GetChapterResponse>>(chapters));
     }
 
-
+    [Authorize]
     [HttpGet("{id:Guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,7 +43,8 @@ public class ChaptersController : ApiController
             errors => Problem(errors)
         );
     }
-    
+
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,7 +65,8 @@ public class ChaptersController : ApiController
             errors => Problem(errors)
         );
     }
-    
+
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -78,7 +82,8 @@ public class ChaptersController : ApiController
             errors => Problem(errors)
         );
     }
-    
+
+    [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

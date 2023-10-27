@@ -53,7 +53,7 @@ public abstract class Errors
         );
     }
 
-    public class User
+    public abstract class User
     {
         public static Error NotFound => Error.NotFound(
             code: "User.NotFound",
@@ -68,6 +68,34 @@ public abstract class Errors
         public static Error ResetPasswordFailed => Error.Unauthorized(
             code: "User.ResetPasswordFailed", 
             description: "Reset password failed."
+        );
+
+        public static Error AlreadyExists => Error.Conflict(
+            code: "User.AlreadyExists",
+            description: "User already exists."
+        );
+
+        public static Error CreateFailed => Error.Conflict(
+            code: "User.CreateFailed",
+            description: "User creation failed."
+        );
+
+        public static Error AddToRoleFailed => Error.Conflict(
+            code: "User.AddToRoleFailed",
+            description: "Adding role to user failed."
+        );
+
+        public static Error EmailAlreadyExists => Error.Conflict(
+            code: "User.EmailAlreadyExists",
+            description: "Email already exists."
+        );
+    }
+
+    public abstract class Role
+    {
+        public static Error NotFound => Error.NotFound(
+            code: "Role.NotFound",
+            description: "Role is not found."
         );
     }
 }
