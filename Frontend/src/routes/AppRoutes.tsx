@@ -16,7 +16,6 @@ const AppRoutes: FC = () => {
         <Route path="" element={<AppLayout />}>
           <Route index path="" element={<Home />} />
           <Route index path="counter" element={<Counter />} />
-
           <Route path="access-denied" element={<AccessDenied />} />
         </Route>
         <Route path="*" element={<NotFound />} />
