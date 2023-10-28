@@ -21,6 +21,8 @@ public static class DependencyInjection
         
         MailKitEmailConfiguration.AddEmailService(services, configuration);
 
+        SwaggerConfiguration.AddSwaggerConfiguration(services);
+
         services.AddAutoMapper(typeof(AutoMapperProfile));
 
         return services;
