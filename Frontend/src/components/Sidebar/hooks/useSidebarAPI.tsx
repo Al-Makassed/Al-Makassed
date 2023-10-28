@@ -3,6 +3,8 @@ import { createChapter } from "../API";
 import { CHAPTERS_QUERY_KEY } from "../constants";
 import { useAppDispatch } from "src/app/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
+import { AxiosBaseError } from "src/types";
+import { extractErrorMessage } from "src/utils";
 
 const useSidebarAPI = () => {
   const queryClient = useQueryClient();
@@ -22,10 +24,11 @@ const useSidebarAPI = () => {
       );
     },
 
-    onError: () => {
+    onError: (error: AxiosBaseError) => {
+      const errorMessage = extractErrorMessage(error);
       dispatch(
         showErrorSnackbar({
-          message: "Error creating a new chapter!",
+          message: errorMessage,
         }),
       );
     },
