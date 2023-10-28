@@ -1,8 +1,10 @@
-﻿namespace Makassed.Api.Models.Domain
+﻿namespace Makassed.Api.Models.Domain;
+
+public class Department
 {
-    public class Department
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
-    }
+    public Guid Id { get; set; }
+
+    public string Name { get; set; } = null!;
+
+    public List<MonitoringTool> MonitoringTools { get; set; } = new();
 }
