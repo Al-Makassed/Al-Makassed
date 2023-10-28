@@ -1,28 +1,96 @@
-import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { Formik, Form } from "formik";
-import { Grid } from "@mui/material";
-import MultipleFileUpload from "./MultipleFileUpload";
-// import { json } from 'stream/consumers'
+// import {FC} from 'react';
+// import { Formik , Field} from 'formik';
+// import { Button, Grid, Stack, Box, Select, MenuItem } from "@mui/material";
+// import MultipleFileUpload from './MultipleFileUpload';
 
-const AddDependency = () => {
-  return (
-    <Card>
-      <CardContent>
-        <Formik initialValues={{ files: [] }} onSubmit={() => {}}>
-          {/* {({ values, errors }) => { */}
-          <Form>
-            <Grid container spacing={2} direction="column">
-              <MultipleFileUpload name="files" />
-            </Grid>
-            {/* <pre>{json.stringify({values,errors},null,4)}</pre> */}
-          </Form>
-          {/* }} */}
-        </Formik>
-      </CardContent>
-    </Card>
-  );
-};
+// export interface PROPS {
+//   name: string;
+// }
 
-export default AddDependency;
+// const AddDependency:FC<PROPS> = ({name}) => (
+//   <div>
+//     <Formik
+//       initialValues={{
+//         files: [],
+//         code: "",
+//         estimatedTime: 0
+//       }}
+//       onSubmit={(values, { setSubmitting }) => {
+//         setTimeout(() => {
+//           alert(JSON.stringify(values, null, 2));
+//           setSubmitting(false);
+//         }, 400);
+//       }}
+//     >
+//       {({
+//         values,
+//         errors,
+//         touched,
+//         handleChange,
+//         handleBlur,
+//         handleSubmit,
+//         isSubmitting,
+//       }) => (
+//         <form onSubmit={handleSubmit}>
+//           <Box >
+//             <Box >
+//               <MultipleFileUpload name="files" />
+//             </Box>
+//             <Stack mb={3} flexDirection="row" gap={5}>
+//               <input
+//                 type="text"
+//                 name="code"
+//                 placeholder={`${name} name`}
+//                 onChange={handleChange}
+//                 onBlur={handleBlur}
+//                 value={values.code}
+//               />
+//               {errors.code && touched.code && errors.code}
+//               <select
+//                 // type="password"
+//                 name="estimatedTime"
+//                 onChange={handleChange}
+//                 onBlur={handleBlur}
+//                 value={values.estimatedTime}
+//                 placeholder='0'
+
+//               >
+//                 {times.map((e, index) => (
+//                   <option key={index} value={e.time} >{e.time}</option>
+//                 ))}
+//                </select>
+//              <input type="number" />
+//               {errors.estimatedTime && touched.estimatedTime && errors.estimatedTime}
+//             </Stack>
+//             <Stack alignItems='center' >
+//               <Button variant="contained" type="submit" disabled={isSubmitting}>
+//                 Submit
+//               </Button>
+//             </Stack>
+//           </Box>
+//         </form>
+//       )}
+//     </Formik>
+//   </div >
+// );
+
+// export default AddDependency;
+
+// const times = [
+//   {
+//     time: "5",
+//   },
+
+//   {
+//     time: "10",
+//   },
+
+//   {
+//     time: "15",
+//   },
+
+//   {
+//     time: "20",
+//   },
+
+// ]

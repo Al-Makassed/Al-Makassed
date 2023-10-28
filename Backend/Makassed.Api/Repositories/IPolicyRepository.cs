@@ -1,16 +1,24 @@
 ﻿using Makassed.Api.Models.Domain;
 
-namespace Makassed.Api.Repositories
+namespace Makassed.Api.Repositories;
+
+public interface IPolicyRepository
 {
-    public interface IPolicyRepository
-    {
-        Task<Policy?> GetPolicyByName(string name);
-        Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes);
-        Task<List<Policy>> GetPoliciesAsync();
-        Task<Policy?> GetPolicyByCodeAsync(string code);
-        Task CreatePolicyAsync(Policy policy);
-        Task<Policy?> DeletePolicyAsync(string code);
-        Task<Policy?> UpdatePolicyAsync(string code, Policy policy);
-        Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId);
-    }
+    Task<Policy?> GetPolicyByName(string name);
+    
+    Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes);
+    
+    Task<List<Policy>> GetPoliciesAsync();
+    
+    Task<Policy?> GetPolicyByCodeAsync(string code);
+    
+    Task CreatePolicyAsync(Policy policy);
+    
+    Task<Policy?> DeletePolicyAsync(string code);
+    
+    Task<Policy?> UpdatePolicyAsync(string code, Policy policy);
+    
+    Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId);
+    
+    Task UpdatePoliciesCodesAsync(Guid chapterId, List<string> newCodes, IEnumerable<string> oldCodes);
 }

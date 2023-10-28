@@ -3,84 +3,132 @@ using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Makassed.Api.Repositories
-{
-    public class SqlPolicyRepository : IPolicyRepository
-    {
-        private readonly MakassedDbContext _dbContext;
+namespace Makassed.Api.Repositories;
 
-        public SqlPolicyRepository(MakassedDbContext dbContext)
+public class SqlPolicyRepository : IPolicyRepository
+{
+    private readonly MakassedDbContext _dbContext;
+
+    public SqlPolicyRepository(MakassedDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+        
+    public async Task<Policy?> GetPolicyByName(string name)
+    {
+        return await _dbContext.Policies.FirstOrDefaultAsync(p => p.Name == name);
+    }
+
+    public async Task CreatePolicyAsync(Policy policy)
+    {
+        await _dbContext.Policies.AddAsync(policy);
+
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes)
+    {
+        return await _dbContext.Policies.Where(p => policiesCodes.Contains(p.Code)).ToListAsync();
+    }
+
+    public async Task<List<Policy>> GetPoliciesAsync()
+    {
+        return await _dbContext.Policies.Include(p => p.Dependencies).ToListAsync();
+    }
+
+    public async Task<Policy?> GetPolicyByCodeAsync(string code)
+    {
+        return await _dbContext.Policies.Include(p => p.Dependencies).FirstOrDefaultAsync(p => p.Code == code);
+    }
+
+    public async Task<Policy?> DeletePolicyAsync(string code)
+    {
+        var policy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == code);
+            
+        if (policy is null)
+            return null;
+            
+        _dbContext.Policies.Remove(policy);
+        await _dbContext.SaveChangesAsync();
+
+        return policy;
+    }
+
+    public async Task<Policy?> UpdatePolicyAsync(string code, Policy policy)
+    {
+        var existedPolicy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == code);
+
+        if (existedPolicy is null)
+            return null;
+
+        existedPolicy.PdfUrl = policy.PdfUrl;
+        existedPolicy.PageCount = policy.PageCount;
+        existedPolicy.EstimatedTimeInMin = policy.EstimatedTimeInMin;
+
+        if (!existedPolicy.Code.Equals(policy.Code))
         {
-            _dbContext = dbContext;
+            await UpdatePolicyCodeAsync(existedPolicy.Code, policy.Code);
+            existedPolicy.Name = policy.Name;
+        }
+            
+        await _dbContext.SaveChangesAsync();
+
+        return existedPolicy;
+    }
+
+    private async Task<List<Policy>> GetChapterPoliciesAsync(Guid chapterId)
+    {
+        return await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
+    }
+
+    public async Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId)
+    {
+        var policiesToDelete = await GetChapterPoliciesAsync(chapterId);
+            
+        if (policiesToDelete.IsNullOrEmpty())
+            return null;
+            
+        _dbContext.RemoveRange(policiesToDelete);
+        await _dbContext.SaveChangesAsync();
+
+        return policiesToDelete;
+    }
+
+    private async Task UpdatePolicyCodeAsync(string oldPolicyCode, string newPolicyCode)
+    {
+        var existedPolicy = await _dbContext.Policies.Include(p => p.Dependencies).FirstOrDefaultAsync(p => p.Code == oldPolicyCode);
+
+        if (existedPolicy == null)
+            return;
+
+        var newPolicy = existedPolicy;
+        newPolicy.Code = newPolicyCode;
+
+        await CreatePolicyAsync(newPolicy);
+
+        await DeletePolicyAsync(oldPolicyCode);
+
+        await _dbContext.SaveChangesAsync();
+    }
+    
+    public async Task UpdatePoliciesCodesAsync(Guid chapterId, List<string> newCodes, IEnumerable<string> oldCodes)
+    {
+        var existedPolicies = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).Include(p => p.Dependencies).ToListAsync();
+        
+        if (existedPolicies.IsNullOrEmpty())
+            return;
+
+        for (int i = 0; i < existedPolicies.Count; i++)
+        {
+            existedPolicies[i].Code = newCodes[i];
         }
         
-        public async Task<Policy?> GetPolicyByName(string name)
-        {
-            return await _dbContext.Policies.FirstOrDefaultAsync(p => p.Name == name);
-        }
+        await _dbContext.Policies.AddRangeAsync(existedPolicies);
+        await _dbContext.SaveChangesAsync();
 
-        public async Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes)
-        {
-            return await _dbContext.Policies.Where(p => policiesCodes.Contains(p.Code)).ToListAsync();
-        }
-
-        public async Task<List<Policy>> GetPoliciesAsync()
-        {
-            return await _dbContext.Policies.Include(p => p.Dependencies).ToListAsync();
-        }
-
-        public async Task<Policy?> GetPolicyByCodeAsync(string code)
-        {
-            return await _dbContext.Policies.Include(p => p.Dependencies).FirstOrDefaultAsync(p => p.Code == code);
-        }
-
-        public async Task<Policy?> DeletePolicyAsync(string code)
-        {
-            var policy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Code == code);
-            
-            if (policy is null)
-                return null;
-            
-            _dbContext.Policies.Remove(policy);
-            await _dbContext.SaveChangesAsync();
-
-            return policy;
-        }
-
-        public async Task<Policy?> UpdatePolicyAsync(string code, Policy policy)
-        {
-            var existedPolicy = await _dbContext.Policies.FindAsync(code);
-            
-            if (existedPolicy is null)
-                return null;
-            
-            existedPolicy.Name = policy.Name;
-            existedPolicy.MainFile = policy.MainFile;
-            existedPolicy.Dependencies = policy.Dependencies;
-            
-            await _dbContext.SaveChangesAsync();
-
-            return existedPolicy;
-        }
-
-        public async Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId)
-        {
-            var policiesToDelete = await _dbContext.Policies.Where(p => p.ChapterId == chapterId).ToListAsync();
-            
-            if (policiesToDelete.IsNullOrEmpty())
-                return null;
-            
-            _dbContext.RemoveRange(policiesToDelete);
-            await _dbContext.SaveChangesAsync();
-
-            return policiesToDelete;
-        }
-
-        public async Task CreatePolicyAsync(Policy policy)
-        {
-            await _dbContext.Policies.AddAsync(policy);
-
-            await _dbContext.SaveChangesAsync();
-        }
+        var oldPolicies = await _dbContext.Policies.Where(p => oldCodes.Contains(p.Code)).ToListAsync();
+        
+        _dbContext.Policies.RemoveRange(oldPolicies);
+        await _dbContext.SaveChangesAsync();
     }
 }

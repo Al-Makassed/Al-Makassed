@@ -1,6 +1,7 @@
 import Dependency from "./Dependency";
 import { Stack } from "@mui/material";
 import React from "react";
+import { names } from "../Constants";
 
 const Dependencies = () => {
   return (
@@ -13,20 +14,3 @@ const Dependencies = () => {
 };
 
 export default Dependencies;
-
-const names = [
-  {
-    id: 1,
-    name: "Form",
-  },
-
-  {
-    id: 2,
-    name: "Poster",
-  },
-
-  {
-    id: 3,
-    name: "Protocol",
-  },
-];

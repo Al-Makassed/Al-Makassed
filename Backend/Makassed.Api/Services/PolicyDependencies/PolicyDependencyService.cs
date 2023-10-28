@@ -29,26 +29,6 @@ public class PolicyDependencyService : IPolicyDependencyService
         return findPolicyResult;
     }
 
-    public async Task<ErrorOr<List<Dependency>>> CreatePolicyDependenciesAsync(List<Dependency> policyDependencies, string policyCode)
-    {
-        var existedPolicyResult = await CheckExistedPolicy(policyCode);
-
-        if (existedPolicyResult.IsError)
-            return existedPolicyResult.Errors;
-
-        foreach (var dependency in policyDependencies)
-        {
-            dependency.PolicyCode = policyCode;
-            dependency.Code = _sharedService.GetCode(existedPolicyResult.Value.Code, dependency.Name, existedPolicyResult.Value.Dependencies.Count);
-            dependency.PdfUrl = await _sharedService.GetFilePathUrl(dependency.File);
-            dependency.PagesCount = _sharedService.GetFilePageCount(dependency.File);
-        }
-
-        await _policyDependencyRepository.CreatePolicyDependenciesAsync(policyDependencies);
-        
-        return policyDependencies;
-    }
-
     public Task<List<Dependency>> GetPolicyDependenciesAsync(string? filterOn, string? filterQuery)
     {
         return _policyDependencyRepository.GetPolicyDependenciesAsync(filterOn, filterQuery);
@@ -76,7 +56,7 @@ public class PolicyDependencyService : IPolicyDependencyService
 
         policyDependency.PagesCount = _sharedService.GetFilePageCount(policyDependency.File);
 
-        await _policyDependencyRepository.CreatePolicyDependenciesAsync(new List<Dependency> { policyDependency });
+        await _policyDependencyRepository.CreatePolicyDependencyAsync(policyDependency);
 
         return policyDependency;
     }
@@ -97,6 +77,8 @@ public class PolicyDependencyService : IPolicyDependencyService
 
     public async Task<ErrorOr<Updated>> UpdatePolicyDependencyAsync(string code, Dependency policyDependency)
     {
+        policyDependency.Code = _sharedService.UpdateCode(code, policyDependency.Name, 1);
+
         policyDependency.PdfUrl = await _sharedService.GetFilePathUrl(policyDependency.File);
         policyDependency.PagesCount = _sharedService.GetFilePageCount(policyDependency.File);
         

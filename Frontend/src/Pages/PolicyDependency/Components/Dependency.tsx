@@ -5,15 +5,17 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+// import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import { Stack, Button } from "@mui/material";
 import { FC, useState } from "react";
 import { Tooltip, Modal, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 // import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
-import AddDependency from "./AddDependency";
+// import AddDependency from "./AddDependency";
+import DragAndDrop from "./DragAndDrop";
 
-interface PROPS {
+export interface PROPS {
   name: string;
 }
 const Dependency: FC<PROPS> = ({ name }) => {
@@ -34,7 +36,7 @@ const Dependency: FC<PROPS> = ({ name }) => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography
             variant="h5"
-            sx={{ color: (theme) => theme.palette.maqasid.primary }}
+            // sx={{ color: (theme) => theme.palette.maqasid.primary }}
           >
             {name}
           </Typography>
@@ -42,8 +44,9 @@ const Dependency: FC<PROPS> = ({ name }) => {
         <AccordionDetails>
           {data.map((e, index) => (
             <Stack key={index} spacing={3} pb={1.5} direction="row">
-              <PictureAsPdfIcon
-                sx={{ color: (theme) => theme.palette.maqasid.primary }}
+              <PictureAsPdfOutlinedIcon
+                // sx={{ color: (theme) => theme.palette.maqasid.primary }}
+                sx={{ color: "red" }}
               />
               <Typography textAlign="center">{e.label}</Typography>
             </Stack>
@@ -54,23 +57,11 @@ const Dependency: FC<PROPS> = ({ name }) => {
             alignItems="center"
             justifyContent="center"
           >
-            <Tooltip
-              onClick={() => setOpen(true)}
-              title="Add"
-              sx={{
-                color: (theme) => theme.palette.maqasid.secondary,
-                bgcolor: (theme) => theme.palette.maqasid.primary,
-              }}
-            >
+            <Tooltip onClick={() => setOpen(true)} title="Add">
               {/* <Fab  size='small' aria-label="add">
                 <AddIcon />
               </Fab> */}
-              <Button
-                color="success"
-                variant="contained"
-                startIcon={<AddIcon />}
-                size="small"
-              >
+              <Button variant="contained" startIcon={<AddIcon />} size="small">
                 Add {name}
               </Button>
             </Tooltip>
@@ -93,13 +84,11 @@ const Dependency: FC<PROPS> = ({ name }) => {
                 p={5}
                 borderRadius={5}
               >
-                {/* <Typography gutterBottom variant='subtitle1'>{name}s information</Typography>
-                <Stack p={2}  width={300} alignItems='center' border=' dashed 5px' borderRadius={5} sx={{ borderColor: theme => theme.palette.maqasid.secondary }} >
-                  <DriveFolderUploadIcon sx={{ color: theme => theme.palette.maqasid.primary }} />
-                  <Typography lineHeight={2}  variant='h6' >Drag and drop a file or</Typography>
-                  <Typography variant='h5' sx={{ color: theme => theme.palette.maqasid.primary }} >Browse</Typography>
-                </Stack> */}
-                <AddDependency />
+                <Typography variant="subtitle1" gutterBottom lineHeight={3}>
+                  {name}s information
+                </Typography>
+                {/* <AddDependency name={name} /> */}
+                <DragAndDrop name={name} />
               </Box>
             </Modal>
           </Stack>

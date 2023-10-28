@@ -2,68 +2,81 @@
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Makassed.Api.Repositories
+namespace Makassed.Api.Repositories;
+
+public class SqlChapterRepository : IChapterRepository
 {
-    public class SqlChapterRepository : IChapterRepository
+    private readonly MakassedDbContext _dbContext;
+
+    public SqlChapterRepository(MakassedDbContext dbContext)
     {
-        private readonly MakassedDbContext _dbContext;
-
-        public SqlChapterRepository(MakassedDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
+        _dbContext = dbContext;
+    }
         
-        public async Task<Chapter?> GetChapterByNameAsync(string name)
-        {
-            return await _dbContext.Chapters.FirstOrDefaultAsync(ch => ch.Name == name);
-        }
+    public async Task<Chapter?> GetChapterByNameAsync(string name)
+    {
+        return await _dbContext.Chapters.FirstOrDefaultAsync(ch => ch.Name == name);
+    }
         
-        public  async Task<List<Chapter>> GetChaptersAsync()
-        {
-            return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).ToListAsync();
-        }
+    public  async Task<List<Chapter>> GetChaptersAsync()
+    {
+        return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).ToListAsync();
+    }
 
-        public async Task<Chapter?> GetChapterByIdAsync(Guid id)
-        {
-            return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).FirstOrDefaultAsync(ch => ch.Id == id);
-        }
+    public async Task<Chapter?> GetChapterByIdAsync(Guid id)
+    {
+        return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).FirstOrDefaultAsync(ch => ch.Id == id);
+    }
 
-        public async Task CreateChapterAsync(Chapter chapter)
-        {
-            await _dbContext.Chapters.AddAsync(chapter);
-            chapter.EnableState = chapter.Policies.Count > 0;
+    public async Task CreateChapterAsync(Chapter chapter)
+    {
+        await _dbContext.Chapters.AddAsync(chapter);
+        chapter.EnableState = chapter.Policies.Count > 0;
 
-            await _dbContext.SaveChangesAsync();
-        }
+        await _dbContext.SaveChangesAsync();
+    }
 
-        public async Task<Chapter?> UpdateChapterAsync(Guid id, Chapter chapter)
-        {
-            var existedChapter = await _dbContext.Chapters.FindAsync(id);
+    public async Task<Chapter?> UpdateChapterAsync(Guid id, Chapter chapter)
+    {
+        var existedChapter = await _dbContext.Chapters
+            .Include(c => c.Policies)
+            .FirstOrDefaultAsync(ch => ch.Id == id);
             
-            if (existedChapter is null)
-                return null;
+        if (existedChapter is null)
+            return null;
             
-            existedChapter.Name = chapter.Name;
-            existedChapter.Policies = chapter.Policies;
-            existedChapter.EnableState = chapter.Policies.Count > 0;
+        existedChapter.Name = chapter.Name;
+        existedChapter.EnableState = existedChapter.Policies.Count > 0;
             
-            await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
 
-            return existedChapter;
-        }
+        return existedChapter;
+    }
 
-        public async Task<Chapter?> DeleteChapterAsync(Guid id)
-        {
-            var chapter = await _dbContext.Chapters.FindAsync(id);
+    public async Task<Chapter?> DeleteChapterAsync(Guid id)
+    {
+        var chapter = await _dbContext.Chapters.FindAsync(id);
             
-            if (chapter is null)
-                return null;
+        if (chapter is null)
+            return null;
             
-            _dbContext.Chapters.Remove(chapter);
-            await _dbContext.SaveChangesAsync();
+        _dbContext.Chapters.Remove(chapter);
+        await _dbContext.SaveChangesAsync();
 
-            return chapter;
-        }
+        return chapter;
+    }
+
+    public async Task UpdateChapterEnableStateAsync(Guid id)
+    {
+        var chapter = await _dbContext.Chapters
+            .Include(c => c.Policies)
+            .FirstOrDefaultAsync(ch => ch.Id == id);
+        
+        if (chapter is null)
+            return;
+        
+        chapter.EnableState = chapter.Policies.Count > 0;
+
+        await _dbContext.SaveChangesAsync();
     }
 }

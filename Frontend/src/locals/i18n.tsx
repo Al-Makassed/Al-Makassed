@@ -19,6 +19,8 @@ i18n
   .use(initReactI18next)
   .use(HttpApi)
   .init({
+    // Set the default language as 'en'
+    fallbackLng: "en",
     // supportedLanguage:['en','ar'],
     resources,
     interpolation: {
@@ -31,7 +33,7 @@ i18n
     backend: {
       loadPath: "src/locals/{{lng}}/translation.json",
     },
-    react: { useSuspense: false },
+    react: { useSuspense: true },
   });
 
 export default i18n;

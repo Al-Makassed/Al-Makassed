@@ -45,7 +45,7 @@ namespace Makassed.Api.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("EstimatedTime")
+                    b.Property<int>("EstimatedTimeInMin")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -81,9 +81,15 @@ namespace Makassed.Api.Migrations
                     b.Property<Guid>("ChapterId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("EstimatedTimeInMin")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("PdfUrl")
                         .HasColumnType("nvarchar(max)");
