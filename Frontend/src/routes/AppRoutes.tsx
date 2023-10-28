@@ -7,7 +7,6 @@ const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
-const Snackbar = lazy(() => import("src/components/Snackbar"));
 
 const AppRoutes: FC = () => {
   return (
@@ -17,7 +16,6 @@ const AppRoutes: FC = () => {
         <Route path="" element={<AppLayout />}>
           <Route index path="" element={<Home />} />
           <Route index path="counter" element={<Counter />} />
-          <Route index path="snackbar" element={<Snackbar />} />
           <Route path="access-denied" element={<AccessDenied />} />
         </Route>
         <Route path="*" element={<NotFound />} />

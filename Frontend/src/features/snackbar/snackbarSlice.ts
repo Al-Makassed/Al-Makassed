@@ -1,41 +1,71 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { SnackbarState, ShowSnackbarPayload } from "./types";
+import { showSnackbarHelper } from "./utils";
 
-// Define a type for the slice state
-type AlertColor = "success" | "warning" | "error";
-
-interface SnackbarState {
-  snackbarSetting: {
-    isOpen: boolean;
-    message: string;
-    severity: AlertColor | undefined; // You can customize this based on your needs
-  };
-}
-
-// Define the initial state using that type
 const initialState: SnackbarState = {
-  snackbarSetting: {
-    isOpen: false,
-    message: "",
-    severity: "success", // You can customize this based on your needs
-  },
+  isOpen: false,
+  severity: "info",
+  variant: "standard",
+  title: null,
+  message: "",
+  anchorOrigin: { vertical: "top", horizontal: "center" },
+  autoHideDuration: 6000,
+  icon: undefined,
+  alertAction: null,
 };
 
 export const snackbarSlice = createSlice({
   name: "snackbar",
   initialState,
   reducers: {
-    setSnackbarOpen: (state, action) => {
-      state.snackbarSetting.isOpen = true;
-      state.snackbarSetting.message = action.payload.message;
-      state.snackbarSetting.severity = action.payload.severity || "success";
+    showSnackbar: (state, action: PayloadAction<ShowSnackbarPayload>) => {
+      showSnackbarHelper(state, action.payload);
     },
-    setSnackbarClose: (state) => {
-      state.snackbarSetting.isOpen = false;
+    showSuccessSnackbar: (
+      state,
+      action: PayloadAction<Omit<ShowSnackbarPayload, "severity">>,
+    ) => {
+      const payload: ShowSnackbarPayload = {
+        ...action.payload,
+        severity: "success",
+      };
+
+      showSnackbarHelper(state, payload);
+    },
+    showErrorSnackbar: (
+      state,
+      action: PayloadAction<Omit<ShowSnackbarPayload, "severity">>,
+    ) => {
+      const payload: ShowSnackbarPayload = {
+        ...action.payload,
+        severity: "error",
+      };
+
+      showSnackbarHelper(state, payload);
+    },
+    showWarningSnackbar: (
+      state,
+      action: PayloadAction<Omit<ShowSnackbarPayload, "severity">>,
+    ) => {
+      const payload: ShowSnackbarPayload = {
+        ...action.payload,
+        severity: "warning",
+      };
+
+      showSnackbarHelper(state, payload);
+    },
+    hideSnackbar: (state) => {
+      state.isOpen = false;
     },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { setSnackbarOpen, setSnackbarClose } = snackbarSlice.actions;
+export const {
+  showSnackbar,
+  showSuccessSnackbar,
+  showErrorSnackbar,
+  showWarningSnackbar,
+  hideSnackbar,
+} = snackbarSlice.actions;
 
 export default snackbarSlice.reducer;

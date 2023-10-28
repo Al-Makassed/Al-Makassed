@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     counter: counterReducer,
     appSettings: appSettingsReducer,
-    snackbarSetting: snackbarReducer,
+    snackbar: snackbarReducer,
   },
 });
 

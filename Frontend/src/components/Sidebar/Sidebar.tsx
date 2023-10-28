@@ -24,7 +24,7 @@ const Sidebar: FC = () => {
             boxSizing: "border-box",
           },
           "& .MuiPaper-root": {
-            // backgroundColor: (theme) => theme.palette.grey[200],
+            backgroundColor: (theme) => theme.palette.grey[200],
             mt: 8,
           },
         }}

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postChapter } from "../API";
+import { createChapter } from "../API";
 import { CHAPTERS_QUERY_KEY } from "../constants";
 import { useAppDispatch } from "src/app/hooks";
-import { setSnackbarOpen } from "src/features/snackbar";
+import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 
 const useSidebarAPI = () => {
   const queryClient = useQueryClient();
@@ -10,24 +10,22 @@ const useSidebarAPI = () => {
   const dispatch = useAppDispatch();
 
   const { mutate: addNewChapter } = useMutation({
-    mutationFn: postChapter,
+    mutationFn: createChapter,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: CHAPTERS_QUERY_KEY,
       });
       dispatch(
-        setSnackbarOpen({
-          message: "Chapter added successfully! ",
-          severity: "success",
+        showSuccessSnackbar({
+          message: "Chapter added successfully",
         }),
       );
     },
 
     onError: () => {
       dispatch(
-        setSnackbarOpen({
-          message: "Error in entering the chapter name! ",
-          severity: "error",
+        showErrorSnackbar({
+          message: "Error creating a new chapter!",
         }),
       );
     },

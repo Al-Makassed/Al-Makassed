@@ -1,43 +1,58 @@
-import * as React from "react";
+import React from "react";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { selectSnackbar, setSnackbarClose } from "src/features/snackbar";
+import { hideSnackbar, selectSnackbar } from "src/features/snackbar";
+import Alert from "./Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Slide from "@mui/material/Slide";
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  },
-);
-
-export default function CustomizedSnackbars() {
+const MaqasidSnackbar = () => {
   const dispatch = useAppDispatch();
-  const { isOpen, message, severity } = useAppSelector(selectSnackbar);
+  const {
+    isOpen,
+    title,
+    message,
+    severity,
+    variant,
+    anchorOrigin,
+    autoHideDuration,
+    icon,
+    alertAction,
+  } = useAppSelector(selectSnackbar);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string,
   ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    dispatch(setSnackbarClose());
+    if (reason === "clickaway") return;
+
+    dispatch(hideSnackbar());
   };
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
         open={isOpen}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        autoHideDuration={autoHideDuration}
+        anchorOrigin={anchorOrigin}
         onClose={handleClose}
-        // sx={{ "& .MuiPaper-root": { backgroundColor: "green" } }}
+        TransitionComponent={Slide}
       >
-        <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+        <Alert
+          icon={icon}
+          variant={variant}
+          severity={severity}
+          onClose={handleClose}
+          sx={{ width: "100%" }}
+          action={alertAction}
+        >
+          {title && <AlertTitle>{title}</AlertTitle>}
           {message}
         </Alert>
       </Snackbar>
     </Stack>
   );
-}
+};
+
+export default MaqasidSnackbar;
