@@ -17,14 +17,12 @@ const AddChapterButton = () => {
           position: "fixed",
           bottom: 0,
           left: 0,
-          borderTop: "1px solid gray",
+          borderRight: (theme) => `1px solid ${theme.palette.grey[300]}`,
           justifyContent: "center",
           py: 1,
           px: 2,
-
-          bgcolor: "rgba(255, 255, 255, 0.24)",
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-          backdropFilter: "blur(4px)",
+          bgcolor: (theme) => theme.palette.grey[200],
         }}
         width="inherit"
         display="flex"
