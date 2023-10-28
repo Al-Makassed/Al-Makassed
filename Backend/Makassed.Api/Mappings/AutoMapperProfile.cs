@@ -3,8 +3,9 @@ using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Chapter;
 using Makassed.Contracts.PolicyDependency;
 using Makassed.Contracts.Policy;
-using Microsoft.AspNetCore.Identity;
-using Makassed.Contracts.Authentication;
+using Makassed.Contracts.MonitoringTool;
+using Makassed.Contracts.MonitoringTool.Field;
+using Makassed.Contracts.User;
 
 namespace Makassed.Api.Mappings;
 
@@ -25,6 +26,14 @@ public class AutoMapperProfile : Profile
         CreateMap<Dependency, CreatePolicyDependencyRequest>().ReverseMap();
         CreateMap<Dependency, UpdatePolicyDependencyRequest>().ReverseMap();
 
-        CreateMap<IdentityUser, LoginRequest>().ReverseMap();
+        CreateMap<MonitoringTool, GetMonitoringToolResponse>().ReverseMap();
+        CreateMap<MonitoringTool, CreateMonitoringToolRequest>().ReverseMap();
+        CreateMap<MonitoringTool, UpdateMonitoringToolRequest>().ReverseMap();
+
+        CreateMap<Field, GetFieldResponse>().ReverseMap();
+        CreateMap<Field, CreateFieldRequest>().ReverseMap();
+        CreateMap<Field, UpdateFieldRequest>().ReverseMap();
+
+        CreateMap<Department, GetDepartmentResponse>().ReverseMap();
     }
 }
