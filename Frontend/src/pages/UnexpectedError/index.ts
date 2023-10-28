@@ -1,1 +1,1 @@
-export {default} from "./UnexpectedError";
+export { default } from "./UnexpectedError";

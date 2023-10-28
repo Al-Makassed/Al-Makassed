@@ -20,7 +20,7 @@ const useFetchChapters = () => {
   if (isError) {
     dispatch(
       showErrorSnackbar({
-        message: "Error creating a new chapter!",
+        message: "Error fetching chapters!",
       }),
     );
   }

@@ -8,7 +8,7 @@ const Title: FC = () => {
       <Typography
         variant="h6"
         fontWeight={500}
-        sx={{pt: 2}}
+        sx={{ pt: 2 }}
         // fontSize="1.3em"
         noWrap
       >

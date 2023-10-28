@@ -13,7 +13,7 @@ const ErrorBoundary: FC<PropsWithChildren> = ({ children }) => {
 
   const logErrorToService: ErrorBoundaryComponentProps["onError"] = (
     error,
-    info
+    info,
   ) => {
     // Use your preferred error logging service
     console.error("Caught an error:", error, info);
