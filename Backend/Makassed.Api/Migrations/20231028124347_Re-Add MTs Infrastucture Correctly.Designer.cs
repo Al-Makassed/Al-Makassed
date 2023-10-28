@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231028124347_Re-Add MTs Infrastucture Correctly")]
+    partial class ReAddMTsInfrastuctureCorrectly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace Makassed.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DepartmentMonitoringTool", b =>
-                {
-                    b.Property<Guid>("DepartmentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MonitoringToolsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DepartmentsId", "MonitoringToolsId");
-
-                    b.HasIndex("MonitoringToolsId");
-
-                    b.ToTable("DepartmentMonitoringTool");
-                });
 
             modelBuilder.Entity("FieldMonitoringTool", b =>
                 {
@@ -139,6 +127,9 @@ namespace Makassed.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -151,6 +142,8 @@ namespace Makassed.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("MonitoringTools");
                 });
@@ -183,21 +176,6 @@ namespace Makassed.Api.Migrations
                     b.ToTable("Policies");
                 });
 
-            modelBuilder.Entity("DepartmentMonitoringTool", b =>
-                {
-                    b.HasOne("Makassed.Api.Models.Domain.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Makassed.Api.Models.Domain.MonitoringTool", null)
-                        .WithMany()
-                        .HasForeignKey("MonitoringToolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FieldMonitoringTool", b =>
                 {
                     b.HasOne("Makassed.Api.Models.Domain.Field", null)
@@ -224,6 +202,13 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Policy");
                 });
 
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringTool", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.Department", null)
+                        .WithMany("MonitoringTools")
+                        .HasForeignKey("DepartmentId");
+                });
+
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.HasOne("Makassed.Api.Models.Domain.Chapter", "Chapter")
@@ -238,6 +223,11 @@ namespace Makassed.Api.Migrations
             modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Navigation("Policies");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Department", b =>
+                {
+                    b.Navigation("MonitoringTools");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
