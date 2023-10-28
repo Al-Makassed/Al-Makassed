@@ -102,6 +102,7 @@ const LoginForm = () => {
             <Input
               id="standard-adornment-password"
               type={showPassword ? "text" : "password"}
+              {...register("password")}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton

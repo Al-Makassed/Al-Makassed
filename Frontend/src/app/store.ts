@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
 import appSettingsReducer from "../features/appSettings/appSettingsSlice";
+import snackbarReducer from "../features/snackbar/snackbarSlice";
 
 const store = configureStore({
   reducer: {
     counter: counterReducer,
     appSettings: appSettingsReducer,
+    snackbar: snackbarReducer,
   },
 });
 

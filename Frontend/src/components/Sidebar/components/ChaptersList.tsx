@@ -2,24 +2,13 @@ import React from "react";
 import List from "@mui/material/List";
 import ChapterListItem from "./ChapterListItem";
 import { Chapter } from "../API/types";
-import { Alert, AlertTitle } from "@mui/material";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";
 
 const ChaptersList = () => {
-  const { chapters, isFetching, isError } = useFetchChapters();
+  const { chapters, isFetching } = useFetchChapters();
 
   if (isFetching) return <LoaderCell size={38} color="success" />;
-
-  // TODO: Replace this with snackbar
-  if (isError) {
-    return (
-      <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        Error fetching chapters <strong>-check it out!-</strong>
-      </Alert>
-    );
-  }
 
   return (
     <List
