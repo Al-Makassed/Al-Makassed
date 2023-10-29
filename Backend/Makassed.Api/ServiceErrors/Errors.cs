@@ -98,4 +98,20 @@ public abstract class Errors
             description: "Role is not found."
         );
     }
+
+    public abstract class MonitoringTool
+    {
+        public abstract class Field
+        {
+            public static Error NotFound => Error.NotFound(
+                code: "Field.NotFound",
+                description: "Field is not found."
+            );
+
+            public static Error AlreadyExists => Error.Validation(
+                code: "Field.AlreadyExists",
+                description: "Field already exists."
+            );
+        }
+    }
 }
