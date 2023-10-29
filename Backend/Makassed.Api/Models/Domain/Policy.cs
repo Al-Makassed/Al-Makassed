@@ -24,4 +24,6 @@ public class Policy
     public Chapter Chapter { get; set; } = null!;
 
     public List<Dependency> Dependencies { get; set; } = new();
+
+    public List<MakassedUser> Users { get; set; } = new();
 }

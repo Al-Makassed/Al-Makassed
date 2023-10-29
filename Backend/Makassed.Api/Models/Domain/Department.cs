@@ -8,7 +8,7 @@ public class Department
 
     public string Name { get; set; } = null!;
 
-    // public ICollection<IdentityUser> Users { get; set; } = new List<IdentityUser>();
+    public ICollection<MakassedUser> Users { get; set; } = new List<MakassedUser>();
 
     public List<MonitoringTool> MonitoringTools { get; set; } = new();
 }

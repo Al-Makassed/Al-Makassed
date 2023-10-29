@@ -4,11 +4,11 @@ namespace Makassed.Api.Models.Domain;
 
 public class MakassedUser : IdentityUser
 {
-    //public Guid DepartmentId { get; set; }
+    public Guid DepartmentId { get; set; }
 
-    //public ICollection<Policy> Policies { get; set; } = new List<Policy>();
+    public List<Policy> Policies { get; set; } = new();
 
-    //public ICollection<Dependency> PolicyDependencies { get; set; } = new List<Dependency>();
+    public List<Dependency> PolicyDependencies { get; set; } = new();
 
-    //public Department Department { get; set; } = null!;
+    public Department Department { get; set; } = null!;
 }
