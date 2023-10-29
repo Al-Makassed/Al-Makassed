@@ -10,7 +10,7 @@ import React, { ChangeEvent, FC, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import usePostDependency from "../hooks/usePostDependency";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { DragAndDropProps } from "../API/types";
+import { DragAndDropProps } from "../types";
 import AddIcon from "@mui/icons-material/Add";
 
 const ALLOWED_FILE_EXTENSIONS = ["pdf"];
@@ -65,6 +65,7 @@ const DragAndDrop: FC<DragAndDropProps> = ({ name }) => {
                 </InputAdornment>
               ),
             }}
+            type="number"
             label="time"
             variant="outlined"
             size="small"

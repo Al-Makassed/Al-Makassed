@@ -1,6 +1,6 @@
-// import { Dependency } from "./API/types";
+import { Dependency } from "./types";
 
-export const NAMES = [
+export const NAMES: Dependency[] = [
   {
     id: 0,
     name: "Form",

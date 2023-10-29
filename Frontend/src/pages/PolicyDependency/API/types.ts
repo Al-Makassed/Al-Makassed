@@ -7,12 +7,3 @@ export interface AddPolicyDependencyResponse {
   policyCode: string;
   policyDependencyType: number;
 }
-
-export interface DragAndDropProps {
-  name: string;
-}
-
-export interface Dependency {
-  id: number;
-  name: string;
-}
