@@ -1,3 +1,4 @@
+using Makassed.Api.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -5,7 +6,7 @@ using System.Reflection;
 
 namespace Makassed.Api.Data;
 
-public class MakassedAuthenticationDbContext : IdentityDbContext<IdentityUser>
+public class MakassedAuthenticationDbContext : IdentityDbContext<MakassedUser>
 {
     public MakassedAuthenticationDbContext(DbContextOptions<MakassedAuthenticationDbContext> options) : base(options)
     {
@@ -16,7 +17,7 @@ public class MakassedAuthenticationDbContext : IdentityDbContext<IdentityUser>
         base.OnModelCreating(builder);
 
         // Customize the Identity tables names
-        builder.Entity<IdentityUser>().ToTable("Users");
+        builder.Entity<MakassedUser>().ToTable("Users");
         builder.Entity<IdentityRole>().ToTable("Roles");
         builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
         builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
