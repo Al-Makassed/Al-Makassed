@@ -10,7 +10,6 @@ public static class DbContextsConfiguration
     public static IServiceCollection AddDbContexts(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<MakassedDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("MakassedConnectionString")));
-        services.AddDbContext<MakassedAuthenticationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("MakassedConnectionString")));
 
         return services;
     }

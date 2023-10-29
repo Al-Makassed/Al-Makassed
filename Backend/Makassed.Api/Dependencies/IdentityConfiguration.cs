@@ -12,7 +12,7 @@ public static class IdentityConfiguration
         services.AddIdentityCore<MakassedUser>()
              .AddRoles<IdentityRole>()
              .AddTokenProvider<DataProtectorTokenProvider<MakassedUser>>("Makassed")
-             .AddEntityFrameworkStores<MakassedAuthenticationDbContext>()
+             .AddEntityFrameworkStores<MakassedDbContext>()
              .AddDefaultTokenProviders()
              .AddSignInManager<SignInManager<MakassedUser>>();
 

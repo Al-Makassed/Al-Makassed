@@ -6,15 +6,13 @@ namespace Makassed.Api.Models.Domain;
 
 public class Dependency
 {
-    [Key]
-    public string Code { get; set; } = null!;
+    [Key] public string Code { get; set; } = null!;
     
     public string Name { get; set; } = null!;
 
     public string PdfUrl { get; set; } = null!;
 
-    [NotMapped]
-    public FormFile File { get; set; } = null!;
+    [NotMapped] public FormFile File { get; set; } = null!;
 
     public int EstimatedTimeInMin { get; set; }
 
@@ -26,4 +24,6 @@ public class Dependency
 
     // Navigation Properties
     public Policy Policy { get; set; } = null!;
+
+    public List<MakassedUser> Users { get; set; } = new();
 }
