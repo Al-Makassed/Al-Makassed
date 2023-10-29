@@ -27,5 +27,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </MaqasidThemeProvider>
       </BrowserRouter>
     </ErrorBoundary>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

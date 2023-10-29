@@ -1,7 +1,7 @@
 import { Chapter, CreateChapterResponse } from "./types";
 import axios from "src/API/axios";
 
-export const postChapter = (chapterName: string) => {
+export const createChapter = (chapterName: string) => {
   return axios
     .post<CreateChapterResponse>("/chapters", { name: chapterName })
     .then((res) => res.data);

@@ -5,9 +5,12 @@ import ChaptersList from "./components/ChaptersList";
 import AddChapterButton from "./components/AddChapterButton";
 import { useAppSelector } from "src/app/hooks";
 import { selectIsSidebarOpen } from "src/features/appSettings";
+import { useTheme } from "@mui/material/styles";
 
 const Sidebar: FC = () => {
   const drawerWidth = 400;
+
+  const theme = useTheme();
 
   const isOpen = useAppSelector(selectIsSidebarOpen);
 
@@ -22,9 +25,11 @@ const Sidebar: FC = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            ...theme.mixins.niceScroll(),
           },
           "& .MuiPaper-root": {
             backgroundColor: (theme) => theme.palette.grey[200],
+            height: `calc(100% - 115px)`,
             mt: 8,
           },
         }}

@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import {ContainerStackProps, ErrorDetailProps} from "./types";
+import { ContainerStackProps, ErrorDetailProps } from "./types";
 
 export const ContainerStack = styled(Stack, {
   shouldForwardProp: (prop) => prop !== "isProduction",
@@ -35,5 +35,5 @@ export const ErrorDetail = styled("pre")<ErrorDetailProps>(
       fontSize: "1.1rem",
       overflow: "auto",
     }),
-  })
+  }),
 );

@@ -3,7 +3,12 @@ import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { decrement, increment, incrementByAmount, selectCount } from "src/features/counter";
+import {
+  decrement,
+  increment,
+  incrementByAmount,
+  selectCount,
+} from "src/features/counter";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 
 const Counter: FC = () => {
@@ -26,7 +31,10 @@ const Counter: FC = () => {
           <Button aria-label="Increment value" onClick={handleIncrement}>
             Increment
           </Button>
-          <Button aria-label="Increment value" onClick={handleIncrementByAmount}>
+          <Button
+            aria-label="Increment value"
+            onClick={handleIncrementByAmount}
+          >
             Increment by 5
           </Button>
           <Typography variant="h2">{count}</Typography>

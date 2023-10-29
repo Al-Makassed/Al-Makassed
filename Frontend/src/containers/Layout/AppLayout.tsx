@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import Navbar from "src/components/Navbar";
-import Sidebar from "src/components/Sidebar";
+import Navbar from "src/containers/Navbar";
+import Sidebar from "src/containers/Sidebar";
 import { AppLayoutContainer } from "./styled";
 import { Outlet } from "react-router-dom";
 

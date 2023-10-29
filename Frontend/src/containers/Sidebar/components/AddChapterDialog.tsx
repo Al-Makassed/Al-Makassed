@@ -15,12 +15,11 @@ const AddChapterDialog: FC<AddChapterDialogProps> = ({ onClose, open }) => {
     addNewChapter(chapter);
     closeDialog();
   };
-
   return (
     <Dialog
       sx={{
         "& .MuiPaper-root": {
-          minWidth: 600,
+          minWidth: 350,
         },
       }}
       aria-labelledby="responsive-dialog-title"

@@ -1,8 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getChapters } from "../API";
-import {CHAPTERS_QUERY_KEY} from "../constants";
+import { CHAPTERS_QUERY_KEY } from "../constants";
+import { showErrorSnackbar } from "src/features/snackbar";
+import { useAppDispatch } from "src/app/hooks";
 
 const useFetchChapters = () => {
+  const dispatch = useAppDispatch();
+
   const {
     data: chapters,
     isFetching,
@@ -13,10 +17,16 @@ const useFetchChapters = () => {
     // staleTime:5000,
   });
 
+  if (isError) {
+    dispatch(
+      showErrorSnackbar({
+        message: "Error fetching chapters!",
+      }),
+    );
+  }
   return {
     chapters,
     isFetching,
-    isError,
   };
 };
 

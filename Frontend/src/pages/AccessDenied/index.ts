@@ -1,1 +1,1 @@
-export {default} from "./AccessDenied";
+export { default } from "./AccessDenied";
