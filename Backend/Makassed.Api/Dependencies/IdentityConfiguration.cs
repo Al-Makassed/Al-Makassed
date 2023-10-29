@@ -1,6 +1,7 @@
 ﻿namespace Makassed.Api.Dependencies;
 
 using Makassed.Api.Data;
+using Makassed.Api.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,12 +9,12 @@ public static class IdentityConfiguration
 {
     public static IServiceCollection AddIdentity(IServiceCollection services)
     {
-        services.AddIdentityCore<IdentityUser>()
+        services.AddIdentityCore<MakassedUser>()
              .AddRoles<IdentityRole>()
-             .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Makassed")
+             .AddTokenProvider<DataProtectorTokenProvider<MakassedUser>>("Makassed")
              .AddEntityFrameworkStores<MakassedAuthenticationDbContext>()
              .AddDefaultTokenProviders()
-             .AddSignInManager<SignInManager<IdentityUser>>();
+             .AddSignInManager<SignInManager<MakassedUser>>();
 
         services.Configure<IdentityOptions>(options =>
         {

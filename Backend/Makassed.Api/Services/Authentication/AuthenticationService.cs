@@ -1,4 +1,5 @@
 using ErrorOr;
+using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -7,12 +8,12 @@ namespace Makassed.Api.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<MakassedUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ITokenService _tokenService;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly SignInManager<MakassedUser> _signInManager;
 
-    public AuthenticationService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ITokenService tokenService, SignInManager<IdentityUser> signInManager)
+    public AuthenticationService(UserManager<MakassedUser> userManager, RoleManager<IdentityRole> roleManager, ITokenService tokenService, SignInManager<MakassedUser> signInManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -21,7 +22,7 @@ public class AuthenticationService : IAuthenticationService
     }
     
 
-    public async Task<ErrorOr<IdentityUser>> GetUserByEmail(string requestEmail)
+    public async Task<ErrorOr<MakassedUser>> GetUserByEmail(string requestEmail)
     {
         // Attempt to find the user by email.
         var user = await _userManager.FindByEmailAsync(requestEmail);
@@ -30,7 +31,7 @@ public class AuthenticationService : IAuthenticationService
         return user is not null ? user : Errors.User.NotFound;
     }
     
-    public async Task<ErrorOr<IdentityUser>> GetUserById(string id)
+    public async Task<ErrorOr<MakassedUser>> GetUserById(string id)
     {
         // Attempt to find the user by ID.
         var user = await _userManager.FindByIdAsync(id);
@@ -57,7 +58,7 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.EmailAlreadyExists;
 
         // Create a new user (IdentityUser).
-        var user = new IdentityUser { 
+        var user = new MakassedUser { 
             Id = request.UserId, 
             UserName = request.UserName, 
             Email = request.Email,
@@ -110,7 +111,7 @@ public class AuthenticationService : IAuthenticationService
         return _tokenService.CreateAccessToken(user, roles.ToList());
     }
 
-    public async Task<string> GenerateForgotPasswordToken(IdentityUser user)
+    public async Task<string> GenerateForgotPasswordToken(MakassedUser user)
     {
         // Generate a password reset token for the user.
         return await _userManager.GeneratePasswordResetTokenAsync(user);
