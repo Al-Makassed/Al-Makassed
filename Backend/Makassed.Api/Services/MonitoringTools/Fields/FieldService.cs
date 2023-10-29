@@ -1,0 +1,47 @@
+using ErrorOr;
+using Makassed.Api.Models.Domain;
+using Makassed.Api.Repositories;
+using Makassed.Contracts.MonitoringTool.Field;
+
+namespace Makassed.Api.Services.MonitoringTools.Fields;
+
+public class FieldService : IFieldService
+{
+    private readonly IFieldRepository _fieldRepository;
+
+    public FieldService(IFieldRepository fieldRepository)
+    {
+        _fieldRepository = fieldRepository;
+    }
+
+    public async Task<ErrorOr<List<Field>>> GetFieldsAsync()
+    {
+        var fields = await _fieldRepository.GetFieldsAsync();
+
+        return fields;
+    }
+
+    public async Task<ErrorOr<Field>> GetFieldAsync(Guid id)
+    {
+        var field = await _fieldRepository.GetFieldAsync(id);
+        return field;
+    }
+
+    public async Task<ErrorOr<Field>> CreateFieldAsync(Field field)
+    {
+        var updatedField = await _fieldRepository.CreateFieldAsync(field);
+        return field;
+    }
+
+    public async Task<ErrorOr<Field>> UpdateFieldAsync(Guid id, Field field)
+    {
+        var updatedField = await _fieldRepository.UpdateFieldAsync(id, field);
+        return field;
+    }
+
+    public async Task<ErrorOr<Field>> DeleteFieldAsync(Guid id)
+    {
+        var field = await _fieldRepository.DeleteFieldAsync(id);
+        return field;
+    }
+}
