@@ -1,6 +1,7 @@
 using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Makassed.Api.Repositories;
 
@@ -23,9 +24,17 @@ public class SqlFieldRepository : IFieldRepository
         return await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
     }
 
-    public Task<Field> CreateFieldAsync(Field field)
+    public async Task<Field?> GetFieldByContentAsync(string fieldContent)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Fields.FirstOrDefaultAsync(f => f.Content == fieldContent);
+    }
+
+    public async Task<Field> CreateFieldAsync(Field field)
+    {
+        await _dbContext.Fields.AddAsync(field);
+        await _dbContext.SaveChangesAsync();
+
+        return field;
     }
 
     public Task<Field> UpdateFieldAsync(Guid id, Field field)

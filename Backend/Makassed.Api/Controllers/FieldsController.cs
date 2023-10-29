@@ -37,8 +37,12 @@ public class FieldsController : ApiController
     [HttpPost]
     public async Task<IActionResult> CreateField([FromBody] CreateFieldRequest request)
     {
-        var field = await _fieldService.CreateFieldAsync(_mapper.Map<Field>(request));
-        return Ok(_mapper.Map<GetFieldResponse>(field));
+        var fieldResult = await _fieldService.CreateFieldAsync(_mapper.Map<Field>(request));
+
+        return fieldResult.Match(
+            _ => CreatedAtAction(nameof(GetField), new { id = fieldResult.Value.Id }, _mapper.Map<GetFieldResponse>(fieldResult.Value)),
+            errors => Problem(errors)
+        );
     }
 
     [HttpPut("{id}")]

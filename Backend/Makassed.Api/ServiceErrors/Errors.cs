@@ -107,6 +107,11 @@ public abstract class Errors
                 code: "Field.NotFound",
                 description: "Field is not found."
             );
+
+            public static Error AlreadyExists => Error.Validation(
+                code: "Field.AlreadyExists",
+                description: "Field already exists."
+            );
         }
     }
 }

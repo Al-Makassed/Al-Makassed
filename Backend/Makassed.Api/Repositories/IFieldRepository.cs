@@ -10,6 +10,8 @@ public interface IFieldRepository
     
     Task<Field?> GetFieldAsync(Guid id);
     
+    Task<Field?> GetFieldByContentAsync(string fieldContent);
+    
     Task<Field> CreateFieldAsync(Field field);
     
     Task<Field> UpdateFieldAsync(Guid id, Field field);
