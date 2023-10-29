@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
+
 public class FieldsController : ApiController
 {
     private readonly IFieldService _fieldService;
@@ -27,7 +28,7 @@ public class FieldsController : ApiController
         return Ok(_mapper.Map<List<GetFieldResponse>>(await _fieldService.GetFieldsAsync()));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [Authorize]
     [ProducesResponseType(typeof(GetFieldResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -60,7 +61,7 @@ public class FieldsController : ApiController
         );
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:guid}")]
     [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(typeof(GetFieldResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,7 +78,7 @@ public class FieldsController : ApiController
         );
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(typeof(GetFieldResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -1,7 +1,6 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Authorization;
 using Makassed.Api.Common.Http;
 
 namespace Makassed.Api.Controllers;
