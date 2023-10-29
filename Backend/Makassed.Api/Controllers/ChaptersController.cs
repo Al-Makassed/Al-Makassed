@@ -4,7 +4,6 @@ using Makassed.Api.Services.Chapters;
 using Makassed.Contracts.Chapter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace Makassed.Api.Controllers;
 
@@ -30,7 +29,7 @@ public class ChaptersController : ApiController
     }
 
     [Authorize]
-    [HttpGet("{id:Guid}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

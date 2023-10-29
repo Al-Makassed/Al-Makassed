@@ -25,6 +25,12 @@ public static class DependencyInjection
 
         services.AddAutoMapper(typeof(AutoMapperProfile));
 
+        // Convert the URLs, including controller and action names, to lowercase
+        services.AddRouting(options =>
+        {
+            options.LowercaseUrls = true;
+        });
+
         return services;
     }
 }

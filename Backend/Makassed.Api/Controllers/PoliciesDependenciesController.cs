@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
+
+[Route("api/policies-dependencies")]
 public class PoliciesDependenciesController : ApiController
 {
     private readonly IMapper _mapper;

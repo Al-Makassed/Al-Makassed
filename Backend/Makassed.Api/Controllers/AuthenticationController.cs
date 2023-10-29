@@ -21,7 +21,7 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("Register")]
+    [HttpPost("register")]
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
@@ -38,7 +38,7 @@ public class AuthenticationController : ApiController
     [ProducesResponseType (StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("Login")]
+    [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {        
@@ -54,7 +54,7 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("ForgotPassword")]
+    [HttpPost("forgot-password")]
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
@@ -77,7 +77,7 @@ public class AuthenticationController : ApiController
 
 
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [HttpGet("ResetPassword")]
+    [HttpGet("reset-password")]
     [AllowAnonymous]
     public IActionResult ResetPassword(string token, string email)
     {
@@ -91,7 +91,7 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("ResetPassword")]
+    [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
         var resetPasswordResult = await _authenticationService.ResetPassword(request);
