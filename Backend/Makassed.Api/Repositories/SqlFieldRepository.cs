@@ -1,7 +1,6 @@
 using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Makassed.Api.Repositories;
 

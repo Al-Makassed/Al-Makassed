@@ -99,9 +99,9 @@ public abstract class Errors
         );
     }
 
-    public class MonitoringTool
+    public abstract class MonitoringTool
     {
-        public class Field
+        public abstract class Field
         {
             public static Error NotFound => Error.NotFound(
                 code: "Field.NotFound",
