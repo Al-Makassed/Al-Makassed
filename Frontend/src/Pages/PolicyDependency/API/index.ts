@@ -1,17 +1,11 @@
+// import axios from "src/API/axios";
 import axios from "axios";
-// import {Chapter} from "../types";
+import { AddPolicyDependencyResponse } from "./types";
 
-export const postDependency = async (dependencyName: string) => {
-  const { data } = await axios.post(
-    "https://maqasid.azurewebsites.net/api/PoliciesDependencies",
-    { name: dependencyName },
-  );
-  return data;
+export const addNewDependency = async (dependencyName: string) => {
+  return axios
+    .post<AddPolicyDependencyResponse>("/PoliciesDependencies", {
+      name: dependencyName,
+    })
+    .then((response) => response.data);
 };
-
-// export const getChapters = async (): Promise<Chapter[]> => {
-//   const { data } = await axios.get(
-//     "https://maqasid.azurewebsites.net/api/Chapters"
-//   );
-//   return data;
-// };

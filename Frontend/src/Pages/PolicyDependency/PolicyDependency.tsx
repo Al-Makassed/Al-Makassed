@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import { Box } from "@mui/material";
 import Dependencies from "./Components/Dependencies";
 
-const PolicyDependency = () => {
+const PolicyDependency: FC = () => {
   return (
     <Box>
       <Dependencies />

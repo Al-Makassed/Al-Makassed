@@ -6,27 +6,33 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import usePostDependency from "../hooks/usePostDependency";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { DragAndDropProps } from "../API/types";
+import AddIcon from "@mui/icons-material/Add";
 
-export interface PROPS {
-  name: string;
-}
-const fileTypes = ["pdf"];
+const ALLOWED_FILE_EXTENSIONS = ["pdf"];
 
-const DragAndDrop: FC<PROPS> = ({ name }) => {
-  const [file, setFiles] = useState<File | null>();
+const DragAndDrop: FC<DragAndDropProps> = ({ name }) => {
+  const [file, setFile] = useState<File | null>();
   const [dependency, setDependency] = useState<string>("");
 
   const handleChange = (file: File) => {
-    setFiles(file);
+    setFile(file);
   };
-  const { addNewDependency } = usePostDependency();
+
+  const handleChangeDependencyName = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setDependency(e.target.value);
+  };
+
+  const { addDependency } = usePostDependency();
 
   const handleAddDependency = () => {
-    addNewDependency(dependency);
+    addDependency(dependency);
   };
 
   return (
@@ -34,7 +40,7 @@ const DragAndDrop: FC<PROPS> = ({ name }) => {
       <FileUploader
         handleChange={handleChange}
         name="files"
-        types={fileTypes}
+        types={ALLOWED_FILE_EXTENSIONS}
         label="Upload or drop a file right here"
       />
       <Typography py={2}>
@@ -44,15 +50,11 @@ const DragAndDrop: FC<PROPS> = ({ name }) => {
       <Box>
         <Stack direction="row" gap={3}>
           <TextField
-            id="outlined-basic"
             label={`${name} name`}
             variant="outlined"
             size="small"
-            // placeholder="e.g. My awesome chapter"
             value={dependency}
-            onChange={(e) => {
-              setDependency(e.target.value);
-            }}
+            onChange={handleChangeDependencyName}
           />
 
           <TextField
@@ -63,11 +65,9 @@ const DragAndDrop: FC<PROPS> = ({ name }) => {
                 </InputAdornment>
               ),
             }}
-            id="outlined-basic"
             label="time"
             variant="outlined"
             size="small"
-            // value={dependency}
           />
         </Stack>
         <Stack direction="row" justifyContent="center">
@@ -75,6 +75,7 @@ const DragAndDrop: FC<PROPS> = ({ name }) => {
             variant="contained"
             color="primary"
             type="submit"
+            startIcon={<AddIcon />}
             onClick={handleAddDependency}
             sx={{ my: 3 }}
           >

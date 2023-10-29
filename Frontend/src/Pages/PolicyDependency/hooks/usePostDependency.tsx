@@ -1,21 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postDependency } from "../API";
-import { CHAPTERS_QUERY_KEY } from "../Constants";
+import { addNewDependency } from "../API";
+import { DEPENDENCIES_QUERY_KEY } from "../constants";
 
 const usePostDependency = () => {
   const queryClient = useQueryClient();
 
-  const { mutate: addNewDependency } = useMutation({
-    mutationFn: postDependency,
+  const { mutate: addDependency } = useMutation({
+    mutationFn: addNewDependency,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: CHAPTERS_QUERY_KEY,
+        queryKey: DEPENDENCIES_QUERY_KEY,
       });
     },
   });
 
   return {
-    addNewDependency,
+    addDependency,
   };
 };
 
