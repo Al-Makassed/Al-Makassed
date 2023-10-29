@@ -73,7 +73,7 @@ public class AuthenticationService : IAuthenticationService
 
         // Check if the role exists, if not, return "Role Not Found" error.
         if (!await _roleManager.RoleExistsAsync(request.Role))
-            return Errors.Role.NotFound;
+            return Errors.User.Role.NotFound;
 
         // Add the role to the user.
         var identityResult = await _userManager.AddToRoleAsync(user, request.Role);
