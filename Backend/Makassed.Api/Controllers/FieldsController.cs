@@ -48,14 +48,22 @@ public class FieldsController : ApiController
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateField(Guid id, [FromBody] UpdateFieldRequest request)
     {
-        var field = await _fieldService.UpdateFieldAsync(id, _mapper.Map<Field>(request));
-        return Ok(field);
+        var fieldResult = await _fieldService.UpdateFieldAsync(id, _mapper.Map<Field>(request));
+
+        return fieldResult.Match(
+            _ => Ok(_mapper.Map<GetFieldResponse>(fieldResult.Value)),
+            errors => Problem(errors)
+        );
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteField(Guid id)
     {
-        await _fieldService.DeleteFieldAsync(id);
-        return Ok();
+        var fieldResult = await _fieldService.DeleteFieldAsync(id);
+
+        return fieldResult.Match(
+            _ => Ok(_mapper.Map<GetFieldResponse>(fieldResult.Value)),
+            errors => Problem(errors)
+        );
     }
 }

@@ -14,7 +14,7 @@ public interface IFieldRepository
     
     Task<Field> CreateFieldAsync(Field field);
     
-    Task<Field> UpdateFieldAsync(Guid id, Field field);
+    Task<Field?> UpdateFieldAsync(Guid id, Field field);
     
-    Task<Field> DeleteFieldAsync(Guid id);
+    Task<Field?> DeleteFieldAsync(Guid id);
 }

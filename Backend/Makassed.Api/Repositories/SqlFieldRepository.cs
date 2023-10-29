@@ -37,13 +37,31 @@ public class SqlFieldRepository : IFieldRepository
         return field;
     }
 
-    public Task<Field> UpdateFieldAsync(Guid id, Field field)
+    public async Task<Field?> UpdateFieldAsync(Guid id, Field field)
     {
-        throw new NotImplementedException();
+        
+        var fieldToUpdate = await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
+
+        if (fieldToUpdate is null)
+            return null;
+
+        fieldToUpdate.Content = field.Content;
+
+        await _dbContext.SaveChangesAsync();
+
+        return fieldToUpdate;
     }
 
-    public Task<Field> DeleteFieldAsync(Guid id)
+    public async Task<Field?> DeleteFieldAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var fieldToDelete = await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
+
+        if (fieldToDelete is null)
+            return null;
+
+        _dbContext.Fields.Remove(fieldToDelete);
+        await _dbContext.SaveChangesAsync();
+
+        return fieldToDelete;
     }
 }

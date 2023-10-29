@@ -41,13 +41,26 @@ public class FieldService : IFieldService
 
     public async Task<ErrorOr<Field>> UpdateFieldAsync(Guid id, Field field)
     {
+        var existingFieldContent = await _fieldRepository.GetFieldByContentAsync(field.Content);
+        
+        if (existingFieldContent is not null)
+            return Errors.MonitoringTool.Field.AlreadyExists;
+
         var updatedField = await _fieldRepository.UpdateFieldAsync(id, field);
-        return field;
+
+        if (updatedField is null)
+            return Errors.MonitoringTool.Field.NotFound;
+
+        return updatedField;
     }
 
     public async Task<ErrorOr<Field>> DeleteFieldAsync(Guid id)
     {
         var field = await _fieldRepository.DeleteFieldAsync(id);
+
+        if (field is null)
+            return Errors.MonitoringTool.Field.NotFound;
+
         return field;
     }
 }
