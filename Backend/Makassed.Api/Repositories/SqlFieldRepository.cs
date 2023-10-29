@@ -1,5 +1,6 @@
 using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Makassed.Api.Repositories;
 
@@ -12,14 +13,14 @@ public class SqlFieldRepository : IFieldRepository
         _dbContext = dbContext;
     }
     
-    public Task<List<Field>> GetFieldsAsync()
+    public async Task<List<Field>> GetFieldsAsync()
     {
-        throw new NotImplementedException();
+        return await _dbContext.Fields.ToListAsync();
     }
 
-    public Task<Field> GetFieldAsync(Guid id)
+    public async Task<Field?> GetFieldAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
     }
 
     public Task<Field> CreateFieldAsync(Field field)

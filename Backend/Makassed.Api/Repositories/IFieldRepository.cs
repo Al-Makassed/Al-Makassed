@@ -8,7 +8,7 @@ public interface IFieldRepository
 {
     Task<List<Field>> GetFieldsAsync();
     
-    Task<Field> GetFieldAsync(Guid id);
+    Task<Field?> GetFieldAsync(Guid id);
     
     Task<Field> CreateFieldAsync(Field field);
     

@@ -8,6 +8,7 @@ using Makassed.Api.Services.Policies;
 using Makassed.Api.Services.PolicyDependencies;
 using Makassed.Api.Services.SharedServices;
 using UserManagement.Service.Services.Email;
+using Makassed.Api.Services.MonitoringTools.Fields;
 
 public static class ApplicationServicesConfiguration
 {
@@ -26,6 +27,9 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IMakassedEmailService, SmtpMakassedEmailService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddScoped<IFieldService, FieldService>();
+        services.AddScoped<IFieldRepository, SqlFieldRepository>();
 
         return services;
     }

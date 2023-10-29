@@ -1,7 +1,7 @@
 using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
-using Makassed.Contracts.MonitoringTool.Field;
+using Makassed.Api.ServiceErrors;
 
 namespace Makassed.Api.Services.MonitoringTools.Fields;
 
@@ -14,16 +14,18 @@ public class FieldService : IFieldService
         _fieldRepository = fieldRepository;
     }
 
-    public async Task<ErrorOr<List<Field>>> GetFieldsAsync()
+    public async Task<List<Field>> GetFieldsAsync()
     {
-        var fields = await _fieldRepository.GetFieldsAsync();
-
-        return fields;
+        return await _fieldRepository.GetFieldsAsync();
     }
 
     public async Task<ErrorOr<Field>> GetFieldAsync(Guid id)
     {
         var field = await _fieldRepository.GetFieldAsync(id);
+
+        if (field == null)
+            return Errors.MonitoringTool.Field.NotFound;
+
         return field;
     }
 

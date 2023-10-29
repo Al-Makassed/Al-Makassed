@@ -98,4 +98,15 @@ public abstract class Errors
             description: "Role is not found."
         );
     }
+
+    public class MonitoringTool
+    {
+        public class Field
+        {
+            public static Error NotFound => Error.NotFound(
+                code: "Field.NotFound",
+                description: "Field is not found."
+            );
+        }
+    }
 }

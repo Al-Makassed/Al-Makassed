@@ -19,17 +19,19 @@ public class FieldsController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetFields()
     {
-        var fields = await _fieldService.GetFieldsAsync();
-        
-        return Ok(_mapper.Map<List<GetFieldResponse>>(fields));
+        return Ok(_mapper.Map<List<GetFieldResponse>>(await _fieldService.GetFieldsAsync()));
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetField(Guid id)
     {
-        var field = await _fieldService.GetFieldAsync(id);
-        
-        return Ok(_mapper.Map<GetFieldResponse>(field));
+        var fieldResult = await _fieldService.GetFieldAsync(id);
+
+        return fieldResult.Match(
+            _ => Ok(_mapper.Map<GetFieldResponse>(fieldResult.Value)),
+            errors => Problem(errors)
+        );
+            
     }
 
     [HttpPost]
