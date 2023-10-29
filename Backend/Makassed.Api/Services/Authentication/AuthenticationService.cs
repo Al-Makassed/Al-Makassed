@@ -60,7 +60,8 @@ public class AuthenticationService : IAuthenticationService
         // Create a new user (IdentityUser).
         var user = new MakassedUser { 
             Id = request.UserId, 
-            UserName = request.UserName, 
+            UserName = request.UserName,
+            DepartmentId = request.DepartmentID,
             Email = request.Email,
             SecurityStamp = Guid.NewGuid().ToString()
         };
