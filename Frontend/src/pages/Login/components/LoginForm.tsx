@@ -79,16 +79,16 @@ const LoginForm = () => {
             margin="normal"
             // required
             fullWidth
-            id="id"
+            id="userId"
             label="User ID "
             // name="id"
-            autoComplete="id"
+            autoComplete="userId"
             autoFocus
             // type="number"
-            {...register("id")}
+            {...register("userId")}
           />
           <Typography sx={{ color: "error.light" }}>
-            {errors.id?.message}
+            {errors.userId?.message}
           </Typography>
 
           <FormControl

@@ -14,8 +14,11 @@ const AppRoutes: FC = () => {
     <Suspense fallback={<BlockUI />}>
       <Routes>
         <Route path="login" element={<Login />} />
+        <Route index path="" element={<Login />} />
+
         <Route path="" element={<AppLayout />}>
-          <Route index path="" element={<Home />} />
+          <Route index path="/home" element={<Home />} />
+
           <Route index path="counter" element={<Counter />} />
           <Route index path="dependency" element={<PolicyDependency />} />
 

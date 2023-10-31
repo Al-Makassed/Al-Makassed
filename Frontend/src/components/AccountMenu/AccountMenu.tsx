@@ -11,6 +11,9 @@ import Logout from "@mui/icons-material/Logout";
 import { cyan } from "@mui/material/colors";
 import { noop } from "src/utils";
 import PasswordIcon from "@mui/icons-material/Password";
+import { useDispatch } from "react-redux";
+import { userLogout } from "src/features/user";
+import { useNavigate } from "react-router-dom";
 
 const AccountMenu: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,6 +32,14 @@ const AccountMenu: FC = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem("accessToken");
+    dispatch(userLogout());
+    navigate("/login");
   };
 
   return (
@@ -112,7 +123,7 @@ const AccountMenu: FC = () => {
           </ListItemIcon>
           Reset password
         </MenuItem>
-        <MenuItem onClick={noop}>
+        <MenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
