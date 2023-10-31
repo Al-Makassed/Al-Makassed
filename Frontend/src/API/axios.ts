@@ -4,7 +4,7 @@ const defaultAxiosSettings: AxiosRequestConfig = {
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    // Authorization: "Bearer " + localStorage.getItem("accessToken"), // TODO: Use this when authentication is implemented
+    Authorization: "Bearer " + localStorage.getItem("accessToken"), // TODO: Use this when authentication is implemented
   },
   // withCredentials: true, // TODO: Use this when authentication is implemented
 };
