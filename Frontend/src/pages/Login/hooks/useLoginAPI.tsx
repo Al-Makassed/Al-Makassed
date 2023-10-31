@@ -4,13 +4,13 @@ import { Login } from "../API";
 import { useNavigate } from "react-router-dom";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "../utils";
-import { useAppDispatch } from "src/app/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { userLogin } from "src/features/user";
+import { useDispatch } from "react-redux";
 
 const useLoginAPI = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const { mutate: UserLogin } = useMutation({
     mutationFn: Login,
