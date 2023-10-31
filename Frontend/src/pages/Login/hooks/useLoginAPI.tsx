@@ -9,8 +9,8 @@ import { showErrorSnackbar } from "src/features/snackbar";
 import { userLogin } from "src/features/user";
 
 const useLoginAPI = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { mutate: UserLogin } = useMutation({
     mutationFn: Login,
@@ -18,6 +18,7 @@ const useLoginAPI = () => {
       localStorage.setItem("accessToken", response.token);
       dispatch(userLogin(response.token));
       navigate("/home");
+      window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);

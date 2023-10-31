@@ -4,13 +4,16 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppRoutes from "src/routes/AppRoutes";
 import useLanguageSelector from "src/locals/hooks/useLanguageSelector";
 import Snackbar from "./components/Snackbar";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { userLogin } from "src/features/user";
+import { useAppDispatch } from "./app/hooks";
+
 const App: FC = () => {
   const queryClient = new QueryClient();
 
   useLanguageSelector();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  // when refresh for page don't clean the redux token
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
       dispatch(userLogin(localStorage.getItem("accessToken")));
