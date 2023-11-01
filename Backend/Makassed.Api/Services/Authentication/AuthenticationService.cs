@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         var user = new MakassedUser { 
             Id = request.UserId, 
             UserName = request.UserName,
-            DepartmentId = request.DepartmentID,
+            //DepartmentId = request.DepartmentID,
             Email = request.Email,
             SecurityStamp = Guid.NewGuid().ToString()
         };

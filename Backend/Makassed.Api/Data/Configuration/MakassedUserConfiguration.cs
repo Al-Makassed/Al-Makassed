@@ -19,8 +19,5 @@ public class MakassedUserConfiguration : IEntityTypeConfiguration<MakassedUser>
         builder.HasOne(u => u.Department)
                .WithMany(d => d.Users)
                .HasForeignKey(u => u.DepartmentId);
-
-        //builder.HasOne(u => u.HeadDepartment)
-        //    .WithOne(d => d.Head);
     }
 }

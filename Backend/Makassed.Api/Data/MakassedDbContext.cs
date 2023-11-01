@@ -33,33 +33,6 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
 
-        builder.Entity<MonitoringToolFocalPoints>()
-            .HasKey(mf => new { mf.MonitoringToolId, mf.FocalPointId });
-
-        builder.Entity<Submission>()
-            .HasOne(s => s.MonitoringToolFocalPoints)
-            .WithMany(mf => mf.Submissions);
-
-        //builder.Entity<Department>()
-        //    .HasOne(d => d.Head)
-        //    .WithOne()
-        //    .HasForeignKey<MakassedUser>(u => u.Id);
-
-        builder.Entity<Department>()
-            .HasOne(d => d.Head)
-            .WithOne();
-            //.HasForeignKey<MakassedUser>(u => u.Id);
-
-        builder.Entity<MonitoringTool>()
-            .HasMany(m => m.FocalPoints)
-            .WithMany(f => f.MonitoringTools)
-            .UsingEntity<MonitoringToolFocalPoints>();
-
-        builder.Entity<MonitoringTool>()
-            .HasMany(m => m.Fields)
-            .WithMany(f => f.MonitoringTools)
-            .UsingEntity<MonitoringToolFields>();
-
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

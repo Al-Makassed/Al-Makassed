@@ -1,4 +1,6 @@
-﻿namespace Makassed.Api.Models.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Makassed.Api.Models.Domain;
 
 public class MonitoringToolFields
 {
@@ -6,11 +8,11 @@ public class MonitoringToolFields
 
     public Guid FieldId { get; set; }
 
-    public string Answer { get; set; } = null!;
-
+    // Navigation Properties
     public MonitoringTool MonitoringTool { get; set; } = null!;
 
     public Field Field { get; set; } = null!;
 
-    public ICollection<Submission> Submission { get; set; } = new List<Submission>();
+    //public List<Submission> Submissions { get; set; } = new();
+    public List<MonitoringToolFieldsSubmissions> MonitoringToolFieldsSubmissions { get; set; } = new();
 }

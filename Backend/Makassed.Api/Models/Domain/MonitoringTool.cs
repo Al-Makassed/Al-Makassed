@@ -12,7 +12,7 @@ public class MonitoringTool
 
     public DateTime LastModified { get; set; }
 
-    public List<Field> Fields { get; set; } = new();
+    public List<Department> Departments { get; set; } = new();
 
-    public List<FocalPoint> FocalPoints { get; set; } = new();
+    public List<Field> Fields { get; set; } = new();
 }

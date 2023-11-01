@@ -6,9 +6,11 @@ public class Department
 
     public string Name { get; set; } = null!;
 
-    public string HeadId { get; set; } = null!;
+    //public string HeadId { get; set; } = null!;
+
+    //public MakassedUser Head { get; set; } = null!;
+
+    public List<MonitoringTool> MonitoringTools { get; set; } = new();
 
     public ICollection<MakassedUser> Users { get; set; } = new List<MakassedUser>();
-
-    public MakassedUser Head { get; set; } = null!;
 }

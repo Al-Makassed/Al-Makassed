@@ -6,12 +6,17 @@ public class Submission
 
     public Guid MonitoringToolId { get; set; }
 
-    public Guid FocalPointId { get; set; }
+    public Guid DepartmentId { get; set; }
+
+    public string SubmitterId { get; set; } = null!;
 
     public int Version { get; set; }
 
     // Navigation properties
-    public MonitoringToolFocalPoints MonitoringToolFocalPoints { get; set; } = null!;
+    public MonitoringToolDepartments MonitoringToolDepartment { get; set; } = null!;
 
-    public ICollection<MonitoringToolFields> MonitoringToolFields { get; set; } = new List<MonitoringToolFields>();
+    //public List<MonitoringToolFields> MonitoringToolFields { get; set; } = new();
+    public List<MonitoringToolFieldsSubmissions> MonitoringToolFieldsSubmissions { get; set; } = new();
+
+    public MakassedUser Submitter { get; set; } = null!;
 }
