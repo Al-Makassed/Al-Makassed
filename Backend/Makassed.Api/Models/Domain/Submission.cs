@@ -6,7 +6,12 @@ public class Submission
 
     public Guid MonitoringToolId { get; set; }
 
-    public MonitoringTool MonitoringTool { get; set; } = null!;
+    public Guid FocalPointId { get; set; }
 
-    public ICollection<MonitoringToolField> Fields { get; set; } = new List<MonitoringToolField>();
+    public int Version { get; set; }
+
+    // Navigation properties
+    public MonitoringToolFocalPoints MonitoringToolFocalPoints { get; set; } = null!;
+
+    public ICollection<MonitoringToolFields> MonitoringToolFields { get; set; } = new List<MonitoringToolFields>();
 }

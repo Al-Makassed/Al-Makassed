@@ -24,12 +24,6 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<Department>()
-            .HasMany(e => e.MonitoringTools)
-            .WithMany(e => e.Departments);
-
-
-
         // Customize the Identity tables names
         builder.Entity<MakassedUser>().ToTable("Users");
         builder.Entity<IdentityRole>().ToTable("Roles");
@@ -39,19 +33,32 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
 
-        builder.Entity<MakassedUser>()
-            .HasMany(u => u.Policies)
-            .WithMany(p => p.Users)
-            .UsingEntity<PolicyUser>();
+        builder.Entity<MonitoringToolFocalPoints>()
+            .HasKey(mf => new { mf.MonitoringToolId, mf.FocalPointId });
 
-        builder.Entity<MakassedUser>()
-            .HasMany(u => u.PolicyDependencies)
-            .WithMany(d => d.Users)
-            .UsingEntity<DependencyUser>();
+        builder.Entity<Submission>()
+            .HasOne(s => s.MonitoringToolFocalPoints)
+            .WithMany(mf => mf.Submissions);
 
-        builder.Entity<MakassedUser>()
-            .HasOne(u => u.Department)
-            .WithMany(d => d.Users);
+        //builder.Entity<Department>()
+        //    .HasOne(d => d.Head)
+        //    .WithOne()
+        //    .HasForeignKey<MakassedUser>(u => u.Id);
+
+        builder.Entity<Department>()
+            .HasOne(d => d.Head)
+            .WithOne();
+            //.HasForeignKey<MakassedUser>(u => u.Id);
+
+        builder.Entity<MonitoringTool>()
+            .HasMany(m => m.FocalPoints)
+            .WithMany(f => f.MonitoringTools)
+            .UsingEntity<MonitoringToolFocalPoints>();
+
+        builder.Entity<MonitoringTool>()
+            .HasMany(m => m.Fields)
+            .WithMany(f => f.MonitoringTools)
+            .UsingEntity<MonitoringToolFields>();
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

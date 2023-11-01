@@ -11,4 +11,6 @@ public class MakassedUser : IdentityUser
     public List<Dependency> PolicyDependencies { get; set; } = new();
 
     public Department Department { get; set; } = null!;
+    
+    public Department? HeadDepartment { get; set; }
 }

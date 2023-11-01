@@ -14,5 +14,5 @@ public class MonitoringTool
 
     public List<Field> Fields { get; set; } = new();
 
-    public List<Department> Departments = new();
+    public List<FocalPoint> FocalPoints { get; set; } = new();
 }
