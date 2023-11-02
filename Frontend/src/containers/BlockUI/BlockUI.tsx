@@ -20,6 +20,7 @@ const BlockUI: FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          outline: "none",
         }}
       >
         {/*<CircularProgress size={50} />*/}
