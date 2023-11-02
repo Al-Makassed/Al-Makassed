@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231101194612_MTs Configuration")]
+    partial class MTsConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,18 +49,11 @@ namespace Makassed.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("HeadId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HeadId")
-                        .IsUnique()
-                        .HasFilter("[HeadId] IS NOT NULL");
 
                     b.ToTable("Departments");
                 });
@@ -507,16 +503,6 @@ namespace Makassed.Api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Makassed.Api.Models.Domain.Department", b =>
-                {
-                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Head")
-                        .WithOne()
-                        .HasForeignKey("Makassed.Api.Models.Domain.Department", "HeadId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Head");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>

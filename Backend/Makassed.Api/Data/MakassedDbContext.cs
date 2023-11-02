@@ -1,5 +1,5 @@
+using Makassed.Api.Data.Configuration;
 using Makassed.Api.Models.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -24,34 +24,7 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<Department>()
-            .HasMany(e => e.MonitoringTools)
-            .WithMany(e => e.Departments);
-
-
-
-        // Customize the Identity tables names
-        builder.Entity<MakassedUser>().ToTable("Users");
-        builder.Entity<IdentityRole>().ToTable("Roles");
-        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-        builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
-        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
-
-        builder.Entity<MakassedUser>()
-            .HasMany(u => u.Policies)
-            .WithMany(p => p.Users)
-            .UsingEntity<PolicyUser>();
-
-        builder.Entity<MakassedUser>()
-            .HasMany(u => u.PolicyDependencies)
-            .WithMany(d => d.Users)
-            .UsingEntity<DependencyUser>();
-
-        builder.Entity<MakassedUser>()
-            .HasOne(u => u.Department)
-            .WithMany(d => d.Users);
+        builder.CustomizeIdentityTablesNames();
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
