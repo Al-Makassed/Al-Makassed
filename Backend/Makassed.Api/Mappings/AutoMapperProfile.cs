@@ -6,6 +6,7 @@ using Makassed.Contracts.Policy;
 using Makassed.Contracts.MonitoringTool;
 using Makassed.Contracts.MonitoringTool.Field;
 using Makassed.Contracts.User;
+using Makassed.Contracts.User.Department;
 
 namespace Makassed.Api.Mappings;
 

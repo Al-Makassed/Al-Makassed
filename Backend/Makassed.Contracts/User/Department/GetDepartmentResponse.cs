@@ -1,4 +1,4 @@
-﻿namespace Makassed.Contracts.User;
+﻿namespace Makassed.Contracts.User.Department;
 public record GetDepartmentResponse
 {
     public Guid Id { get; set; }
