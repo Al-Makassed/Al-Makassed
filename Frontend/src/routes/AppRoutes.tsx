@@ -2,13 +2,14 @@ import React, { FC, lazy, Suspense } from "react";
 import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
-import ProtectedRoute from "./protectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 const Login = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
 const PolicyDependency = lazy(() => import("src/pages/PolicyDependency"));
+const ForgotPassword = lazy(() => import("src/pages/ForgotPassword"));
 
 const AppRoutes: FC = () => {
   return (
@@ -26,6 +27,7 @@ const AppRoutes: FC = () => {
             <Route path="access-denied" element={<AccessDenied />} />
           </Route>
         </Route>
+        <Route path="forgot-password" element={<ForgotPassword />}></Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
