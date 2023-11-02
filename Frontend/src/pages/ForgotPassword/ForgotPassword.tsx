@@ -1,8 +1,17 @@
 import React, { useState } from "react";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import Container from "@mui/material/Container";
 import useForgetPasswordAPI from "./hooks/useForgotPasswordAPI";
+import maqasidLogo from "../../images/logo.jpg";
 
 const ForgetPassword = () => {
   const [id, setId] = useState<string>("");
@@ -30,6 +39,15 @@ const ForgetPassword = () => {
         elevation={6}
         square
       >
+        <Avatar
+          alt="logo"
+          variant="circular"
+          sx={{
+            width: 180,
+            height: 180,
+          }}
+          src={maqasidLogo}
+        />
         <Box
           sx={{
             my: 6,
