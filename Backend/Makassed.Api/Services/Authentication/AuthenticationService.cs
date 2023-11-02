@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         var user = new MakassedUser { 
             Id = request.UserId, 
             UserName = request.UserName,
-            DepartmentId = request.DepartmentID,
+            //DepartmentId = request.DepartmentID,
             Email = request.Email,
             SecurityStamp = Guid.NewGuid().ToString()
         };
@@ -95,14 +95,14 @@ public class AuthenticationService : IAuthenticationService
 
         // If the user is not found, return a "User Not Found" error.
         if (user is null)
-            return Errors.User.NotFound;
+            return Errors.User.WrongCredentials;
 
         // Attempt to sign the user in with the given password.
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
         if (!result.Succeeded)
         {
-            return Errors.User.WrongPassword;
+            return Errors.User.WrongCredentials;
         }
 
         // Get the roles associated with the user.
@@ -115,7 +115,18 @@ public class AuthenticationService : IAuthenticationService
     public async Task<string> GenerateForgotPasswordToken(MakassedUser user)
     {
         // Generate a password reset token for the user.
-        return await _userManager.GeneratePasswordResetTokenAsync(user);
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+        if (isLocal)
+            return token;
+
+        var websiteUrl = "https://maqasid.netlify.app/reset-password";
+
+        var forgotPasswordUrl = $"{websiteUrl}?token={token}&email={user.Email}";
+
+        return forgotPasswordUrl;
     }
 
     public async Task<ErrorOr<string>> ResetPassword(ResetPasswordRequest request)

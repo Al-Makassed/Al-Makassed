@@ -11,9 +11,9 @@ public abstract partial class Errors
             description: "User is not found."            
         );
 
-        public static Error WrongPassword => Error.Unauthorized(
-            code: "User.WrongPassword",
-            description: "Wrong password."
+        public static Error WrongCredentials => Error.Unauthorized(
+            code: "User.WrongCredentials",
+            description: "One or more login credentials are wrong."
         );
 
         public static Error ResetPasswordFailed => Error.Unauthorized(
