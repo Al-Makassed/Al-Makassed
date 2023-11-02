@@ -9,12 +9,12 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
     public void Configure(EntityTypeBuilder<Submission> builder)
     {
         builder.HasOne(s => s.MonitoringToolDepartment)
-            .WithMany(mtd => mtd.Submissions)
-            .HasForeignKey(s => new { s.MonitoringToolId, s.DepartmentId });
+               .WithMany(mtd => mtd.Submissions)
+               .HasForeignKey(s => new { s.MonitoringToolId, s.DepartmentId });
 
         builder.HasOne(s => s.Submitter)
-            .WithMany(u => u.Submissions)
-            .HasForeignKey(s => s.SubmitterId)
-            .OnDelete(DeleteBehavior.Restrict);
+               .WithMany(u => u.Submissions)
+               .HasForeignKey(s => s.SubmitterId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }
