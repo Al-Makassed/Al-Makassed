@@ -1,7 +1,6 @@
 ﻿using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Makassed.Api.Data.Configuration;
 
@@ -23,8 +22,5 @@ public class MonitoringToolFieldsSubmissionsConfiguration : IEntityTypeConfigura
             .WithMany(mf => mf.MonitoringToolFieldsSubmissions)
             .HasForeignKey(ms => new { ms.MonitoringToolId, ms.FieldId})
             .OnDelete(DeleteBehavior.Restrict);
-
-        // Other configurations...
     }
 }
-

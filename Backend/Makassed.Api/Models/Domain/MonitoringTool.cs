@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Makassed.Api.Models.Domain;
+﻿namespace Makassed.Api.Models.Domain;
 
 public class MonitoringTool
 {

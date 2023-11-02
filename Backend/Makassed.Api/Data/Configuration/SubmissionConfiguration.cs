@@ -8,10 +8,6 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
 {
     public void Configure(EntityTypeBuilder<Submission> builder)
     {
-        //builder.HasMany(s => s.MonitoringToolFields)
-        //    .WithMany(mf => mf.Submissions)
-        //    .UsingEntity<MonitoringToolFieldsSubmissions>();
-
         builder.HasOne(s => s.MonitoringToolDepartment)
             .WithMany(mtd => mtd.Submissions)
             .HasForeignKey(s => new { s.MonitoringToolId, s.DepartmentId });

@@ -15,7 +15,6 @@ public class Submission
     // Navigation properties
     public MonitoringToolDepartments MonitoringToolDepartment { get; set; } = null!;
 
-    //public List<MonitoringToolFields> MonitoringToolFields { get; set; } = new();
     public List<MonitoringToolFieldsSubmissions> MonitoringToolFieldsSubmissions { get; set; } = new();
 
     public MakassedUser Submitter { get; set; } = null!;
