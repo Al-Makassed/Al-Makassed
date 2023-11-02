@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Makassed.Contracts.Authentication;
 using UserManagement.Service.Services.Email;
+using Makassed.Contracts.MonitoringTool.Field;
 
 namespace Makassed.Api.Controllers;
 
@@ -34,7 +35,7 @@ public class AuthenticationController : ApiController
     }
 
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
     [ProducesResponseType (StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -63,9 +64,11 @@ public class AuthenticationController : ApiController
         if (userResult.IsError)
             return Problem(userResult.Errors);
 
-        var token = await _authenticationService.GenerateForgotPasswordToken(userResult.Value);
+        var forgetPasswordResult = await _authenticationService.GenerateForgotPasswordToken(userResult.Value);
 
-        var forgotPasswordUrl = Url.Action(nameof(ResetPassword), "Authentication", new { token, email = userResult.Value.Email }, Request.Scheme);
+        var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+        var forgotPasswordUrl = isLocal? Url.Action(nameof(ResetPassword), "Authentication", new { forgetPasswordResult, email = userResult.Value.Email }, Request.Scheme): forgetPasswordResult;
         
         if (forgotPasswordUrl is null)
             return Problem();
