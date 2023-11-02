@@ -12,7 +12,7 @@ import { cyan } from "@mui/material/colors";
 import { noop } from "src/utils";
 import PasswordIcon from "@mui/icons-material/Password";
 import { useDispatch } from "react-redux";
-import { userLogout } from "src/features/user";
+import { logout } from "src/features/user";
 import { useNavigate } from "react-router-dom";
 
 const AccountMenu: FC = () => {
@@ -38,7 +38,7 @@ const AccountMenu: FC = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
-    dispatch(userLogout());
+    dispatch(logout());
     navigate("/login");
   };
 

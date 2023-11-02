@@ -4,7 +4,7 @@ import loginSchema from "../schema";
 import useLoginAPI from "./useLoginAPI";
 
 const useLogin = () => {
-  const { UserLogin } = useLoginAPI();
+  const { loginUser, isLoggingIn } = useLoginAPI();
   const {
     register,
     handleSubmit,
@@ -14,14 +14,14 @@ const useLogin = () => {
   });
 
   const handleSubmitForm = handleSubmit((user) => {
-    UserLogin(user);
-    // console.log(user);
+    loginUser(user);
   });
 
   return {
     register,
     handleSubmitForm,
     errors,
+    isLoggingIn,
   };
 };
 
