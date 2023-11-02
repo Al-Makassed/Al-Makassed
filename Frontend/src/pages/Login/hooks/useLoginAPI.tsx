@@ -29,7 +29,7 @@ const useLoginAPI = () => {
         showErrorSnackbar({
           title: "Error",
           message: errorMessage,
-          anchorOrigin: { vertical: "bottom", horizontal: "left" },
+          anchorOrigin: { vertical: "top", horizontal: "right" },
         }),
       );
     },
