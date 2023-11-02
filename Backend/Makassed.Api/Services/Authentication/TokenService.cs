@@ -39,9 +39,13 @@ public class TokenService : ITokenService
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );
 
-        // Return token.
+        // Return response.
         return new LoginResponse
         {
+            UserId = user.Id,
+            UserName = user.UserName!,
+            Email = user.Email!,
+            Role = roles.FirstOrDefault()!,
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = token.ValidTo
         };
