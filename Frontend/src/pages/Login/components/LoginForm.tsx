@@ -17,11 +17,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import LoginIcon from "@mui/icons-material/Login";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const { register, handleSubmitForm, errors } = useLogin();
+  const { register, handleSubmitForm, errors, isLoggingIn } = useLogin();
 
   const goToForgotPassword = () => navigate("/forgot-password");
 
@@ -79,16 +81,16 @@ const LoginForm = () => {
             margin="normal"
             // required
             fullWidth
-            id="id"
+            id="userId"
             label="User ID "
             // name="id"
-            autoComplete="id"
+            autoComplete="userId"
             autoFocus
             // type="number"
-            {...register("id")}
+            {...register("userId")}
           />
           <Typography sx={{ color: "error.light" }}>
-            {errors.id?.message}
+            {errors.userId?.message}
           </Typography>
 
           <FormControl
@@ -144,15 +146,19 @@ const LoginForm = () => {
             control={<Checkbox value="remember" color="success" />}
             label="Remember me"
           />
-          <Button
+          <LoadingButton
             color="success"
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 1.5 }}
+            startIcon={<LoginIcon />}
+            aria-label="Login"
+            loading={isLoggingIn}
+            loadingPosition="start"
           >
             Log In
-          </Button>
+          </LoadingButton>
           <Grid container direction="column">
             <Grid
               item
