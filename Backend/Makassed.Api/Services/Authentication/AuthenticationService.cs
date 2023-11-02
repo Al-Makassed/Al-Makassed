@@ -3,6 +3,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
+using static System.Net.WebRequestMethods;
 
 namespace Makassed.Api.Services.Authentication;
 
@@ -115,7 +116,18 @@ public class AuthenticationService : IAuthenticationService
     public async Task<string> GenerateForgotPasswordToken(MakassedUser user)
     {
         // Generate a password reset token for the user.
-        return await _userManager.GeneratePasswordResetTokenAsync(user);
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+        if (isLocal)
+            return token;
+
+        var websiteUrl = "https://maqasid.netlify.app/reset-password";
+
+        var forgotPasswordUrl = $"{websiteUrl}?token={token}&email={user.Email}";
+
+        return forgotPasswordUrl;
     }
 
     public async Task<ErrorOr<string>> ResetPassword(ResetPasswordRequest request)
