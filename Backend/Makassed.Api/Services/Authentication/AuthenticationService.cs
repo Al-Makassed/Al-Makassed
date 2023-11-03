@@ -73,9 +73,12 @@ public class AuthenticationService : IAuthenticationService
         if (!result.Succeeded)
             return Errors.User.CreateFailed;
 
-        // Check if the role exists, if not, return "Role Not Found" error.
+        // Check if the role exists, if not, delete the user and return a "Role Not Found" error.
         if (!await _roleManager.RoleExistsAsync(request.Role))
+        {
+            result = await _userManager.DeleteAsync(user);
             return Errors.User.Role.NotFound;
+        }
 
         // Add the role to the user.
         var identityResult = await _userManager.AddToRoleAsync(user, request.Role);

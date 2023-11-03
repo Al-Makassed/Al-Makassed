@@ -13,7 +13,7 @@ public abstract partial class Errors
 
         public static Error WrongCredentials => Error.Unauthorized(
             code: "User.WrongCredentials",
-            description: "One or more login credentials are wrong."
+            description: "One or more login credentials are invalid."
         );
 
         public static Error ResetPasswordFailed => Error.Unauthorized(
