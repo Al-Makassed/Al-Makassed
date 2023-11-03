@@ -3,6 +3,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Makassed.Api.Services.Authentication;
 
@@ -73,15 +74,27 @@ public class AuthenticationService : IAuthenticationService
         if (!result.Succeeded)
             return Errors.User.CreateFailed;
 
-        // Check if the role exists, if not, delete the user and return a "Role Not Found" error.
-        if (!await _roleManager.RoleExistsAsync(request.Role))
+        // Check if the roles exist, if no role exists, add the "Staff" role to the user.
+        var validRoles = new List<string>();
+
+        if (!request.Roles.Any())
         {
-            result = await _userManager.DeleteAsync(user);
-            return Errors.User.Role.NotFound;
+            validRoles.Add("Staff");
+        }
+        else
+        {
+            foreach (var role in request.Roles)
+            {
+                if (await _roleManager.RoleExistsAsync(role))
+                    validRoles.Add(role);
+            }
+
+            if (!validRoles.Any())
+                validRoles.Add("Staff");
         }
 
-        // Add the role to the user.
-        var identityResult = await _userManager.AddToRoleAsync(user, request.Role);
+        // Add the role/s to the user.
+        var identityResult = await _userManager.AddToRolesAsync(user, validRoles);
 
         // If adding the role to the user failed, return an "Add To Role Failed" error.
         if (!identityResult.Succeeded)
@@ -112,7 +125,17 @@ public class AuthenticationService : IAuthenticationService
         var roles = await _userManager.GetRolesAsync(user);
 
         // Create a JWT token with roles for the authenticated user.
-        return _tokenService.CreateAccessToken(user, roles.ToList());
+        var accessToken = _tokenService.CreateAccessToken(user, roles.ToList());
+
+        return new LoginResponse
+        {
+            UserId = user.Id,
+            UserName = user.UserName!,
+            Email = user.Email!,
+            Roles = roles.ToList(),
+            Token = accessToken.Token,
+            Expiration = accessToken.Expiration
+        };
     }
 
     public async Task<string> GenerateForgotPasswordToken(MakassedUser user)

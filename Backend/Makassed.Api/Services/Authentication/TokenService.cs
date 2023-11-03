@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Makassed.Api.Models.DTO;
 using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +17,7 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
     
-    public LoginResponse CreateAccessToken(IdentityUser user, List<string> roles)
+    public AccessTokenDto CreateAccessToken(IdentityUser user, List<string> roles)
     {
         // Create claims list.
         var claims = new List<Claim>
@@ -39,13 +40,9 @@ public class TokenService : ITokenService
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );
 
-        // Return response.
-        return new LoginResponse
+        // Return token.
+        return new AccessTokenDto
         {
-            UserId = user.Id,
-            UserName = user.UserName!,
-            Email = user.Email!,
-            Role = roles,
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = token.ValidTo
         };

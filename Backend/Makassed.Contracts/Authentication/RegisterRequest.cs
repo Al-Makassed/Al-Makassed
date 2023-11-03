@@ -11,5 +11,5 @@ public record RegisterRequest
 
     public required string Password { get; set; }
 
-    public required string Role { get; set; }
+    public List<string> Roles { get; set; } = new();
 }
