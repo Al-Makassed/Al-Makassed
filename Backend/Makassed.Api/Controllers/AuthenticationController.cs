@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Makassed.Contracts.Authentication;
 using UserManagement.Service.Services.Email;
 using Makassed.Contracts.General;
+using Makassed.Contracts.User.Roles;
 
 namespace Makassed.Api.Controllers;
 
@@ -22,8 +23,8 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("register")]
     [AllowAnonymous]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         var registerResult = await _authenticationService.Register(request);
@@ -39,8 +40,8 @@ public class AuthenticationController : ApiController
     [ProducesResponseType (StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("login")]
     [AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {        
         var loginResult = await _authenticationService.LogUserIn(request);
@@ -55,8 +56,8 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPost("forgot-password")]
     [AllowAnonymous]
+    [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
         var userResult = await _authenticationService.GetUserById(request.UserId);
@@ -80,8 +81,8 @@ public class AuthenticationController : ApiController
 
 
     [ProducesResponseType(typeof(GetResetPasswordResponse), StatusCodes.Status200OK)]
-    [HttpGet("reset-password")]
     [AllowAnonymous]
+    [HttpGet("reset-password")]
     public IActionResult ResetPassword(string token, string email)
     {
         var model = new GetResetPasswordResponse { Token = token, Email = email };
@@ -94,6 +95,7 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AllowAnonymous]
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
@@ -103,5 +105,22 @@ public class AuthenticationController : ApiController
             Ok,
             Problem
         );
-    }   
+    }
+
+    // update user roles
+    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
+    [HttpPost("update-user-roles")]
+    public async Task<IActionResult> UpdateUserRoles(string userId, UpdateUserRolesRequest request)
+    {
+        var updateUserRolesResult = await _authenticationService.UpdateUserRolesAsync(userId, request);
+
+        return updateUserRolesResult.Match(
+            Ok,
+            Problem
+        );
+    }
 }

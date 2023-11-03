@@ -2,7 +2,7 @@ using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Authentication;
 using Makassed.Contracts.General;
-using Microsoft.AspNetCore.Identity;
+using Makassed.Contracts.User.Roles;
 
 namespace Makassed.Api.Services.Authentication;
 
@@ -19,4 +19,6 @@ public interface IAuthenticationService
     Task<ErrorOr<MakassedUser>> GetUserById(string id);
     
     Task<ErrorOr<SuccessResponse>> Register(RegisterRequest request);
+
+    Task<ErrorOr<SuccessResponse>> UpdateUserRolesAsync(string userId, UpdateUserRolesRequest request);
 }

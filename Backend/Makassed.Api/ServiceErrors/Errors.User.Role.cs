@@ -12,6 +12,16 @@ public abstract partial class Errors
                 code: "Role.NotFound",
                 description: "Role is not found."
             );
+
+            public static Error AddToRolesFailed => Error.Conflict(
+                code: "User.AddToRoleFailed",
+                description: "Adding role to user failed."
+            );
+
+            public static Error SomethingWentWrong => Error.Conflict(
+                code: "Role.SomethingWentWrong",
+                description: "Something went wrong while processing your request."
+            );
         }
     }
 }

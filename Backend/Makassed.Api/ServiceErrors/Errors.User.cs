@@ -31,11 +31,6 @@ public abstract partial class Errors
             description: "User creation failed."
         );
 
-        public static Error AddToRoleFailed => Error.Conflict(
-            code: "User.AddToRoleFailed",
-            description: "Adding role to user failed."
-        );
-
         public static Error EmailAlreadyExists => Error.Conflict(
             code: "User.EmailAlreadyExists",
             description: "Email already exists."
