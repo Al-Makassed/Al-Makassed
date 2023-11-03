@@ -2,9 +2,12 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Users.Departments;
 using Makassed.Contracts.User.Department;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
+
+[Authorize(Roles = "Admin, Sub-Admin")]
 public class DepartmentsController : ApiController
 {
     private readonly IDepartmentService _departmentService;
