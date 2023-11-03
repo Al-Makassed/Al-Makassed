@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
+import LockResetIcon from "@mui/icons-material/LockReset";
 import Container from "@mui/material/Container";
 import useForgetPasswordAPI from "./hooks/useForgotPasswordAPI";
 import maqasidLogo from "../../images/logo.jpg";
@@ -27,7 +27,7 @@ const ForgetPassword = () => {
   return (
     <Container maxWidth="md">
       <Grid
-        marginTop="40px"
+        marginTop="80px"
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -90,10 +90,10 @@ const ForgetPassword = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 1.5 }}
-              startIcon={<LoginIcon />}
+              startIcon={<LockResetIcon />}
               aria-label="Login"
             >
-              Log In
+              Reset Password
             </Button>
           </Box>
         </Box>
