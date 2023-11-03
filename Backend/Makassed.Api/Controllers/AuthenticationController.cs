@@ -126,7 +126,7 @@ public class AuthenticationController : ApiController
     }
 
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(VerifyBearerTokenResponse))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpGet("verify-bearer-token")]
     public IActionResult VerifyBearerToken()
@@ -147,17 +147,10 @@ public class AuthenticationController : ApiController
 
         // Decode the Authorization token using the JwtSecurityTokenHandler class.
         var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.ReadJwtToken(authorizationToken);
+        var decodedToken = tokenHandler.ReadJwtToken(authorizationToken);
 
         // Get the token payload.
-        //string tokenPayload = token.Payload.SerializeToJson();
-        var tokenPayload = token.Payload;
-
-        //// Parse the token payload into a JSON object.
-        //JObject tokenPayloadJson = JObject.Parse(tokenPayload);
-
-        //// Get the user's ID from the token payload.
-        //string userId = tokenPayloadJson["sub"].ToString();
+        var tokenPayload = decodedToken.Payload;
 
         return Ok(tokenPayload);
     }
