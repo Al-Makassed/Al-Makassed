@@ -8,7 +8,5 @@ public class UpdateDepartmentRequestValidator : AbstractValidator<UpdateDepartme
     public UpdateDepartmentRequestValidator()
     {
         RuleFor(x => x.Name).NotEmpty().WithMessage("Department name is required");
-
-        RuleFor(x => x.HeadId).NotEmpty().WithMessage("Department head ID is required");
     }
 }

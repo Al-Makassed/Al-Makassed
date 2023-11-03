@@ -3,5 +3,5 @@ public record CreateDepartmentRequest
 {
     public required string Name { get; init; }
 
-    public required string HeadId { get; init; }
+    // Not going to accept HeadId, because we have to create the head first by adding users to the department, then we can update the department with the head id
 }

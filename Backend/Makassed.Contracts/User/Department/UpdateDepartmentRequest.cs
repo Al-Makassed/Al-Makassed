@@ -3,5 +3,5 @@ public record UpdateDepartmentRequest
 {
     public required string Name { get; init; }
 
-    public required string HeadId { get; init; }
+    public string? HeadId { get; init; }
 }
