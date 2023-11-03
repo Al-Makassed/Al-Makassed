@@ -2,8 +2,8 @@ using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
+using Makassed.Contracts.General;
 using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Makassed.Api.Services.Authentication;
 
@@ -42,7 +42,7 @@ public class AuthenticationService : IAuthenticationService
     }
 
 
-    public async Task<ErrorOr<string>> Register(RegisterRequest request)
+    public async Task<ErrorOr<SuccessResponse>> Register(RegisterRequest request)
     {
         // Check if the user already exists.
         var existedUser = await _userManager.FindByIdAsync(request.UserId);
@@ -101,7 +101,7 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.AddToRoleFailed;
         
         // Return a success message.
-        return "User created successfully.";
+        return new SuccessResponse(Message: "User created successfully.");
     }
 
     public async Task<ErrorOr<LoginResponse>> LogUserIn(LoginRequest request)
@@ -155,7 +155,7 @@ public class AuthenticationService : IAuthenticationService
         return forgotPasswordUrl;
     }
 
-    public async Task<ErrorOr<string>> ResetPassword(ResetPasswordRequest request)
+    public async Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request)
     {
         // Attempt to find the user by email.
         var user = await _userManager.FindByEmailAsync(request.Email);
@@ -172,6 +172,6 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.ResetPasswordFailed;
 
         // Return a success message.
-        return "Password changed successfully.";
+        return new SuccessResponse( Message : "Password changed successfully." );
     }
 }

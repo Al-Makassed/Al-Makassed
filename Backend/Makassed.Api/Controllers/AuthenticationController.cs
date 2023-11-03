@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Makassed.Contracts.Authentication;
 using UserManagement.Service.Services.Email;
-using Makassed.Contracts.MonitoringTool.Field;
+using Makassed.Contracts.General;
 
 namespace Makassed.Api.Controllers;
 
@@ -52,7 +52,7 @@ public class AuthenticationController : ApiController
     }
 
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("forgot-password")]
@@ -75,11 +75,11 @@ public class AuthenticationController : ApiController
         
         await _emailService.SendForgetPasswordEmail(userResult.Value.Email!, forgotPasswordUrl);
 
-        return Ok("Password recovery link is sent to your Email.");
+        return Ok(new SuccessResponse(Message: "Password recovery link is sent to your Email."));
     }
 
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetResetPasswordResponse), StatusCodes.Status200OK)]
     [HttpGet("reset-password")]
     [AllowAnonymous]
     public IActionResult ResetPassword(string token, string email)
@@ -90,7 +90,7 @@ public class AuthenticationController : ApiController
     }
 
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
