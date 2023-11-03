@@ -19,5 +19,17 @@ public class MakassedUserConfiguration : IEntityTypeConfiguration<MakassedUser>
         builder.HasOne(u => u.Department)
                .WithMany(d => d.Users)
                .HasForeignKey(u => u.DepartmentId);
+
+        builder.Property(u => u.FullName)
+               .HasMaxLength(150)
+               .IsRequired();
+
+        builder.Property(u => u.UserName)
+               .HasMaxLength(50)
+               .IsRequired();
+
+        builder.Property(u => u.CreatedOn)
+               .HasDefaultValueSql("GETDATE()")
+               .ValueGeneratedOnAdd();
     }
 }

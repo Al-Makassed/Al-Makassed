@@ -5,6 +5,7 @@ using Makassed.Contracts.Authentication;
 using UserManagement.Service.Services.Email;
 using Makassed.Contracts.General;
 using Makassed.Contracts.User.Roles;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Makassed.Api.Controllers;
 
@@ -122,5 +123,42 @@ public class AuthenticationController : ApiController
             Ok,
             Problem
         );
+    }
+
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [HttpGet("verify-bearer-token")]
+    public IActionResult VerifyBearerToken()
+    {
+        // If the token is invalid, the[Authorize] attribute will return a 401 Unauthorized response before calling this method.
+        // If the token is valid, then the user is authorized.Hence, decode the token to get the payload.
+
+        //Get the Authorization token from the request header.
+        var authorizationToken = HttpContext.Request.Headers["Authorization"].ToString();
+
+        if (string.IsNullOrEmpty(authorizationToken))
+        {
+            return Unauthorized();
+        }
+
+        // The token is in the format "Bearer {token}". We only need the token.
+        authorizationToken = authorizationToken.Replace("Bearer ", string.Empty);
+
+        // Decode the Authorization token using the JwtSecurityTokenHandler class.
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(authorizationToken);
+
+        // Get the token payload.
+        //string tokenPayload = token.Payload.SerializeToJson();
+        var tokenPayload = token.Payload;
+
+        //// Parse the token payload into a JSON object.
+        //JObject tokenPayloadJson = JObject.Parse(tokenPayload);
+
+        //// Get the user's ID from the token payload.
+        //string userId = tokenPayloadJson["sub"].ToString();
+
+        return Ok(tokenPayload);
     }
 }

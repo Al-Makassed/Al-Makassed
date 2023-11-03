@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
 using Makassed.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +18,18 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
     
-    public AccessTokenDto CreateAccessToken(IdentityUser user, List<string> roles)
+    public AccessTokenDto CreateAccessToken(MakassedUser user, List<string> roles)
     {
         // Create claims list.
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id), // A unique identifier for the user.
+            new Claim(ClaimTypes.Name, user.FullName), // The user's full name.
+            new Claim(ClaimTypes.GivenName, user.UserName ?? String.Empty), // The user's given name, (e.g. first name or username).
+            new Claim(ClaimTypes.Email, user.Email ?? String.Empty),
+            new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? String.Empty),
+            new Claim("profileUrl", user.ProfileUrl ?? String.Empty)
         };
 
         // Add user roles to claims.
@@ -44,7 +50,7 @@ public class TokenService : ITokenService
         return new AccessTokenDto
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
-            Expiration = token.ValidTo
+            Expiration = token.ValidTo,
         };
     }
 }
