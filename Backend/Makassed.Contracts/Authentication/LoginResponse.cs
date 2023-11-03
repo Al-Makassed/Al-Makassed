@@ -8,7 +8,7 @@ public record LoginResponse
 
     public required string Email { get; set; }
 
-    public required string Role { get; set; }
+    public required List<string> Role { get; set; } = new();
 
     public string? ProfileUrl { get; set; }
 
