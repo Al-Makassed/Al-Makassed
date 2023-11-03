@@ -9,6 +9,7 @@ public class IdentityRoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     public void Configure(EntityTypeBuilder<IdentityRole> builder)
     {
         var adminRoleId = "85e232cf-0f1e-46b6-9137-f9d587807c0c";
+        var subAdminRoleId = "f2cb2812-ed29-4dd5-b456-eddf25eb379f";
         var staffRoleId = "1f0f8201-bd6f-421d-9755-7228313a99e7";
         var focalPointRoleId = "d6f83077-ee53-4d48-bb2c-b88f8834be58";
 
@@ -19,6 +20,13 @@ public class IdentityRoleConfiguration : IEntityTypeConfiguration<IdentityRole>
                 ConcurrencyStamp = adminRoleId,
                 Name = "Admin",
                 NormalizedName = "ADMIN"
+            },
+            new IdentityRole
+            {
+                Id = subAdminRoleId,
+                ConcurrencyStamp = subAdminRoleId,
+                Name = "Sub-Admin",
+                NormalizedName = "SUB-ADMIN"
             },
             new IdentityRole
             {

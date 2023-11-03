@@ -13,7 +13,7 @@ public abstract partial class Errors
 
         public static Error WrongCredentials => Error.Unauthorized(
             code: "User.WrongCredentials",
-            description: "One or more login credentials are wrong."
+            description: "One or more login credentials are invalid."
         );
 
         public static Error ResetPasswordFailed => Error.Unauthorized(
@@ -29,11 +29,6 @@ public abstract partial class Errors
         public static Error CreateFailed => Error.Conflict(
             code: "User.CreateFailed",
             description: "User creation failed."
-        );
-
-        public static Error AddToRoleFailed => Error.Conflict(
-            code: "User.AddToRoleFailed",
-            description: "Adding role to user failed."
         );
 
         public static Error EmailAlreadyExists => Error.Conflict(
