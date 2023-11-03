@@ -15,13 +15,19 @@ const useLoginAPI = () => {
     mutationFn: loginApi,
     onSuccess: (response) => {
       localStorage.setItem("accessToken", response.token);
+      // console.log(response.email);
       dispatch(
         login({
           token: response.token,
+          userId: response.userId,
+          userName: response.userName,
+          email: response.email,
+          role: response.role,
+          profileUrl: response.profileUrl,
         }),
       );
       navigate("/home");
-      window.location.reload();
+      // window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
