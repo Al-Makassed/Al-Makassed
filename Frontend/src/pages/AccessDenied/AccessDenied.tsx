@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import LockIcon from "@mui/icons-material/Lock";
+import Lottie from "lottie-react";
+import lock from "src/lotties/lock.json";
 
 const AccessDenied: FC = () => {
   return (
@@ -15,12 +16,17 @@ const AccessDenied: FC = () => {
       }}
     >
       <Stack sx={{ alignItems: "center", gap: 1 }}>
-        <LockIcon color="error" sx={{ fontSize: 150 }} />
-        <Typography variant="h2" color="error">
-          Access Denied
+        {/* <LockIcon color="disabled" sx={{ fontSize: 150 }} /> */}
+        <Lottie
+          animationData={lock}
+          style={{ width: "300px", height: "300px" }}
+        />
+        <Typography variant="h3" sx={{ color: "grey.700" }}>
+          Additional Access Required
         </Typography>
-        <Typography variant="body1" color="error">
-          It seems you don&apos;t have the permission to access this page
+        <Typography variant="body1" sx={{ color: "grey.700" }}>
+          It seems you don&apos;t have access to this page. Please contact a
+          system administrator if access is needed.
         </Typography>
       </Stack>
     </Grid>

@@ -2,7 +2,7 @@ import React, { FC, lazy, Suspense } from "react";
 import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
-import ProtectedRoute from "./protectedRoute";
+// import AuthRoute from "./AuthRoute";
 const Login = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -15,16 +15,15 @@ const AppRoutes: FC = () => {
     <Suspense fallback={<BlockUI />}>
       <Routes>
         <Route path="login" element={<Login />} />
-        <Route index path="" element={<Login />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="" element={<AppLayout />}>
-            <Route index path="/home" element={<Home />} />
+        <Route index path="" element={<h1>Public Landing Page</h1>} />
+        <Route path="me" element={<AppLayout />}>
+          {/* <Route element={<AuthRoute />}> */}
+          <Route index path="home" element={<Home />} />
+          <Route index path="counter" element={<Counter />} />
+          <Route index path="dependency" element={<PolicyDependency />} />
 
-            <Route index path="counter" element={<Counter />} />
-            <Route index path="dependency" element={<PolicyDependency />} />
-
-            <Route path="access-denied" element={<AccessDenied />} />
-          </Route>
+          <Route path="access-denied" element={<AccessDenied />} />
+          {/* </Route> */}
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
