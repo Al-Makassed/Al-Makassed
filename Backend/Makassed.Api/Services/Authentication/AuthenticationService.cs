@@ -63,6 +63,7 @@ public class AuthenticationService : IAuthenticationService
         var user = new MakassedUser { 
             Id = request.UserId, 
             UserName = request.UserName,
+            FullName = request.FullName,
             DepartmentId = request.DepartmentId,
             Email = request.Email,
             SecurityStamp = Guid.NewGuid().ToString()
@@ -132,6 +133,7 @@ public class AuthenticationService : IAuthenticationService
         {
             UserId = user.Id,
             UserName = user.UserName!,
+            FullName = user.FullName,
             Email = user.Email!,
             Roles = roles.ToList(),
             Token = accessToken.Token,
