@@ -103,5 +103,16 @@ public class AuthenticationController : ApiController
             Ok,
             Problem
         );
-    }   
+    }
+
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [HttpGet("verify-bearer-token")]
+    public IActionResult VerifyBearerToken()
+    {
+        // If the token is invalid, the [Authorize] attribute will return a 401 Unauthorized response before calling this method.
+        // If the token is valid, the user is authorized. Hence, simply return a 200 OK response.
+        return Ok();
+    }
 }
