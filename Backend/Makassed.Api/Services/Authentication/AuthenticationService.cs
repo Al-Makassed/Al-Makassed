@@ -23,7 +23,6 @@ public class AuthenticationService : IAuthenticationService
         _signInManager = signInManager;
     }
     
-
     public async Task<ErrorOr<MakassedUser>> GetUserByEmail(string requestEmail)
     {
         // Attempt to find the user by email.
@@ -158,7 +157,7 @@ public class AuthenticationService : IAuthenticationService
         return forgotPasswordUrl;
     }
 
-    public async Task<ErrorOr<SuccessResponse>> ResetPassword(ForgottenPasswordResetRequest request)
+    public async Task<ErrorOr<SuccessResponse>> ResetForgottenPassword(ResetForgottenPasswordRequest request)
     {
         // Attempt to find the user by email.
         var user = await _userManager.FindByEmailAsync(request.Email);
@@ -172,7 +171,7 @@ public class AuthenticationService : IAuthenticationService
 
         // If the password reset failed, return a "Reset Password Failed" error.
         if (!resetPasswordResult.Succeeded)
-            return Errors.User.ResetPasswordFailed;
+            return Errors.User.SomethingWentWrong(resetPasswordResult.Errors);
 
         // Return a success message.
         return new SuccessResponse( Message : "Password changed successfully." );
@@ -180,10 +179,9 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<ErrorOr<SuccessResponse>> UpdateUserRolesAsync(string userId, UpdateUserRolesRequest request)
     {
-        // Attempt to find the user by ID.
+        // Attempt to find the user by ID and if the user is not found, return a "User Not Found" error.
         var user = await _userManager.FindByIdAsync(userId);
 
-        // If the user is not found, return a "User Not Found" error.
         if (user is null)
             return Errors.User.NotFound;
 
@@ -195,28 +193,47 @@ public class AuthenticationService : IAuthenticationService
 
         foreach (var role in request.Roles)
         {
-            if (role != null && await _roleManager.RoleExistsAsync(role))
+            if (await _roleManager.RoleExistsAsync(role))
                 validRoles.Add(role);
         }
 
-        if (!validRoles.Any() && validRoles != null)
-            return new SuccessResponse(Message: "User roles still the same.");
+        if (!validRoles.Any())
+            return Errors.User.Role.NoValidRoles;
 
         // Remove the all roles from user.
         var removeUserFromRolesResult = await _userManager.RemoveFromRolesAsync(user, oldUserRoles);
 
-        // If removing the user from all roles failed, return a "Remove From Roles Failed" error.
+        // If removing the user from all roles failed, return a "Something Went Wrong" error with the errors provided by Identity.
         if (!removeUserFromRolesResult.Succeeded)
-            return Errors.User.Role.SomethingWentWrong;
+            return Errors.User.SomethingWentWrong(removeUserFromRolesResult.Errors);
 
         // Add the valid role/s to the user.
         var identityResult = await _userManager.AddToRolesAsync(user, validRoles);
 
         // If adding the role to the user failed, return an "Add To Role Failed" error.
         if (!identityResult.Succeeded)
-            return Errors.User.Role.AddToRolesFailed;
+            return Errors.User.SomethingWentWrong(removeUserFromRolesResult.Errors);
 
         // Return a success message.
         return new SuccessResponse(Message: "User roles updated successfully.");    
+    }
+
+    public async Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request)
+    {
+        // Attempt to find the user by ID and return a "User Not Found" error if the user is not found.
+        var user = await _userManager.FindByIdAsync(request.UserId);
+
+        if (user is null)
+            return Errors.User.NotFound;
+
+        // Attempt to reset the user's password.
+        var resetPasswordResult = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+        
+        // If the password reset failed, return a "Something Went Wrong" error with the errors provided by Identity.
+        if (!resetPasswordResult.Succeeded)
+            return Errors.User.SomethingWentWrong(resetPasswordResult.Errors);
+
+        // Return a success message.
+        return new SuccessResponse("Password changed successfully.");
     }
 }

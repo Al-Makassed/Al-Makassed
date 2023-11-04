@@ -1,6 +1,6 @@
 namespace Makassed.Contracts.Authentication;
 
-public class ForgottenPasswordResetRequest
+public class ResetForgottenPasswordRequest
 {
     public string Password { get; set; } = null!;
     

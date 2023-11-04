@@ -3,9 +3,9 @@ using Makassed.Contracts.Authentication;
 
 namespace Makassed.Api.Validators.Authentication;
 
-public class ForgottenPasswordResetRequestValidator : AbstractValidator<ForgottenPasswordResetRequest>
+public class RestForgottenPasswordRequestValidator : AbstractValidator<ResetForgottenPasswordRequest>
 {
-    public ForgottenPasswordResetRequestValidator()
+    public RestForgottenPasswordRequestValidator()
     {
         RuleFor(r => r.Email)
             .NotEmpty().WithMessage("Email is required.")

@@ -98,9 +98,9 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [AllowAnonymous]
     [HttpPost("reset-forgotten-password")]
-    public async Task<IActionResult> ResetForgottenPassword(ForgottenPasswordResetRequest request)
+    public async Task<IActionResult> ResetForgottenPassword(ResetForgottenPasswordRequest request)
     {
-        var resetPasswordResult = await _authenticationService.ResetPassword(request);
+        var resetPasswordResult = await _authenticationService.ResetForgottenPassword(request);
 
         return resetPasswordResult.Match(
             Ok,
@@ -110,7 +110,19 @@ public class AuthenticationController : ApiController
 
     // reset password
     [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)] 
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize]
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+    {
+        var resetPasswordResult = await _authenticationService.ResetPassword(request);
+
+        return resetPasswordResult.Match(
+            Ok,
+            Problem                                
+        );
+    }
 
     // update user roles
     [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
