@@ -15,7 +15,7 @@ public abstract partial class Errors
             {
                 errors.Add(
                     Error.Validation(
-                        code: "User.SomethingWentWrong",
+                        code: identityError.Code,
                         description: identityError.Description
                     )
                 );
