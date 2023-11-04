@@ -1,4 +1,4 @@
-import React, { useState } from "react"; //  { useState } // ,
+import React, { FC, useState } from "react";
 import {
   Avatar,
   Box,
@@ -11,15 +11,19 @@ import {
   InputLabel,
   Paper,
   Stack,
-  //   TextField,
   Typography,
 } from "@mui/material";
 import LockResetIcon from "@mui/icons-material/LockReset";
-import Container from "@mui/material/Container";
 import maqasidLogo from "../../images/logo.jpg";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 
-const ResetPassword = () => {
+const ResetPassword: FC = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const token = searchParams.get("token");
+  const email = searchParams.get("email");
+
+  console.log(email);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
@@ -36,16 +40,47 @@ const ResetPassword = () => {
   ) => {
     event.preventDefault();
   };
+  const { newResetPassword } = useResetPasswordAPI();
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setPassword(value);
+  };
+  const onChangeConfirmPassword = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { value } = event.target;
+    setConfirmPassword(value);
+  };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    newResetPassword({ password, confirmPassword, email, token });
+    // // Clear the input fields
+    // setPassword('');
+    // setConfirmPassword('');
+  };
+
   return (
-    <Container maxWidth="md">
+    <Grid
+      container
+      sx={{
+        height: "100vh",
+        bgcolor: "grey.100",
+      }}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      xs={12}
+    >
       <Grid
-        marginTop="80px"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        item
         component={Paper}
-        elevation={6}
+        item
+        elevation={3}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
       >
         <Avatar
           alt="logo"
@@ -76,90 +111,81 @@ const ResetPassword = () => {
           >
             Reset Password
           </Typography>
-          <Stack
-            component="form"
-            //    onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
-            <FormControl
-              sx={{ m: 1, width: "25ch" }}
-              variant="standard"
-              color="success"
-            >
-              <InputLabel htmlFor="standard-adornment-password">
-                Password
-              </InputLabel>
-              <Input
-                id="standard-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <FormControl
-              sx={{ m: 1, width: "25ch" }}
-              variant="standard"
-              color="success"
-            >
-              <InputLabel htmlFor="standard-adornment-password">
-                Confirm Password
-              </InputLabel>
-              <Input
-                id="standard-adornment-password"
-                type={showPasswordConfirm ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPasswordConfirm}
-                      onMouseDown={handleMouseDownPasswordConfirm}
-                    >
-                      {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            {/* <TextField
-            sx={{ m: 1, width: "25ch" }}
-              color="success"
-              variant="standard"
-              margin="normal"
-              fullWidth
-              id="email"
-              label="Email "
-              autoComplete="Email"
-              autoFocus
-              required
-              placeholder="Enter your Email"
-                // value={id}
-              //   onChange={onChange}
-            /> */}
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Stack>
+              <FormControl
+                sx={{ m: 1, width: "25ch" }}
+                variant="standard"
+                color="success"
+              >
+                <InputLabel htmlFor="standard-adornment-password">
+                  Password
+                </InputLabel>
+                <Input
+                  value={password}
+                  onChange={onChangePassword}
+                  id="standard-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <FormControl
+                sx={{ m: 1, width: "25ch" }}
+                variant="standard"
+                color="success"
+              >
+                <InputLabel htmlFor="standard-adornment-password">
+                  Confirm Password
+                </InputLabel>
+                <Input
+                  value={confirmPassword}
+                  onChange={onChangeConfirmPassword}
+                  id="standard-adornment-password"
+                  type={showPasswordConfirm ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPasswordConfirm}
+                        onMouseDown={handleMouseDownPasswordConfirm}
+                      >
+                        {showPasswordConfirm ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
 
-            <Button
-              color="success"
-              type="submit"
-              //   fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 1.5 }}
-              startIcon={<LockResetIcon />}
-              aria-label="Login"
-            >
-              Reset Password
-            </Button>
-          </Stack>
+              <Button
+                color="success"
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 1.5 }}
+                startIcon={<LockResetIcon />}
+                aria-label="Login"
+              >
+                Reset Password
+              </Button>
+            </Stack>
+          </Box>
         </Box>
       </Grid>
-    </Container>
+    </Grid>
   );
 };
 

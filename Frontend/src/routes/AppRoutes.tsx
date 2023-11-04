@@ -24,11 +24,11 @@ const AppRoutes: FC = () => {
 
             <Route index path="counter" element={<Counter />} />
             <Route index path="dependency" element={<PolicyDependency />} />
-            <Route path="reset-password" element={<ResetPassword />} />
             <Route path="access-denied" element={<AccessDenied />} />
           </Route>
         </Route>
         <Route path="forgot-password" element={<ForgotPassword />}></Route>
+        <Route path="reset-password" element={<ResetPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

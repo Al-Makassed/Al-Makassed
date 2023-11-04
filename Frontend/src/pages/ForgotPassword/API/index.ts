@@ -1,8 +1,8 @@
-// import { Chapter, CreateChapterResponse } from "./types";
 import axios from "src/API/axios";
+import { ForgetResponse } from "./types";
 
 export const forgotPassword = (userID: string) => {
   return axios
-    .post<string>("/authentication/forgot-password", { userId: userID })
+    .post<ForgetResponse>("/authentication/forgot-password", { userId: userID })
     .then((res) => res.data);
 };

@@ -11,17 +11,15 @@ const useForgetPasswordAPI = () => {
   // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { mutate: newPassword } = useMutation({
+  const { mutate: newPassword, isPending } = useMutation({
     mutationFn: forgotPassword,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({
-        // queryKey: CHAPTERS_QUERY_KEY,
-      });
+      queryClient.invalidateQueries({});
       dispatch(
         showSuccessSnackbar({
-          message: response,
+          message: response.message,
         }),
-        // navigate(`reset-password?${email} ${token}`) not found email in the response login :(
+        // navigate(`reset-password?${email} ${token}`)
       );
     },
 
@@ -38,6 +36,7 @@ const useForgetPasswordAPI = () => {
 
   return {
     newPassword,
+    isPending,
   };
 };
 

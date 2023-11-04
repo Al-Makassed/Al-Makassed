@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import {
   Avatar,
   Box,
-  Button,
+  // Button,
   Grid,
-  Paper,
   TextField,
   Typography,
+  Paper,
 } from "@mui/material";
 import LockResetIcon from "@mui/icons-material/LockReset";
-import Container from "@mui/material/Container";
 import useForgetPasswordAPI from "./hooks/useForgotPasswordAPI";
 import maqasidLogo from "../../images/logo.jpg";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const ForgetPassword = () => {
   const [id, setId] = useState<string>("");
-  const { newPassword } = useForgetPasswordAPI();
+  const { newPassword, isPending } = useForgetPasswordAPI();
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setId(value);
@@ -24,20 +24,35 @@ const ForgetPassword = () => {
     event.preventDefault();
     newPassword(id);
   };
+
   return (
-    <Container maxWidth="md">
+    // <Container maxWidth="md"  >
+    <Grid
+      container
+      sx={{
+        height: "100vh",
+        bgcolor: "grey.100",
+      }}
+      // marginTop="80px"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      // item
+      xs={12}
+      // sm={8}
+      // md={7}
+      // component={Paper}
+      // elevation={6}
+      // square
+    >
       <Grid
-        marginTop="80px"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        item
-        xs={12}
-        sm={8}
-        md={7}
         component={Paper}
-        elevation={6}
-        square
+        item
+        elevation={3}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
       >
         <Avatar
           alt="logo"
@@ -78,13 +93,15 @@ const ForgetPassword = () => {
               label="User ID "
               autoComplete="userId"
               autoFocus
-              required
-              placeholder="Enter your user ID"
+              // required
+              placeholder="e.g. 202310408"
               value={id}
               onChange={onChange}
             />
 
-            <Button
+            <LoadingButton
+              loading={isPending}
+              loadingPosition="start"
               color="success"
               type="submit"
               fullWidth
@@ -94,11 +111,12 @@ const ForgetPassword = () => {
               aria-label="Login"
             >
               Reset Password
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Grid>
-    </Container>
+    </Grid>
+    // </Container>
   );
 };
 

@@ -15,7 +15,7 @@ const useLoginAPI = () => {
     mutationFn: loginApi,
     onSuccess: (response) => {
       localStorage.setItem("accessToken", response.token);
-      // console.log(response.email);
+      console.log(response.token);
       dispatch(
         login({
           token: response.token,
@@ -27,7 +27,7 @@ const useLoginAPI = () => {
         }),
       );
       navigate("/home");
-      // window.location.reload();
+      window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
