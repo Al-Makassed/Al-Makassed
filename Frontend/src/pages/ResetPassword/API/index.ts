@@ -5,14 +5,14 @@ export const resetPassword = ({
   password,
   confirmPassword,
   email,
-  token,
+  encodedToken,
 }: forgotResetPassword) => {
   return axios
     .post<string>("/authentication/reset-password", {
       password,
       confirmPassword,
       email,
-      token,
+      token: encodedToken,
     })
     .then((res) => res.data);
 };

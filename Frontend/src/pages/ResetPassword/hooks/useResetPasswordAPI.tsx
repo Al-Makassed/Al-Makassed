@@ -1,38 +1,31 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { resetPassword } from "../API";
-// import { useAppDispatch } from "src/app/hooks";
-// import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
-// import { AxiosBaseError } from "src/types";
-// import { extractErrorMessage } from "../../Login/utils";
-// import { useNavigate } from "react-router-dom";
+import { AxiosBaseError } from "src/types";
+import { extractErrorMessage } from "src/utils";
+import { useAppDispatch } from "src/app/hooks";
+import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 
 const useForgetPasswordAPI = () => {
-  const queryClient = useQueryClient();
-  // const navigate = useNavigate();
-  //   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const { mutate: newResetPassword, isPending } = useMutation({
     mutationFn: resetPassword,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({});
+      dispatch(
+        showSuccessSnackbar({
+          message: "Reset Password Success! ",
+        }),
+      );
       console.log(response);
-      //   dispatch(
-      //     showSuccessSnackbar({
-      //       message: response.message,
-      //     }),
-      //     // navigate(`reset-password?${email} ${token}`)
-      //   );
     },
-
-    // onError: (error: AxiosBaseError) => {
-    //   const errorMessage = extractErrorMessage(error);
-    //   dispatch(
-    //     showErrorSnackbar({
-    //       title: "Error",
-    //       message: errorMessage,
-    //     }),
-    //   );
-    // },
+    onError: (error: AxiosBaseError) => {
+      const errorMessage = extractErrorMessage(error);
+      dispatch(
+        showErrorSnackbar({
+          message: errorMessage,
+        }),
+      );
+    },
   });
 
   return {

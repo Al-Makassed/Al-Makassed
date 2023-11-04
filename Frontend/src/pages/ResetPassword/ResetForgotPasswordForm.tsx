@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import {
   Avatar,
   Box,
-  Button,
   FormControl,
   Grid,
   IconButton,
@@ -17,13 +16,26 @@ import LockResetIcon from "@mui/icons-material/LockReset";
 import maqasidLogo from "../../images/logo.jpg";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
+import { LoadingButton } from "@mui/lab";
 
-const ResetPassword: FC = () => {
+const ResetForgotPasswordForm: FC = () => {
+  const url = new URL(window.location.href);
+  const token = url.searchParams.get("token");
+  let encodedToken: string | null = null; // Declare the variable
+  if (token !== null) {
+    // Replace %20 with +
+    encodedToken = encodeURI(token).replaceAll("%20", "+");
+    // Now 'encodedToken' contains the token value with spaces replaced by +
+    console.log(encodedToken);
+  }
+
   const searchParams = new URLSearchParams(window.location.search);
-  const token = searchParams.get("token");
+  // const token = searchParams.get("token");
   const email = searchParams.get("email");
 
   console.log(email);
+  // console.log(token);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
@@ -40,7 +52,7 @@ const ResetPassword: FC = () => {
   ) => {
     event.preventDefault();
   };
-  const { newResetPassword } = useResetPasswordAPI();
+  const { newResetPassword, isPending } = useResetPasswordAPI();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,12 +65,12 @@ const ResetPassword: FC = () => {
     const { value } = event.target;
     setConfirmPassword(value);
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    newResetPassword({ password, confirmPassword, email, token });
-    // // Clear the input fields
-    // setPassword('');
-    // setConfirmPassword('');
+    await newResetPassword({ password, confirmPassword, email, encodedToken });
+    // Clear the input fields
+    setPassword("");
+    setConfirmPassword("");
   };
 
   return (
@@ -170,7 +182,9 @@ const ResetPassword: FC = () => {
                 />
               </FormControl>
 
-              <Button
+              <LoadingButton
+                loading={isPending}
+                loadingPosition="start"
                 color="success"
                 type="submit"
                 fullWidth
@@ -180,7 +194,7 @@ const ResetPassword: FC = () => {
                 aria-label="Login"
               >
                 Reset Password
-              </Button>
+              </LoadingButton>
             </Stack>
           </Box>
         </Box>
@@ -189,4 +203,4 @@ const ResetPassword: FC = () => {
   );
 };
 
-export default ResetPassword;
+export default ResetForgotPasswordForm;

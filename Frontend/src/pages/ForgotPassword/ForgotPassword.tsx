@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Box,
-  // Button,
-  Grid,
-  TextField,
-  Typography,
-  Paper,
-} from "@mui/material";
+import { Avatar, Box, Grid, TextField, Typography, Paper } from "@mui/material";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import useForgetPasswordAPI from "./hooks/useForgotPasswordAPI";
 import maqasidLogo from "../../images/logo.jpg";
@@ -26,24 +18,16 @@ const ForgetPassword = () => {
   };
 
   return (
-    // <Container maxWidth="md"  >
     <Grid
       container
       sx={{
         height: "100vh",
         bgcolor: "grey.100",
       }}
-      // marginTop="80px"
       display="flex"
       justifyContent="center"
       alignItems="center"
-      // item
       xs={12}
-      // sm={8}
-      // md={7}
-      // component={Paper}
-      // elevation={6}
-      // square
     >
       <Grid
         component={Paper}
@@ -93,7 +77,6 @@ const ForgetPassword = () => {
               label="User ID "
               autoComplete="userId"
               autoFocus
-              // required
               placeholder="e.g. 202310408"
               value={id}
               onChange={onChange}
@@ -116,7 +99,6 @@ const ForgetPassword = () => {
         </Box>
       </Grid>
     </Grid>
-    // </Container>
   );
 };
 
