@@ -70,8 +70,8 @@ public class AuthenticationController : ApiController
 
         var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-        var forgotPasswordUrl = isLocal ? Url.Action(nameof(ResetPassword), "Authentication", new { forgetPasswordResult, email = userResult.Value.Email }, Request.Scheme) : forgetPasswordResult;
-
+        var forgotPasswordUrl = isLocal? Url.Action(nameof(ResetPassword), "Authentication", new { token = forgetPasswordResult, email = userResult.Value.Email }, Request.Scheme): forgetPasswordResult;
+        
         if (forgotPasswordUrl is null)
             return Problem();
 
@@ -97,8 +97,8 @@ public class AuthenticationController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [AllowAnonymous]
-    [HttpPost("reset-password")]
-    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+    [HttpPost("reset-forgotten-password")]
+    public async Task<IActionResult> ResetForgottenPassword(ForgottenPasswordResetRequest request)
     {
         var resetPasswordResult = await _authenticationService.ResetPassword(request);
 
@@ -107,6 +107,10 @@ public class AuthenticationController : ApiController
             Problem
         );
     }
+
+    // reset password
+    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)] 
 
     // update user roles
     [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]

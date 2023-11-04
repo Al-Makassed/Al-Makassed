@@ -158,7 +158,7 @@ public class AuthenticationService : IAuthenticationService
         return forgotPasswordUrl;
     }
 
-    public async Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request)
+    public async Task<ErrorOr<SuccessResponse>> ResetPassword(ForgottenPasswordResetRequest request)
     {
         // Attempt to find the user by email.
         var user = await _userManager.FindByEmailAsync(request.Email);

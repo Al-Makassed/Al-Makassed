@@ -12,7 +12,7 @@ public interface IAuthenticationService
     
     Task<string> GenerateForgotPasswordToken(MakassedUser user);
     
-    Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request);
+    Task<ErrorOr<SuccessResponse>> ResetPassword(ForgottenPasswordResetRequest request);
 
     Task<ErrorOr<MakassedUser>> GetUserByEmail(string requestEmail);
 
