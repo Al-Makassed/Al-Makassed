@@ -9,6 +9,7 @@ using Makassed.Api.Services.PolicyDependencies;
 using Makassed.Api.Services.SharedServices;
 using UserManagement.Service.Services.Email;
 using Makassed.Api.Services.MonitoringTools.Fields;
+using Makassed.Api.Services.Users.Departments;
 
 public static class ApplicationServicesConfiguration
 {
@@ -30,6 +31,9 @@ public static class ApplicationServicesConfiguration
 
         services.AddScoped<IFieldService, FieldService>();
         services.AddScoped<IFieldRepository, SqlFieldRepository>();
+
+        services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IDepartmentRepository, SqlDepartmentRepository>();
 
         return services;
     }

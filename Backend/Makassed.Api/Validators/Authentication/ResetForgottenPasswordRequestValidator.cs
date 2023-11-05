@@ -3,19 +3,13 @@ using Makassed.Contracts.Authentication;
 
 namespace Makassed.Api.Validators.Authentication;
 
-public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
+public class RestForgottenPasswordRequestValidator : AbstractValidator<ResetForgottenPasswordRequest>
 {
-    public RegisterRequestValidator()
+    public RestForgottenPasswordRequestValidator()
     {
-        RuleFor(r => r.UserId)
-            .NotEmpty().WithMessage("User Id is required.");
-
-        RuleFor(r => r.UserName)
-            .NotEmpty().WithMessage("User Name is required.");
-
         RuleFor(r => r.Email)
             .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().WithMessage("Not valid email address");
+            .EmailAddress().WithMessage("Not valid email address.");
 
         RuleFor(r => r.Password)
             .NotEmpty().WithMessage("Password is required.")

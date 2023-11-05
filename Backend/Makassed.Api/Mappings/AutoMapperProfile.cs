@@ -5,7 +5,7 @@ using Makassed.Contracts.PolicyDependency;
 using Makassed.Contracts.Policy;
 using Makassed.Contracts.MonitoringTool;
 using Makassed.Contracts.MonitoringTool.Field;
-using Makassed.Contracts.User;
+using Makassed.Contracts.User.Department;
 
 namespace Makassed.Api.Mappings;
 
@@ -35,5 +35,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Field, UpdateFieldRequest>().ReverseMap();
 
         CreateMap<Department, GetDepartmentResponse>().ReverseMap();
+        CreateMap<Department, CreateDepartmentRequest>().ReverseMap();
+        CreateMap<Department, UpdateDepartmentRequest>().ReverseMap();
     }
 }

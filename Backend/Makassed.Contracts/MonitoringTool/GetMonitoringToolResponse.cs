@@ -1,5 +1,6 @@
 using Makassed.Contracts.MonitoringTool.Field;
 using Makassed.Contracts.User;
+using Makassed.Contracts.User.Department;
 
 namespace Makassed.Contracts.MonitoringTool;
 
