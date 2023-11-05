@@ -11,24 +11,25 @@ import { Tooltip, Modal, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DragAndDrop from "./DragAndDrop";
 import { DATA } from "../constants";
-
-export interface DependencyProps {
-  name: string;
-}
+import { DependencyProps } from "../types";
 
 const Dependency: FC<DependencyProps> = ({ name }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    // <Paper elevation={9} sx={{ bgcolor: theme => theme.palette.maqasid.secondary  }}>
     <Box>
-      <Accordion sx={{ bgcolor: (theme) => theme.palette.maqasid.secondary }}>
+      <Accordion
+        sx={{
+          backgroundColor: (theme) => theme.palette.grey[200],
+          p: "0 0.5em",
+        }}
+      >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h5">{name}</Typography>
+          <Typography variant="h6">{name}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {DATA.map((e, index) => (
-            <Stack key={index} spacing={3} pb={1.5} direction="row">
+            <Stack key={index} spacing={1.5} pb={1.5} direction="row">
               <PictureAsPdfOutlinedIcon sx={{ color: "red" }} />
               <Typography textAlign="center">{e.label}</Typography>
             </Stack>
@@ -40,7 +41,12 @@ const Dependency: FC<DependencyProps> = ({ name }) => {
             justifyContent="center"
           >
             <Tooltip onClick={() => setOpen(true)} title="Add">
-              <Button variant="contained" startIcon={<AddIcon />} size="small">
+              <Button
+                sx={{ p: ".5em .75", m: "2em 2em .5em 2em" }}
+                variant="contained"
+                startIcon={<AddIcon />}
+                size="small"
+              >
                 Add {name}
               </Button>
             </Tooltip>
@@ -71,7 +77,6 @@ const Dependency: FC<DependencyProps> = ({ name }) => {
           </Stack>
         </AccordionDetails>
       </Accordion>
-      {/* // </Paper> */}
     </Box>
   );
 };

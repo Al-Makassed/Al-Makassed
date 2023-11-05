@@ -1,5 +1,5 @@
 import { Policy } from "./API/types";
 
-export interface ViewPolicyProps {
+export interface ViewPolicyInfoProps {
   policy: Policy;
 }

@@ -6,7 +6,6 @@ import { useAppDispatch } from "src/app/hooks";
 
 const useFetchPolicies = () => {
   const dispatch = useAppDispatch();
-
   const {
     data: policies,
     isFetching,
@@ -14,19 +13,20 @@ const useFetchPolicies = () => {
   } = useQuery({
     queryFn: () => getPolicyInformation(),
     queryKey: POLICIES_QUERY_KEY,
-    // staleTime:5000,
   });
 
   if (isError) {
     dispatch(
       showErrorSnackbar({
-        message: "Error fetching policies!",
+        message: "Error fetching chapters!",
       }),
     );
   }
+
   return {
     policies,
     isFetching,
+    isError,
   };
 };
 
