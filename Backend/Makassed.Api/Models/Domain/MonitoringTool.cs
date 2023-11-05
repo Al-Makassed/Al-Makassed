@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Makassed.Api.Models.Domain;
+﻿namespace Makassed.Api.Models.Domain;
 
 public class MonitoringTool
 {
@@ -12,7 +10,7 @@ public class MonitoringTool
 
     public DateTime LastModified { get; set; }
 
-    public List<Field> Fields { get; set; } = new();
+    public List<Department> Departments { get; set; } = new();
 
-    public List<Department> Departments = new();
+    public List<Field> Fields { get; set; } = new();
 }

@@ -1,9 +1,9 @@
-using Makassed.Contracts.Authentication;
-using Microsoft.AspNetCore.Identity;
+using Makassed.Api.Models.Domain;
+using Makassed.Api.Models.DTO;
 
 namespace Makassed.Api.Services.Authentication;
 
 public interface ITokenService
 {
-    LoginResponse CreateAccessToken(IdentityUser user, List<string> toList);
+    AccessTokenDto CreateAccessToken(MakassedUser user, List<string> toList);
 }

@@ -2,6 +2,8 @@ using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
+using Makassed.Contracts.General;
+using Makassed.Contracts.User.Roles;
 using Microsoft.AspNetCore.Identity;
 
 namespace Makassed.Api.Services.Authentication;
@@ -41,7 +43,7 @@ public class AuthenticationService : IAuthenticationService
     }
 
 
-    public async Task<ErrorOr<string>> Register(RegisterRequest request)
+    public async Task<ErrorOr<SuccessResponse>> Register(RegisterRequest request)
     {
         // Check if the user already exists.
         var existedUser = await _userManager.FindByIdAsync(request.UserId);
@@ -61,7 +63,8 @@ public class AuthenticationService : IAuthenticationService
         var user = new MakassedUser { 
             Id = request.UserId, 
             UserName = request.UserName,
-            DepartmentId = request.DepartmentID,
+            FullName = request.FullName,
+            DepartmentId = request.DepartmentId,
             Email = request.Email,
             SecurityStamp = Guid.NewGuid().ToString()
         };
@@ -73,19 +76,34 @@ public class AuthenticationService : IAuthenticationService
         if (!result.Succeeded)
             return Errors.User.CreateFailed;
 
-        // Check if the role exists, if not, return "Role Not Found" error.
-        if (!await _roleManager.RoleExistsAsync(request.Role))
-            return Errors.User.Role.NotFound;
+        // Check if the roles exist, if no role exists, add the "Staff" role to the user.
+        var validRoles = new List<string>();
 
-        // Add the role to the user.
-        var identityResult = await _userManager.AddToRoleAsync(user, request.Role);
+        if (!request.Roles.Any())
+        {
+            validRoles.Add("Staff");
+        }
+        else
+        {
+            foreach (var role in request.Roles)
+            {
+                if (await _roleManager.RoleExistsAsync(role))
+                    validRoles.Add(role);
+            }
+
+            if (!validRoles.Any())
+                validRoles.Add("Staff");
+        }
+
+        // Add the role/s to the user.
+        var identityResult = await _userManager.AddToRolesAsync(user, validRoles);
 
         // If adding the role to the user failed, return an "Add To Role Failed" error.
         if (!identityResult.Succeeded)
-            return Errors.User.AddToRoleFailed;
+            return Errors.User.Role.AddToRolesFailed;
         
         // Return a success message.
-        return "User created successfully.";
+        return new SuccessResponse(Message: "User created successfully.");
     }
 
     public async Task<ErrorOr<LoginResponse>> LogUserIn(LoginRequest request)
@@ -95,30 +113,52 @@ public class AuthenticationService : IAuthenticationService
 
         // If the user is not found, return a "User Not Found" error.
         if (user is null)
-            return Errors.User.NotFound;
+            return Errors.User.WrongCredentials;
 
         // Attempt to sign the user in with the given password.
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
         if (!result.Succeeded)
         {
-            return Errors.User.WrongPassword;
+            return Errors.User.WrongCredentials;
         }
 
         // Get the roles associated with the user.
         var roles = await _userManager.GetRolesAsync(user);
 
         // Create a JWT token with roles for the authenticated user.
-        return _tokenService.CreateAccessToken(user, roles.ToList());
+        var accessToken = _tokenService.CreateAccessToken(user, roles.ToList());
+
+        return new LoginResponse
+        {
+            UserId = user.Id,
+            UserName = user.UserName!,
+            FullName = user.FullName,
+            Email = user.Email!,
+            Roles = roles.ToList(),
+            Token = accessToken.Token,
+            Expiration = accessToken.Expiration
+        };
     }
 
     public async Task<string> GenerateForgotPasswordToken(MakassedUser user)
     {
         // Generate a password reset token for the user.
-        return await _userManager.GeneratePasswordResetTokenAsync(user);
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+        if (isLocal)
+            return token;
+
+        var websiteUrl = "https://maqasid.netlify.app/reset-password";
+
+        var forgotPasswordUrl = $"{websiteUrl}?token={token}&email={user.Email}";
+
+        return forgotPasswordUrl;
     }
 
-    public async Task<ErrorOr<string>> ResetPassword(ResetPasswordRequest request)
+    public async Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request)
     {
         // Attempt to find the user by email.
         var user = await _userManager.FindByEmailAsync(request.Email);
@@ -135,6 +175,48 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.ResetPasswordFailed;
 
         // Return a success message.
-        return "Password changed successfully.";
+        return new SuccessResponse( Message : "Password changed successfully." );
+    }
+
+    public async Task<ErrorOr<SuccessResponse>> UpdateUserRolesAsync(string userId, UpdateUserRolesRequest request)
+    {
+        // Attempt to find the user by ID.
+        var user = await _userManager.FindByIdAsync(userId);
+
+        // If the user is not found, return a "User Not Found" error.
+        if (user is null)
+            return Errors.User.NotFound;
+
+        // Get the roles associated with the user.
+        var oldUserRoles = await _userManager.GetRolesAsync(user);
+
+        // Check if the roles are valid, if no valid role, keep the original roles.
+        var validRoles = new List<string>();
+
+        foreach (var role in request.Roles)
+        {
+            if (role != null && await _roleManager.RoleExistsAsync(role))
+                validRoles.Add(role);
+        }
+
+        if (!validRoles.Any() && validRoles != null)
+            return new SuccessResponse(Message: "User roles still the same.");
+
+        // Remove the all roles from user.
+        var removeUserFromRolesResult = await _userManager.RemoveFromRolesAsync(user, oldUserRoles);
+
+        // If removing the user from all roles failed, return a "Remove From Roles Failed" error.
+        if (!removeUserFromRolesResult.Succeeded)
+            return Errors.User.Role.SomethingWentWrong;
+
+        // Add the valid role/s to the user.
+        var identityResult = await _userManager.AddToRolesAsync(user, validRoles);
+
+        // If adding the role to the user failed, return an "Add To Role Failed" error.
+        if (!identityResult.Succeeded)
+            return Errors.User.Role.AddToRolesFailed;
+
+        // Return a success message.
+        return new SuccessResponse(Message: "User roles updated successfully.");    
     }
 }

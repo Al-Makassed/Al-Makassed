@@ -2,21 +2,20 @@
 
 #nullable disable
 
-namespace Makassed.Api.Migrations
+namespace Makassed.Api.Migrations;
+
+/// <inheritdoc />
+public partial class MigForthedeploymentdb : Migration
 {
     /// <inheritdoc />
-    public partial class MigForthedeploymentdb : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

@@ -22,36 +22,6 @@ namespace Makassed.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DepartmentMonitoringTool", b =>
-                {
-                    b.Property<Guid>("DepartmentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MonitoringToolsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DepartmentsId", "MonitoringToolsId");
-
-                    b.HasIndex("MonitoringToolsId");
-
-                    b.ToTable("DepartmentMonitoringTool");
-                });
-
-            modelBuilder.Entity("FieldMonitoringTool", b =>
-                {
-                    b.Property<Guid>("FieldsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MonitoringToolsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("FieldsId", "MonitoringToolsId");
-
-                    b.HasIndex("MonitoringToolsId");
-
-                    b.ToTable("FieldMonitoringTool");
-                });
-
             modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Property<Guid>("Id")
@@ -76,11 +46,18 @@ namespace Makassed.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("HeadId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadId")
+                        .IsUnique()
+                        .HasFilter("[HeadId] IS NOT NULL");
 
                     b.ToTable("Departments");
                 });
@@ -167,6 +144,11 @@ namespace Makassed.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -176,6 +158,11 @@ namespace Makassed.Api.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -200,6 +187,9 @@ namespace Makassed.Api.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfileUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -207,8 +197,9 @@ namespace Makassed.Api.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -245,6 +236,57 @@ namespace Makassed.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MonitoringTools");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolDepartments", b =>
+                {
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MonitoringToolId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DepartmentId", "MonitoringToolId");
+
+                    b.HasIndex("MonitoringToolId");
+
+                    b.ToTable("MonitoringToolDepartments");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFields", b =>
+                {
+                    b.Property<Guid>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MonitoringToolId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("FieldId", "MonitoringToolId");
+
+                    b.HasIndex("MonitoringToolId");
+
+                    b.ToTable("MonitoringToolFields");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFieldsSubmissions", b =>
+                {
+                    b.Property<Guid>("MonitoringToolId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SubmissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("Answer")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MonitoringToolId", "FieldId", "SubmissionId");
+
+                    b.HasIndex("SubmissionId");
+
+                    b.ToTable("MonitoringToolFieldsSubmissions");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
@@ -297,6 +339,34 @@ namespace Makassed.Api.Migrations
                     b.ToTable("PolicyUser");
                 });
 
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MonitoringToolId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SubmitterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubmitterId");
+
+                    b.HasIndex("MonitoringToolId", "DepartmentId");
+
+                    b.ToTable("Submission");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -330,6 +400,13 @@ namespace Makassed.Api.Migrations
                             ConcurrencyStamp = "85e232cf-0f1e-46b6-9137-f9d587807c0c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "f2cb2812-ed29-4dd5-b456-eddf25eb379f",
+                            ConcurrencyStamp = "f2cb2812-ed29-4dd5-b456-eddf25eb379f",
+                            Name = "Sub-Admin",
+                            NormalizedName = "SUB-ADMIN"
                         },
                         new
                         {
@@ -453,34 +530,14 @@ namespace Makassed.Api.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DepartmentMonitoringTool", b =>
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Department", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Domain.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Head")
+                        .WithOne()
+                        .HasForeignKey("Makassed.Api.Models.Domain.Department", "HeadId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Makassed.Api.Models.Domain.MonitoringTool", null)
-                        .WithMany()
-                        .HasForeignKey("MonitoringToolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FieldMonitoringTool", b =>
-                {
-                    b.HasOne("Makassed.Api.Models.Domain.Field", null)
-                        .WithMany()
-                        .HasForeignKey("FieldsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Makassed.Api.Models.Domain.MonitoringTool", null)
-                        .WithMany()
-                        .HasForeignKey("MonitoringToolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Head");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
@@ -520,6 +577,63 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolDepartments", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Makassed.Api.Models.Domain.MonitoringTool", "MonitoringTool")
+                        .WithMany()
+                        .HasForeignKey("MonitoringToolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("MonitoringTool");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFields", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.Field", "Field")
+                        .WithMany()
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Makassed.Api.Models.Domain.MonitoringTool", "MonitoringTool")
+                        .WithMany()
+                        .HasForeignKey("MonitoringToolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Field");
+
+                    b.Navigation("MonitoringTool");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFieldsSubmissions", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.Submission", "Submission")
+                        .WithMany("MonitoringToolFieldsSubmissions")
+                        .HasForeignKey("SubmissionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Makassed.Api.Models.Domain.MonitoringToolFields", "MonitoringToolField")
+                        .WithMany("MonitoringToolFieldsSubmissions")
+                        .HasForeignKey("MonitoringToolId", "FieldId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("MonitoringToolField");
+
+                    b.Navigation("Submission");
+                });
+
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.HasOne("Makassed.Api.Models.Domain.Chapter", "Chapter")
@@ -544,6 +658,25 @@ namespace Makassed.Api.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Submitter")
+                        .WithMany("Submissions")
+                        .HasForeignKey("SubmitterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Makassed.Api.Models.Domain.MonitoringToolDepartments", "MonitoringToolDepartment")
+                        .WithMany("Submissions")
+                        .HasForeignKey("MonitoringToolId", "DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonitoringToolDepartment");
+
+                    b.Navigation("Submitter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -607,9 +740,29 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MakassedUser", b =>
+                {
+                    b.Navigation("Submissions");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolDepartments", b =>
+                {
+                    b.Navigation("Submissions");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFields", b =>
+                {
+                    b.Navigation("MonitoringToolFieldsSubmissions");
+                });
+
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.Navigation("Dependencies");
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
+                {
+                    b.Navigation("MonitoringToolFieldsSubmissions");
                 });
 #pragma warning restore 612, 618
         }
