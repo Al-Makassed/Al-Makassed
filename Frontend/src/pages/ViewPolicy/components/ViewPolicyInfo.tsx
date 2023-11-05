@@ -7,6 +7,7 @@ import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 
 const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
   const { code } = useParams();
+
   if (policy.code === code) {
     return (
       <Stack alignItems="center">
