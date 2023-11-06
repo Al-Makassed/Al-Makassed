@@ -25,16 +25,20 @@ const AppRoutes: FC = () => {
         <Route path="me" element={<AppLayout />}>
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
-            <Route path="home" element={<Home />} />
             <Route path="counter" element={<Counter />} />
             <Route path="dependency" element={<PolicyDependency />} />
           </Route>
         </Route>
 
-        <Route path="access-denied" element={<AccessDenied />} />
-        <Route path="unauthenticated" element={<Unauthenticated />} />
+        <Route path="x" element={<AppLayout />}>
+          <Route path="" element={<h1>Hello</h1>} />
+          <Route path="y" element={<h1>Hallo</h1>} />
+        </Route>
+
         <Route path="forgot-password" element={<ForgotPasswordForm />} />
         <Route path="reset-password" element={<ResetForgottenPasswordForm />} />
+        <Route path="access-denied" element={<AccessDenied />} />
+        <Route path="unauthenticated" element={<Unauthenticated />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
