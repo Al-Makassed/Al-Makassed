@@ -2,7 +2,7 @@ import React, { FC, lazy, Suspense } from "react";
 import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
-// import AuthRoute from "./AuthRoute";
+import AuthRoute from "./AuthRoute";
 const Login = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -23,12 +23,12 @@ const AppRoutes: FC = () => {
         <Route path="login" element={<Login />} />
         <Route index path="" element={<LandingPage />} />
         <Route path="me" element={<AppLayout />}>
-          {/* <Route element={<AuthRoute />}> */}
-          <Route index path="" element={<Home />} />
-          <Route index path="home" element={<Home />} />
-          <Route index path="counter" element={<Counter />} />
-          <Route index path="dependency" element={<PolicyDependency />} />
-          {/* </Route> */}
+          <Route element={<AuthRoute />}>
+            <Route index path="" element={<Home />} />
+            <Route index path="home" element={<Home />} />
+            <Route index path="counter" element={<Counter />} />
+            <Route index path="dependency" element={<PolicyDependency />} />
+          </Route>
         </Route>
 
         <Route path="access-denied" element={<AccessDenied />} />
