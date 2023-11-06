@@ -1,12 +1,12 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 
 const defaultAxiosSettings: AxiosRequestConfig = {
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("accessToken"), // TODO: Use this when authentication is implemented
+    Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN_KEY),
   },
-  // withCredentials: true, // TODO: Use this when authentication is implemented
 };
 
 const axiosMaqasid = axios.create({

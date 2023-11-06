@@ -27,7 +27,7 @@ const routeHOC =
         return pass;
       });
 
-      if (!hasAccess) return <Navigate to="/me/access-denied" replace={true} />;
+      if (!hasAccess) return <Navigate to="/access-denied" replace={true} />;
 
       return <Component {...props} />;
     };

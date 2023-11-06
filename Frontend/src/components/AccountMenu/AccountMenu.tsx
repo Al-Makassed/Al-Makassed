@@ -14,6 +14,7 @@ import PasswordIcon from "@mui/icons-material/Password";
 import { useDispatch } from "react-redux";
 import { logout } from "src/features/user";
 import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 
 const AccountMenu: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,7 +38,7 @@ const AccountMenu: FC = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
     dispatch(logout());
     navigate("/login");
   };

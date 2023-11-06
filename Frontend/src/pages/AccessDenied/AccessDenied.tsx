@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Lottie from "lottie-react";
-import lock from "src/lotties/lock.json";
+import lock from "src/animation/unauthenticated.json";
 
 const AccessDenied: FC = () => {
   return (
@@ -12,16 +12,21 @@ const AccessDenied: FC = () => {
       sx={{
         justifyContent: "center",
         alignItems: "center",
-        height: (theme) => `calc(100vh - ${theme.mixins.toolbar.height}px)`,
+        height: "100vh",
+        bgcolor: "grey.100",
       }}
     >
       <Stack sx={{ alignItems: "center", gap: 1 }}>
-        {/* <LockIcon color="disabled" sx={{ fontSize: 150 }} /> */}
         <Lottie
           animationData={lock}
           style={{ width: "300px", height: "300px" }}
         />
-        <Typography variant="h3" sx={{ color: "grey.700" }}>
+        <Typography
+          variant="h3"
+          sx={{ color: "grey.700" }}
+          fontSize={{ xs: "h5.fontSize", md: "h4.fontSize", xl: "h3.fontSize" }}
+          fontWeight={500}
+        >
           Additional Access Required
         </Typography>
         <Typography variant="body1" sx={{ color: "grey.700" }}>

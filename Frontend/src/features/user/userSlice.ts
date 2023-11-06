@@ -1,24 +1,44 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserState } from "./types";
+import { UserState, LoginPayload } from "./types";
+import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 
 const initialState: UserState = {
-  token: "",
+  userId: "",
+  userName: "",
+  fullName: "",
+  email: "",
+  roles: [""],
+  profileUrl: "",
+  phoneNumber: "",
 };
-
-interface LoginPayload {
-  token: string;
-}
 
 export const userSlice = createSlice({
   name: "userSlice",
   initialState,
   reducers: {
     login: (state, action: PayloadAction<LoginPayload>) => {
-      const { token } = action.payload;
-      state.token = token;
+      const {
+        userId,
+        userName,
+        fullName,
+        email,
+        roles,
+        profileUrl,
+        phoneNumber,
+      } = action.payload;
+
+      state.userId = userId;
+      state.userName = userName;
+      state.fullName = fullName;
+      state.email = email;
+      state.roles = roles;
+      state.profileUrl = profileUrl;
+      state.phoneNumber = phoneNumber;
     },
     logout: (state) => {
-      state.token = "";
+      state = initialState;
+      localStorage.removeItem(ACCESS_TOKEN_KEY);
+      return state;
     },
   },
 });
