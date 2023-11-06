@@ -37,7 +37,7 @@ const useLoginAPI = () => {
           profileUrl: profileUrl ?? "",
         }),
       );
-      navigate("/me/home");
+      navigate("/me");
       window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
