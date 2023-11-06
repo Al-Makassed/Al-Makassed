@@ -4,8 +4,17 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Lottie from "lottie-react";
 import lock from "src/animation/unauthenticated.json";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const AccessDenied: FC = () => {
+  const navigate = useNavigate();
+
+  const goToHome = () => navigate("/me");
+  const backToPreviousPage = () => navigate(-1);
+
   return (
     <Grid
       container
@@ -33,6 +42,30 @@ const AccessDenied: FC = () => {
           It seems you don&apos;t have access to this page. Please contact a
           system administrator if access is needed.
         </Typography>
+
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={2}
+          sx={{ mt: 4 }}
+        >
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={backToPreviousPage}
+            size="large"
+            variant="contained"
+          >
+            Back
+          </Button>
+          <Button
+            startIcon={<HomeIcon />}
+            onClick={goToHome}
+            size="large"
+            variant="outlined"
+            color="info"
+          >
+            Home
+          </Button>
+        </Stack>
       </Stack>
     </Grid>
   );

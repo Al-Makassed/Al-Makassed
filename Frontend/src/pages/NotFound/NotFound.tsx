@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import Lottie from "lottie-react";
 import notFound from "src/animation/404.json";
 import Button from "@mui/material/Button";
-import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReplayIcon from "@mui/icons-material/Replay";
 

@@ -4,7 +4,7 @@ const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
   [
     "Home",
     {
-      roles: [["Focal Point"]],
+      roles: [["Admin"], ["Focal Point"]],
     },
   ],
   [

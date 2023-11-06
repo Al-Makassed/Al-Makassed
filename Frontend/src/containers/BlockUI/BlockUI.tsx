@@ -20,9 +20,9 @@ const BlockUI: FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          outline: "none",
         }}
       >
-        {/*<CircularProgress size={50} />*/}
         <Lottie
           animationData={infinityLoader}
           style={{ width: "100px", height: "100px" }}
