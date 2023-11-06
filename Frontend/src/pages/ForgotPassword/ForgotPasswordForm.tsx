@@ -1,20 +1,28 @@
-import React, { useState } from "react";
-import { Avatar, Box, Grid, TextField, Typography, Paper } from "@mui/material";
+import React, { useState, FC, ChangeEvent, MouseEvent } from "react";
+import {
+  Avatar,
+  Grid,
+  TextField,
+  Typography,
+  Paper,
+  Stack,
+  Hidden,
+} from "@mui/material";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import useForgetPasswordAPI from "./hooks/useForgotPasswordAPI";
 import maqasidLogo from "../../images/logo.jpg";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-const ForgetPassword = () => {
-  const [id, setId] = useState<string>("");
-  const { newPassword, isPending } = useForgetPasswordAPI();
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setId(value);
+const ForgetPassword: FC = () => {
+  const [userId, setUserId] = useState<string>("");
+  const { requestNewPassword, isPending } = useForgetPasswordAPI();
+  const handleChangeUserId = (event: ChangeEvent<HTMLInputElement>) => {
+    setUserId(event.target.value);
   };
-  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleSubmitForm = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    newPassword(id);
+    requestNewPassword(userId);
   };
 
   return (
@@ -38,19 +46,23 @@ const ForgetPassword = () => {
         justifyContent="center"
         direction="column"
       >
-        <Avatar
-          alt="logo"
-          variant="circular"
+        <Hidden smDown>
+          <Avatar
+            alt="logo"
+            variant="circular"
+            sx={{
+              width: 160,
+              height: 160,
+            }}
+            // display={{ xs: "none", md: "flex" }}
+            src={maqasidLogo}
+          />
+        </Hidden>
+
+        <Stack
+          padding={3}
+          gap={1}
           sx={{
-            width: 180,
-            height: 180,
-          }}
-          src={maqasidLogo}
-        />
-        <Box
-          sx={{
-            my: 6,
-            mx: 13,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -60,14 +72,14 @@ const ForgetPassword = () => {
             component="h1"
             variant="h3"
             fontWeight={500}
-            fontSize={{ xs: "1.8em", sm: "2.8em" }}
+            fontSize={{ xs: "1.8em", sm: "2.3em" }}
             sx={{
               color: (theme) => theme.palette.maqasid.primary,
             }}
           >
             Forgot Password
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Stack>
             <TextField
               color="success"
               variant="standard"
@@ -78,8 +90,8 @@ const ForgetPassword = () => {
               autoComplete="userId"
               autoFocus
               placeholder="e.g. 202310408"
-              value={id}
-              onChange={onChange}
+              value={userId}
+              onChange={handleChangeUserId}
             />
 
             <LoadingButton
@@ -92,11 +104,12 @@ const ForgetPassword = () => {
               sx={{ mt: 3, mb: 1.5 }}
               startIcon={<LockResetIcon />}
               aria-label="Login"
+              onClick={handleSubmitForm}
             >
               Reset Password
             </LoadingButton>
-          </Box>
-        </Box>
+          </Stack>
+        </Stack>
       </Grid>
     </Grid>
   );

@@ -1,7 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, ChangeEvent, MouseEvent } from "react";
 import {
   Avatar,
-  Box,
   FormControl,
   Grid,
   IconButton,
@@ -17,24 +16,17 @@ import maqasidLogo from "../../images/logo.jpg";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 import { LoadingButton } from "@mui/lab";
+import { useAppDispatch } from "src/app/hooks";
+import { showErrorSnackbar } from "src/features/snackbar";
 
 const ResetForgotPasswordForm: FC = () => {
   const url = new URL(window.location.href);
-  const token = url.searchParams.get("token");
-  let encodedToken: string | null = null; // Declare the variable
-  if (token !== null) {
-    // Replace %20 with +
-    encodedToken = encodeURI(token).replaceAll("%20", "+");
-    // Now 'encodedToken' contains the token value with spaces replaced by +
-    console.log(encodedToken);
-  }
 
-  const searchParams = new URLSearchParams(window.location.search);
-  // const token = searchParams.get("token");
-  const email = searchParams.get("email");
+  const email = url.searchParams.get("email") ?? "";
 
-  console.log(email);
-  // console.log(token);
+  const token = url.searchParams.get("token") ?? "";
+
+  const encodedToken = encodeURI(token).replaceAll("%20", "+");
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -43,34 +35,44 @@ const ResetForgotPasswordForm: FC = () => {
   const handleClickShowPasswordConfirm = () =>
     setShowPasswordConfirm((show) => !show);
   const handleMouseDownPasswordConfirm = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
   };
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const { newResetPassword, isPending } = useResetPasswordAPI();
+  const { resetForgottenPassword, isPending } = useResetPasswordAPI();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setPassword(value);
+  const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   };
-  const onChangeConfirmPassword = (
-    event: React.ChangeEvent<HTMLInputElement>,
+  const handleChangeConfirmPassword = (
+    event: ChangeEvent<HTMLInputElement>,
   ) => {
-    const { value } = event.target;
-    setConfirmPassword(value);
+    setConfirmPassword(event.target.value);
   };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const dispatch = useAppDispatch();
+
+  const handleSubmitForm = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    await newResetPassword({ password, confirmPassword, email, encodedToken });
-    // Clear the input fields
-    setPassword("");
-    setConfirmPassword("");
+    if (password === confirmPassword) {
+      resetForgottenPassword({
+        password,
+        email,
+        token: encodedToken,
+      });
+      // Clear the input fields
+      setPassword("");
+      setConfirmPassword("");
+    } else {
+      dispatch(
+        showErrorSnackbar({
+          message: "Passwords & Confirm Password don't match",
+        }),
+      );
+    }
   };
 
   return (
@@ -103,10 +105,10 @@ const ResetForgotPasswordForm: FC = () => {
           }}
           src={maqasidLogo}
         />
-        <Box
+        <Stack
+          padding={3}
+          gap={2}
           sx={{
-            my: 6,
-            mx: 13,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -116,88 +118,83 @@ const ResetForgotPasswordForm: FC = () => {
             component="h1"
             variant="h3"
             fontWeight={500}
-            fontSize={{ xs: "1.8em", sm: "2.8em" }}
+            fontSize={{ xs: "1.8em", sm: "2.3em" }}
             sx={{
               color: (theme) => theme.palette.maqasid.primary,
             }}
           >
             Reset Password
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <Stack>
-              <FormControl
-                sx={{ m: 1, width: "25ch" }}
-                variant="standard"
-                color="success"
-              >
-                <InputLabel htmlFor="standard-adornment-password">
-                  Password
-                </InputLabel>
-                <Input
-                  value={password}
-                  onChange={onChangePassword}
-                  id="standard-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-              <FormControl
-                sx={{ m: 1, width: "25ch" }}
-                variant="standard"
-                color="success"
-              >
-                <InputLabel htmlFor="standard-adornment-password">
-                  Confirm Password
-                </InputLabel>
-                <Input
-                  value={confirmPassword}
-                  onChange={onChangeConfirmPassword}
-                  id="standard-adornment-password"
-                  type={showPasswordConfirm ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPasswordConfirm}
-                        onMouseDown={handleMouseDownPasswordConfirm}
-                      >
-                        {showPasswordConfirm ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+          <Stack>
+            <FormControl
+              sx={{ m: 1, width: "25ch" }}
+              variant="standard"
+              color="success"
+            >
+              <InputLabel htmlFor="standard-adornment-password">
+                Password
+              </InputLabel>
+              <Input
+                value={password}
+                onChange={handleChangePassword}
+                id="standard-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <FormControl
+              sx={{ m: 1, width: "25ch" }}
+              variant="standard"
+              color="success"
+            >
+              <InputLabel htmlFor="standard-adornment-password">
+                Confirm Password
+              </InputLabel>
+              <Input
+                value={confirmPassword}
+                onChange={handleChangeConfirmPassword}
+                id="standard-adornment-password"
+                type={showPasswordConfirm ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPasswordConfirm}
+                      onMouseDown={handleMouseDownPasswordConfirm}
+                    >
+                      {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
 
-              <LoadingButton
-                loading={isPending}
-                loadingPosition="start"
-                color="success"
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 1.5 }}
-                startIcon={<LockResetIcon />}
-                aria-label="Login"
-              >
-                Reset Password
-              </LoadingButton>
-            </Stack>
-          </Box>
-        </Box>
+            <LoadingButton
+              loading={isPending}
+              loadingPosition="start"
+              color="success"
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 1.5 }}
+              startIcon={<LockResetIcon />}
+              aria-label="Reset Password"
+              onClick={handleSubmitForm}
+            >
+              Reset Password
+            </LoadingButton>
+          </Stack>
+        </Stack>
       </Grid>
     </Grid>
   );

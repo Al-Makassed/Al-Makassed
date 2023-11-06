@@ -1,22 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
-import { resetPassword } from "../API";
+import { resetForgottenPassword as resetForgottenPasswordApi } from "../API";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { useAppDispatch } from "src/app/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 
-const useForgetPasswordAPI = () => {
+const useResetPasswordAPI = () => {
   const dispatch = useAppDispatch();
 
-  const { mutate: newResetPassword, isPending } = useMutation({
-    mutationFn: resetPassword,
+  const { mutate: resetForgottenPassword, isPending } = useMutation({
+    mutationFn: resetForgottenPasswordApi,
     onSuccess: (response) => {
+      console.log(response);
       dispatch(
         showSuccessSnackbar({
-          message: "Reset Password Success! ",
+          message: response.message,
         }),
       );
-      console.log(response);
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
@@ -29,9 +29,9 @@ const useForgetPasswordAPI = () => {
   });
 
   return {
-    newResetPassword,
+    resetForgottenPassword,
     isPending,
   };
 };
 
-export default useForgetPasswordAPI;
+export default useResetPasswordAPI;

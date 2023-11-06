@@ -1,18 +1,17 @@
 import axios from "src/API/axios";
-import { forgotResetPassword } from "./types";
+import { ResetForgottenPasswordRequest } from "./types";
+import { BaseSuccessResponse } from "src/types";
 
-export const resetPassword = ({
+export const resetForgottenPassword = ({
   password,
-  confirmPassword,
   email,
-  encodedToken,
-}: forgotResetPassword) => {
+  token,
+}: ResetForgottenPasswordRequest) => {
   return axios
-    .post<string>("/authentication/reset-password", {
+    .post<BaseSuccessResponse>("/authentication/reset-forgotten-password", {
       password,
-      confirmPassword,
       email,
-      token: encodedToken,
+      token,
     })
     .then((res) => res.data);
 };

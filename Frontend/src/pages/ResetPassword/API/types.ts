@@ -1,6 +1,5 @@
-export interface forgotResetPassword {
+export interface ResetForgottenPasswordRequest {
   password: string;
-  confirmPassword: string;
-  email: string | null;
-  encodedToken: string | null;
+  email: string;
+  token: string;
 }

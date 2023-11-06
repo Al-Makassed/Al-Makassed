@@ -1,8 +1,10 @@
 import axios from "src/API/axios";
-import { ForgetResponse } from "./types";
+import { BaseSuccessResponse } from "src/API/axios";
 
 export const forgotPassword = (userID: string) => {
   return axios
-    .post<ForgetResponse>("/authentication/forgot-password", { userId: userID })
+    .post<BaseSuccessResponse>("/authentication/forgot-password", {
+      userId: userID,
+    })
     .then((res) => res.data);
 };

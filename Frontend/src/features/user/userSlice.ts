@@ -4,10 +4,11 @@ import { LoginPayload, UserState } from "./types";
 const initialState: UserState = {
   userId: "",
   userName: "",
+  fullName: "",
   email: "",
-  role: "",
+  roles: [""],
   profileUrl: "",
-  token: "",
+  phoneNumber: "",
 };
 
 export const userSlice = createSlice({
@@ -15,25 +16,27 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<LoginPayload>) => {
-      const { token } = action.payload;
-      state.token = token;
-      const { userId } = action.payload;
+      const {
+        userId,
+        userName,
+        fullName,
+        email,
+        roles,
+        profileUrl,
+        phoneNumber,
+      } = action.payload;
+
       state.userId = userId;
-      const { userName } = action.payload;
       state.userName = userName;
-      const { email } = action.payload;
+      state.fullName = fullName;
       state.email = email;
-      const { role } = action.payload;
-      state.role = role;
-      const { profileUrl } = action.payload;
+      state.roles = roles;
       state.profileUrl = profileUrl;
-    },
-    logout: (state) => {
-      state.token = "";
+      state.phoneNumber = phoneNumber;
     },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login } = userSlice.actions;
 
 export default userSlice.reducer;

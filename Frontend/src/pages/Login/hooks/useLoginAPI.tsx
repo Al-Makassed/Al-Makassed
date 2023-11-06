@@ -15,15 +15,24 @@ const useLoginAPI = () => {
     mutationFn: loginApi,
     onSuccess: (response) => {
       localStorage.setItem("accessToken", response.token);
-      console.log(response.token);
+      const {
+        userId,
+        userName,
+        fullName,
+        email,
+        roles,
+        profileUrl,
+        phoneNumber,
+      } = response;
       dispatch(
         login({
-          token: response.token,
-          userId: response.userId,
-          userName: response.userName,
-          email: response.email,
-          role: response.role,
-          profileUrl: response.profileUrl,
+          userId,
+          userName,
+          fullName,
+          email,
+          phoneNumber,
+          roles,
+          profileUrl,
         }),
       );
       navigate("/home");
