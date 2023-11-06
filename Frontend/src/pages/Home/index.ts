@@ -4,5 +4,5 @@ import { HomeProps } from "./types";
 
 export default routeHOC<HomeProps>({
   title: "Home",
-  pageAccessName: "Home",
+  // pageAccessName: "Home",
 })(Home);
