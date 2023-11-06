@@ -11,12 +11,14 @@ import Logout from "@mui/icons-material/Logout";
 import { cyan } from "@mui/material/colors";
 import { noop } from "src/utils";
 import PasswordIcon from "@mui/icons-material/Password";
-import { useDispatch } from "react-redux";
-import { logout } from "src/features/user";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
+import { useAppDispatch } from "src/app/hooks";
+import { logout } from "src/features/user";
 
 const AccountMenu: FC = () => {
+  const dispatch = useAppDispatch();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -34,7 +36,6 @@ const AccountMenu: FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogOut = () => {

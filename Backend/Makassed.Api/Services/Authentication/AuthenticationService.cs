@@ -134,6 +134,7 @@ public class AuthenticationService : IAuthenticationService
             UserName = user.UserName!,
             FullName = user.FullName,
             Email = user.Email!,
+            PhoneNumber = user.PhoneNumber,
             Roles = roles.ToList(),
             Token = accessToken.Token,
             Expiration = accessToken.Expiration

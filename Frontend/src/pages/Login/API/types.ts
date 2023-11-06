@@ -10,7 +10,7 @@ export interface LoginResponse {
   email: string;
   roles: string[];
   profileUrl: string | null;
+  phoneNumber: string;
   token: string;
   expiration: string;
-  phoneNumber: string;
 }
