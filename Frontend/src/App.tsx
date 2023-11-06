@@ -7,7 +7,7 @@ import Snackbar from "./components/Snackbar";
 import queryClient from "./cache/queryClient";
 
 const App: FC = () => {
-  useLanguageSelector();
+  useLanguageSelector(); // Language selector
 
   return (
     <QueryClientProvider client={queryClient}>
