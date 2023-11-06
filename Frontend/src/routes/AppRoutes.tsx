@@ -9,6 +9,10 @@ const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
 const PolicyDependency = lazy(() => import("src/pages/PolicyDependency"));
+const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
+const ResetForgottenPasswordForm = lazy(
+  () => import("src/pages/ResetPasswordForm"),
+);
 
 const AppRoutes: FC = () => {
   return (
@@ -22,10 +26,11 @@ const AppRoutes: FC = () => {
 
             <Route index path="counter" element={<Counter />} />
             <Route index path="dependency" element={<PolicyDependency />} />
-
             <Route path="access-denied" element={<AccessDenied />} />
           </Route>
         </Route>
+        <Route path="forgot-password" element={<ForgotPasswordForm />}></Route>
+        <Route path="reset-password" element={<ResetForgottenPasswordForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

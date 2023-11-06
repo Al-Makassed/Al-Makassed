@@ -1,28 +1,42 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserState } from "./types";
+import { LoginPayload, UserState } from "./types";
 
 const initialState: UserState = {
-  token: "",
+  userId: "",
+  userName: "",
+  fullName: "",
+  email: "",
+  roles: [""],
+  profileUrl: "",
+  phoneNumber: "",
 };
-
-interface LoginPayload {
-  token: string;
-}
 
 export const userSlice = createSlice({
   name: "userSlice",
   initialState,
   reducers: {
     login: (state, action: PayloadAction<LoginPayload>) => {
-      const { token } = action.payload;
-      state.token = token;
-    },
-    logout: (state) => {
-      state.token = "";
+      const {
+        userId,
+        userName,
+        fullName,
+        email,
+        roles,
+        profileUrl,
+        phoneNumber,
+      } = action.payload;
+
+      state.userId = userId;
+      state.userName = userName;
+      state.fullName = fullName;
+      state.email = email;
+      state.roles = roles;
+      state.profileUrl = profileUrl;
+      state.phoneNumber = phoneNumber;
     },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login } = userSlice.actions;
 
 export default userSlice.reducer;

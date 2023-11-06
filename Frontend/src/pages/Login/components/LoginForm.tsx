@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -27,7 +27,7 @@ const LoginForm = () => {
 
   const goToForgotPassword = () => navigate("/forgot-password");
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -35,6 +35,15 @@ const LoginForm = () => {
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
+  };
+  // Declare a state variable to store the "remember me" status
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+
+  // Handle the change event of the checkbox
+  const handleRememberMeChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setRememberMe(event.target.checked);
   };
   return (
     <Grid
@@ -69,12 +78,7 @@ const LoginForm = () => {
         >
           Login to Maqasid
         </Typography>
-        <Box
-          //onSubmitCapture={handleSubmit(onSubmit)}
-          component="form"
-          onSubmit={handleSubmitForm}
-          sx={{ mt: 1 }}
-        >
+        <Box component="form" onSubmit={handleSubmitForm} sx={{ mt: 1 }}>
           <TextField
             color="success"
             variant="standard"
@@ -118,19 +122,6 @@ const LoginForm = () => {
               }
             />
           </FormControl>
-          {/* <TextField
-            color="success"
-            variant="standard"
-            margin="normal"
-            // required
-            fullWidth
-            // name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            {...register("password")}
-          /> */}
           <Typography sx={{ color: "error.light" }}>
             {errors.password?.message}
           </Typography>
@@ -140,10 +131,16 @@ const LoginForm = () => {
             componentsProps={{
               typography: {
                 color: "grey.700",
-                // fontSize: "0.9rem",
               },
             }}
-            control={<Checkbox value="remember" color="success" />}
+            control={
+              <Checkbox
+                value="remember"
+                color="success"
+                onChange={handleRememberMeChange}
+                checked={rememberMe}
+              />
+            }
             label="Remember me"
           />
           <LoadingButton
@@ -167,10 +164,6 @@ const LoginForm = () => {
               alignItems="center"
               justifyContent="center"
             >
-              {/*<Link href="#" variant="body2"*/}
-              {/*      sx={{textDecoration: "none", color: "grey.700", fontSize: "1rem"}}>*/}
-              {/*    Forgot password?*/}
-              {/*</Link>*/}
               <Button
                 variant="text"
                 color="success"
@@ -179,11 +172,6 @@ const LoginForm = () => {
                 Forgot password?
               </Button>
             </Grid>
-            {/* <Grid item>
-              <Link href="#" variant="body2" color="#5E5E5E">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid> */}
           </Grid>
         </Box>
       </Box>

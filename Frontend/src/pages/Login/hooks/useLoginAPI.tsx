@@ -15,9 +15,24 @@ const useLoginAPI = () => {
     mutationFn: loginApi,
     onSuccess: (response) => {
       localStorage.setItem("accessToken", response.token);
+      const {
+        userId,
+        userName,
+        fullName,
+        email,
+        roles,
+        profileUrl,
+        phoneNumber,
+      } = response;
       dispatch(
         login({
-          token: response.token,
+          userId,
+          userName,
+          fullName,
+          email,
+          phoneNumber,
+          roles,
+          profileUrl,
         }),
       );
       navigate("/home");
@@ -29,7 +44,7 @@ const useLoginAPI = () => {
         showErrorSnackbar({
           title: "Error",
           message: errorMessage,
-          anchorOrigin: { vertical: "bottom", horizontal: "left" },
+          anchorOrigin: { vertical: "top", horizontal: "right" },
         }),
       );
     },
