@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build --base=/me/",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
     "prepare": "cd .. && husky install Frontend/.husky",
