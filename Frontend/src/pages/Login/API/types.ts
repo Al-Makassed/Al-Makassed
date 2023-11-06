@@ -1,4 +1,4 @@
-export interface User {
+export interface LoginRequest {
   userId: string;
   password: string;
 }
@@ -9,7 +9,7 @@ export interface LoginResponse {
   fullName: string;
   email: string;
   roles: string[];
-  profileUrl: string;
+  profileUrl: string | null;
   phoneNumber: string;
   token: string;
   expiration: string;

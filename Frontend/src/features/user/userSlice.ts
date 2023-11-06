@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginPayload, UserState } from "./types";
+import { UserState, LoginPayload } from "./types";
+import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 
 const initialState: UserState = {
   userId: "",
@@ -34,9 +35,14 @@ export const userSlice = createSlice({
       state.profileUrl = profileUrl;
       state.phoneNumber = phoneNumber;
     },
+    logout: (state) => {
+      state = initialState;
+      localStorage.removeItem(ACCESS_TOKEN_KEY);
+      return state;
+    },
   },
 });
 
-export const { login } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;

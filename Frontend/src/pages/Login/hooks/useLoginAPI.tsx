@@ -6,6 +6,7 @@ import { extractErrorMessage } from "../utils";
 import { useAppDispatch } from "src/app/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { login } from "src/features/user";
+import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 
 const useLoginAPI = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +15,7 @@ const useLoginAPI = () => {
   const { mutate: loginUser, isPending: isLoggingIn } = useMutation({
     mutationFn: loginApi,
     onSuccess: (response) => {
-      localStorage.setItem("accessToken", response.token);
+      localStorage.setItem(ACCESS_TOKEN_KEY, response.token);
       const {
         userId,
         userName,
@@ -24,6 +25,7 @@ const useLoginAPI = () => {
         profileUrl,
         phoneNumber,
       } = response;
+
       dispatch(
         login({
           userId,
@@ -32,10 +34,10 @@ const useLoginAPI = () => {
           email,
           phoneNumber,
           roles,
-          profileUrl,
+          profileUrl: profileUrl ?? "",
         }),
       );
-      navigate("/home");
+      navigate("/me/home");
       window.location.reload();
     },
     onError: (error: AxiosBaseError) => {

@@ -4,7 +4,7 @@ import App from "./App";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MaqasidThemeProvider from "./styling/MaqasidThemeProvider";
-import "./locals/i18n";
+import "./locale/i18n";
 import { Provider } from "react-redux";
 import store from "./app/store";
 import ErrorBoundary from "./Error";

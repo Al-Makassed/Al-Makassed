@@ -4,9 +4,13 @@ import ChapterListItem from "./ChapterListItem";
 import { Chapter } from "../API/types";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";
+import { useAppSelector } from "src/app/hooks";
+import { selectIsSidebarOpen } from "src/features/appSettings";
 
 const ChaptersList = () => {
-  const { chapters, isFetching } = useFetchChapters();
+  const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
+
+  const { chapters, isFetching } = useFetchChapters(isSidebarOpen);
 
   if (isFetching) return <LoaderCell size={38} color="success" />;
 
