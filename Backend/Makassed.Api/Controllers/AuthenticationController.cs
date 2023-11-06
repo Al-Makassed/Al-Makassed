@@ -152,14 +152,14 @@ public class AuthenticationController : ApiController
 
         //Get the Authorization token from the request header.
         var authorizationToken = HttpContext.Request.Headers["Authorization"].ToString();
+        
+        // The token is in the format "Bearer {token}". We only need the token.
+        authorizationToken = authorizationToken.Replace("Bearer ", string.Empty);
 
         if (string.IsNullOrEmpty(authorizationToken))
         {
             return Unauthorized();
         }
-
-        // The token is in the format "Bearer {token}". We only need the token.
-        authorizationToken = authorizationToken.Replace("Bearer ", string.Empty);
 
         // Decode the Authorization token using the JwtSecurityTokenHandler class.
         var tokenHandler = new JwtSecurityTokenHandler();
