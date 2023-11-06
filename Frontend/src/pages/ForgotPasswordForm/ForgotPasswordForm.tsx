@@ -6,7 +6,6 @@ import {
   Typography,
   Paper,
   Stack,
-  Hidden,
 } from "@mui/material";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import useForgetPasswordAPI from "./hooks/useForgotPasswordAPI";
@@ -38,6 +37,7 @@ const ForgetPassword: FC = () => {
       xs={12}
     >
       <Grid
+        width={{ xs: "350px", md: "500px" }}
         component={Paper}
         item
         elevation={3}
@@ -46,22 +46,16 @@ const ForgetPassword: FC = () => {
         justifyContent="center"
         direction="column"
       >
-        <Hidden smDown>
-          <Avatar
-            alt="logo"
-            variant="circular"
-            sx={{
-              width: 160,
-              height: 160,
-            }}
-            // display={{ xs: "none", md: "flex" }}
-            src={maqasidLogo}
-          />
-        </Hidden>
+        <Avatar
+          alt="logo"
+          variant="circular"
+          sx={{ width: 160, height: 160, display: { xs: "none", md: "flex" } }}
+          src={maqasidLogo}
+        />
 
         <Stack
-          padding={3}
-          gap={1}
+          padding={{ xs: 2, md: 2 }}
+          gap={2}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -79,7 +73,7 @@ const ForgetPassword: FC = () => {
           >
             Forgot Password
           </Typography>
-          <Stack>
+          <Stack gap={1}>
             <TextField
               color="success"
               variant="standard"
@@ -101,9 +95,9 @@ const ForgetPassword: FC = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 1.5 }}
+              sx={{ mb: 1.5 }}
               startIcon={<LockResetIcon />}
-              aria-label="Login"
+              aria-label="Forgot"
               onClick={handleSubmitForm}
             >
               Reset Password

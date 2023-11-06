@@ -9,9 +9,9 @@ const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
 const PolicyDependency = lazy(() => import("src/pages/PolicyDependency"));
-const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPassword"));
+const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
-  () => import("src/pages/ResetPassword"),
+  () => import("src/pages/ResetPasswordForm"),
 );
 
 const AppRoutes: FC = () => {

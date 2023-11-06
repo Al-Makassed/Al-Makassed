@@ -1,8 +1,10 @@
 import React, { FC, useState, ChangeEvent, MouseEvent } from "react";
 import {
   Avatar,
+  Button,
   FormControl,
   Grid,
+  Hidden,
   IconButton,
   Input,
   InputAdornment,
@@ -18,6 +20,7 @@ import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch } from "src/app/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
+import { useNavigate } from "react-router-dom";
 
 const ResetForgotPasswordForm: FC = () => {
   const url = new URL(window.location.href);
@@ -32,8 +35,10 @@ const ResetForgotPasswordForm: FC = () => {
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleClickShowPasswordConfirm = () =>
     setShowPasswordConfirm((show) => !show);
+
   const handleMouseDownPasswordConfirm = (
     event: MouseEvent<HTMLButtonElement>,
   ) => {
@@ -63,7 +68,6 @@ const ResetForgotPasswordForm: FC = () => {
         email,
         token: encodedToken,
       });
-      // Clear the input fields
       setPassword("");
       setConfirmPassword("");
     } else {
@@ -74,6 +78,9 @@ const ResetForgotPasswordForm: FC = () => {
       );
     }
   };
+  const navigate = useNavigate();
+
+  const goToLogIn = () => navigate("/login");
 
   return (
     <Grid
@@ -88,6 +95,7 @@ const ResetForgotPasswordForm: FC = () => {
       xs={12}
     >
       <Grid
+        width={{ xs: 350, md: 600 }}
         component={Paper}
         item
         elevation={3}
@@ -96,18 +104,21 @@ const ResetForgotPasswordForm: FC = () => {
         justifyContent="center"
         direction="column"
       >
-        <Avatar
-          alt="logo"
-          variant="circular"
-          sx={{
-            width: 180,
-            height: 180,
-          }}
-          src={maqasidLogo}
-        />
+        <Hidden smDown>
+          <Avatar
+            sx={{
+              width: 180,
+              height: 180,
+              display: { xs: "none", md: "flex" },
+            }}
+            alt="logo"
+            variant="circular"
+            src={maqasidLogo}
+          />
+        </Hidden>
         <Stack
-          padding={3}
-          gap={2}
+          padding={{ xs: 3, md: 4 }} // responsive for all screen sizes
+          gap={3}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -125,9 +136,9 @@ const ResetForgotPasswordForm: FC = () => {
           >
             Reset Password
           </Typography>
-          <Stack>
+          <Stack gap={3}>
             <FormControl
-              sx={{ m: 1, width: "25ch" }}
+              sx={{ width: "25ch" }}
               variant="standard"
               color="success"
             >
@@ -139,6 +150,7 @@ const ResetForgotPasswordForm: FC = () => {
                 onChange={handleChangePassword}
                 id="standard-adornment-password"
                 type={showPassword ? "text" : "password"}
+                placeholder=" eg p@ssw0rd12#"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -153,7 +165,7 @@ const ResetForgotPasswordForm: FC = () => {
               />
             </FormControl>
             <FormControl
-              sx={{ m: 1, width: "25ch" }}
+              sx={{ width: "25ch" }}
               variant="standard"
               color="success"
             >
@@ -165,6 +177,7 @@ const ResetForgotPasswordForm: FC = () => {
                 onChange={handleChangeConfirmPassword}
                 id="standard-adornment-password"
                 type={showPasswordConfirm ? "text" : "password"}
+                placeholder=" eg p@ssw0rd12#"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -186,13 +199,15 @@ const ResetForgotPasswordForm: FC = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 1.5 }}
               startIcon={<LockResetIcon />}
               aria-label="Reset Password"
               onClick={handleSubmitForm}
             >
               Reset Password
             </LoadingButton>
+            <Button variant="text" color="success" onClick={goToLogIn}>
+              LogIn
+            </Button>
           </Stack>
         </Stack>
       </Grid>
