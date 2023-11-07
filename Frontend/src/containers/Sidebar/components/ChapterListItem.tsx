@@ -14,12 +14,19 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import { useAppDispatch } from "src/app/hooks";
+import { toggleSidebar } from "src/features/appSettings";
+import { useNavigate } from "react-router-dom";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
-
   const handleClick = () => setOpen(!open);
-
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handleEditChapter = () => {
+    dispatch(toggleSidebar());
+    navigate(`/me/edit-chapter/${chapter.id}`);
+  };
   return (
     <>
       <Box sx={{ display: "flex", height: 55 }}>
@@ -39,7 +46,11 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
         </ListItemButton>
 
         <Tooltip title="Edit chapter">
-          <IconButton aria-label="Edit chapter" sx={{ mr: 1 }}>
+          <IconButton
+            aria-label="Edit chapter"
+            sx={{ mr: 1 }}
+            onClick={handleEditChapter}
+          >
             <EditIcon />
           </IconButton>
         </Tooltip>
