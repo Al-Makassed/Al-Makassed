@@ -37,7 +37,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chapters");
+                    b.ToTable("Chapters", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Department", b =>
@@ -59,7 +59,7 @@ namespace Makassed.Api.Migrations
                         .IsUnique()
                         .HasFilter("[HeadId] IS NOT NULL");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
@@ -92,7 +92,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("PolicyCode");
 
-                    b.ToTable("Dependencies");
+                    b.ToTable("Dependencies", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.DependencyUser", b =>
@@ -114,7 +114,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("DependencyUser");
+                    b.ToTable("DependencyUser", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Field", b =>
@@ -129,7 +129,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fields");
+                    b.ToTable("Fields", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.MakassedUser", b =>
@@ -235,7 +235,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MonitoringTools");
+                    b.ToTable("MonitoringTools", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolDepartments", b =>
@@ -250,7 +250,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("MonitoringToolId");
 
-                    b.ToTable("MonitoringToolDepartments");
+                    b.ToTable("MonitoringToolDepartments", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFields", b =>
@@ -265,7 +265,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("MonitoringToolId");
 
-                    b.ToTable("MonitoringToolFields");
+                    b.ToTable("MonitoringToolFields", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringToolFieldsSubmissions", b =>
@@ -286,7 +286,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("SubmissionId");
 
-                    b.ToTable("MonitoringToolFieldsSubmissions");
+                    b.ToTable("MonitoringToolFieldsSubmissions", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
@@ -314,7 +314,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Policies");
+                    b.ToTable("Policies", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.PolicyUser", b =>
@@ -336,7 +336,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("PolicyUser");
+                    b.ToTable("PolicyUser", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
@@ -364,7 +364,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("MonitoringToolId", "DepartmentId");
 
-                    b.ToTable("Submission");
+                    b.ToTable("Submission", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

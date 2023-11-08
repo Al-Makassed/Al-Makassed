@@ -7,5 +7,7 @@ export interface BaseResponse {
   traceId: string;
   errors: Record<string, string[]>;
 }
-
+export interface BaseSuccessResponse {
+  message: string;
+}
 export interface AxiosBaseError extends AxiosError<BaseResponse> {}
