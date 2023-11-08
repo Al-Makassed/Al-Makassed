@@ -14,11 +14,17 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import AddPolicyDialog from "src/pages/AddPolicy/components/AddPolicyDialog";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleClick = () => setOpen(!open);
+
+  const handleOpenDialog = () => setIsDialogOpen(true);
+
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
   return (
     <>
@@ -55,7 +61,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
               <ListItemText primary={pol.name} />
             </ListItemButton>
           ))}
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
             <ListItemIcon
               sx={{
                 color: (theme) => theme.palette.maqasid.primary,
@@ -67,6 +73,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
             {/* <ListItemText primary="Add policy" /> */}
             <Typography fontWeight={590}>Add Policy</Typography>
           </ListItemButton>
+          <AddPolicyDialog open={isDialogOpen} onClose={handleCloseDialog} />
         </List>
       </Collapse>
     </>
