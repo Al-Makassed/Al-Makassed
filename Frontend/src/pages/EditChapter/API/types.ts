@@ -21,3 +21,7 @@ export interface Dependency {
   policyCode: string;
   policyDependencyType: number;
 }
+export interface RenameChapter {
+  id: string;
+  newChapterName: string;
+}
