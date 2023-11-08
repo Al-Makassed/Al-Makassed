@@ -10,7 +10,7 @@ import { FC, useState } from "react";
 import { Tooltip, Modal, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DragAndDrop from "./DragAndDrop";
-import { DATA } from "../constants";
+import { FORMS } from "../constants";
 import { DependencyProps } from "../types";
 
 const Dependency: FC<DependencyProps> = ({ name }) => {
@@ -20,15 +20,16 @@ const Dependency: FC<DependencyProps> = ({ name }) => {
     <Box>
       <Accordion
         sx={{
-          backgroundColor: (theme) => theme.palette.grey[200],
-          p: "0 0.5em",
+          bgcolor: "grey.200",
+          py: 0,
+          px: 1,
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6">{name}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {DATA.map((e, index) => (
+          {FORMS.map((e, index) => (
             <Stack key={index} spacing={1.5} pb={1.5} direction="row">
               <PictureAsPdfOutlinedIcon sx={{ color: "red" }} />
               <Typography textAlign="center">{e.label}</Typography>
@@ -39,10 +40,12 @@ const Dependency: FC<DependencyProps> = ({ name }) => {
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
+            pt={3}
+            pb={1}
           >
             <Tooltip onClick={() => setOpen(true)} title="Add">
               <Button
-                sx={{ p: ".5em .75", m: "2em 2em .5em 2em" }}
+                sx={{ p: ".5em .75" }}
                 variant="contained"
                 startIcon={<AddIcon />}
                 size="small"

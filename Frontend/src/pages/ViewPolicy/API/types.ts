@@ -15,5 +15,3 @@ export interface Dependency {
   policyCode: string;
   policyDependencyType: number;
 }
-
-// export interface CreatePolicyResponse extends Omit<Policy, "dependencies"> { }

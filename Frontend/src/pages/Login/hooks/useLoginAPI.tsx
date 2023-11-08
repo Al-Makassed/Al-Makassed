@@ -6,6 +6,7 @@ import { extractErrorMessage } from "../utils";
 import { useAppDispatch } from "src/app/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { login } from "src/features/user";
+import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 
 const useLoginAPI = () => {
   const dispatch = useAppDispatch();
@@ -14,13 +15,29 @@ const useLoginAPI = () => {
   const { mutate: loginUser, isPending: isLoggingIn } = useMutation({
     mutationFn: loginApi,
     onSuccess: (response) => {
-      localStorage.setItem("accessToken", response.token);
+      localStorage.setItem(ACCESS_TOKEN_KEY, response.token);
+      const {
+        userId,
+        userName,
+        fullName,
+        email,
+        roles,
+        profileUrl,
+        phoneNumber,
+      } = response;
+
       dispatch(
         login({
-          token: response.token,
+          userId,
+          userName,
+          fullName,
+          email,
+          phoneNumber,
+          roles,
+          profileUrl: profileUrl ?? "",
         }),
       );
-      navigate("/home");
+      navigate("/me");
       window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
@@ -29,7 +46,7 @@ const useLoginAPI = () => {
         showErrorSnackbar({
           title: "Error",
           message: errorMessage,
-          anchorOrigin: { vertical: "bottom", horizontal: "left" },
+          anchorOrigin: { vertical: "top", horizontal: "right" },
         }),
       );
     },

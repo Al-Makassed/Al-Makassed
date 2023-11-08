@@ -1,1 +1,1 @@
-export { default } from "./ViewPolicy";
+export { default } from "./PolicyDetails";

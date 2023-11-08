@@ -5,9 +5,8 @@ import { Policy } from "./API/types";
 import { Stack } from "@mui/material";
 import LoaderCell from "src/components/LoaderCell";
 
-const ViewPolicy: FC = () => {
+const PolicyDetails: FC = () => {
   const { policies, isFetching } = useFetchPolicies();
-  console.log(policies);
 
   if (isFetching) return <LoaderCell size={38} color="success" />;
 
@@ -20,4 +19,4 @@ const ViewPolicy: FC = () => {
   );
 };
 
-export default ViewPolicy;
+export default PolicyDetails;

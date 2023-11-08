@@ -14,7 +14,6 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-// import { Policy } from "../API/types";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchPolicies from "src/pages/ViewPolicy/hooks/useGetPolicies";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +62,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
           {chapter.policies.map((policy, index) => (
             <ListItemButton
               onClick={() => {
-                navigate(`/policy/${policy.code}`), dispatch(toggleSidebar());
+                navigate(`policy/${policy.code}`), dispatch(toggleSidebar());
               }}
               key={index}
               sx={{ pl: 4 }}

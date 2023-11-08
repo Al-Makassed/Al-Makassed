@@ -25,13 +25,15 @@ const Sidebar: FC = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            ...theme.mixins.niceScroll(),
           },
           "& .MuiPaper-root": {
             backgroundColor: (theme) => theme.palette.grey[200],
             height: `calc(100% - 115px)`,
             mt: 8,
           },
+        }}
+        style={{
+          ...theme.mixins.niceScroll(),
         }}
         variant="persistent"
         anchor="left"
