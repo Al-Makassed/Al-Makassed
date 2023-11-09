@@ -32,4 +32,19 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
     {
         return await _dbContext.MonitoringTools.FirstOrDefaultAsync(mt => mt.Id == id);
     }
+
+    public async Task<MonitoringTool?> CreateMonitoringToolAsync(MonitoringTool monitoringTool)
+    {
+        var existingMonitoringTool = await _dbContext.MonitoringTools.FirstOrDefaultAsync(mt => mt.Name == monitoringTool.Name);
+
+        if (existingMonitoringTool is not null)
+            return null;
+
+        monitoringTool.LastModified = DateTime.UtcNow;
+
+        await _dbContext.MonitoringTools.AddAsync(monitoringTool);
+        await _dbContext.SaveChangesAsync();
+
+        return monitoringTool;
+    }
 }   

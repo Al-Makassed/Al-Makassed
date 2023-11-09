@@ -9,4 +9,6 @@ public interface IMonitoringToolRepository
     Task<List<MonitoringTool>?> GetFocalPointMonitoringToolsAsync(string focalPointId);
     
     Task<MonitoringTool?> GetFocalPointByIdAsync(Guid id);
+    
+    Task<MonitoringTool?> CreateMonitoringToolAsync(MonitoringTool monitoringTool);
 }

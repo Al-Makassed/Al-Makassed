@@ -16,5 +16,5 @@ public class GetMonitoringToolResponse
 
     public IEnumerable<GetFieldResponse> Fields { get; set; } = new List<GetFieldResponse>();
 
-    public IEnumerable<GetDepartmentResponse> AssignedDepartments { get; set; } = new List<GetDepartmentResponse>();
+    public IEnumerable<GetDepartmentResponse> Departments { get; set; } = new List<GetDepartmentResponse>();
 }

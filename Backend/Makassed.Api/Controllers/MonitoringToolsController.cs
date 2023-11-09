@@ -1,4 +1,6 @@
-﻿using AutoMapper;using Makassed.Api.Services.MonitoringTools;
+﻿using AutoMapper;
+using Makassed.Api.Models.Domain;
+using Makassed.Api.Services.MonitoringTools;
 using Makassed.Contracts.MonitoringTool;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +50,28 @@ public class MonitoringToolsController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
-    public async Task<IActionResult> GetFocalPoint(Guid id) 
+    public async Task<IActionResult> GetMonitoringTool(Guid id) 
     {
         var result = await _monitoringToolService.GetFocalPointByIdAsync(id);
-        return Ok(_mapper.Map<GetMonitoringToolResponse>(result));
+        
+        return result.Match(
+            _ => Ok(_mapper.Map<GetMonitoringToolResponse>(result.Value)), 
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(List<GetMonitoringToolResponse>), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> CreateMonitoringTool(CreateMonitoringToolRequest request)
+    {
+        var monitoringTool = _mapper.Map<MonitoringTool>(request);
+        
+        var result = await _monitoringToolService.CreateMonitoringToolAsync(monitoringTool, request.DepartmentsIdes, request.FieldsIdes);
+
+        return result.Match(
+            _ => CreatedAtAction(nameof(GetMonitoringTool), new { id = result.Value.Id }, _mapper.Map<GetMonitoringToolResponse>(result.Value)),
+            errors => Problem(errors)
+        );
     }
 }
