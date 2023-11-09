@@ -5,18 +5,17 @@ import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { CHAPTER_QUERY_KEY } from "../constants";
-import { CHAPTERS_QUERY_KEY } from "src/containers/Sidebar/constants";
 
 const useRenameChapter = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: renameChapter } = useMutation({
+  const { mutate: renameChapter, isPending } = useMutation({
     mutationFn: renameChapterAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [CHAPTER_QUERY_KEY, CHAPTERS_QUERY_KEY],
+        queryKey: [CHAPTER_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({
@@ -36,6 +35,7 @@ const useRenameChapter = () => {
 
   return {
     renameChapter,
+    isPending,
   };
 };
 

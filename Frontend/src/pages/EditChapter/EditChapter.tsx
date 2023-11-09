@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
 import {
-  Button,
   IconButton,
   List,
   ListItemButton,
@@ -20,6 +19,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import useDeletePolicyByCode from "./hooks/useDeletePolicyByCode";
 import useDeleteAllPolicies from "./hooks/useDeleteAllPolicies";
 import useRenameChapter from "./hooks/useRenameChapter";
+import { LoadingButton } from "@mui/lab";
 
 const EditChapter = () => {
   const { id } = useParams();
@@ -27,7 +27,7 @@ const EditChapter = () => {
   const [newChapter, setNewChapter] = useState<string>(chapter?.name ?? "");
   const { deletePolicy } = useDeletePolicyByCode();
   const { deleteAllPolicies } = useDeleteAllPolicies();
-  const { renameChapter } = useRenameChapter();
+  const { renameChapter, isPending } = useRenameChapter();
   const handleDeleteAllPolicy = () => {
     if (chapter?.id) {
       deleteAllPolicies(chapter.id);
@@ -69,7 +69,9 @@ const EditChapter = () => {
         value={newChapter}
         onChange={handleChangeChapterName}
       />
-      <Button
+      <LoadingButton
+        loading={isPending}
+        loadingPosition="start"
         size="medium"
         color="success"
         type="submit"
@@ -80,7 +82,7 @@ const EditChapter = () => {
         endIcon={<DriveFileRenameOutlineIcon />}
       >
         Rename Chapter
-      </Button>
+      </LoadingButton>
       <Stack direction="row" spacing={2}>
         <Typography fontSize="20px" fontWeight={400} padding={2}>
           Policies information
@@ -88,7 +90,7 @@ const EditChapter = () => {
         <Tooltip title="Delete All">
           <IconButton
             aria-label="Delete All"
-            sx={{ color: "#d32f2f", mr: 1 }}
+            sx={{ color: "#d32f2f" }}
             onClick={handleDeleteAllPolicy}
           >
             <DeleteIcon />
