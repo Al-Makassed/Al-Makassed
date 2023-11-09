@@ -116,7 +116,7 @@ public class AuthenticationController : ApiController
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
-        var resetPasswordResult = await _authenticationService.ResetPassword(request);
+         var resetPasswordResult = await _authenticationService.ResetPassword(request);
 
         return resetPasswordResult.Match(
             Ok,
