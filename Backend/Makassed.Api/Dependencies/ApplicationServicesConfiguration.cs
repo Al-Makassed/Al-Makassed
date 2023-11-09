@@ -10,6 +10,7 @@ using Makassed.Api.Services.SharedServices;
 using UserManagement.Service.Services.Email;
 using Makassed.Api.Services.MonitoringTools.Fields;
 using Makassed.Api.Services.Users.Departments;
+using Makassed.Api.Services.MonitoringTools;
 
 public static class ApplicationServicesConfiguration
 {
@@ -29,6 +30,8 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenService, TokenService>();
 
+        services.AddScoped<IMonitoringToolRepository, SqlMonitoringToolRepository>();
+        services.AddScoped<IMonitoringToolService, MonitoringToolService>();
         services.AddScoped<IFieldService, FieldService>();
         services.AddScoped<IFieldRepository, SqlFieldRepository>();
 
