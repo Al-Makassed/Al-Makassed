@@ -82,7 +82,7 @@ public class MonitoringToolsController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[Authorize(Roles = "Admin, Sub-Admin")]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> UpdateMonitoringTool(Guid id, UpdateMonitoringToolRequest request)
     {
         var monitoringTool = _mapper.Map<MonitoringTool>(request);
@@ -100,7 +100,7 @@ public class MonitoringToolsController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[Authorize(Roles = "Admin, Sub-Admin")]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> DeleteMonitoringTool(Guid id)
     {
         var result = await _monitoringToolService.DeleteMonitoringToolAsync(id);

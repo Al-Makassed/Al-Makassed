@@ -24,9 +24,9 @@ public class MonitoringToolService : IMonitoringToolService
         return await _monitoringToolRepository.GetMonitoringToolsAsync();
     }
 
-    public async Task<ErrorOr<List<MonitoringTool>>> GetFocalPointMonitoringToolsAsync(string focalPointId)
+    public async Task<ErrorOr<List<MonitoringTool>>> GetFocalPointMonitoringToolsAsync(string monitoringToolId)
     {
-        var result = await _monitoringToolRepository.GetFocalPointMonitoringToolsAsync(focalPointId);
+        var result = await _monitoringToolRepository.GetFocalPointMonitoringToolsAsync(monitoringToolId);
 
         if (result is null)
             return Errors.User.NotFocalPoint;

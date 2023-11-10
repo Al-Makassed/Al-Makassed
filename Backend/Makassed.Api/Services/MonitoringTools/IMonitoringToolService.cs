@@ -7,7 +7,7 @@ public interface IMonitoringToolService
 {
     Task<List<MonitoringTool>> GetMonitoringToolsAsync();
     
-    Task<ErrorOr<List<MonitoringTool>>> GetFocalPointMonitoringToolsAsync(string focalPointId);
+    Task<ErrorOr<List<MonitoringTool>>> GetFocalPointMonitoringToolsAsync(string monitoringToolId);
     
     Task<ErrorOr<MonitoringTool>> GetMonitoringToolByIdAsync(Guid id);
     
