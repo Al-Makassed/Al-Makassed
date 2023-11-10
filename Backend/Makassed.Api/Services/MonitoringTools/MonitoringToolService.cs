@@ -124,4 +124,11 @@ public class MonitoringToolService : IMonitoringToolService
         
         return  result is null ? Errors.MonitoringTool.NotFound : result;
     }
+
+    public async Task<ErrorOr<MonitoringTool>> DeleteMonitoringToolAsync(Guid id)
+    {
+        var result = await _monitoringToolRepository.DeleteMonitoringToolAsync(id);
+
+        return result is null ? Errors.MonitoringTool.NotFound : result;
+    }
 }

@@ -13,4 +13,6 @@ public interface IMonitoringToolRepository
     Task<MonitoringTool?> CreateMonitoringToolAsync(MonitoringTool monitoringTool);
     
     Task<MonitoringTool?> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool);
+    
+    Task<MonitoringTool?> DeleteMonitoringToolAsync(Guid id);
 }
