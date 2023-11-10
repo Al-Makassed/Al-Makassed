@@ -15,22 +15,22 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
 
     public async Task<List<MonitoringTool>> GetMonitoringToolsAsync()
     {
-        return await _dbContext.MonitoringTools.ToListAsync();
+        return await _dbContext.MonitoringTools.Include(mt => mt.Departments).Include(mt => mt.Fields).ToListAsync();
     }
 
     public async Task<List<MonitoringTool>?> GetFocalPointMonitoringToolsAsync(string focalPointId)
     {
-        var fpDepartment = await _dbContext.Departments.FirstOrDefaultAsync(d => d.HeadId == focalPointId);
+        var focalPointDepartment = await _dbContext.Departments.Include(d => d.MonitoringTools).ThenInclude(mt => mt.Fields).FirstOrDefaultAsync(d => d.HeadId == focalPointId);
         
-        if(fpDepartment is null)
+        if(focalPointDepartment is null)
             return null;
 
-        return await _dbContext.MonitoringTools.Where(mt => mt.Departments.Contains(fpDepartment)).ToListAsync();
+        return focalPointDepartment.MonitoringTools.ToList();
     }
 
-    public async Task<MonitoringTool?> GetFocalPointByIdAsync(Guid id)
+    public async Task<MonitoringTool?> GetMonitoringToolByIdAsync(Guid id)
     {
-        return await _dbContext.MonitoringTools.FirstOrDefaultAsync(mt => mt.Id == id);
+        return await _dbContext.MonitoringTools.Include(mt => mt.Departments).Include(mt => mt.Fields).FirstOrDefaultAsync(mt => mt.Id == id);
     }
 
     public async Task<MonitoringTool?> CreateMonitoringToolAsync(MonitoringTool monitoringTool)
@@ -43,6 +43,31 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
         monitoringTool.LastModified = DateTime.UtcNow;
 
         await _dbContext.MonitoringTools.AddAsync(monitoringTool);
+        await _dbContext.SaveChangesAsync();
+
+        return monitoringTool;
+    }
+
+    public async Task<MonitoringTool?> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool)
+    {
+        var existingMonitoringTool = await _dbContext.MonitoringTools
+            .Include(mt => mt.Departments)
+            .Include(mt => mt.Fields)
+            .FirstOrDefaultAsync(mt => mt.Id == id);
+
+        if (existingMonitoringTool is null)
+            return null;
+
+        existingMonitoringTool.Name = monitoringTool.Name;
+        existingMonitoringTool.Description = monitoringTool.Description;
+        existingMonitoringTool.LastModified = DateTime.UtcNow;
+
+        existingMonitoringTool.Departments.Clear();
+        existingMonitoringTool.Departments.AddRange(monitoringTool.Departments);
+
+        existingMonitoringTool.Fields.Clear();
+        existingMonitoringTool.Fields.AddRange(monitoringTool.Fields);
+
         await _dbContext.SaveChangesAsync();
 
         return monitoringTool;

@@ -34,9 +34,9 @@ public class MonitoringToolService : IMonitoringToolService
         return result;
     }
 
-    public async Task<ErrorOr<MonitoringTool>> GetFocalPointByIdAsync(Guid id)
+    public async Task<ErrorOr<MonitoringTool>> GetMonitoringToolByIdAsync(Guid id)
     {
-        var result = await _monitoringToolRepository.GetFocalPointByIdAsync(id);
+        var result = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
 
         return result is null ? Errors.MonitoringTool.NotFound : result;
     }
@@ -103,5 +103,25 @@ public class MonitoringToolService : IMonitoringToolService
         
         // Return error if the monitoring tool already exists and return the monitoring tool if it was created successfully
         return result is null ? Errors.MonitoringTool.NameAlreadyExist : result;
+    }
+
+    public async Task<ErrorOr<MonitoringTool>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool, List<Guid> requestDepartmentsIdes,
+        List<Guid> requestFieldsIdes)
+    {
+        // Add the existed departments and fields to the monitoring tool
+        var departments = await AssignDepartmentsAsync(monitoringTool, requestDepartmentsIdes);
+
+        if (departments.IsError)
+            return departments.Errors;
+
+        var fields = await AssignFieldsAsync(monitoringTool, requestFieldsIdes);
+
+        if (fields.IsError)
+            return fields.Errors;
+
+        // Update the monitoring tool
+        var result = await _monitoringToolRepository.UpdateMonitoringToolAsync(id, monitoringTool);
+        
+        return  result is null ? Errors.MonitoringTool.NotFound : result;
     }
 }

@@ -52,7 +52,7 @@ public class MonitoringToolsController : ApiController
     [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
     public async Task<IActionResult> GetMonitoringTool(Guid id) 
     {
-        var result = await _monitoringToolService.GetFocalPointByIdAsync(id);
+        var result = await _monitoringToolService.GetMonitoringToolByIdAsync(id);
         
         return result.Match(
             _ => Ok(_mapper.Map<GetMonitoringToolResponse>(result.Value)), 
@@ -71,6 +71,23 @@ public class MonitoringToolsController : ApiController
 
         return result.Match(
             _ => CreatedAtAction(nameof(GetMonitoringTool), new { id = result.Value.Id }, _mapper.Map<GetMonitoringToolResponse>(result.Value)),
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(List<GetMonitoringToolResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateMonitoringTool(Guid id, UpdateMonitoringToolRequest request)
+    {
+        var monitoringTool = _mapper.Map<MonitoringTool>(request);
+        
+        var result = await _monitoringToolService.UpdateMonitoringToolAsync(id, monitoringTool, request.DepartmentsIdes, request.FieldsIdes);
+
+        return result.Match(
+            _ => Ok(_mapper.Map<GetMonitoringToolResponse>(result.Value)),
             errors => Problem(errors)
         );
     }
