@@ -29,6 +29,7 @@ public class AutoMapperProfile : Profile
         CreateMap<MonitoringTool, GetMonitoringToolResponse>().ReverseMap();
         CreateMap<MonitoringTool, CreateMonitoringToolRequest>().ReverseMap();
         CreateMap<MonitoringTool, UpdateMonitoringToolRequest>().ReverseMap();
+        CreateMap<Submission, SubmitMonitoringToolRequest>().ReverseMap();
 
         CreateMap<Field, GetFieldResponse>().ReverseMap();
         CreateMap<Field, CreateFieldRequest>().ReverseMap();

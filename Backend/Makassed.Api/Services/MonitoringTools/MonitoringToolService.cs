@@ -24,16 +24,6 @@ public class MonitoringToolService : IMonitoringToolService
         return await _monitoringToolRepository.GetMonitoringToolsAsync();
     }
 
-    public async Task<ErrorOr<List<MonitoringTool>>> GetFocalPointMonitoringToolsAsync(string monitoringToolId)
-    {
-        var result = await _monitoringToolRepository.GetFocalPointMonitoringToolsAsync(monitoringToolId);
-
-        if (result is null)
-            return Errors.User.NotFocalPoint;
-
-        return result;
-    }
-
     public async Task<ErrorOr<MonitoringTool>> GetMonitoringToolByIdAsync(Guid id)
     {
         var result = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
@@ -58,7 +48,7 @@ public class MonitoringToolService : IMonitoringToolService
         if (departments.IsNullOrEmpty())
             return Errors.MonitoringTool.NoValidAssignedDepartments;
 
-        monitoringTool.Departments = departments;
+        //monitoringTool.Departments = departments;
 
         return monitoringTool;
     }

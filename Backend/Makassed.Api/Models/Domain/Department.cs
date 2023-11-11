@@ -8,9 +8,10 @@ public class Department
 
     public string? HeadId { get; set; }
 
+    // Navigation Properties
     public MakassedUser? Head { get; set; }
 
-    public List<MonitoringTool> MonitoringTools { get; set; } = new();
+    public ICollection<FocalPointTask> FocalPointTasks { get; set; } = new List<FocalPointTask>();
 
     public ICollection<MakassedUser> Users { get; set; } = new List<MakassedUser>();
 }
