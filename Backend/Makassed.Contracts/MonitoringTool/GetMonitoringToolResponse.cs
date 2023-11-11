@@ -1,5 +1,6 @@
 using Makassed.Contracts.MonitoringTool.Field;
 using Makassed.Contracts.User;
+using Makassed.Contracts.User.Department;
 
 namespace Makassed.Contracts.MonitoringTool;
 
@@ -15,5 +16,5 @@ public class GetMonitoringToolResponse
 
     public IEnumerable<GetFieldResponse> Fields { get; set; } = new List<GetFieldResponse>();
 
-    public IEnumerable<GetDepartmentResponse> FocalPoints { get; set; } = new List<GetDepartmentResponse>();
+    public IEnumerable<GetDepartmentResponse> Departments { get; set; } = new List<GetDepartmentResponse>();
 }

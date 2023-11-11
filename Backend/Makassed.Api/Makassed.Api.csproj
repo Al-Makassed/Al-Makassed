@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="Services\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

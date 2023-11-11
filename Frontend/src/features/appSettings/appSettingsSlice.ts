@@ -5,6 +5,7 @@ interface AppSettingsState {
   sidebar: {
     isOpen: boolean;
   };
+  // pageTitle: string;
 }
 
 // Define the initial state using that type
@@ -12,6 +13,7 @@ const initialState: AppSettingsState = {
   sidebar: {
     isOpen: false,
   },
+  // pageTitle: "Al-Maqasid"
 };
 
 export const appSettingsSlice = createSlice({
