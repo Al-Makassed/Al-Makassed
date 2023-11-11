@@ -48,5 +48,10 @@ public abstract partial class Errors
             code: "User.EmailAlreadyExists",
             description: "Email already exists."
         );
+
+        public static Error NotFocalPoint => Error.Unauthorized(
+            code: "User.NotFocalPoint",
+            description: "User is not a focal point."
+        );
     }
 }
