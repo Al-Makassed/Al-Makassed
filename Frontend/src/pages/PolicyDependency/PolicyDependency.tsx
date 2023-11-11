@@ -4,7 +4,7 @@ import Dependencies from "./Components/Dependencies";
 
 const PolicyDependency: FC = () => {
   return (
-    <Box>
+    <Box sx={{ p: 4 }}>
       <Dependencies />
     </Box>
   );

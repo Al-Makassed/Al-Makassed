@@ -7,7 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import { Stack, Button } from "@mui/material";
 import { FC, useState } from "react";
-import { Tooltip, Modal, Box } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DragAndDrop from "./DragAndDrop";
 import { FORMS } from "../constants";
@@ -16,13 +16,15 @@ import { DependencyProps } from "../types";
 const Dependency: FC<DependencyProps> = ({ name }) => {
   const [open, setOpen] = useState(false);
 
+  const handleOpenDialog = () => setOpen(true);
+
+  const handleCloseDialog = () => setOpen(false);
+
   return (
     <Box>
       <Accordion
         sx={{
           bgcolor: "grey.200",
-          py: 0,
-          px: 1,
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -40,46 +42,37 @@ const Dependency: FC<DependencyProps> = ({ name }) => {
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
-            pt={3}
-            pb={1}
+            sx={{ mt: 1 }}
           >
-            <Tooltip onClick={() => setOpen(true)} title="Add">
-              <Button
-                sx={{ p: ".5em .75" }}
-                variant="contained"
-                startIcon={<AddIcon />}
-                size="small"
-              >
-                Add {name}
-              </Button>
-            </Tooltip>
-
-            <Modal
-              open={open}
-              onClose={() => setOpen(false)}
-              aria-labelledby="modal-modal-title"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              size="small"
+              onClick={handleOpenDialog}
+              fullWidth
             >
-              <Box
-                width={500}
-                height={350}
-                bgcolor="white"
-                p={5}
-                borderRadius={5}
-              >
-                <Typography variant="subtitle1" gutterBottom lineHeight={3}>
-                  {name}s information
-                </Typography>
-                <DragAndDrop name={name} />
-              </Box>
-            </Modal>
+              Add {name}
+            </Button>
           </Stack>
         </AccordionDetails>
       </Accordion>
+      <Modal
+        open={open}
+        onClose={handleCloseDialog}
+        aria-labelledby="modal-modal-title"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box width={500} height={350} bgcolor="white" p={5} borderRadius={5}>
+          <Typography variant="subtitle1" gutterBottom lineHeight={3}>
+            {name}s information
+          </Typography>
+          <DragAndDrop name={name} />
+        </Box>
+      </Modal>
     </Box>
   );
 };
