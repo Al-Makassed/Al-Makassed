@@ -17,7 +17,7 @@ export const NAMES: Dependency[] = [
   },
 ];
 
-export const DATA = [
+export const FORMS = [
   {
     label: "Form-Name-1",
   },
