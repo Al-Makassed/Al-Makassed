@@ -19,7 +19,7 @@ const useDeleteAllPolicies = () => {
       });
       dispatch(
         showSuccessSnackbar({
-          message: "Deleted All Policy Successfully!",
+          message: "Deleted All Policies Successfully!",
         }),
       );
     },

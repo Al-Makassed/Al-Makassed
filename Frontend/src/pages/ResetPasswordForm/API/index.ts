@@ -2,7 +2,7 @@ import axios from "src/API/axios";
 import { ResetForgottenPasswordRequest } from "./types";
 import { BaseSuccessResponse } from "src/types";
 
-export const resetForgottenPassword = async ({
+export const resetForgottenPassword = ({
   password,
   email,
   token,

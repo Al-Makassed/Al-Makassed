@@ -11,7 +11,7 @@ const useRenameChapter = () => {
 
   const dispatch = useAppDispatch();
 
-  const { mutate: renameChapter, isPending } = useMutation({
+  const { mutate: renameChapter, isPending: isRenaming } = useMutation({
     mutationFn: renameChapterAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -19,7 +19,7 @@ const useRenameChapter = () => {
       });
       dispatch(
         showSuccessSnackbar({
-          message: "Rename Chapter Successfully!",
+          message: "Chapter Renamed Successfully!",
         }),
       );
     },
@@ -35,7 +35,7 @@ const useRenameChapter = () => {
 
   return {
     renameChapter,
-    isPending,
+    isRenaming,
   };
 };
 

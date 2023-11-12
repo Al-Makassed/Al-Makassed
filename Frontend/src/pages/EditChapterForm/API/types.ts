@@ -21,7 +21,7 @@ export interface Dependency {
   policyCode: string;
   policyDependencyType: number;
 }
-export interface RenameChapter {
+export interface RenameChapterRequest {
   id: string;
   newChapterName: string;
 }

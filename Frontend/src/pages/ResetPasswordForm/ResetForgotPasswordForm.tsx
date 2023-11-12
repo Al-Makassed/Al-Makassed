@@ -4,7 +4,6 @@ import {
   Button,
   FormControl,
   Grid,
-  // Hidden,
   IconButton,
   Input,
   InputAdornment,
@@ -104,7 +103,6 @@ const ResetForgotPasswordForm: FC = () => {
         justifyContent="center"
         direction="column"
       >
-        {/* <Hidden smDown> */}
         <Avatar
           sx={{
             width: 180,
@@ -115,7 +113,6 @@ const ResetForgotPasswordForm: FC = () => {
           variant="circular"
           src={maqasidLogo}
         />
-        {/* </Hidden> */}
         <Stack
           padding={{ xs: 3, md: 4 }} // responsive for all screen sizes
           gap={3}
