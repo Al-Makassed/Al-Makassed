@@ -36,12 +36,12 @@ const EditChapterForm: FC = () => {
 
   const { renameChapter, isRenaming } = useRenameChapter();
 
-  if (!chapter) return <Typography variant="h1">Invalid chapter id</Typography>;
+  // if (!chapter) return <Typography variant="h1">Invalid chapter id</Typography>;
 
-  const [chapterName, setChapterName] = useState<string>(chapter.name);
+  const [chapterName, setChapterName] = useState<string>(chapter?.name ?? "");
 
   const handleDeleteAllPolicies = () => {
-    deleteAllPolicies(chapter.id);
+    deleteAllPolicies(chapter?.id ?? "");
   };
 
   const handleChangeChapterName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ const EditChapterForm: FC = () => {
   const handleSubmitChanges = () => {
     renameChapter({
       newChapterName: chapterName,
-      id: chapter.id,
+      id: chapter?.id ?? "",
     });
   };
   if (isFetching) return <EditChapterFormSkeleton />;
