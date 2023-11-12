@@ -11,7 +11,12 @@ const MaqasidDialogHeader: FC<PropsWithChildren<MaqasidDialogHeaderProps>> = ({
   wrapContent = false,
 }) => {
   return (
-    <DialogTitle>
+    <DialogTitle
+      sx={{
+        py: 1,
+        px: 3,
+      }}
+    >
       <Box
         sx={{
           display: "flex",

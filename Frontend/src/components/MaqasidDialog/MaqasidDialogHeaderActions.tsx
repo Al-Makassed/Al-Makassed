@@ -12,6 +12,7 @@ const MaqasidDialogHeaderActions: FC<PropsWithChildren<BoxProps>> = ({
     sx={{
       display: "flex",
       alignItems: "center",
+      ...rest.sx,
     }}
   >
     {children}

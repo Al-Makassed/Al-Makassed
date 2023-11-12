@@ -3,9 +3,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { HomeContainer } from "./styled";
 import MaqasidDialog from "src/components/MaqasidDialog";
+import Chip from "@mui/material/Chip";
+import { Stack, TextField } from "@mui/material";
 
 const Home: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   const handleClose = () => {
     console.log("close");
@@ -14,6 +17,25 @@ const Home: FC = () => {
 
   const handleClick = () => {
     setIsOpen(true);
+  };
+
+  const handleChangeTextField = () => {
+    setIsDirty(true);
+  };
+
+  const handleCancel = () => {
+    console.log("cancel");
+    setIsDirty(false);
+  };
+
+  const handleDiscard = () => {
+    console.log("discard");
+    setIsDirty(false);
+  };
+
+  const handleSave = () => {
+    console.log("save");
+    setIsDirty(false);
   };
 
   return (
@@ -25,25 +47,58 @@ const Home: FC = () => {
         onClose={handleClose}
         // isFullscreen
         variant="right"
-        disableBackdropClick={false}
-        disableEscapeKeyDown={false}
+        // disableBackdropClick={true}
+        // disableEscapeKeyDown={true}
       >
         <MaqasidDialog.Header>
           <MaqasidDialog.Title
             flex={1}
-            title="Paycheck Run"
+            title="Here goes the title"
             subtitle="This is a subtitle"
           />
           <MaqasidDialog.Actions>
-            {/* <Chip label={paycheckRunStatus} />
-            <PaycheckRunActions paycheckRunId={paycheckRunId} onCloseDialog={onClose} />
-            <MaqasidDialog.Help formName="forms/paycheck-runs" /> */}
-            <MaqasidDialog.Fullscreen
-              onClick={() => console.log("FULLSCREEN CLICKED FROM HOME")}
-            />
+            <Chip label="status" />
+            <MaqasidDialog.Fullscreen />
             <MaqasidDialog.Close />
           </MaqasidDialog.Actions>
         </MaqasidDialog.Header>
+        <MaqasidDialog.Body>
+          <Stack gap={2}>
+            <Typography variant="body1">
+              Here goes the body, here goes the body, here goes the body, here
+            </Typography>
+
+            <TextField
+              label="What dou you think?"
+              variant="outlined"
+              placeholder="e.g. I love this dialog component!"
+              onChange={handleChangeTextField}
+            />
+          </Stack>
+        </MaqasidDialog.Body>
+        <MaqasidDialog.Footer>
+          <Button variant="contained" color="primary">
+            Save
+          </Button>
+          <Button variant="outlined" color="primary">
+            Cancel
+          </Button>
+        </MaqasidDialog.Footer>
+        <MaqasidDialog.SaveChangesConfirmationDialog
+          isDirty={isDirty}
+          cancelProps={{
+            label: "Cancel",
+            onClick: handleCancel,
+          }}
+          closeAndDiscardProps={{
+            label: "Discard",
+            onClick: handleDiscard,
+          }}
+          saveAndCloseProps={{
+            label: "Save",
+            onClick: handleSave,
+          }}
+        />
       </MaqasidDialog>
     </HomeContainer>
   );

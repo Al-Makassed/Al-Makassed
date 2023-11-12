@@ -19,6 +19,9 @@ import MaqasidDialogHeaderTitle from "./MaqasidDialogHeaderTitle";
 import { DialogContext } from "./context/Dialog";
 import { StyledDialog } from "./styled";
 import { MaqasidDialogProps } from "./types";
+import MaqasidDialogBody from "./MaqasidDialogBody";
+import MaqasidDialogFooter from "./MaqasidDialogFooter";
+import SaveChangesConfirmationDialog from "./SaveChangesConfirmation";
 
 const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   isOpen = false,
@@ -37,24 +40,28 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   const isTabletOrLessScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(iPadProWidth),
   );
-  // const [isSaveChangesConfirmationOpen, setIsSaveChangesConfirmationOpen] = useState(false);
-  // const [isDirty, setIsDirty] = useState(false);
+  const [isSaveChangesConfirmationOpen, setIsSaveChangesConfirmationOpen] =
+    useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   const [isFullscreen, setIsFullscreen] = useState(isFullscreenProp ?? false);
 
-  const handleKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== "Escape") return;
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key !== "Escape") return;
 
-    if (isFullscreen) setIsFullscreen(false);
-  }, []);
+      if (isFullscreen) setIsFullscreen(false);
+    },
+    [isDirty, isFullscreen, disableEscapeKeyDown, onClose],
+  );
 
   /* eslint-disable @typescript-eslint/ban-types */
   const handleClose = useCallback(
-    (event: {}, reason: "backdropClick" | "escapeKeyDown") => {
-      // if (isDirty) {
-      //     setIsSaveChangesConfirmationOpen(true);
-      //     return;
-      // }
+    (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => {
+      if (isDirty) {
+        setIsSaveChangesConfirmationOpen(true);
+        return;
+      }
 
       if (disableBackdropClick && reason == "backdropClick") return;
 
@@ -62,11 +69,10 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
 
       onClose(event, reason);
     },
-    [onClose],
+    [isDirty, onClose],
   );
 
   const handleFullScreenToggle = useCallback(() => {
-    console.log("handleFullScreenToggle");
     setIsFullscreen(!isFullscreen);
     onFullscreenToggle(!isFullscreen);
   }, [isFullscreen, onFullscreenToggle]);
@@ -75,6 +81,14 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
     setIsFullscreen(false);
     onClosed();
   }, [onClosed]);
+
+  const handleCloseSaveChangesConfirmationDialog = () => {
+    setIsSaveChangesConfirmationOpen(false);
+  };
+
+  const handleOnSetDirty = (isDirty: boolean) => {
+    setIsDirty(isDirty);
+  };
 
   useEffect(() => {
     if (fullWidthOnSmallScreen && isTabletOrLessScreen) setIsFullscreen(true);
@@ -85,9 +99,14 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
       value={{
         isFullscreen,
         onFullscreenToggle: handleFullScreenToggle,
-        onDialogClose: () => handleClose({}, "backdropClick"),
+        onDialogClose: () => handleClose(),
         fullWidthOnSmallScreen,
         isTabletOrLessScreen,
+        saveChangesConfirmationDialog: {
+          isOpen: isDirty && isSaveChangesConfirmationOpen,
+          onSetDirty: handleOnSetDirty,
+          onClose: handleCloseSaveChangesConfirmationDialog,
+        },
       }}
     >
       <StyledDialog
@@ -118,4 +137,7 @@ export default Object.assign(MaqasidDialog, {
   Actions: MaqasidDialogHeaderActions,
   Close: MaqasidDialogCloseButton,
   Fullscreen: MaqasidDialogFullscreenButton,
+  Body: MaqasidDialogBody,
+  Footer: MaqasidDialogFooter,
+  SaveChangesConfirmationDialog: SaveChangesConfirmationDialog,
 });

@@ -6,7 +6,8 @@ export interface MaqasidDialogProps
   extends Omit<DialogProps, "open" | "fullScreen"> {
   isOpen: boolean;
   /** A callback fired when the dialog closes */
-  onClose?: DialogProps["onClose"];
+  /* eslint-disable @typescript-eslint/ban-types */
+  onClose?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void;
   disableBackdropClick?: boolean;
   /** If true, opens the dialog as full-screen. Setting this prop enables control over the dialog
    * @default false

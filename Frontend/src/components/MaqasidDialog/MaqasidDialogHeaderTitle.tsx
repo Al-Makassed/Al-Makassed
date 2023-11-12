@@ -61,14 +61,28 @@ const MaqasidDialogHeaderTitle: FC<
     >
       {title && (
         <TitleWrapper showTooltip={showTitleTooltip} title={title}>
-          <Typography noWrap variant={isFullscreen ? "h5" : "h6"}>
+          <Typography
+            noWrap
+            variant={isFullscreen ? "h5" : "h6"}
+            sx={{
+              fontSize: "1rem",
+              fontWeight: 500,
+            }}
+          >
             {title}
           </Typography>
         </TitleWrapper>
       )}
       {subtitle && (
         <TitleWrapper showTooltip={showSubtitleTooltip} title={subtitle}>
-          <Typography variant="subtitle1">{subtitle}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontSize: "0.875rem",
+            }}
+          >
+            {subtitle}
+          </Typography>
         </TitleWrapper>
       )}
       {children}
