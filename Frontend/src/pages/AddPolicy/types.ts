@@ -1,4 +1,4 @@
-export interface AddPolicyDialogProps {
+export interface AddPolicyProps {
   open: boolean;
   onClose: () => void;
 }

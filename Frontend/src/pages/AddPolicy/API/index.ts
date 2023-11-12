@@ -17,7 +17,3 @@ export const createPolicy = async ({
     })
     .then((res) => res.data);
 };
-
-// export const getChapters = async () => {
-//   return axios.get<Chapter[]>("/chapters").then((res) => res.data);
-// };

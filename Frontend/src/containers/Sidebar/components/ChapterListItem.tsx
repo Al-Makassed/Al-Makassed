@@ -14,8 +14,12 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import AddPolicyDialog from "src/pages/AddPolicy/components/AddPolicyDialog";
+import AddPolicyDialog from "src/pages/AddPolicy";
+import LoaderCell from "src/components/LoaderCell";
+import useFetchPolicies from "src/pages/ViewPolicy/hooks/useGetPolicies";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "src/app/hooks";
+import { toggleSidebar } from "src/features/appSettings";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
@@ -30,6 +34,12 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleOpenDialog = () => setIsDialogOpen(true);
 
   const handleCloseDialog = () => setIsDialogOpen(false);
+
+  const { isFetching } = useFetchPolicies();
+
+  if (isFetching) return <LoaderCell size={38} color="success" />;
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -58,12 +68,18 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {chapter.policies.map((pol, index) => (
-            <ListItemButton key={index} sx={{ pl: 4 }}>
+          {chapter.policies.map((policy, index) => (
+            <ListItemButton
+              onClick={() => {
+                navigate(`policy/${policy.code}`), dispatch(toggleSidebar());
+              }}
+              key={index}
+              sx={{ pl: 4 }}
+            >
               <ListItemIcon sx={{ mr: -2.5 }}>
                 <AssuredWorkloadIcon />
               </ListItemIcon>
-              <ListItemText primary={pol.name} />
+              <ListItemText primary={policy.name} />
             </ListItemButton>
           ))}
           <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
@@ -75,7 +91,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
             >
               <AddIcon />
             </ListItemIcon>
-            {/* <ListItemText primary="Add policy" /> */}
+
             <Typography fontWeight={590}>Add Policy</Typography>
           </ListItemButton>
           <AddPolicyDialog open={isDialogOpen} onClose={handleCloseDialog} />
