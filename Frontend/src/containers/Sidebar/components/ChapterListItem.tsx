@@ -15,12 +15,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import AddPolicyDialog from "src/pages/AddPolicy/components/AddPolicyDialog";
+import { useNavigate } from "react-router-dom";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClick = () => setOpen(!open);
+  const handleClick = () => {
+    setOpen(!open);
+    navigate(`/me/${chapter.id}`);
+  };
 
   const handleOpenDialog = () => setIsDialogOpen(true);
 

@@ -4,6 +4,7 @@ export interface Policy {
   state: boolean;
   pdfUrl: string;
   chapterId: string;
+  estimatedTime: number;
   dependencies: Dependency[];
 }
 
@@ -16,4 +17,11 @@ export interface Dependency {
   policyDependencyType: number;
 }
 
-export interface CreatePolicyResponse extends Omit<Policy, "dependencies"> {}
+export interface CreatePolicyResponse extends Omit<Policy, "dependencies "> {}
+
+export interface PolicyResponse {
+  name: string;
+  pdfUrl: string;
+  estimatedTime: number;
+  chapterId: string;
+}

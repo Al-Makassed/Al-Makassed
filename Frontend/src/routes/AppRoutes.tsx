@@ -27,6 +27,7 @@ const AppRoutes: FC = () => {
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
             <Route path="dependency" element={<PolicyDependency />} />
+            <Route path=":id" />
           </Route>
         </Route>
 
