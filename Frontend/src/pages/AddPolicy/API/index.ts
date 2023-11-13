@@ -9,10 +9,10 @@ export const createPolicy = async ({
 }: PolicyResponse) => {
   return axios
     .post<CreatePolicyResponse>("/policies", {
-      name: name,
-      pdfUrl: pdfUrl,
-      estimatedTime: estimatedTime,
-      chapterId: chapterId,
+      name,
+      pdfUrl,
+      estimatedTime,
+      chapterId,
       Headers: { "content-Type": "multipart/form-data" },
     })
     .then((res) => res.data);

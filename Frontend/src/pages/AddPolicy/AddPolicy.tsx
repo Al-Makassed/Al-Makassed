@@ -10,20 +10,30 @@ import { useParams } from "react-router-dom";
 const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
   const { addNewPolicy } = useAddPolicyAPI();
   const closeDialog = () => onClose();
-
-  const onSubmit = (values: PolicyResponse) => {
-    console.log(values);
-    addNewPolicy(values);
-    closeDialog();
-  };
-
   const { id } = useParams();
 
   const initialValues: PolicyResponse = {
     name: "",
     estimatedTime: 0,
-    pdfUrl: "",
+    pdfUrl: undefined,
     chapterId: `${id}`,
+  };
+
+  const onSubmit = (values: PolicyResponse) => {
+    const fd = new FormData();
+
+    fd.append("pdfUrl", values.pdfUrl as File);
+
+    const pdfFile = fd.get("pdfUrl") as File | Blob;
+
+    addNewPolicy({
+      name: values.name,
+      pdfUrl: pdfFile,
+      estimatedTime: values.estimatedTime,
+      chapterId: values.chapterId,
+    });
+    closeDialog();
+    console.log(values);
   };
 
   return (
@@ -46,38 +56,38 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
       >
         Add Policy
       </DialogTitle>
-      <Stack>
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {() => (
-            <Form>
-              <Stack p={3} gap={2.5} justifyContent="center">
-                <Field type="text" name="name" placeholder="policyName" />
-                <ErrorMessage name="name" component="div" />
 
-                <Field
-                  type="number"
-                  name="estimatedTime"
-                  placeholder="Time in (min)"
-                />
-                <ErrorMessage name="estimatedTime" component="div" />
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        {() => (
+          <Form>
+            <Stack p={3} gap={2.5} justifyContent="center">
+              <Field type="text" name="name" placeholder="policyName" />
+              <ErrorMessage name="name" component="div" />
 
-                <Field type="file" name="pdfUrl" />
-                <ErrorMessage name="file" component="div" />
-                <Stack direction="row" justifyContent="center">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<AddIcon />}
-                    type="submit"
-                  >
-                    Add
-                  </Button>
-                </Stack>
+              <Field
+                type="number"
+                name="estimatedTime"
+                placeholder="Time in (min)"
+              />
+              <ErrorMessage name="estimatedTime" component="div" />
+
+              <Field type="file" name="pdfUrl" />
+              <ErrorMessage name="file" component="div" />
+
+              <Stack direction="row" justifyContent="center">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                  type="submit"
+                >
+                  Add
+                </Button>
               </Stack>
-            </Form>
-          )}
-        </Formik>
-      </Stack>
+            </Stack>
+          </Form>
+        )}
+      </Formik>
     </Dialog>
   );
 };
