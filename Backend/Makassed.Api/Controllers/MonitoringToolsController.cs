@@ -19,15 +19,15 @@ public class MonitoringToolsController : ApiController
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<GetMonitoringToolResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<GetAllMonitoringToolBaseResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // [Authorize(Roles = "Admin, Sub-Admin")]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> GetMonitoringTools()
     {
         var result = await _monitoringToolService.GetMonitoringToolsAsync();
         
-        return Ok(_mapper.Map<List<GetMonitoringToolResponse>>(result));
+        return Ok(_mapper.Map<List<GetAllMonitoringToolBaseResponse>>(result));
     }
 
     [HttpGet("{id:guid}")]

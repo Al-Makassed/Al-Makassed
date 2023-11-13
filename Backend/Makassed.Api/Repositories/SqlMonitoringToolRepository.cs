@@ -15,12 +15,16 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
 
     public async Task<List<MonitoringTool>> GetMonitoringToolsAsync()
     {
-        return await _dbContext.MonitoringTools.Include(mt => mt.FocalPointTasks).ToListAsync();
+        return await _dbContext.MonitoringTools.ToListAsync();
     }
 
     public async Task<MonitoringTool?> GetMonitoringToolByIdAsync(Guid id)
     {
-        return await _dbContext.MonitoringTools.Include(mt => mt.FocalPointTasks).Include(mt => mt.Fields).FirstOrDefaultAsync(mt => mt.Id == id);
+        return await _dbContext.MonitoringTools
+            .Include(mt => mt.Fields)
+            .Include(mt => mt.FocalPointTasks)
+            .ThenInclude(fpt => fpt.Department)
+            .FirstOrDefaultAsync(mt => mt.Id == id);
     }
 
     public async Task<MonitoringTool?> CreateMonitoringToolAsync(MonitoringTool monitoringTool)
@@ -52,20 +56,23 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
         existingMonitoringTool.Description = monitoringTool.Description;
         existingMonitoringTool.LastModified = DateTime.UtcNow;
 
-        //existingMonitoringTool.Departments.Clear();
-        //existingMonitoringTool.Departments.AddRange(monitoringTool.Departments);
+        existingMonitoringTool.FocalPointTasks.Clear();
+        existingMonitoringTool.FocalPointTasks = monitoringTool.FocalPointTasks;
 
         existingMonitoringTool.Fields.Clear();
         existingMonitoringTool.Fields.AddRange(monitoringTool.Fields);
 
         await _dbContext.SaveChangesAsync();
 
-        return monitoringTool;
+        return existingMonitoringTool;
     }
 
     public async Task<MonitoringTool?> DeleteMonitoringToolAsync(Guid id)
     {
         var existingMonitoringTool = await _dbContext.MonitoringTools
+            .Include(mt => mt.Fields)
+            .Include(mt => mt.FocalPointTasks)
+            .ThenInclude(fpt => fpt.Department)
             .FirstOrDefaultAsync(mt => mt.Id == id);
 
         if (existingMonitoringTool is null)
