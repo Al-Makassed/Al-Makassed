@@ -6,6 +6,7 @@ using Makassed.Contracts.Policy;
 using Makassed.Contracts.MonitoringTool;
 using Makassed.Contracts.MonitoringTool.Field;
 using Makassed.Contracts.User.Department;
+using Makassed.Api.Models.DTO;
 
 namespace Makassed.Api.Mappings;
 
@@ -27,8 +28,11 @@ public class AutoMapperProfile : Profile
         CreateMap<Dependency, UpdatePolicyDependencyRequest>().ReverseMap();
 
         CreateMap<MonitoringTool, GetMonitoringToolResponse>().ReverseMap();
+        CreateMap<MonitoringTool, GetAllMonitoringToolBaseResponse>().ReverseMap();
         CreateMap<MonitoringTool, CreateMonitoringToolRequest>().ReverseMap();
         CreateMap<MonitoringTool, UpdateMonitoringToolRequest>().ReverseMap();
+        CreateMap<MonitoringTool, MonitoringToolDto>().ReverseMap();
+        CreateMap<MonitoringToolDto, GetMonitoringToolResponse>().ReverseMap();
         CreateMap<Submission, SubmitMonitoringToolRequest>().ReverseMap();
 
         CreateMap<Field, GetFieldResponse>().ReverseMap();
