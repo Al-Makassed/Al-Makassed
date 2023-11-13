@@ -8,9 +8,10 @@ public class SubmissionConfiguration : IEntityTypeConfiguration<Submission>
 {
     public void Configure(EntityTypeBuilder<Submission> builder)
     {
-        builder.HasOne(s => s.MonitoringToolDepartment)
-               .WithMany(mtd => mtd.Submissions)
-               .HasForeignKey(s => new { s.MonitoringToolId, s.DepartmentId });
+        builder.HasOne(s => s.FocalPointTask)
+               .WithMany(fpt => fpt.Submissions)
+               .HasForeignKey(s => s.FocalPointTaskId);
+               //.OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(s => s.Submitter)
                .WithMany(u => u.Submissions)

@@ -30,21 +30,6 @@ public class MonitoringToolsController : ApiController
         return Ok(_mapper.Map<List<GetMonitoringToolResponse>>(result));
     }
 
-    [HttpGet("focal-point-monitoring-tools")]
-    [ProducesResponseType(typeof(List<GetMonitoringToolResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // [Authorize(Roles = "Focal Point")]
-    public async Task<IActionResult> GetFocalPointMonitoringTools(string focalPointId)
-    {
-        var result = await _monitoringToolService.GetFocalPointMonitoringToolsAsync(focalPointId);
-
-        return result.Match(
-            _ => Ok(_mapper.Map<List<GetMonitoringToolResponse>>(result.Value)), 
-            errors => Problem(errors)
-        );
-    }
-
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(List<GetMonitoringToolResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -10,7 +10,4 @@ public class MonitoringToolFields
     public MonitoringTool MonitoringTool { get; set; } = null!;
 
     public Field Field { get; set; } = null!;
-
-    //public List<Submission> Submissions { get; set; } = new();
-    public List<MonitoringToolFieldsSubmissions> MonitoringToolFieldsSubmissions { get; set; } = new();
 }

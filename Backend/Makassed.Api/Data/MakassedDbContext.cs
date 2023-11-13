@@ -19,6 +19,9 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
     public DbSet<MonitoringTool> MonitoringTools { get; set; } = null!;
     public DbSet<Field> Fields { get; set; } = null!;
     public DbSet<Department> Departments { get; set; } = null!;
+    public DbSet<Submission> Submissions { get; set; } = null!;
+    public DbSet<FieldAnswer> FieldAnswers { get; set; } = null!;
+    public DbSet<FocalPointTask> FocalPointTasks { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
