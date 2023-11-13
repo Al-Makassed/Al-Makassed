@@ -7,6 +7,7 @@ using Makassed.Contracts.MonitoringTool;
 using Makassed.Contracts.MonitoringTool.Field;
 using Makassed.Contracts.User.Department;
 using Makassed.Api.Models.DTO;
+using Makassed.Contracts.MonitoringTool.FocalPointTasks;
 
 namespace Makassed.Api.Mappings;
 
@@ -42,5 +43,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Department, GetDepartmentResponse>().ReverseMap();
         CreateMap<Department, CreateDepartmentRequest>().ReverseMap();
         CreateMap<Department, UpdateDepartmentRequest>().ReverseMap();
+
+        CreateMap<FocalPointTask, GetFocalPointTaskResponse>().ReverseMap();
     }
 }

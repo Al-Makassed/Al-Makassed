@@ -19,7 +19,11 @@ public class SqlDepartmentRepository : IDepartmentRepository
 
     public async Task<Department?> GetDepartmentAsync(Guid id)
     {
-        return await _dbContext.Departments.Include(d => d.Head).FirstOrDefaultAsync(d => d.Id == id);
+        return await _dbContext.Departments
+            .Include(d => d.Head)
+            .Include(d => d.FocalPointTasks)
+            .ThenInclude(fpt => fpt.MonitoringTool)
+            .FirstOrDefaultAsync(d => d.Id == id);
     }
 
     public async Task<Department> CreateDepartmentAsync(Department department)

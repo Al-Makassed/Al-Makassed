@@ -75,4 +75,14 @@ public class DepartmentService : IDepartmentService
 
         return deletedDepartment is null ? Errors.Department.NotFound : deletedDepartment;
 	}
+
+	public async Task<ErrorOr<List<FocalPointTask>>> GetFocalPointTasksAsync(Guid id)
+	{
+		var departmentResult = await _departmentRepository.GetDepartmentAsync(id);
+
+		if (departmentResult is null)
+            return Errors.Department.NotFound;
+
+		return departmentResult.FocalPointTasks.ToList();
+	}
 }
