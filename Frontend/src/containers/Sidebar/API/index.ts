@@ -7,6 +7,6 @@ export const createChapter = (chapterName: string) => {
     .then((res) => res.data);
 };
 
-export const getChapters = async () => {
+export const getChapters = () => {
   return axios.get<Chapter[]>("/chapters").then((res) => res.data);
 };

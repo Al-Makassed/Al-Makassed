@@ -14,16 +14,22 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import { useAppDispatch } from "src/app/hooks";
+import { toggleSidebar } from "src/features/appSettings";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchPolicies from "src/pages/ViewPolicy/hooks/useGetPolicies";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "src/app/hooks";
-import { toggleSidebar } from "src/features/appSettings";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
 
+  const handleEditChapter = () => {
+    dispatch(toggleSidebar());
+
+    navigate(`/me/edit-chapter/${chapter.id}`);
+  };
   const handleClick = () => setOpen(!open);
 
   const { isFetching } = useFetchPolicies();
@@ -51,7 +57,11 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
         </ListItemButton>
 
         <Tooltip title="Edit chapter">
-          <IconButton aria-label="Edit chapter" sx={{ mr: 1 }}>
+          <IconButton
+            aria-label="Edit chapter"
+            sx={{ mr: 1 }}
+            onClick={handleEditChapter}
+          >
             <EditIcon />
           </IconButton>
         </Tooltip>

@@ -13,7 +13,11 @@ const App: FC = () => {
     <QueryClientProvider client={queryClient}>
       <AppRoutes />
       <Snackbar />
-      <ReactQueryDevtools initialIsOpen={false} position="right" />
+      <ReactQueryDevtools
+        initialIsOpen={false}
+        position="right"
+        buttonPosition="bottom-left"
+      />
     </QueryClientProvider>
   );
 };
