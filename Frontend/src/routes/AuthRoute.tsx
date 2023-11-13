@@ -3,7 +3,7 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { AuthRouteProps } from "./types";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import { selectUser } from "src/features/user";
-import { useAppSelector } from "src/app/hooks";
+import { useAppSelector } from "src/store/hooks";
 import BlockUI from "src/containers/BlockUI";
 
 const AuthRoute: FC<PropsWithChildren<AuthRouteProps>> = () => {

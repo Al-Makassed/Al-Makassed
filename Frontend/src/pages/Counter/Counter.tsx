@@ -9,7 +9,7 @@ import {
   incrementByAmount,
   selectCount,
 } from "src/features/counter";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
 const Counter: FC = () => {
   const count = useAppSelector(selectCount);

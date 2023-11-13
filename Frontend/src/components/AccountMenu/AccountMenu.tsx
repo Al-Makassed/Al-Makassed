@@ -13,7 +13,7 @@ import { noop } from "src/utils";
 import PasswordIcon from "@mui/icons-material/Password";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { logout } from "src/features/user";
 
 const AccountMenu: FC = () => {

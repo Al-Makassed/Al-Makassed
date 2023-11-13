@@ -1,8 +1,8 @@
 import React, { FC, PropsWithChildren } from "react";
-import MaqasidThemeProvider from "../styling/MaqasidThemeProvider";
+import MaqasidThemeProvider from "../style/MaqasidThemeProvider";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
-import store from "src/app/store";
+import store from "src/store/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({

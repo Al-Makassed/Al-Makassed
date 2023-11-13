@@ -17,7 +17,7 @@ import maqasidLogo from "../../images/logo.jpg";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 import { LoadingButton } from "@mui/lab";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { useNavigate } from "react-router-dom";
 

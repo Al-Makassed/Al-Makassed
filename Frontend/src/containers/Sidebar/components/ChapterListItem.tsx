@@ -14,7 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { toggleSidebar } from "src/features/appSettings";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchPolicies from "src/pages/ViewPolicy/hooks/useGetPolicies";

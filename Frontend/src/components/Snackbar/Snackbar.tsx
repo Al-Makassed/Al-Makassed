@@ -1,7 +1,7 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { hideSnackbar, selectSnackbar } from "src/features/snackbar";
 import Alert from "./Alert";
 import AlertTitle from "@mui/material/AlertTitle";

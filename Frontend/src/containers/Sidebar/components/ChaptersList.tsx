@@ -4,7 +4,7 @@ import ChapterListItem from "./ChapterListItem";
 import { Chapter } from "../API/types";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";
-import { useAppSelector } from "src/app/hooks";
+import { useAppSelector } from "src/store/hooks";
 import { selectIsSidebarOpen } from "src/features/appSettings";
 
 const ChaptersList = () => {

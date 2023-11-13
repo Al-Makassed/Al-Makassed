@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import verifyAccessToken from "src/API/verifyAccessToken";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { login } from "src/features/user";
 
 export const VERIFY_ACCESS_TOKEN_QUERY_KEY = ["VerifyAccessToken"];
