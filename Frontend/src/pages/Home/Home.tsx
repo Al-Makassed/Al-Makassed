@@ -45,8 +45,8 @@ const Home: FC = () => {
       <MaqasidDialog
         isOpen={isOpen}
         onClose={handleClose}
-        // isFullscreen
         variant="right"
+        // isFullscreen
         // disableBackdropClick={true}
         // disableEscapeKeyDown={true}
       >
