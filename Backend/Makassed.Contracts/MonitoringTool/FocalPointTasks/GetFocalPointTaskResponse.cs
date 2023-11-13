@@ -1,12 +1,13 @@
-﻿namespace Makassed.Contracts.MonitoringTool.FocalPointTasks;
+namespace Makassed.Contracts.MonitoringTool.FocalPointTasks;
 
 public record GetFocalPointTaskResponse
 {
+
     public Guid Id { get; set; }
 
     public Guid DepartmentId { get; set; }
 
-    public GetAllMonitoringToolBaseResponse MonitoringTool { get; set; } = null!;
+    public GetMonitoringToolForFocalPointResponse MonitoringTool { get; set; } = null!;
 
     public int TotalSubmissions { get; set; }
 

@@ -85,4 +85,16 @@ public class DepartmentService : IDepartmentService
 
 		return departmentResult.FocalPointTasks.ToList();
 	}
+
+	public async Task<ErrorOr<FocalPointTask>> GetFocalPointTaskByIdAsync(Guid departmentId, Guid id)
+	{
+		var departmentResult = await _departmentRepository.GetDepartmentAsync(departmentId);
+
+		if (departmentResult is null)
+            return Errors.Department.NotFound;
+
+		var focalPointTask = departmentResult.FocalPointTasks.FirstOrDefault(fpt => fpt.Id == id);
+
+		return focalPointTask is null ? Errors.FocalPointTask.NotFound : focalPointTask;
+	}
 }

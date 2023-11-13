@@ -94,7 +94,7 @@ public class DepartmentsController : ApiController
     }
 
     [HttpGet("{departmentId:Guid}/focal-point-tasks")]
-    [ProducesResponseType(typeof(GetFocalPointTaskResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetAllFocalPointTasksBaseResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -105,8 +105,26 @@ public class DepartmentsController : ApiController
         var focalPointTasksResult = await _departmentService.GetFocalPointTasksAsync(departmentId);
 
         return focalPointTasksResult.Match(
-            _ => Ok(_mapper.Map<List<GetFocalPointTaskResponse>>(focalPointTasksResult.Value)),
+            _ => Ok(_mapper.Map<List<GetAllFocalPointTasksBaseResponse>>(focalPointTasksResult.Value)),
             errors => Problem(errors)
         );
     }
+
+    // get focal point task by id
+    [HttpGet("{departmentId:Guid}/focal-point-tasks/{id:Guid}")]
+    [ProducesResponseType(typeof(GetFocalPointTaskResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    //[Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
+    public async Task<IActionResult> GetFocalPointTask([FromRoute]Guid departmentId, [FromRoute]Guid id)
+    {
+        var focalPointTaskResult = await _departmentService.GetFocalPointTaskByIdAsync(departmentId, id);
+
+        return focalPointTaskResult.Match(
+            _ => Ok(_mapper.Map<GetFocalPointTaskResponse>(focalPointTaskResult.Value)),
+            errors => Problem(errors)
+        );
+    }    
 }

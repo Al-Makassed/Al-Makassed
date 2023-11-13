@@ -23,6 +23,7 @@ public class SqlDepartmentRepository : IDepartmentRepository
             .Include(d => d.Head)
             .Include(d => d.FocalPointTasks)
             .ThenInclude(fpt => fpt.MonitoringTool)
+            .ThenInclude(mt => mt.Fields)
             .FirstOrDefaultAsync(d => d.Id == id);
     }
 
