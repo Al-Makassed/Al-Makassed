@@ -1,6 +1,6 @@
 ﻿namespace Makassed.Contracts.MonitoringTool.Field;
 
-public record SubmitMonitoringToolFieldRequest
+public record FieldAnswerRequest
 {
     public Guid FieldId { get; set; }
 

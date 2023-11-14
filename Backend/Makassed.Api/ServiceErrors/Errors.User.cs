@@ -53,5 +53,10 @@ public abstract partial class Errors
             code: "User.NotFocalPoint",
             description: "User is not a focal point."
         );
+
+        public static Error Unauthorized => Error.Unauthorized(
+            code: "User.Unauthorized",
+            description: "User is not authorized."
+        );
     }
 }
