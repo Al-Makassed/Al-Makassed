@@ -10,5 +10,10 @@ public abstract partial class Errors
             code: "FocalPointTask.NotFound",
             description: "Focal point task is not found."
         );
+
+        public static Error NotAssignedToDepartment => Error.NotFound(
+            code: "FocalPointTask.NotAssignedToDepartment",
+            description: "Task is not assigned to this department."
+        );
     }
 }

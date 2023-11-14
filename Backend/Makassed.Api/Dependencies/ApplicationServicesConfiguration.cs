@@ -11,6 +11,8 @@ using UserManagement.Service.Services.Email;
 using Makassed.Api.Services.MonitoringTools.Fields;
 using Makassed.Api.Services.Users.Departments;
 using Makassed.Api.Services.MonitoringTools;
+using Makassed.Api.Services.FocalPointTasks;
+using Makassed.Api.Services.MonitoringTools.FocalPointTasks;
 
 public static class ApplicationServicesConfiguration
 {
@@ -37,6 +39,10 @@ public static class ApplicationServicesConfiguration
 
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDepartmentRepository, SqlDepartmentRepository>();
+
+        services.AddScoped<ISubmissionRepository, SqlSubmissionRepository>();
+
+        services.AddScoped<IFocalPointTaskService, FocalPointTaskService>();
 
         return services;
     }

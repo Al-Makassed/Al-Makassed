@@ -37,10 +37,14 @@ public class AutoMapperProfile : Profile
         CreateMap<MonitoringToolDto, GetMonitoringToolResponse>().ReverseMap();
 
         CreateMap<Submission, SubmitMonitoringToolRequest>().ReverseMap();
+        CreateMap<Submission, SubmitFocalPointTaskRequest>().ReverseMap();
 
         CreateMap<Field, GetFieldResponse>().ReverseMap();
         CreateMap<Field, CreateFieldRequest>().ReverseMap();
         CreateMap<Field, UpdateFieldRequest>().ReverseMap();
+
+        CreateMap<FieldAnswer, FieldAnswerRequest>().ReverseMap();
+        CreateMap<FieldAnswersDto, SubmitFocalPointTaskRequest>().ReverseMap();
 
         CreateMap<Department, GetDepartmentResponse>().ReverseMap();
         CreateMap<Department, CreateDepartmentRequest>().ReverseMap();
