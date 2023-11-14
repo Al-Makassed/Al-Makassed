@@ -1,12 +1,10 @@
 using ErrorOr;
-using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Authentication;
 using Makassed.Api.Services.MonitoringTools.FocalPointTasks;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq;
 
 namespace Makassed.Api.Services.FocalPointTasks;
 
@@ -15,14 +13,14 @@ public class FocalPointTaskService : IFocalPointTaskService
     private readonly ISubmissionRepository _submissionRepository;
     private readonly IAuthenticationService _authenticationService;
     private readonly IDepartmentRepository _departmentRepository;
-    private readonly MakassedDbContext dbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public FocalPointTaskService(ISubmissionRepository submissionRepository, IAuthenticationService authenticationService, IDepartmentRepository departmentRepository, MakassedDbContext dbContext)
+    public FocalPointTaskService(ISubmissionRepository submissionRepository, IAuthenticationService authenticationService, IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
     {
         _submissionRepository = submissionRepository;
         _authenticationService = authenticationService;
         _departmentRepository = departmentRepository;
-        this.dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     private bool CheckAllFieldsAnswered(List<Field> fields, List<FieldAnswer> answers)
@@ -94,7 +92,7 @@ public class FocalPointTaskService : IFocalPointTaskService
 
         addedSubmission.Answers.AddRange(validAnswers);
 
-        await dbContext.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         return addedSubmission;
     }

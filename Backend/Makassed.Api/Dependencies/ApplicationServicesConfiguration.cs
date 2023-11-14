@@ -44,6 +44,8 @@ public static class ApplicationServicesConfiguration
 
         services.AddScoped<IFocalPointTaskService, FocalPointTaskService>();
 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 }
