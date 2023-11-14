@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
 using Makassed.Api.Services.MonitoringTools.FocalPointTasks;
-using Makassed.Api.Services.Users.Departments;
 using Makassed.Contracts.MonitoringTool.FocalPointTasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +10,11 @@ namespace Makassed.Api.Controllers;
 
 public class FocalPointTasksController : ApiController
 {
-    private readonly IDepartmentService _departmentService;
     private readonly IMapper _mapper;
     private readonly IFocalPointTaskService _focalPointTaskService;
 
-    public FocalPointTasksController(IDepartmentService departmentService, IMapper mapper, IFocalPointTaskService focalPointTaskService)
+    public FocalPointTasksController(IMapper mapper, IFocalPointTaskService focalPointTaskService)
     {
-        _departmentService = departmentService;
         _mapper = mapper;
         _focalPointTaskService = focalPointTaskService;
     }
@@ -32,7 +28,7 @@ public class FocalPointTasksController : ApiController
     [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
     public async Task<IActionResult> GetFocalPointTasks([FromRoute]Guid departmentId)
     {
-        var focalPointTasksResult = await _departmentService.GetFocalPointTasksAsync(departmentId);
+        var focalPointTasksResult = await _focalPointTaskService.GetFocalPointTasksAsync(departmentId);
 
         return focalPointTasksResult.Match(
             _ => Ok(_mapper.Map<List<GetAllFocalPointTasksBaseResponse>>(focalPointTasksResult.Value)),
@@ -50,7 +46,7 @@ public class FocalPointTasksController : ApiController
     [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
     public async Task<IActionResult> GetFocalPointTask([FromRoute]Guid departmentId, [FromRoute]Guid id)
     {
-        var focalPointTaskResult = await _departmentService.GetFocalPointTaskByIdAsync(departmentId, id);
+        var focalPointTaskResult = await _focalPointTaskService.GetFocalPointTaskByIdAsync(departmentId, id);
 
         return focalPointTaskResult.Match(
             _ => Ok(_mapper.Map<GetFocalPointTaskResponse>(focalPointTaskResult.Value)),

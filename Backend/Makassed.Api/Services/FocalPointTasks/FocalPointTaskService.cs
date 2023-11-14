@@ -23,6 +23,28 @@ public class FocalPointTaskService : IFocalPointTaskService
         _unitOfWork = unitOfWork;
     }
 
+    public async Task<ErrorOr<List<FocalPointTask>>> GetFocalPointTasksAsync(Guid id)
+    {
+        var departmentResult = await _departmentRepository.GetDepartmentAsync(id);
+
+        if (departmentResult is null)
+            return Errors.Department.NotFound;
+
+        return departmentResult.FocalPointTasks.ToList();
+    }
+
+    public async Task<ErrorOr<FocalPointTask>> GetFocalPointTaskByIdAsync(Guid departmentId, Guid id)
+    {
+        var departmentResult = await _departmentRepository.GetDepartmentAsync(departmentId);
+
+        if (departmentResult is null)
+            return Errors.Department.NotFound;
+
+        var focalPointTask = departmentResult.FocalPointTasks.FirstOrDefault(fpt => fpt.Id == id);
+
+        return focalPointTask is null ? Errors.FocalPointTask.NotFound : focalPointTask;
+    }
+
     private bool CheckAllFieldsAnswered(List<Field> fields, List<FieldAnswer> answers)
     {
         var answeredFields = answers.Select(a => a.FieldId).ToList();
