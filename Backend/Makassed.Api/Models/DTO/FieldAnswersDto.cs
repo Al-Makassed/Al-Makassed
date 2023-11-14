@@ -2,7 +2,7 @@
 
 namespace Makassed.Api.Models.DTO;
 
-public class FieldAnswersDto
+public record FieldAnswersDto
 {
     public List<FieldAnswer> Answers { get; set; } = new();
 }

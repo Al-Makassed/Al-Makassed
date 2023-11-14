@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Makassed.Api.Models.DTO;
-using Makassed.Api.Services.MonitoringTools.FocalPointTasks;
+using Makassed.Api.Services.FocalPointTasks;
 using Makassed.Contracts.MonitoringTool.FocalPointTasks;
+using Makassed.Contracts.MonitoringTool.FocalPointTasks.Submissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,7 @@ public class FocalPointTasksController : ApiController
         var focalPointTasksResult = await _focalPointTaskService.GetFocalPointTasksAsync(departmentId);
 
         return focalPointTasksResult.Match(
-            _ => Ok(_mapper.Map<List<GetAllFocalPointTasksBaseResponse>>(focalPointTasksResult.Value)),
+            focalPointTasks => Ok(_mapper.Map<List<GetAllFocalPointTasksBaseResponse>>(focalPointTasks)),
             errors => Problem(errors)
         );
     }
@@ -49,7 +50,7 @@ public class FocalPointTasksController : ApiController
         var focalPointTaskResult = await _focalPointTaskService.GetFocalPointTaskByIdAsync(departmentId, id);
 
         return focalPointTaskResult.Match(
-            _ => Ok(_mapper.Map<GetFocalPointTaskResponse>(focalPointTaskResult.Value)),
+            focalPointTask => Ok(_mapper.Map<GetFocalPointTaskResponse>(focalPointTask)),
             errors => Problem(errors)
         );
     }
@@ -67,7 +68,7 @@ public class FocalPointTasksController : ApiController
         var focalPointTaskResult = await _focalPointTaskService.SubmitFocalPointTaskAsync(departmentId, id, _mapper.Map<FieldAnswersDto>(request).Answers);
 
         return focalPointTaskResult.Match(
-            _ => Ok(),
+            submission => Ok(_mapper.Map<SubmitTaskResponse>(submission)),
             errors => Problem(errors)
         );
     }

@@ -8,6 +8,7 @@ using Makassed.Contracts.MonitoringTool.Field;
 using Makassed.Contracts.User.Department;
 using Makassed.Api.Models.DTO;
 using Makassed.Contracts.MonitoringTool.FocalPointTasks;
+using Makassed.Contracts.MonitoringTool.FocalPointTasks.Submissions;
 
 namespace Makassed.Api.Mappings;
 
@@ -38,6 +39,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Submission, SubmitMonitoringToolRequest>().ReverseMap();
         CreateMap<Submission, SubmitFocalPointTaskRequest>().ReverseMap();
+        CreateMap<Submission, SubmitTaskResponse>().ReverseMap();
 
         CreateMap<Field, GetFieldResponse>().ReverseMap();
         CreateMap<Field, CreateFieldRequest>().ReverseMap();

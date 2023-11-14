@@ -12,7 +12,6 @@ using Makassed.Api.Services.MonitoringTools.Fields;
 using Makassed.Api.Services.Users.Departments;
 using Makassed.Api.Services.MonitoringTools;
 using Makassed.Api.Services.FocalPointTasks;
-using Makassed.Api.Services.MonitoringTools.FocalPointTasks;
 
 public static class ApplicationServicesConfiguration
 {

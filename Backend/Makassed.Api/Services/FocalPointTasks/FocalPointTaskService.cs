@@ -3,7 +3,6 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Authentication;
-using Makassed.Api.Services.MonitoringTools.FocalPointTasks;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Makassed.Api.Services.FocalPointTasks;
@@ -45,17 +44,21 @@ public class FocalPointTaskService : IFocalPointTaskService
         return focalPointTask is null ? Errors.FocalPointTask.NotFound : focalPointTask;
     }
 
-    private bool CheckAllFieldsAnswered(List<Field> fields, List<FieldAnswer> answers)
+    // Reset the TotalSubmissions and IsFinished properties of the focal point task at the start of a new month
+    private static void CheckUpSubmissionsCount(FocalPointTask focalPointTask)
     {
-        var answeredFields = answers.Select(a => a.FieldId).ToList();
+        var lastSubmission = focalPointTask.Submissions.MaxBy(s => s.SubmittedAt);
 
-        if (fields.Count != answeredFields.Count)
-            return false;
-
-        return ((IEnumerable<Guid>)fields.OrderBy(x => x).ToList()).SequenceEqual(answeredFields.OrderBy(x => x).ToList());
+        var lastSubmissionMonth = lastSubmission is null ? DateTime.UtcNow.Month : lastSubmission.SubmittedAt.Month;
+        
+        if (lastSubmissionMonth != DateTime.UtcNow.Month)
+        {
+            focalPointTask.TotalSubmissions = 0;
+            focalPointTask.IsFinished = false;
+        }
     }
 
-    private List<FieldAnswer>? FilterValidAnswers(List<Field> fields, List<FieldAnswer> answers)
+    private static List<FieldAnswer> FilterValidAnswers(List<Field> fields, List<FieldAnswer> answers)
     {
         var existedFields = fields.Select(f => f.Id).ToList();
         var validAnswers = new List<FieldAnswer>();
@@ -69,7 +72,7 @@ public class FocalPointTaskService : IFocalPointTaskService
         return validAnswers;
     }
 
-    public async Task<ErrorOr<Submission>> SubmitFocalPointTaskAsync(Guid departmentId, Guid id, List<FieldAnswer> answers)
+    public async Task<ErrorOr<Submission>> SubmitFocalPointTaskAsync(Guid departmentId, Guid taskId, List<FieldAnswer> answers)
     {
         // Get the submitter user id from the token
         var submitterUserId = _authenticationService.GetAuthenticatedUserIdAsync();
@@ -83,7 +86,7 @@ public class FocalPointTaskService : IFocalPointTaskService
             return Errors.Department.NotFound;
 
         // Check if the submitter user is the focal point of the department
-        if (department.HeadId.IsNullOrEmpty() || !department.HeadId!.Equals(submitterUserId))
+        if (department.HeadId is null || !department.HeadId.Equals(submitterUserId))
             return Errors.User.Unauthorized;
 
         // Check if the focal point task is assigned to the department
@@ -91,6 +94,13 @@ public class FocalPointTaskService : IFocalPointTaskService
 
         if (focalPointTask is null)
             return Errors.FocalPointTask.NotAssignedToDepartment;
+
+        // Check if the submissions are completed for this month
+        if (focalPointTask.IsFinished)
+            return Errors.FocalPointTask.FinishedSubmissions;
+
+        // Reset submissions count at the start of a new month
+        CheckUpSubmissionsCount(focalPointTask);
 
         // Filter valid answers and check if all fields are answered
         var taskFields = focalPointTask.MonitoringTool.Fields;
@@ -100,15 +110,20 @@ public class FocalPointTaskService : IFocalPointTaskService
 
         var validAnswers = FilterValidAnswers(taskFields, answers);
 
-        if (validAnswers is null || validAnswers.Count != taskFields.Count)
+        if (validAnswers.IsNullOrEmpty() || validAnswers.Count != taskFields.Count)
             return Errors.Submission.NotAllFieldsAnswered;
 
         // Add submission
         var submission = new Submission
         {
-            FocalPointTaskId = id,
-            SubmitterId = submitterUserId
+            FocalPointTaskId = taskId,
+            SubmitterId = submitterUserId,
+            Number = focalPointTask.TotalSubmissions + 1,
+            SubmittedAt = DateTime.UtcNow
         };
+
+        focalPointTask.TotalSubmissions++;
+        focalPointTask.IsFinished = focalPointTask.TotalSubmissions > 14;
 
         var addedSubmission = await _submissionRepository.AddSubmission(submission);
 

@@ -15,6 +15,7 @@ public class SqlSubmissionRepository : ISubmissionRepository
     public async Task<Submission> AddSubmission(Submission submission)
     {
         var createdSubmission = await _dbContext.Submissions.AddAsync(submission);
+        await _dbContext.SaveChangesAsync();
 
         return createdSubmission.Entity;
     }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Users.Departments;
-using Makassed.Contracts.MonitoringTool.FocalPointTasks;
 using Makassed.Contracts.User.Department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
