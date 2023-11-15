@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Grid,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Grid, Stack, Typography, useTheme } from "@mui/material";
 
 import { useParams } from "react-router-dom";
 import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
@@ -47,7 +42,6 @@ const EditDependencies = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          fontFamily="serif"
           component="h1"
           variant="h4"
           fontWeight={600}
