@@ -1,13 +1,24 @@
 import React, { FC } from "react";
-import { Typography, Stack, Link } from "@mui/material";
+import { Typography, Stack, Link, Tooltip, IconButton } from "@mui/material";
 import { ViewPolicyInfoProps } from "../types";
 import PolicyDependency from "src/pages/PolicyDependency";
 import { useParams } from "react-router";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 
 const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
   const { code } = useParams();
 
+  const navigate = useNavigate();
+
+  const handleEditPolicy = () => {
+    navigate(`/me/edit-policy/${policy.code}`);
+  };
+  const handleEditDependencies =()=>{
+    navigate(`/me/edit-dependencies/${policy.code}`);
+
+  }
   if (policy.code !== code) return null;
 
   return (
@@ -19,13 +30,24 @@ const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
         >
           {policy.code}
         </Typography>
-        <Typography
-          fontWeight={600}
-          variant="h5"
-          sx={{ color: (theme) => theme.palette.maqasid.primary }}
-        >
-          {policy.name}
-        </Typography>
+        <Stack direction="row">
+          <Typography
+            fontWeight={600}
+            variant="h5"
+            sx={{ color: (theme) => theme.palette.maqasid.primary }}
+          >
+            {policy.name}
+          </Typography>
+          <Tooltip title="Edit Policy">
+            <IconButton
+              aria-label="Edit Policy"
+              sx={{ mr: 1 }}
+              onClick={handleEditPolicy}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        </Stack>
 
         <Link
           target="_blank"
@@ -45,8 +67,25 @@ const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
             get policy&apos;s pdf
           </Typography>
         </Link>
+        {/* <Tooltip title="Edit Dependencies">
+            <IconButton
+              aria-label="Edit Dependencies"
+              // sx={{ mr: 1 }}
+              onClick={handleEditPolicy}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip> */}
       </Stack>
-
+      <Tooltip title="Edit Dependencies">
+        <IconButton
+          aria-label="Edit Dependencies"
+          // sx={{ mr: 1 }}
+          onClick={handleEditDependencies}
+        >
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
       <PolicyDependency />
     </Stack>
   );
