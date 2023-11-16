@@ -25,17 +25,6 @@ const EditPolicyForm: FC = () => {
   const { code } = useParams();
 
   const { policy, isFetching } = useGetPolicyByCode(code ?? "");
-  // if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
-
-  // const [file, setFile] = useState<File | null>(null);
-
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setFile(e.target.files[0]);
-  //   }
-  // };
-  // const fd =new FormData();
-  // fd.append('file',file);
 
   const { updatePolicy, isUpdating } = useUpdatePolicy();
 
@@ -47,21 +36,10 @@ const EditPolicyForm: FC = () => {
       // console.log(e.target.files[0].name);
     }
   };
-   
-  const handleSubmitChanges = () => {
-    if(estimatedTimeInMin==null) return ;
-   const formData = new FormData();
-     formData.set('MainFile', mainFile!);
-     formData.set('Name', policyName);
-     formData.set('EstimatedTimeInMin', estimatedTimeInMin?.toString());
-     updatePolicy({code:code!, formData:formData})
-  }
-   
-  // const theme = useTheme();
 
-  const [policyName, setPolicyName] = useState<string>(policy?.name??"");
+  const [policyName, setPolicyName] = useState<string>(policy?.name ?? "");
   const [estimatedTimeInMin, setEstimatedTimeInMin] = useState<number>(
-    policy?.dependencies[0].estimatedTime??0
+    policy?.dependencies[0]?.estimatedTime ?? 0,
   );
 
   const handleChangePolicyName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -75,14 +53,14 @@ const EditPolicyForm: FC = () => {
   };
   const theme = useTheme();
 
-  // const handleSubmitChanges = () => {
-  //   updatePolicy({
-  //     code: policy.code,
-  //     newPolicyName: policyName,
-  //     mainFile:  file ,
-  //     estimatedTimeInMin,
-  //   });
-  // };
+  const handleSubmitChanges = () => {
+    if (estimatedTimeInMin == null) return;
+    const formData = new FormData();
+    formData.set("MainFile", mainFile!);
+    formData.set("Name", policyName);
+    formData.set("EstimatedTimeInMin", estimatedTimeInMin?.toString());
+    updatePolicy({ code: code!, formData: formData });
+  };
 
   if (isFetching) return <EditChapterFormSkeleton />;
 
@@ -155,7 +133,7 @@ const EditPolicyForm: FC = () => {
           variant="contained"
           onClick={handleSubmitChanges}
           endIcon={<DriveFileRenameOutlineIcon />}
-            disabled={policyName === ""}
+          disabled={policyName === ""}
         >
           Update
         </LoadingButton>
