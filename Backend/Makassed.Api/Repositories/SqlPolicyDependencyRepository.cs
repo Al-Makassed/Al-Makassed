@@ -22,8 +22,8 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
         // Filtering
         if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
         {
-            if (filterOn.Equals("PolicyCode", StringComparison.OrdinalIgnoreCase))
-                policyDependencies = policyDependencies.Where(w => w.PolicyCode.Contains(filterQuery));
+            //if (filterOn.Equals("PolicyCode", StringComparison.OrdinalIgnoreCase))
+                //policyDependencies = policyDependencies.Where(w => w.PolicyId);
         }
 
         return await policyDependencies.ToListAsync();
@@ -53,9 +53,9 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
         return policyDependencyToDelete;
     }
 
-    public async Task<List<Dependency>?> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, string policyCode)
+    public async Task<List<Dependency>?> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, Guid policyId)
     {
-        var policyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyCode == policyCode && d.PolicyDependencyType == type).ToListAsync();
+        var policyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyId == policyId && d.PolicyDependencyType == type).ToListAsync();
 
         if (policyDependencies.IsNullOrEmpty())
             return null;
@@ -105,9 +105,9 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdatePoliciesDependenciesCodesAsync(string policyCode, List<string> newCodes, List<string> oldCodes)
+    public async Task UpdatePoliciesDependenciesCodesAsync(Guid policyId, List<string> newCodes, List<string> oldCodes)
     {
-        var existedPolicyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyCode == policyCode).ToListAsync();
+        var existedPolicyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyId == policyId).ToListAsync();
         
         if (existedPolicyDependencies.IsNullOrEmpty())
             return;

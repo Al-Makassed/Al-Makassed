@@ -32,15 +32,15 @@ public class PoliciesController : ApiController
     }
 
 
-    // Get Policy by Code
+    // Get Policy by ID
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpGet("{code}")]
-    public async Task<IActionResult> GetPolicy(string code)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetPolicy(Guid id)
     {
-        var getPolicyResult = await _policyService.GetPolicyByCodeAsync(code);
+        var getPolicyResult = await _policyService.GetPolicyByIdAsync(id);
 
         return getPolicyResult.Match(
             policy => Ok(_mapper.Map<GetPolicyResponse>(policy)),
@@ -65,7 +65,7 @@ public class PoliciesController : ApiController
         return policyCreationResult.Match(
             _ => CreatedAtAction(
                 nameof(GetPolicy), 
-                new { code = policy.Code }, 
+                new { id = policy.Id }, 
                 _mapper.Map<GetPolicyResponse>(policy)
             ),
             errors => Problem(errors)
@@ -78,12 +78,12 @@ public class PoliciesController : ApiController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpPut("{code}")]
-    public async Task<IActionResult> UpdatePolicy(string code,[FromForm]UpdatePolicyRequest request)
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdatePolicy(Guid id,[FromForm]UpdatePolicyRequest request)
     {
         var policy = _mapper.Map<Policy>(request);
 
-        var updatePolicyResult = await _policyService.UpdatePolicyAsync(code, policy);
+        var updatePolicyResult = await _policyService.UpdatePolicyAsync(id, policy);
 
         return updatePolicyResult.Match(
             _ => NoContent(),
@@ -93,13 +93,13 @@ public class PoliciesController : ApiController
 
     // Delete a policy by code
     [Authorize(Roles = "Admin, Sub-Admin")]
-    [HttpDelete("{code}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeletePolicy(string code)
+    public async Task<IActionResult> DeletePolicy(Guid id)
     {
-        var deletePolicyResult= await _policyService.DeletePolicyAsync(code);
+        var deletePolicyResult= await _policyService.DeletePolicyAsync(id);
         return deletePolicyResult.Match(
             _ => NoContent(),
             errors => Problem(errors)

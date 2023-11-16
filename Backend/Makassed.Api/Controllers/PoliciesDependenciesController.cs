@@ -58,12 +58,12 @@ public class PoliciesDependenciesController : ApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreatePolicyDependency([FromForm] CreatePolicyDependencyRequest request,
-        string policyCode)
+        Guid id)
     {
         var policyDependency= _mapper.Map<Dependency>(request);
 
         var policyDependencyCreationResult =
-            await _policyDependencyService.CreatePolicyDependencyAsync(policyDependency, policyCode);
+            await _policyDependencyService.CreatePolicyDependencyAsync(policyDependency, id);
 
         return policyDependencyCreationResult.Match(
             _ => CreatedAtAction(
@@ -97,9 +97,9 @@ public class PoliciesDependenciesController : ApiController
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteAllPolicyDependencyType(PolicyDependencyType type, string policyCode)
+    public async Task<IActionResult> DeleteAllPolicyDependencyType(PolicyDependencyType type, Guid policyId)
     {
-        var policyDependenciesDeletionResult= await _policyDependencyService.DeleteAllPolicyDependencyTypeAsync(type, policyCode);
+        var policyDependenciesDeletionResult= await _policyDependencyService.DeleteAllPolicyDependencyTypeAsync(type, policyId);
         
         return policyDependenciesDeletionResult.Match(
             _ => Ok(_mapper.Map<List<GetPolicyDependencyResponse>>(policyDependenciesDeletionResult.Value)),

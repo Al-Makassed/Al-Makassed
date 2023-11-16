@@ -20,7 +20,7 @@ public class Dependency
 
     public PolicyDependencyType PolicyDependencyType { get; set; }
 
-    public string PolicyCode { get; set; } = null!;
+    public Guid PolicyId { get; set; }
 
     // Navigation Properties
     public Policy Policy { get; set; } = null!;

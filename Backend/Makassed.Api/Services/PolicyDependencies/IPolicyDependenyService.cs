@@ -10,11 +10,11 @@ public interface IPolicyDependencyService
     
     Task<Dependency?> GetPolicyDependencyByCodeAsync(string code);
     
-    Task<ErrorOr<Dependency>> CreatePolicyDependencyAsync(Dependency policyDependency, string policyCode);
+    Task<ErrorOr<Dependency>> CreatePolicyDependencyAsync(Dependency policyDependency, Guid id);
     
     Task<ErrorOr<Deleted>> DeletePolicyDependencyAsync(string code);
     
-    Task<ErrorOr<List<Dependency>>> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, string policyCode);
+    Task<ErrorOr<List<Dependency>>> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, Guid policyId);
     
     Task<ErrorOr<Updated>> UpdatePolicyDependencyAsync(string code, Dependency policyDependency);
 }

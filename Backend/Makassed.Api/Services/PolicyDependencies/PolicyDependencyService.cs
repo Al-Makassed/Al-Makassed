@@ -22,9 +22,9 @@ public class PolicyDependencyService : IPolicyDependencyService
         _sharedService = sharedService;
     }
 
-    private async Task<ErrorOr<Policy>> CheckExistedPolicy(string policyCode)
+    private async Task<ErrorOr<Policy>> CheckExistedPolicy(Guid id)
     {
-        var findPolicyResult = await _policyService.GetPolicyByCodeAsync(policyCode);
+        var findPolicyResult = await _policyService.GetPolicyByIdAsync(id);
 
         return findPolicyResult;
     }
@@ -39,14 +39,12 @@ public class PolicyDependencyService : IPolicyDependencyService
         return _policyDependencyRepository.GetPolicyDependencyByCodeAsync(code);
     }
 
-    public async Task<ErrorOr<Dependency>> CreatePolicyDependencyAsync(Dependency policyDependency, string policyCode)
+    public async Task<ErrorOr<Dependency>> CreatePolicyDependencyAsync(Dependency policyDependency, Guid id)
     {
-        var existedPolicyResult = await CheckExistedPolicy(policyCode);
+        var existedPolicyResult = await CheckExistedPolicy(id);
 
         if (existedPolicyResult.IsError)
             return existedPolicyResult.Errors;
-
-        policyDependency.PolicyCode = policyCode;
 
         var policyDependencyTypeCount = existedPolicyResult.Value.Dependencies.Where(d => d.PolicyDependencyType == policyDependency.PolicyDependencyType).ToList().Count;
 
@@ -68,9 +66,9 @@ public class PolicyDependencyService : IPolicyDependencyService
         return deletionResult is null ? Errors.PolicyDependency.NotFound : Result.Deleted;
     }
 
-    public async Task<ErrorOr<List<Dependency>>> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, string policyCode)
+    public async Task<ErrorOr<List<Dependency>>> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, Guid policyId)
     {
-        var deletedPolicies = await _policyDependencyRepository.DeleteAllPolicyDependencyTypeAsync(type, policyCode);
+        var deletedPolicies = await _policyDependencyRepository.DeleteAllPolicyDependencyTypeAsync(type, policyId);
         
         return deletedPolicies is null ? Errors.PolicyDependency.NotFoundPolicyDependenciesType : deletedPolicies;
     }
