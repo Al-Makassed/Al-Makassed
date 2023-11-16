@@ -10,4 +10,6 @@ public record UpdatePolicyRequest
     public required IFormFile MainFile { get; set; }
     
     public int EstimatedTimeInMin { get; set; }
+
+    public string? Summary { get; set; }
 }

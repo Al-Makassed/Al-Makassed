@@ -13,6 +13,8 @@ public class Policy
 
     public string? PdfUrl { get; set; }
 
+    public string? Summary { get; set; }
+
     public int PageCount { get; set; }
 
     public int EstimatedTimeInMin { get; set; }
