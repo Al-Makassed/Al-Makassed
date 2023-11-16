@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Makassed.Api.Models.Domain;
 using Makassed.Contracts.General;
 
 namespace Makassed.Api.ServiceErrors;
@@ -7,8 +8,6 @@ public abstract partial class Errors
 {
     public abstract partial class User
     {
-        public static ErrorOr<SuccessResponse> NoValidRolesEntered { get; internal set; }
-
         public abstract class Role
         {
             public static Error NotFound => Error.NotFound(

@@ -9,6 +9,8 @@ public record GetPolicyResponse
     public required string Name { get; set; }
         
     public string? PdfUrl { get; set; }
+
+    public string? Summary { get; set; }
     
     public int PageCount { get; set; }
 
