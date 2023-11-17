@@ -1,47 +1,38 @@
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import {
   Box,
   IconButton,
-  InputAdornment,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Stack,
-  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { Dependency } from "../API/types";
-import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useParams } from "react-router-dom";
 import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
-import { LoadingButton } from "@mui/lab";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
+import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
 
 const EditForm = () => {
   const { code } = useParams();
-  const {
-    policy,
-    // isFetching
-  } = useGetPolicyByCode(code ?? "");
 
-//   const [formName, setFormName] = useState<string | undefined>("");
+  const { policy } = useGetPolicyByCode(code ?? "");
 
-//   const handleChangeFormName = (event: ChangeEvent<HTMLInputElement>) => {
-//     setFormName(event.target.value);
-//   };
-//   const [estimatedTimeInMin, setEstimatedTimeInMin] = useState<number>();
+  const { deleteAllDependencies } = useDeleteAllPolicyDependencies();
 
-//   const handleChangePolicyTime = (event: ChangeEvent<HTMLInputElement>) => {
-//     const inputValue = event.target.value;
+  const handleDeleteAllDependencies = () => {
+    deleteAllDependencies({ type: 0, code: code || "" });
+  };
+  const { deleteDependency } = useDeleteDependencyByCode();
 
-//     const numericValue = parseInt(inputValue); // Parse the input value to a number
-
-//     setEstimatedTimeInMin(numericValue);
-//   };
+  const handleDeleteDependency = () => {
+    deleteDependency(code || "");
+  };
   if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
 
   return (
@@ -51,19 +42,14 @@ const EditForm = () => {
         flexDirection="row"
         sx={{ justifyContent: "space-between", mt: 2, pl: 1 }}
       >
-        <Typography
-          variant="subtitle1"
-          fontFamily="serif"
-          fontWeight={500}
-          fontSize={20}
-        >
+        <Typography variant="subtitle1" fontWeight={500}>
           Forms information
         </Typography>
         <Tooltip title="Delete All">
           <IconButton
             color="error"
             aria-label="Delete All"
-            // onClick={handleDeleteAllPolicies}
+            onClick={handleDeleteAllDependencies}
             sx={{ mr: 2 }}
           >
             <DeleteIcon />
@@ -86,11 +72,10 @@ const EditForm = () => {
                 </ListItemIcon>
                 <ListItemText primary={dependency.name} sx={{ ml: -2 }} />
 
-                
                 <Tooltip title="Delete">
                   <IconButton
                     aria-label="Delete Policy"
-                    // onClick={() => deletePolicy(policy.code)}
+                    onClick={handleDeleteDependency}
                   >
                     <DeleteIcon />
                   </IconButton>

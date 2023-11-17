@@ -6,20 +6,17 @@ import {
   IconButton,
   List,
   ListItemIcon,
-  TextField,
-  InputAdornment,
   ListItem,
   ListItemText,
 } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import { Dependency } from "../API/types";
 import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
 import { useParams } from "react-router-dom";
-import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { LoadingButton } from "@mui/lab";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
+import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
 
 const EditPoster = () => {
   const { code } = useParams();
@@ -27,20 +24,15 @@ const EditPoster = () => {
     policy,
     // isFetching
   } = useGetPolicyByCode(code ?? "");
+  const { deleteAllDependencies } = useDeleteAllPolicyDependencies();
 
-  const [posterName, setPosterName] = useState<string | undefined>("");
-
-  const handleChangePosterName = (event: ChangeEvent<HTMLInputElement>) => {
-    setPosterName(event.target.value);
+  const handleDeleteAllDependencies = () => {
+    deleteAllDependencies({ type: 1, code: code || "" });
   };
-  const [estimatedTimeInMin, setEstimatedTimeInMin] = useState<number>();
+  const { deleteDependency } = useDeleteDependencyByCode();
 
-  const handleChangePolicyTime = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-
-    const numericValue = parseInt(inputValue); // Parse the input value to a number
-
-    setEstimatedTimeInMin(numericValue);
+  const handleDeleteDependency = () => {
+    deleteDependency(code || "");
   };
   if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
 
@@ -51,12 +43,7 @@ const EditPoster = () => {
         flexDirection="row"
         sx={{ justifyContent: "space-between", mt: 2, pl: 1 }}
       >
-        <Typography
-          variant="subtitle1"
-          fontFamily="serif"
-          fontWeight={500}
-          fontSize={20}
-        >
+        <Typography variant="subtitle1" fontWeight={500}>
           Posters information
         </Typography>
         <Tooltip title="Delete All">
@@ -64,8 +51,7 @@ const EditPoster = () => {
             color="error"
             aria-label="Delete All"
             sx={{ mr: 2 }}
-
-            // onClick={handleDeleteAllPolicies}
+            onClick={handleDeleteAllDependencies}
           >
             <DeleteIcon />
           </IconButton>
@@ -90,7 +76,7 @@ const EditPoster = () => {
                 <Tooltip title="Delete">
                   <IconButton
                     aria-label="Delete Policy"
-                    // onClick={() => deletePolicy(policy.code)}
+                    onClick={handleDeleteDependency}
                   >
                     <DeleteIcon />
                   </IconButton>

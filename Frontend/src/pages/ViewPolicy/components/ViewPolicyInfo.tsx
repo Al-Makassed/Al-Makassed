@@ -13,12 +13,9 @@ const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
   const navigate = useNavigate();
 
   const handleEditPolicy = () => {
-    navigate(`/me/edit-policy/${policy.code}`);
+    navigate(`/me/edit-policy&dependencies/${policy.code}`);
   };
-  const handleEditDependencies =()=>{
-    navigate(`/me/edit-dependencies/${policy.code}`);
 
-  }
   if (policy.code !== code) return null;
 
   return (
@@ -77,15 +74,6 @@ const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
             </IconButton>
           </Tooltip> */}
       </Stack>
-      <Tooltip title="Edit Dependencies">
-        <IconButton
-          aria-label="Edit Dependencies"
-          // sx={{ mr: 1 }}
-          onClick={handleEditDependencies}
-        >
-          <EditIcon />
-        </IconButton>
-      </Tooltip>
       <PolicyDependency />
     </Stack>
   );

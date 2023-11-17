@@ -1,24 +1,22 @@
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import {
   Box,
   IconButton,
-  InputAdornment,
   List,
   ListItem,
   ListItemIcon,
+  ListItemText,
   Stack,
-  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { Dependency } from "../API/types";
-import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useParams } from "react-router-dom";
 import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
-import { LoadingButton } from "@mui/lab";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
+import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
 
 const EditProtocols = () => {
   const { code } = useParams();
@@ -26,20 +24,15 @@ const EditProtocols = () => {
     policy,
     // isFetching
   } = useGetPolicyByCode(code ?? "");
+  const { deleteAllDependencies } = useDeleteAllPolicyDependencies();
 
-  const [protocolName, setProtocolName] = useState<string | undefined>("");
-
-  const handleChangeProtocolName = (event: ChangeEvent<HTMLInputElement>) => {
-    setProtocolName(event.target.value);
+  const handleDeleteAllDependencies = () => {
+    deleteAllDependencies({ type: 2, code: code || "" });
   };
-  const [estimatedTimeInMin, setEstimatedTimeInMin] = useState<number>();
+  const { deleteDependency } = useDeleteDependencyByCode();
 
-  const handleChangePolicyTime = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-
-    const numericValue = parseInt(inputValue); // Parse the input value to a number
-
-    setEstimatedTimeInMin(numericValue);
+  const handleDeleteDependency = () => {
+    deleteDependency(code || "");
   };
   if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
   return (
@@ -49,19 +42,14 @@ const EditProtocols = () => {
         flexDirection="row"
         sx={{ justifyContent: "space-between", mt: 2, pl: 1 }}
       >
-        <Typography
-          variant="subtitle1"
-          fontFamily="serif"
-          fontWeight={500}
-          fontSize={20}
-        >
+        <Typography variant="subtitle1" fontWeight={500}>
           Protocols information
         </Typography>
         <Tooltip title="Delete All">
           <IconButton
             color="error"
             aria-label="Delete All"
-            // onClick={handleDeleteAllPolicies}
+            onClick={handleDeleteAllDependencies}
             sx={{ mr: 2 }}
           >
             <DeleteIcon />
@@ -82,53 +70,10 @@ const EditProtocols = () => {
                 <ListItemIcon sx={{ color: "#d32f2f" }}>
                   <PictureAsPdfIcon />
                 </ListItemIcon>
-                {/* <ListItemText primary={dependency.name} sx={{ ml: -2 }} /> */}
-                <TextField
-                  sx={{ mr: 4, ml: -2 }}
-                  //   value={dependency.name}
-                  value={protocolName}
-                  color="success"
-                  variant="standard"
-                  onChange={handleChangeProtocolName}
-                />
-                <TextField
-                  sx={{ width: "25%" }}
-                  value={estimatedTimeInMin}
-                  onChange={handleChangePolicyTime}
-                  type="number"
-                  color="success"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccessAlarmsIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  variant="standard"
-                />
-                <Stack
-                  display="flex"
-                  sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 1,
-                  }}
-                >
-                  <LoadingButton
-                    //   loading={isUpdating}
-                    loadingPosition="start"
-                    color="success"
-                    type="submit"
-                    //   onClick={handleSubmitChanges}
-                    endIcon={<CheckCircleIcon />}
-                    disabled={protocolName === ""}
-                  />
-                   
-                </Stack>
+                <ListItemText primary={dependency.name} sx={{ ml: -2 }} />
+
                 <Tooltip title="Delete">
-                  <IconButton
-                  // onClick={() => deletePolicy(policy.code)}
-                  >
+                  <IconButton onClick={handleDeleteDependency}>
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
