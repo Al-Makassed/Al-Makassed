@@ -43,15 +43,17 @@ public class PolicyService : IPolicyService
         return await _chapterRepository.GetChapterByIdAsync(id);
     }
 
-    public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy)
+    public async Task<ErrorOr<Created>> CreatePolicyAsync(Guid chapterId, Policy policy)
     {
-        var existedChapterResult = await CheckChapterExists(policy.ChapterId);
+        var existedChapterResult = await CheckChapterExists(chapterId);
 
         if (existedChapterResult is null)
             return Errors.Chapter.NotFound;
 
         if (!await IsUniqueName(policy.Name))
             return Errors.Policy.NameDuplication;
+
+        policy.ChapterId = chapterId;
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
 

@@ -9,7 +9,7 @@ public interface IPolicyService
         
     Task<ErrorOr<Policy>> GetPolicyByIdAsync(Guid id);
         
-    Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy);
+    Task<ErrorOr<Created>> CreatePolicyAsync(Guid chapterId, Policy policy);
         
     Task<ErrorOr<Deleted>> DeletePolicyAsync(Guid id);
         

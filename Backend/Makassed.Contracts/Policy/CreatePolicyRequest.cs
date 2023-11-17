@@ -12,7 +12,5 @@ public record CreatePolicyRequest
     
     public int EstimatedTimeInMin { get; set; }
     
-    public required Guid ChapterId { get; set; }
-
     public string? Summary { get; set; }
 }

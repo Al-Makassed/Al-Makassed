@@ -56,11 +56,11 @@ public class PoliciesController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreatePolicy([FromForm]CreatePolicyRequest request)
+    public async Task<IActionResult> CreatePolicy(Guid chapterId, [FromForm]CreatePolicyRequest request)
     {
         var policy = _mapper.Map<Policy>(request);
 
-        var policyCreationResult = await _policyService.CreatePolicyAsync(policy);
+        var policyCreationResult = await _policyService.CreatePolicyAsync(chapterId, policy);
 
         return policyCreationResult.Match(
             _ => CreatedAtAction(

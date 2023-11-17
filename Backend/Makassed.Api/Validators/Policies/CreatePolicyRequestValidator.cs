@@ -19,9 +19,6 @@ public class CreatePolicyRequestValidator : AbstractValidator<CreatePolicyReques
         
         RuleFor(p => p.EstimatedTimeInMin)
             .NotNull().WithMessage("Estimated time shouldn't be null.")
-            .Must(et => et > 0 && et <= 60);
-
-        RuleFor(p => p.ChapterId)
-            .NotEmpty().WithMessage("Chapter ID is required.");
+            .Must(et => et is > 0 and <= 60);
     }
 }
