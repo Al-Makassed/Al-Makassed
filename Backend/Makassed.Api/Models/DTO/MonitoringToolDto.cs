@@ -2,7 +2,7 @@
 
 namespace Makassed.Api.Models.DTO;
 
-public class MonitoringToolDto
+public record MonitoringToolDto
 {
     public Guid Id { get; set; }
 

@@ -20,7 +20,7 @@ public class SqlPolicyRepository : IPolicyRepository
     }
 
     public async Task CreatePolicyAsync(Policy policy)
-    {
+     {
         await _dbContext.Policies.AddAsync(policy);
 
         await _dbContext.SaveChangesAsync();
@@ -64,6 +64,7 @@ public class SqlPolicyRepository : IPolicyRepository
         existedPolicy.PdfUrl = policy.PdfUrl;
         existedPolicy.PageCount = policy.PageCount;
         existedPolicy.EstimatedTimeInMin = policy.EstimatedTimeInMin;
+        existedPolicy.Summary = policy.Summary;
 
         if (!existedPolicy.Code.Equals(policy.Code))
         {

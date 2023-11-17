@@ -10,5 +10,5 @@ public record SubmitMonitoringToolRequest
 
     public required Guid DepartmentId { get; set; }
 
-    public required List<SubmitMonitoringToolFieldRequest> FieldsSubmissions { get; set; } = new();
+    public required List<FieldAnswerRequest> FieldsSubmissions { get; set; } = new();
 }

@@ -12,4 +12,6 @@ public record CreatePolicyRequest
     
     public required Guid ChapterId { get; set; }
 
+    public string? Summary { get; set; }
+
 }
