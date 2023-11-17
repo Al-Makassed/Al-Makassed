@@ -4,7 +4,6 @@ import {
   Button,
   FormControl,
   Grid,
-  Hidden,
   IconButton,
   Input,
   InputAdornment,
@@ -18,7 +17,7 @@ import maqasidLogo from "../../images/logo.jpg";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 import { LoadingButton } from "@mui/lab";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { useNavigate } from "react-router-dom";
 
@@ -104,18 +103,16 @@ const ResetForgotPasswordForm: FC = () => {
         justifyContent="center"
         direction="column"
       >
-        <Hidden smDown>
-          <Avatar
-            sx={{
-              width: 180,
-              height: 180,
-              display: { xs: "none", md: "flex" },
-            }}
-            alt="logo"
-            variant="circular"
-            src={maqasidLogo}
-          />
-        </Hidden>
+        <Avatar
+          sx={{
+            width: 180,
+            height: 180,
+            display: { xs: "none", md: "flex" },
+          }}
+          alt="logo"
+          variant="circular"
+          src={maqasidLogo}
+        />
         <Stack
           padding={{ xs: 3, md: 4 }} // responsive for all screen sizes
           gap={3}

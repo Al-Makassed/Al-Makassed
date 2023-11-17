@@ -2,7 +2,7 @@ export interface Policy {
   code: string;
   name: string;
   state: boolean;
-  pdf: string;
+  file: string;
   chapterId: string;
   estimatedTime: number;
   dependencies: Dependency[];
@@ -21,7 +21,11 @@ export interface CreatePolicyResponse extends Omit<Policy, "dependencies "> {}
 
 export interface PolicyResponse {
   name: string;
-  pdfUrl?: File | Blob;
+  file: string | Blob;
   estimatedTime: number;
   chapterId: string;
+}
+
+export interface uploadFile {
+  file: string | Blob;
 }

@@ -1,5 +1,7 @@
-﻿using ErrorOr;
+﻿using AutoMapper;
+using ErrorOr;
 using Makassed.Api.Models.Domain;
+using Makassed.Api.Models.DTO;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Microsoft.IdentityModel.Tokens;
@@ -11,12 +13,14 @@ public class MonitoringToolService : IMonitoringToolService
     private readonly IMonitoringToolRepository _monitoringToolRepository;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IFieldRepository _fieldRepository;
+    private readonly IMapper _mapper;
 
-    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository)
+    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper)
     {
         _monitoringToolRepository = monitoringToolRepository;
         _departmentRepository = departmentRepository;
         _fieldRepository = fieldRepository;
+        _mapper = mapper;
     }
 
     public async Task<List<MonitoringTool>> GetMonitoringToolsAsync()
@@ -24,41 +28,44 @@ public class MonitoringToolService : IMonitoringToolService
         return await _monitoringToolRepository.GetMonitoringToolsAsync();
     }
 
-    public async Task<ErrorOr<List<MonitoringTool>>> GetFocalPointMonitoringToolsAsync(string monitoringToolId)
+    private MonitoringToolDto MapMonitoringToolDto(MonitoringTool monitoringTool)
     {
-        var result = await _monitoringToolRepository.GetFocalPointMonitoringToolsAsync(monitoringToolId);
+        var mt = _mapper.Map<MonitoringToolDto>(monitoringTool);
+        var departments = monitoringTool.FocalPointTasks.Select(fpt => fpt.Department).ToList();
+        mt.Departments = departments;
 
-        if (result is null)
-            return Errors.User.NotFocalPoint;
-
-        return result;
+        return mt;
     }
 
-    public async Task<ErrorOr<MonitoringTool>> GetMonitoringToolByIdAsync(Guid id)
+    public async Task<ErrorOr<MonitoringToolDto>> GetMonitoringToolByIdAsync(Guid id)
     {
         var result = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
 
-        return result is null ? Errors.MonitoringTool.NotFound : result;
+        return result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
     }
 
-    // Assign the departments to the monitoring tool
+    // Assign the departments to the monitoring tool by adding them to the focal point tasks
     private async Task<ErrorOr<MonitoringTool>> AssignDepartmentsAsync(MonitoringTool monitoringTool, List<Guid> departmentsIdes)
     {
-        var departments = new List<Department>();
+        var focalPointTasks = new List<FocalPointTask>();
 
         foreach (var departmentId in departmentsIdes)
         {
             var department = await _departmentRepository.GetDepartmentAsync(departmentId);
 
             if (department is not null)
-                departments.Add(department);
+                focalPointTasks.Add(new FocalPointTask 
+                { 
+                    MonitoringToolId = monitoringTool.Id,
+                    DepartmentId = department.Id
+                });
         }
 
-        // Check if there are any valid departments
-        if (departments.IsNullOrEmpty())
+        // Check if there are any valid focal point tasks
+        if (focalPointTasks.IsNullOrEmpty())
             return Errors.MonitoringTool.NoValidAssignedDepartments;
 
-        monitoringTool.Departments = departments;
+        monitoringTool.FocalPointTasks = focalPointTasks;
 
         return monitoringTool;
     }
@@ -85,7 +92,7 @@ public class MonitoringToolService : IMonitoringToolService
         return monitoringTool;
     }
 
-    public async Task<ErrorOr<MonitoringTool>> CreateMonitoringToolAsync(MonitoringTool monitoringTool, List<Guid> departmentsIdes, List<Guid> fieldsIdes)
+    public async Task<ErrorOr<MonitoringToolDto>> CreateMonitoringToolAsync(MonitoringTool monitoringTool, List<Guid> departmentsIdes, List<Guid> fieldsIdes)
     {
         // Add the existed departments and fields to the monitoring tool
         var departments = await AssignDepartmentsAsync(monitoringTool, departmentsIdes);
@@ -102,10 +109,10 @@ public class MonitoringToolService : IMonitoringToolService
         var result = await _monitoringToolRepository.CreateMonitoringToolAsync(monitoringTool);
         
         // Return error if the monitoring tool already exists and return the monitoring tool if it was created successfully
-        return result is null ? Errors.MonitoringTool.NameAlreadyExist : result;
+        return result is null ? Errors.MonitoringTool.NameAlreadyExist : MapMonitoringToolDto(result);
     }
 
-    public async Task<ErrorOr<MonitoringTool>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool, List<Guid> requestDepartmentsIdes,
+    public async Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool, List<Guid> requestDepartmentsIdes,
         List<Guid> requestFieldsIdes)
     {
         // Add the existed departments and fields to the monitoring tool
@@ -122,13 +129,13 @@ public class MonitoringToolService : IMonitoringToolService
         // Update the monitoring tool
         var result = await _monitoringToolRepository.UpdateMonitoringToolAsync(id, monitoringTool);
         
-        return  result is null ? Errors.MonitoringTool.NotFound : result;
+        return  result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
     }
 
-    public async Task<ErrorOr<MonitoringTool>> DeleteMonitoringToolAsync(Guid id)
+    public async Task<ErrorOr<MonitoringToolDto>> DeleteMonitoringToolAsync(Guid id)
     {
         var result = await _monitoringToolRepository.DeleteMonitoringToolAsync(id);
 
-        return result is null ? Errors.MonitoringTool.NotFound : result;
+        return result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
     }
 }

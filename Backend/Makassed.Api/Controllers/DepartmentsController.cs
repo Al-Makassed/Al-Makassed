@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Users.Departments;
+using Makassed.Contracts.MonitoringTool.FocalPointTasks;
 using Makassed.Contracts.User.Department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
 
-[Authorize(Roles = "Admin, Sub-Admin")]
 public class DepartmentsController : ApiController
 {
     private readonly IDepartmentService _departmentService;
@@ -20,27 +20,37 @@ public class DepartmentsController : ApiController
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(GetDepartmentResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<ActionResult> GetDepartments()
     {
         return Ok(_mapper.Map<List<GetDepartmentResponse>>(await _departmentService.GetDepartmentsAsync()));
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetDepartmentResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> GetDepartment(Guid id)
     {
         var departmentResult = await _departmentService.GetDepartmentAsync(id);
 
         return departmentResult.Match(
-            _ => Ok(),
+            _ => Ok(_mapper.Map<GetDepartmentResponse>(departmentResult.Value)),
             Problem
         );
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(GetDepartmentResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> CreateDepartment(CreateDepartmentRequest request)
     {
         var departmentResult = await _departmentService.CreateDepartmentAsync(_mapper.Map<Department>(request));
@@ -52,8 +62,11 @@ public class DepartmentsController : ApiController
     }
 
     [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetDepartmentResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> UpdateDepartment(Guid id, UpdateDepartmentRequest request)
     {
         var departmentResult = await _departmentService.UpdateDepartmentAsync(id, _mapper.Map<Department>(request));
@@ -65,15 +78,53 @@ public class DepartmentsController : ApiController
     }
 
     [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetDepartmentResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> DeleteDepartment(Guid id)
     {
         var departmentResult = await _departmentService.DeleteDepartmentAsync(id);
 
         return departmentResult.Match(
-            _ => Ok(departmentResult.Value),
+            _ => Ok(_mapper.Map<GetDepartmentResponse>(departmentResult.Value)),
             errors => Problem(errors) 
         );
     }
+
+    [HttpGet("{departmentId:Guid}/focal-point-tasks")]
+    [ProducesResponseType(typeof(GetAllFocalPointTasksBaseResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
+    public async Task<IActionResult> GetFocalPointTasks([FromRoute]Guid departmentId)
+    {
+        var focalPointTasksResult = await _departmentService.GetFocalPointTasksAsync(departmentId);
+
+        return focalPointTasksResult.Match(
+            _ => Ok(_mapper.Map<List<GetAllFocalPointTasksBaseResponse>>(focalPointTasksResult.Value)),
+            errors => Problem(errors)
+        );
+    }
+
+    // get focal point task by id
+    [HttpGet("{departmentId:Guid}/focal-point-tasks/{id:Guid}")]
+    [ProducesResponseType(typeof(GetFocalPointTaskResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    //[Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
+    public async Task<IActionResult> GetFocalPointTask([FromRoute]Guid departmentId, [FromRoute]Guid id)
+    {
+        var focalPointTaskResult = await _departmentService.GetFocalPointTaskByIdAsync(departmentId, id);
+
+        return focalPointTaskResult.Match(
+            _ => Ok(_mapper.Map<GetFocalPointTaskResponse>(focalPointTaskResult.Value)),
+            errors => Problem(errors)
+        );
+    }    
 }

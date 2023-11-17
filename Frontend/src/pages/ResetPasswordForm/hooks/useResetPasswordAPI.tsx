@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { resetForgottenPassword as resetForgottenPasswordApi } from "../API";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 
 const useResetPasswordAPI = () => {

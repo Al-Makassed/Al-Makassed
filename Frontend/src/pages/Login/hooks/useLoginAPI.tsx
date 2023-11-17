@@ -3,7 +3,7 @@ import { loginApi } from "../API";
 import { useNavigate } from "react-router-dom";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "../utils";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { login } from "src/features/user";
 import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";

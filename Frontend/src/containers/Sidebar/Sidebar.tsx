@@ -3,7 +3,7 @@ import { Drawer, Stack } from "@mui/material";
 import Title from "./components/Title";
 import ChaptersList from "./components/ChaptersList";
 import AddChapterButton from "./components/AddChapterButton";
-import { useAppSelector } from "src/app/hooks";
+import { useAppSelector } from "src/store/hooks";
 import { selectIsSidebarOpen } from "src/features/appSettings";
 import { useTheme } from "@mui/material/styles";
 

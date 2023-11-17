@@ -14,4 +14,8 @@ public interface IDepartmentService
     Task<ErrorOr<Department>> UpdateDepartmentAsync(Guid id, Department department);
 
     Task<ErrorOr<Department>> DeleteDepartmentAsync(Guid id);
+    
+    Task<ErrorOr<List<FocalPointTask>>> GetFocalPointTasksAsync(Guid id);
+    
+    Task<ErrorOr<FocalPointTask>> GetFocalPointTaskByIdAsync(Guid departmentId, Guid id);
 }

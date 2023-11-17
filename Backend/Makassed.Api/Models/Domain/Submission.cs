@@ -3,19 +3,19 @@
 public class Submission
 {
     public Guid Id { get; set; }
-
-    public Guid MonitoringToolId { get; set; }
-
-    public Guid DepartmentId { get; set; }
+    
+    public Guid FocalPointTaskId { get; set; }
 
     public string SubmitterId { get; set; } = null!;
 
-    public int Version { get; set; }
+    public int Number { get; set; }
 
-    // Navigation properties
-    public MonitoringToolDepartments MonitoringToolDepartment { get; set; } = null!;
+    public DateTime SubmittedAt { get; set; }
 
-    public List<MonitoringToolFieldsSubmissions> MonitoringToolFieldsSubmissions { get; set; } = new();
+    // Navigation Properties
+    public FocalPointTask FocalPointTask { get; set; } = null!;
 
     public MakassedUser Submitter { get; set; } = null!;
+
+    public List<FieldAnswer> Answers { get; set; } = new();
 }

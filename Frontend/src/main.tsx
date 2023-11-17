@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MaqasidThemeProvider from "./styling/MaqasidThemeProvider";
+import MaqasidThemeProvider from "./style/MaqasidThemeProvider";
 import "./locale/i18n";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store from "./store/store";
 import ErrorBoundary from "./Error";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

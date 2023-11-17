@@ -8,6 +8,11 @@ public class MakassedUser : IdentityUser
 
     public Guid DepartmentId { get; set; }
 
+    public DateTime CreatedOn { get; set; }
+
+    public string? ProfileUrl { get; set; }
+
+    // Navigation Properties
     public Department Department { get; set; } = null!;
 
     public List<Policy> Policies { get; set; } = new();
@@ -15,8 +20,4 @@ public class MakassedUser : IdentityUser
     public List<Dependency> PolicyDependencies { get; set; } = new();
 
     public ICollection<Submission> Submissions { get; set; } = new List<Submission>();
-
-    public DateTime CreatedOn { get; set; }
-
-    public string? ProfileUrl { get; set; }
 }

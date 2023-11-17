@@ -9,8 +9,9 @@ public class MonitoringTool
     public string Description { get; set; } = null!;
 
     public DateTime LastModified { get; set; }
-
-    public List<Department> Departments { get; set; } = new();
+    
+    // Navigation Properties
+    public ICollection<FocalPointTask> FocalPointTasks { get; set; } = new List<FocalPointTask>();
 
     public List<Field> Fields { get; set; } = new();
 }

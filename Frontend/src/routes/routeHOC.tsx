@@ -3,7 +3,7 @@ import pageAccessRights from "./pageAccessRights";
 import { RouteConfigs } from "./HOCs/types";
 import { Navigate } from "react-router-dom";
 import { selectUserRoles } from "src/features/user/selectors";
-import { useAppSelector } from "src/app/hooks";
+import { useAppSelector } from "src/store/hooks";
 
 const routeHOC =
   <ComponentProps extends object>(configs: RouteConfigs) =>

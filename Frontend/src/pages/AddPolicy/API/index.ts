@@ -3,14 +3,17 @@ import axios from "src/API/axios";
 
 export const createPolicy = async ({
   name,
-  pdfUrl,
+  file,
   estimatedTime,
   chapterId,
 }: PolicyResponse) => {
-  return axios
+  const fd = new FormData();
+  fd.append("file", file);
+  // const pdfFile = fd.get("pdfUrl") as string | Blob;
+  return await axios
     .post<CreatePolicyResponse>("/policies", {
       name,
-      pdfUrl,
+      fd,
       estimatedTime,
       chapterId,
       Headers: { "content-Type": "multipart/form-data" },

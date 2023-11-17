@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import IconButton from "@mui/material/IconButton";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { toggleSidebar, selectIsSidebarOpen } from "src/features/appSettings";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
