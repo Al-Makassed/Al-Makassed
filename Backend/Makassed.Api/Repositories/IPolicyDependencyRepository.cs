@@ -7,15 +7,13 @@ public interface IPolicyDependencyRepository
 {
     Task CreatePolicyDependencyAsync(Dependency policyDependency);
     
-    Task<List<Dependency>> GetPolicyDependenciesAsync(string? filterOn, string? filterQuery);
+    Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, string? filterOn, string? filterQuery);
     
-    Task<Dependency?> GetPolicyDependencyByCodeAsync(string code);
+    Task<Dependency?> GetPolicyDependencyByIdAsync(Guid id);
     
-    Task<Dependency?> DeletePolicyDependencyAsync(string code);
+    Task<Dependency?> DeletePolicyDependencyAsync(Guid id);
     
     Task<List<Dependency>?> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, Guid policyId);
     
-    Task<Dependency?> UpdatePolicyDependencyAsync(string code, Dependency policyDependency);
-    
-    Task UpdatePoliciesDependenciesCodesAsync(Guid policyId, List<string> newCodes, List<string> oldCodes);
+    Task<Dependency?> UpdatePolicyDependencyAsync(Guid id, Dependency policyDependency);
 }

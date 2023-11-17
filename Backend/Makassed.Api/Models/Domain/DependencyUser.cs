@@ -4,7 +4,7 @@ namespace Makassed.Api.Models.Domain;
 
 public class DependencyUser
 {
-    public string DependencyCode { get; set; } = null!;
+    public Guid DependencyId { get; set; }
 
     public string UserId { get; set; } = null!;
 

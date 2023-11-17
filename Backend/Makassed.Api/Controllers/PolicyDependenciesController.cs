@@ -8,43 +8,43 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
 
-[Route("api/policies-dependencies")]
-public class PoliciesDependenciesController : ApiController
+[Route("api/policy/{policyId:guid}/policy-dependencies")]
+public class PolicyDependenciesController : ApiController
 {
     private readonly IMapper _mapper;
     private readonly IPolicyDependencyService _policyDependencyService;
 
-    public PoliciesDependenciesController(IMapper mapper, IPolicyDependencyService policyDependencyService)
+    public PolicyDependenciesController(IMapper mapper, IPolicyDependencyService policyDependencyService)
     {
         _mapper = mapper;
         _policyDependencyService = policyDependencyService;
     }
 
 
-    // Get Policies Dependencies
+    // Get Policy's Dependencies
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet]
-    public async Task<IActionResult> GetPoliciesDependencies([FromQuery] string? filterOn,
+    public async Task<IActionResult> GetPoliciesDependencies(Guid policyId, [FromQuery] string? filterOn,
         [FromQuery] string? filterQuery)
     {
         List<Dependency> policyDependencies =
-            await _policyDependencyService.GetPolicyDependenciesAsync(filterOn, filterQuery);
+            await _policyDependencyService.GetPolicyDependenciesAsync(policyId, filterOn, filterQuery);
 
         return Ok(_mapper.Map<List<GetPolicyDependencyResponse>>(policyDependencies));
     }
 
 
-    // Get policy dependency by code
+    // Get policy dependency by ID
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [HttpGet("{code}")]
-    public async Task<IActionResult> GetPolicyDependency(string code)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetPolicyDependency(Guid id)
     {
         var policyDependency =
-            await _policyDependencyService.GetPolicyDependencyByCodeAsync(code);
+            await _policyDependencyService.GetPolicyDependencyByIdAsync(id);
 
         return Ok(_mapper.Map<GetPolicyDependencyResponse>(policyDependency));
     }
@@ -58,32 +58,32 @@ public class PoliciesDependenciesController : ApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreatePolicyDependency([FromForm] CreatePolicyDependencyRequest request,
-        Guid id)
+        Guid policyId)
     {
         var policyDependency= _mapper.Map<Dependency>(request);
 
         var policyDependencyCreationResult =
-            await _policyDependencyService.CreatePolicyDependencyAsync(policyDependency, id);
+            await _policyDependencyService.CreatePolicyDependencyAsync(policyDependency, policyId);
 
         return policyDependencyCreationResult.Match(
-            _ => CreatedAtAction(
+            dependency => CreatedAtAction(
                 nameof(GetPolicyDependency),
-                new { code = policyDependencyCreationResult.Value.Code },
-                _mapper.Map<GetPolicyDependencyResponse>(policyDependencyCreationResult.Value)
+                new { id = dependency.Id, policyId = dependency.PolicyId },
+                _mapper.Map<GetPolicyDependencyResponse>(dependency)
             ),
             errors => Problem(errors)
         );
     }
 
 
-    // Delete policy dependency by code
+    // Delete policy dependency by ID
     [Authorize(Roles = "Admin, Sub-Admin")]
-    [HttpDelete("{code}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeletePolicyDependency(string code)
+    public async Task<IActionResult> DeletePolicyDependency(Guid id)
     {
-        var policyDependencyDeletionResult = await _policyDependencyService.DeletePolicyDependencyAsync(code);
+        var policyDependencyDeletionResult = await _policyDependencyService.DeletePolicyDependencyAsync(id);
         
         return policyDependencyDeletionResult.Match(
             _ => NoContent(),
@@ -97,7 +97,7 @@ public class PoliciesDependenciesController : ApiController
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteAllPolicyDependencyType(PolicyDependencyType type, Guid policyId)
+    public async Task<IActionResult> DeleteAllPolicyDependencyOfType(PolicyDependencyType type, Guid policyId)
     {
         var policyDependenciesDeletionResult= await _policyDependencyService.DeleteAllPolicyDependencyTypeAsync(type, policyId);
         
@@ -108,14 +108,14 @@ public class PoliciesDependenciesController : ApiController
     }
 
 
-    // Update policy dependency by code
+    // Update policy dependency by ID
     [Authorize(Roles = "Admin, Sub-Admin")]
-    [HttpPut("{code}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdatePolicyDependency(string code, [FromForm] UpdatePolicyDependencyRequest request)
+    public async Task<IActionResult> UpdatePolicyDependency(Guid id, [FromForm] UpdatePolicyDependencyRequest request)
     {
-        var updateResponse = await _policyDependencyService.UpdatePolicyDependencyAsync(code, _mapper.Map<Dependency>(request));
+        var updateResponse = await _policyDependencyService.UpdatePolicyDependencyAsync(id, _mapper.Map<Dependency>(request));
 
         return updateResponse.Match(
             _ => NoContent(),
