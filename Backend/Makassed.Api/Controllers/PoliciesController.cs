@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
 
+
+
+[Route("api/chapters/{chapterId:guid}/[controller]")]
 public class PoliciesController : ApiController
 {
     private readonly IPolicyService _policyService;

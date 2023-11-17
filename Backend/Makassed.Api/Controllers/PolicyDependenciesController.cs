@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
 
-[Route("api/policy/{policyId:guid}/policy-dependencies")]
+[Route("api/chapters/{chapterId:guid}/policies/{policyId:guid}/policy-dependencies")]
 public class PolicyDependenciesController : ApiController
 {
     private readonly IMapper _mapper;
