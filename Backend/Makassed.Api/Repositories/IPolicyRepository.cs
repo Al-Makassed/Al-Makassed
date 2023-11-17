@@ -10,13 +10,13 @@ public interface IPolicyRepository
     
     Task<List<Policy>> GetPoliciesAsync();
     
-    Task<Policy?> GetPolicyByCodeAsync(string code);
+    Task<Policy?> GetPolicyByIdAsync(Guid id);
     
     Task CreatePolicyAsync(Policy policy);
     
-    Task<Policy?> DeletePolicyAsync(string code);
+    Task<Policy?> DeletePolicyAsync(Guid id);
     
-    Task<Policy?> UpdatePolicyAsync(string code, Policy policy);
+    Task<Policy?> UpdatePolicyAsync(Guid id, Policy policy);
     
     Task<List<Policy>?> DeleteAllChapterPoliciesAsync(Guid chapterId);
     

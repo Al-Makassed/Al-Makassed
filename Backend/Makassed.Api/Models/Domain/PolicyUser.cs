@@ -4,7 +4,7 @@ namespace Makassed.Api.Models.Domain;
 
 public class PolicyUser
 {
-    public string PolicyCode { get; set; } = null!;
+    public Guid PolicyId { get; set; }
 
     public string UserId { get; set; } = null!;
 

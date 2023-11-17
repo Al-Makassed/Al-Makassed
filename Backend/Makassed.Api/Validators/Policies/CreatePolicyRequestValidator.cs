@@ -7,6 +7,9 @@ public class CreatePolicyRequestValidator : AbstractValidator<CreatePolicyReques
 {
     public CreatePolicyRequestValidator()
     {
+        RuleFor(p => p.Code)
+            .NotEmpty().WithMessage("Policy code is required.");
+
         RuleFor(p => p.Name)
             .NotEmpty().WithMessage("Policy name is required.");
 
@@ -15,9 +18,7 @@ public class CreatePolicyRequestValidator : AbstractValidator<CreatePolicyReques
             .Must(f => Path.GetExtension(f.FileName) == ".pdf").WithMessage("Unsupported file Extension.");
         
         RuleFor(p => p.EstimatedTimeInMin)
-            .NotNull().WithMessage("Estimated time shouldn't be null.");
-
-        RuleFor(p => p.ChapterId)
-            .NotEmpty().WithMessage("Chapter ID is required.");
+            .NotNull().WithMessage("Estimated time shouldn't be null.")
+            .Must(et => et is > 0 and <= 60);
     }
 }

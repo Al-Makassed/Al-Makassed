@@ -1,11 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Makassed.Api.Models.Domain;
 
 public class Policy
 {
-    [Key] public string Code { get; set; } = null!;
+    public Guid Id { get; set; }
+
+    public string Code { get; set; } = null!;
         
     public string Name { get; set; } = null!;
 
