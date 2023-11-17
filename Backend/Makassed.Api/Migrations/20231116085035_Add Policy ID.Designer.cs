@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231116085035_Add Policy ID")]
+    partial class AddPolicyID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,13 +82,8 @@ namespace Makassed.Api.Migrations
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EstimatedTimeInMin")
                         .HasColumnType("int");
@@ -107,7 +105,7 @@ namespace Makassed.Api.Migrations
                     b.Property<Guid>("PolicyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("Code");
 
                     b.HasIndex("PolicyId");
 
@@ -116,8 +114,8 @@ namespace Makassed.Api.Migrations
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.DependencyUser", b =>
                 {
-                    b.Property<Guid>("DependencyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("DependencyCode")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UsersId")
                         .HasColumnType("nvarchar(450)");
@@ -129,7 +127,7 @@ namespace Makassed.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DependencyId", "UsersId");
+                    b.HasKey("DependencyCode", "UsersId");
 
                     b.HasIndex("UsersId");
 
@@ -591,7 +589,7 @@ namespace Makassed.Api.Migrations
                 {
                     b.HasOne("Makassed.Api.Models.Domain.Dependency", null)
                         .WithMany()
-                        .HasForeignKey("DependencyId")
+                        .HasForeignKey("DependencyCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

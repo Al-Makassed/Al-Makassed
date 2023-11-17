@@ -12,14 +12,12 @@ public class PolicyService : IPolicyService
     private readonly IPolicyRepository _policyRepository;
     private readonly ISharedService _sharedService;
     private readonly IChapterRepository _chapterRepository;
-    private readonly IPolicyDependencyRepository _policyDependencyRepository;
 
-    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterRepository chapterRepository, IPolicyDependencyRepository policyDependencyRepository)
+    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterRepository chapterRepository)
     {
         _policyRepository = policyRepository;
         _sharedService = sharedService;
         _chapterRepository = chapterRepository;
-        _policyDependencyRepository = policyDependencyRepository;
     }
     private async Task<bool> IsUniqueName(string name)
     {
@@ -33,9 +31,9 @@ public class PolicyService : IPolicyService
         return await _policyRepository.GetPoliciesAsync();
     }
 
-    public async Task<ErrorOr<Policy>> GetPolicyByCodeAsync(string code)
+    public async Task<ErrorOr<Policy>> GetPolicyByIdAsync(Guid id)
     {
-        var policy = await _policyRepository.GetPolicyByCodeAsync(code);
+        var policy = await _policyRepository.GetPolicyByIdAsync(id);
         
         return policy is null ? Errors.Policy.NotFound : policy;
     }
@@ -45,9 +43,9 @@ public class PolicyService : IPolicyService
         return await _chapterRepository.GetChapterByIdAsync(id);
     }
 
-    public async Task<ErrorOr<Created>> CreatePolicyAsync(Policy policy)
+    public async Task<ErrorOr<Created>> CreatePolicyAsync(Guid chapterId, Policy policy)
     {
-        var existedChapterResult = await CheckChapterExists(policy.ChapterId);
+        var existedChapterResult = await CheckChapterExists(chapterId);
 
         if (existedChapterResult is null)
             return Errors.Chapter.NotFound;
@@ -55,7 +53,7 @@ public class PolicyService : IPolicyService
         if (!await IsUniqueName(policy.Name))
             return Errors.Policy.NameDuplication;
 
-        policy.Code = _sharedService.GetCode(existedChapterResult.Name, policy.Name, existedChapterResult.Policies.Count);
+        policy.ChapterId = chapterId;
         
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
 
@@ -68,9 +66,9 @@ public class PolicyService : IPolicyService
         return Result.Created;
     }
 
-    public async Task<ErrorOr<Deleted>> DeletePolicyAsync(string code)
+    public async Task<ErrorOr<Deleted>> DeletePolicyAsync(Guid id)
     {
-        var deletedPolicy = await _policyRepository.DeletePolicyAsync(code);
+        var deletedPolicy = await _policyRepository.DeletePolicyAsync(id);
 
         if (deletedPolicy is null)
             return Errors.Policy.NotFound;
@@ -80,29 +78,16 @@ public class PolicyService : IPolicyService
         return Result.Deleted;
     }
 
-    public async Task<ErrorOr<Updated>> UpdatePolicyAsync(string code, Policy policy)
+    public async Task<ErrorOr<Updated>> UpdatePolicyAsync(Guid id, Policy policy)
     {
-        policy.Code = _sharedService.UpdateCode(code, policy.Name, 1);
-
         policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
         policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);
         
-        var updatePolicyResult = await _policyRepository.UpdatePolicyAsync(code, policy);
+        var updatePolicyResult = await _policyRepository.UpdatePolicyAsync(id, policy);
 
         if (updatePolicyResult is null)
             return Errors.Policy.NotFound;
         
-        var newDependenciesCodes = new List<string>();
-        var oldDependenciesCodes = new List<string>();
-
-        foreach (var dependency in updatePolicyResult.Dependencies)
-        {
-            newDependenciesCodes.Add(_sharedService.UpdateCode(dependency.Code, updatePolicyResult.Name));
-            oldDependenciesCodes.Add(dependency.Code);
-        }
-        
-        await _policyDependencyRepository.UpdatePoliciesDependenciesCodesAsync(updatePolicyResult.Code, newDependenciesCodes, oldDependenciesCodes);
-            
         return Result.Updated;
     }
 

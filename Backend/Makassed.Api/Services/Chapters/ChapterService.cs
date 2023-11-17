@@ -2,21 +2,16 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
-using Makassed.Api.Services.SharedServices;
 
 namespace Makassed.Api.Services.Chapters;
 
 public class ChapterService : IChapterService
 {
     private readonly IChapterRepository _chapterRepository;
-    private readonly IPolicyRepository _policyRepository;
-    private readonly ISharedService _sharedService;
 
-    public ChapterService(IChapterRepository chapterRepository, IPolicyRepository policyRepository, ISharedService sharedService)
+    public ChapterService(IChapterRepository chapterRepository)
     {
         _chapterRepository = chapterRepository;
-        _policyRepository = policyRepository;
-        _sharedService = sharedService;
     }
 
     public async Task<List<Chapter>> GetChaptersAsync()
@@ -64,17 +59,6 @@ public class ChapterService : IChapterService
 
         if (updatedChapter is null)
             return Errors.Chapter.NotFound;
-
-        var newCodes = new List<string>();
-        var oldCodes = new List<string>();
-
-        foreach (var policy in updatedChapter.Policies)
-        {
-            newCodes.Add(_sharedService.UpdateCode(policy.Code, updatedChapter.Name));
-            oldCodes.Add(policy.Code);
-        }
-        
-        await _policyRepository.UpdatePoliciesCodesAsync(updatedChapter.Id, newCodes, oldCodes);
             
         return Result.Updated;
     }
