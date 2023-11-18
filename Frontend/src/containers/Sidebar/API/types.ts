@@ -6,6 +6,7 @@ export interface Chapter {
 }
 
 export interface Policy {
+  id: string;
   code: string;
   name: string;
   state: boolean;

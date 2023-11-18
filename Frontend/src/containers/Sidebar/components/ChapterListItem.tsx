@@ -13,11 +13,10 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
+import { Policy } from "../API/types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import { useAppDispatch } from "src/store/hooks";
 import { toggleSidebar } from "src/features/appSettings";
-import LoaderCell from "src/components/LoaderCell";
-import useFetchPolicies from "src/pages/ViewPolicy/hooks/useGetPolicies";
 import { useNavigate } from "react-router-dom";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
@@ -28,15 +27,18 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleEditChapter = () => {
     dispatch(toggleSidebar());
 
-    navigate(`/me/edit-chapter/${chapter.id}`);
+    // navigate(`/me/edit-chapter/${chapter.id}`);
+    navigate(`/me/${chapter.id}/edit`);
   };
+
   const handleClick = () => setOpen(!open);
 
-  const { isFetching } = useFetchPolicies();
-
-  if (isFetching) return <LoaderCell size={38} color="success" />;
-
   const dispatch = useAppDispatch();
+
+  const handleClickPolicy = (policy: Policy) => () => {
+    dispatch(toggleSidebar());
+    navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
+  };
 
   return (
     <>
@@ -71,9 +73,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
         <List component="div" disablePadding>
           {chapter.policies.map((policy, index) => (
             <ListItemButton
-              onClick={() => {
-                navigate(`policy/${policy.code}`), dispatch(toggleSidebar());
-              }}
+              onClick={handleClickPolicy(policy)}
               key={index}
               sx={{ pl: 4 }}
             >
