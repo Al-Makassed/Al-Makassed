@@ -9,6 +9,6 @@ public class DependencySieveConfiguration : ISieveConfiguration
     {
         mapper.Property<Dependency>(d => d.Code).CanFilter().CanSort();
         mapper.Property<Dependency>(d => d.Name).CanFilter().CanSort();
-        mapper.Property<Dependency>(d => d.PolicyId).CanFilter();
+        mapper.Property<Dependency>(d => d.PolicyDependencyType).CanFilter().CanSort();
     }
 }
