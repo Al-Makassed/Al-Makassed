@@ -5,6 +5,7 @@ using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Policies;
 using Makassed.Api.Services.SharedServices;
 using Makassed.Contracts.Enums;
+using Sieve.Models;
 using Policy = Makassed.Api.Models.Domain.Policy;
 
 namespace Makassed.Api.Services.PolicyDependencies;
@@ -29,9 +30,9 @@ public class PolicyDependencyService : IPolicyDependencyService
         return findPolicyResult;
     }
 
-    public Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, string? filterOn, string? filterQuery)
+    public Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, SieveModel sieveModel)
     {
-        return _policyDependencyRepository.GetPolicyDependenciesAsync(policyId, filterOn, filterQuery);
+        return _policyDependencyRepository.GetPolicyDependenciesAsync(policyId, sieveModel);
     }
 
     public Task<Dependency?> GetPolicyDependencyByIdAsync(Guid id)

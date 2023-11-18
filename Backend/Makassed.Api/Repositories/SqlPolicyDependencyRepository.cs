@@ -3,34 +3,28 @@ using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace Makassed.Api.Repositories;
 
 public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
 {
     private readonly MakassedDbContext _dbContext;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    public SqlPolicyDependencyRepository(MakassedDbContext dbContext)
+    public SqlPolicyDependencyRepository(MakassedDbContext dbContext, ISieveProcessor sieveProcessor
+        )
     {
         _dbContext = dbContext;
+        _sieveProcessor = sieveProcessor;
     }
 
-    public async Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, string? filterOn, string? filterQuery)
+    public async Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, SieveModel sieveModel)
     {
-        var policyDependencies = _dbContext.Dependencies.Where(d => d.PolicyId == policyId);
+        var policyDependencies = _dbContext.Dependencies.Where(d => d.PolicyId == policyId).AsNoTracking();
 
-        // Filtering
-        if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
-        {
-            if (filterOn.Equals("Type", StringComparison.OrdinalIgnoreCase) ||
-                filterOn.Equals("PolicyDependencyType", StringComparison.OrdinalIgnoreCase))
-            {
-                policyDependencies = policyDependencies.Where(d =>
-                    d.PolicyDependencyType == (PolicyDependencyType)int.Parse(filterQuery));
-            }
-        }
-
-        return await policyDependencies.ToListAsync();
+        return await _sieveProcessor.Apply(sieveModel, policyDependencies).ToListAsync();
     }
 
     public async Task<Dependency?> GetPolicyDependencyByIdAsync(Guid id)

@@ -1,5 +1,6 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Enums;
+using Sieve.Models;
 
 namespace Makassed.Api.Repositories;
 
@@ -7,7 +8,7 @@ public interface IPolicyDependencyRepository
 {
     Task CreatePolicyDependencyAsync(Dependency policyDependency);
     
-    Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, string? filterOn, string? filterQuery);
+    Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, SieveModel sieveModel);
     
     Task<Dependency?> GetPolicyDependencyByIdAsync(Guid id);
     

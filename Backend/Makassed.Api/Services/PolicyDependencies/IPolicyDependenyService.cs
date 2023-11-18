@@ -1,12 +1,13 @@
 using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Enums;
+using Sieve.Models;
 
 namespace Makassed.Api.Services.PolicyDependencies;
 
 public interface IPolicyDependencyService
 {
-    Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, string? filterOn, string? filterQuery);
+    Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, SieveModel sieveModel);
     
     Task<Dependency?> GetPolicyDependencyByIdAsync(Guid id);
     
