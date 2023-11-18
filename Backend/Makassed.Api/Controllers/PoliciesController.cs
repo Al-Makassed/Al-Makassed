@@ -4,6 +4,7 @@ using Makassed.Api.Services.Policies;
 using Makassed.Contracts.Policy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Makassed.Api.Controllers;
 
@@ -27,9 +28,9 @@ public class PoliciesController : ApiController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetPolicies()
+    public async Task<IActionResult> GetPolicies([FromQuery] SieveModel sieveModel, Guid chapterId)
     {
-        var policies = await _policyService.GetPoliciesAsync();
+        var policies = await _policyService.GetPoliciesAsync(sieveModel, chapterId);
         
         return Ok(_mapper.Map<List<GetPolicyResponse>>(policies));
     }

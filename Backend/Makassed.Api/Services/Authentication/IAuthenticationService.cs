@@ -21,6 +21,4 @@ public interface IAuthenticationService
     Task<ErrorOr<SuccessResponse>> UpdateUserRolesAsync(string userId, UpdateUserRolesRequest request);
     
     Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request);
-
-    string? GetAuthenticatedUserIdAsync();
 }

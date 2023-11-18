@@ -1,12 +1,13 @@
 ﻿using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
+using Sieve.Models;
 
 namespace Makassed.Api.Services.MonitoringTools;
 
 public interface IMonitoringToolService
 {
-    Task<List<MonitoringTool>> GetMonitoringToolsAsync();
+    Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel);
     
     Task<ErrorOr<MonitoringToolDto>> GetMonitoringToolByIdAsync(Guid id);
     

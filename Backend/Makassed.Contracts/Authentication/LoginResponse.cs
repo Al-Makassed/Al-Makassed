@@ -12,7 +12,7 @@ public record LoginResponse
 
     public required List<string> Roles { get; set; } = new();
 
-    public string? ProfileUrl { get; set; }
+    public string? AvatarUrl { get; set; }
 
     public required string Token { get; set; } // JwtSecurityToken
     

@@ -1,4 +1,5 @@
 ﻿using Makassed.Api.Models.Domain;
+using Sieve.Models;
 
 namespace Makassed.Api.Repositories;
 
@@ -8,7 +9,7 @@ public interface IPolicyRepository
     
     Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes);
     
-    Task<List<Policy>> GetPoliciesAsync();
+    Task<List<Policy>> GetPoliciesAsync(SieveModel sieveModel, Guid ChapterId);
     
     Task<Policy?> GetPolicyByIdAsync(Guid id);
     

@@ -2,6 +2,7 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
+using Sieve.Models;
 
 namespace Makassed.Api.Services.Chapters;
 
@@ -14,9 +15,9 @@ public class ChapterService : IChapterService
         _chapterRepository = chapterRepository;
     }
 
-    public async Task<List<Chapter>> GetChaptersAsync()
+    public async Task<List<Chapter>> GetChaptersAsync(SieveModel sieveModel)
     {
-        return await _chapterRepository.GetChaptersAsync();
+        return await _chapterRepository.GetChaptersAsync(sieveModel);
     }
 
     public async Task<ErrorOr<Chapter>> GetChapterByIdAsync(Guid id)

@@ -5,6 +5,7 @@ using Makassed.Contracts.Enums;
 using Makassed.Contracts.PolicyDependency;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Makassed.Api.Controllers;
 
@@ -26,11 +27,10 @@ public class PolicyDependenciesController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet]
-    public async Task<IActionResult> GetPoliciesDependencies(Guid policyId, [FromQuery] string? filterOn,
-        [FromQuery] string? filterQuery)
+    public async Task<IActionResult> GetPoliciesDependencies(Guid policyId, [FromQuery] SieveModel sieveModel)
     {
         List<Dependency> policyDependencies =
-            await _policyDependencyService.GetPolicyDependenciesAsync(policyId, filterOn, filterQuery);
+            await _policyDependencyService.GetPolicyDependenciesAsync(policyId, sieveModel);
 
         return Ok(_mapper.Map<List<GetPolicyDependencyResponse>>(policyDependencies));
     }

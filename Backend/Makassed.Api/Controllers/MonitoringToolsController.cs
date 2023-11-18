@@ -4,6 +4,7 @@ using Makassed.Api.Services.MonitoringTools;
 using Makassed.Contracts.MonitoringTool;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Makassed.Api.Controllers;
 
@@ -23,9 +24,9 @@ public class MonitoringToolsController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = "Admin, Sub-Admin")]
-    public async Task<IActionResult> GetMonitoringTools()
+    public async Task<IActionResult> GetMonitoringTools([FromQuery] SieveModel sieveModel)
     {
-        var result = await _monitoringToolService.GetMonitoringToolsAsync();
+        var result = await _monitoringToolService.GetMonitoringToolsAsync(sieveModel);
         
         return Ok(_mapper.Map<List<GetAllMonitoringToolBaseResponse>>(result));
     }

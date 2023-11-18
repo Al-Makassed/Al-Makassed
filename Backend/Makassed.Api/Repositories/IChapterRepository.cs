@@ -1,4 +1,5 @@
 ﻿using Makassed.Api.Models.Domain;
+using Sieve.Models;
 
 namespace Makassed.Api.Repositories;
 
@@ -6,7 +7,7 @@ public interface IChapterRepository
 {
     Task<Chapter?> GetChapterByNameAsync(string name);
         
-    Task<List<Chapter>> GetChaptersAsync();
+    Task<List<Chapter>> GetChaptersAsync(SieveModel sieveModel);
         
     Task<Chapter?> GetChapterByIdAsync(Guid id);
         

@@ -1,23 +1,30 @@
 import React, { FC } from "react";
-import { Typography, Stack, Link, Tooltip, IconButton } from "@mui/material";
-import { ViewPolicyInfoProps } from "../types";
-import PolicyDependency from "src/pages/PolicyDependency";
-import { useParams } from "react-router";
+import useGetPolicy from "./hooks/useGetPolicy";
+import { Stack, Typography, Link, Tooltip, IconButton } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import PolicyDependencies from "src/pages/PolicyDependencies";
+import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
 import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
 
-const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
-  const { code } = useParams();
-  const { chapterId, id } = useParams<{ chapterId: string; id: string }>();
-  console.log(chapterId, id);
+const PolicyDetails: FC = () => {
+  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
+
+  const chapterId = chapterIdParam ?? "";
+
+  const policyId = policyIdParam ?? "";
+
+  const { policy, isFetching } = useGetPolicy(chapterId, policyId);
+
   const navigate = useNavigate();
 
   const handleEditPolicy = () => {
-    navigate(`/me/policy/edit/${policy.code}`);
+    navigate(`:${chapterId}/policies/:${policyId}/edit`);
   };
 
-  if (policy.code !== code) return null;
+  if (isFetching) return <PolicyDetailsLoadingSkeleton />;
+
+  if (!policy) return null;
 
   return (
     <Stack alignItems="center" pt={8} gap={3}>
@@ -65,18 +72,11 @@ const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
             get policy&apos;s pdf
           </Typography>
         </Link>
-        {/* <Tooltip title="Edit Dependencies">
-            <IconButton
-              aria-label="Edit Dependencies"
-              // sx={{ mr: 1 }}
-              onClick={handleEditPolicy}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip> */}
       </Stack>
-      <PolicyDependency />
+
+      <PolicyDependencies />
     </Stack>
   );
 };
-export default ViewPolicyInfo;
+
+export default PolicyDetails;
