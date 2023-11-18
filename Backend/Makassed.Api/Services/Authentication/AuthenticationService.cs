@@ -141,7 +141,8 @@ public class AuthenticationService : IAuthenticationService
             PhoneNumber = user.PhoneNumber,
             Roles = roles.ToList(),
             Token = accessToken.Token,
-            Expiration = accessToken.Expiration
+            Expiration = accessToken.Expiration,
+            AvatarUrl = user.AvatarUrl
         };
     }
 
