@@ -11,16 +11,21 @@ export const getPolicyByCode = (code: string) => {
 
 export const updatePolicyAPI = ({ code, formData }: UpdatePolicyRequest) => {
   return axiosFormData
+
     .put<void>(`/policies/${code}`, formData)
+
     .then((res) => res.data);
 };
 
 export const deleteAllPolicyDependenciesAPI = ({
   type,
+
   code,
 }: DeleteAllPolicyDependencies) => {
   return axios
+
     .delete<void>(`/policies-dependencies?type=${type}&policyCode=${code}`)
+
     .then((res) => res.data);
 };
 export const deleteDependencyByCode = (code: string) => {

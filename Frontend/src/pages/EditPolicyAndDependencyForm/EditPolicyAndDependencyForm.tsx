@@ -1,6 +1,6 @@
 import React from "react";
-import EditPolicyForm from "./components/EditPolicyForm";
-import EditDependencies from "./components/EditDependencies";
+import EditPolicyForm from "./components/PoliciesList";
+import EditDependencies from "./components/DependenciesList";
 import { Grid, useTheme } from "@mui/material";
 
 const EditPolicyAndDependencyForm = () => {

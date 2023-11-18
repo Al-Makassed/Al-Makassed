@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FC } from "react";
 import { Grid, Stack, Typography } from "@mui/material";
 
-import EditForm from "./EditForm";
-import EditPoster from "./EditPoster";
-import EditProtocols from "./EditProtocols";
+import FormsList from "./FormsList";
+import PostersList from "./PostersList";
+import ProtocolsList from "./ProtocolsList";
 
-const EditDependencies = () => {
+const EditDependencies: FC = () => {
   return (
     <Grid
       paddingBottom={2}
@@ -29,9 +29,9 @@ const EditDependencies = () => {
           Policy Dependencies
         </Typography>
         <Stack direction="row" spacing={5}>
-          <EditForm />
-          <EditPoster />
-          <EditProtocols />
+          <FormsList />
+          <PostersList />
+          <ProtocolsList />
         </Stack>
       </Stack>
     </Grid>

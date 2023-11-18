@@ -15,7 +15,7 @@ import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
 import EditChapterFormSkeleton from "src/pages/EditChapterForm/components/EditChapterFormSkeleton";
 import useUpdatePolicy from "../hooks/useUpdatePolicy";
 
-const EditPolicyForm: FC = () => {
+const PoliciesList: FC = () => {
   const { code } = useParams();
 
   const { policy, isFetching } = useGetPolicyByCode(code ?? "");
@@ -135,4 +135,4 @@ const EditPolicyForm: FC = () => {
   );
 };
 
-export default EditPolicyForm;
+export default PoliciesList;

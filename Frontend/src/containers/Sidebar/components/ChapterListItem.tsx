@@ -28,7 +28,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleEditChapter = () => {
     dispatch(toggleSidebar());
 
-    navigate(`/me/edit-chapter/${chapter.id}`);
+    navigate(`/me/chapter/edit/${chapter.id}`);
   };
   const handleClick = () => setOpen(!open);
 
@@ -72,7 +72,8 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
           {chapter.policies.map((policy, index) => (
             <ListItemButton
               onClick={() => {
-                navigate(`policy/${policy.code}`), dispatch(toggleSidebar());
+                navigate(`chapters/${chapter.id}/policies/${policy.code}`),
+                  dispatch(toggleSidebar());
               }}
               key={index}
               sx={{ pl: 4 }}

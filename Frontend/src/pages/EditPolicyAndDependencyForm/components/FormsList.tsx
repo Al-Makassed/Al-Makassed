@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import {
   Box,
   IconButton,
@@ -18,23 +18,25 @@ import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
 import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
 import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
 
-const EditProtocols = () => {
-  const { code } = useParams();
-  const {
-    policy,
-    // isFetching
-  } = useGetPolicyByCode(code ?? "");
+const FormsList: FC = () => {
+  const { code: codeParam } = useParams();
+
+  const code = codeParam ?? "";
+
+  const { policy } = useGetPolicyByCode(code);
+
   const { deleteAllDependencies } = useDeleteAllPolicyDependencies();
 
   const handleDeleteAllDependencies = () => {
-    deleteAllDependencies({ type: 2, code: code || "" });
+    deleteAllDependencies({ type: 0, code });
   };
   const { deleteDependency } = useDeleteDependencyByCode();
 
   const handleDeleteDependency = () => {
-    deleteDependency(code || "");
+    deleteDependency(code);
   };
   if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
+
   return (
     <Stack>
       <Box
@@ -43,7 +45,7 @@ const EditProtocols = () => {
         sx={{ justifyContent: "space-between", mt: 2, pl: 1 }}
       >
         <Typography variant="subtitle1" fontWeight={500}>
-          Protocols information
+          Forms information
         </Typography>
         <Tooltip title="Delete All">
           <IconButton
@@ -65,15 +67,18 @@ const EditProtocols = () => {
       >
         {policy.dependencies.map((dependency: Dependency, index) => (
           <React.Fragment key={index}>
-            {dependency.policyDependencyType === 2 && (
+            {dependency.policyDependencyType === 0 && (
               <ListItem sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: "#d32f2f" }}>
+                <ListItemIcon sx={{ color: "palette.error.dark" }}>
                   <PictureAsPdfIcon />
                 </ListItemIcon>
                 <ListItemText primary={dependency.name} sx={{ ml: -2 }} />
 
                 <Tooltip title="Delete">
-                  <IconButton onClick={handleDeleteDependency}>
+                  <IconButton
+                    aria-label="Delete Policy"
+                    onClick={handleDeleteDependency}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
@@ -86,4 +91,4 @@ const EditProtocols = () => {
   );
 };
 
-export default EditProtocols;
+export default FormsList;

@@ -9,7 +9,7 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import React from "react";
+import React, { FC } from "react";
 import { Dependency } from "../API/types";
 import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
 import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
 
-const EditPoster = () => {
+const PostersList: FC = () => {
   const { code } = useParams();
   const {
     policy,
@@ -90,4 +90,4 @@ const EditPoster = () => {
   );
 };
 
-export default EditPoster;
+export default PostersList;

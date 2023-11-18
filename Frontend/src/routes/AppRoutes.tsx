@@ -32,10 +32,13 @@ const AppRoutes: FC = () => {
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
             <Route path="dependency" element={<PolicyDependency />} />
-            <Route path="edit-chapter/:id" element={<EditChapter />} />
-            <Route path="policy/:code" element={<PolicyDetails />} />
+            <Route path="chapter/edit/:id" element={<EditChapter />} />
             <Route
-              path="edit-policy&dependencies/:code"
+              path="chapters/:chapterId/policies/:id"
+              element={<PolicyDetails />}
+            />
+            <Route
+              path="policy/edit/:code"
               element={<EditPolicyAndDependencyForm />}
             />
           </Route>

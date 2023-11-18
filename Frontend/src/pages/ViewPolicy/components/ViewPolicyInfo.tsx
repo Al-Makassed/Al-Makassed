@@ -9,11 +9,12 @@ import { useNavigate } from "react-router-dom";
 
 const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
   const { code } = useParams();
-
+  const { chapterId, id } = useParams<{ chapterId: string; id: string }>();
+  console.log(chapterId, id);
   const navigate = useNavigate();
 
   const handleEditPolicy = () => {
-    navigate(`/me/edit-policy&dependencies/${policy.code}`);
+    navigate(`/me/policy/edit/${policy.code}`);
   };
 
   if (policy.code !== code) return null;
