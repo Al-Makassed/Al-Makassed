@@ -1,14 +1,23 @@
 import React, { FC } from "react";
-import { Typography, Stack, Link } from "@mui/material";
-import { ViewPolicyInfoProps } from "../types";
-import PolicyDependency from "src/pages/PolicyDependency";
-import { useParams } from "react-router";
+import useGetPolicy from "./hooks/useGetPolicy";
+import { Stack, Typography, Link } from "@mui/material";
+import { useParams } from "react-router-dom";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import PolicyDependencies from "src/pages/PolicyDependencies";
+import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
 
-const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
-  const { code } = useParams();
+const PolicyDetails: FC = () => {
+  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
 
-  if (policy.code !== code) return null;
+  const chapterId = chapterIdParam ?? "";
+
+  const policyId = policyIdParam ?? "";
+
+  const { policy, isFetching } = useGetPolicy(chapterId, policyId);
+
+  if (isFetching) return <PolicyDetailsLoadingSkeleton />;
+
+  if (!policy) return null;
 
   return (
     <Stack alignItems="center" pt={8} gap={3}>
@@ -47,8 +56,9 @@ const ViewPolicyInfo: FC<ViewPolicyInfoProps> = ({ policy }) => {
         </Link>
       </Stack>
 
-      <PolicyDependency />
+      <PolicyDependencies />
     </Stack>
   );
 };
-export default ViewPolicyInfo;
+
+export default PolicyDetails;
