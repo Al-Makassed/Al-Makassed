@@ -14,7 +14,11 @@ public class FocalPointTaskService : IFocalPointTaskService
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public FocalPointTaskService(ISubmissionRepository submissionRepository, IUserService userService, IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
+    public FocalPointTaskService(
+        ISubmissionRepository submissionRepository, 
+        IUserService userService, 
+        IDepartmentRepository departmentRepository, 
+        IUnitOfWork unitOfWork)
     {
         _submissionRepository = submissionRepository;
         _userService = userService;

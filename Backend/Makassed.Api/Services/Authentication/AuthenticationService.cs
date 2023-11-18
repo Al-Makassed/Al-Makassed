@@ -14,17 +14,17 @@ public class AuthenticationService : IAuthenticationService
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ITokenService _tokenService;
     private readonly SignInManager<MakassedUser> _signInManager;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    private string? _cachedUserId; // Cache the userId to avoid redundant calls to HttpContext
-
-    public AuthenticationService(UserManager<MakassedUser> userManager, RoleManager<IdentityRole> roleManager, ITokenService tokenService, SignInManager<MakassedUser> signInManager, IHttpContextAccessor httpContextAccessor)
+    public AuthenticationService(
+        UserManager<MakassedUser> userManager, 
+        RoleManager<IdentityRole> roleManager, 
+        ITokenService tokenService, 
+        SignInManager<MakassedUser> signInManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _tokenService = tokenService;
         _signInManager = signInManager;
-        _httpContextAccessor = httpContextAccessor;
     }
     
     public async Task<ErrorOr<MakassedUser>> GetUserByEmail(string requestEmail)
