@@ -29,7 +29,7 @@ public class TokenService : ITokenService
             new Claim(MakassedClaimTypes.UserName, user.UserName ?? String.Empty), // The user's given name, (e.g. username)
             new Claim(MakassedClaimTypes.Email, user.Email ?? String.Empty),
             new Claim(MakassedClaimTypes.PhoneNumber, user.PhoneNumber ?? String.Empty),
-            new Claim(MakassedClaimTypes.ProfileUrl, user.ProfileUrl ?? String.Empty),
+            new Claim(MakassedClaimTypes.AvatarUrl, user.AvatarUrl ?? String.Empty),
         };
 
         // Add user roles to claims.

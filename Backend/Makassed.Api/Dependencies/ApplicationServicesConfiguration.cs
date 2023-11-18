@@ -13,6 +13,7 @@ using Makassed.Api.Services.Users.Departments;
 using Makassed.Api.Services.MonitoringTools;
 using Makassed.Api.Services.FocalPointTasks;
 using Makassed.Api.Services.Users;
+using Makassed.Api.Services.Storage;
 
 public static class ApplicationServicesConfiguration
 {
@@ -47,6 +48,10 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepository, SqlUserRepository>();
+
+        services.AddScoped<ILocalFileStorageService, LocalFileStorageService>();
+        services.AddScoped<ICloudinaryStorageService, CloudinaryStorageService>();
 
         return services;
     }
