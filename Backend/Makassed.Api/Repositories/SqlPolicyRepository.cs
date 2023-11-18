@@ -2,16 +2,20 @@
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace Makassed.Api.Repositories;
 
 public class SqlPolicyRepository : IPolicyRepository
 {
     private readonly MakassedDbContext _dbContext;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    public SqlPolicyRepository(MakassedDbContext dbContext)
+    public SqlPolicyRepository(MakassedDbContext dbContext, ISieveProcessor sieveProcessor)
     {
         _dbContext = dbContext;
+        _sieveProcessor = sieveProcessor;
     }
         
     public async Task<Policy?> GetPolicyByName(string name)
@@ -31,9 +35,11 @@ public class SqlPolicyRepository : IPolicyRepository
         return await _dbContext.Policies.Where(p => policiesCodes.Contains(p.Code)).ToListAsync();
     }
 
-    public async Task<List<Policy>> GetPoliciesAsync()
+    public async Task<List<Policy>> GetPoliciesAsync(SieveModel sieveModel, Guid ChapterId)
     {
-        return await _dbContext.Policies.Include(p => p.Dependencies).ToListAsync();
+        var policies = _dbContext.Policies.Where(p => p.ChapterId == ChapterId).Include(p => p.Dependencies).AsNoTracking();
+
+        return await _sieveProcessor.Apply(sieveModel, policies).ToListAsync();
     }
 
     public async Task<Policy?> GetPolicyByIdAsync(Guid id)
