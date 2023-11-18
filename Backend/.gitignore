@@ -41,3 +41,7 @@ packages/
 *.user
 *.userosscache
 *.sln.docstates
+
+# Storage Folders
+Files/
+Avatars/
