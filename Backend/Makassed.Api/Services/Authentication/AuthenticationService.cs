@@ -1,12 +1,10 @@
 using ErrorOr;
-using Makassed.Api.Constants;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
 using Makassed.Contracts.General;
 using Makassed.Contracts.User.Roles;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace Makassed.Api.Services.Authentication;
 
@@ -17,6 +15,8 @@ public class AuthenticationService : IAuthenticationService
     private readonly ITokenService _tokenService;
     private readonly SignInManager<MakassedUser> _signInManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
+
+    private string? _cachedUserId; // Cache the userId to avoid redundant calls to HttpContext
 
     public AuthenticationService(UserManager<MakassedUser> userManager, RoleManager<IdentityRole> roleManager, ITokenService tokenService, SignInManager<MakassedUser> signInManager, IHttpContextAccessor httpContextAccessor)
     {
@@ -240,13 +240,5 @@ public class AuthenticationService : IAuthenticationService
 
         // Return a success message.
         return new SuccessResponse("Password changed successfully.");
-    }
-
-    public string? GetAuthenticatedUserIdAsync()
-    {
-        if(_httpContextAccessor.HttpContext is null)
-            return null;
-
-        return _httpContextAccessor.HttpContext.User.FindFirstValue(MakassedClaimTypes.Id);
     }
 }

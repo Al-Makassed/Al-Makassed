@@ -2,7 +2,7 @@ using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
-using Makassed.Api.Services.Authentication;
+using Makassed.Api.Services.Users;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Makassed.Api.Services.FocalPointTasks;
@@ -10,14 +10,14 @@ namespace Makassed.Api.Services.FocalPointTasks;
 public class FocalPointTaskService : IFocalPointTaskService
 {
     private readonly ISubmissionRepository _submissionRepository;
-    private readonly IAuthenticationService _authenticationService;
+    private readonly IUserService _userService;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public FocalPointTaskService(ISubmissionRepository submissionRepository, IAuthenticationService authenticationService, IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
+    public FocalPointTaskService(ISubmissionRepository submissionRepository, IUserService userService, IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
     {
         _submissionRepository = submissionRepository;
-        _authenticationService = authenticationService;
+        _userService = userService;
         _departmentRepository = departmentRepository;
         _unitOfWork = unitOfWork;
     }
@@ -75,7 +75,7 @@ public class FocalPointTaskService : IFocalPointTaskService
     public async Task<ErrorOr<Submission>> SubmitFocalPointTaskAsync(Guid departmentId, Guid taskId, List<FieldAnswer> answers)
     {
         // Get the submitter user id from the token
-        var submitterUserId = _authenticationService.GetAuthenticatedUserIdAsync();
+        var submitterUserId = _userService.GetUserId();
 
         if (submitterUserId is null)
             return Errors.User.Unauthorized;

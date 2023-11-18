@@ -12,6 +12,7 @@ using Makassed.Api.Services.MonitoringTools.Fields;
 using Makassed.Api.Services.Users.Departments;
 using Makassed.Api.Services.MonitoringTools;
 using Makassed.Api.Services.FocalPointTasks;
+using Makassed.Api.Services.Users;
 
 public static class ApplicationServicesConfiguration
 {
@@ -44,6 +45,8 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IFocalPointTaskService, FocalPointTaskService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }
