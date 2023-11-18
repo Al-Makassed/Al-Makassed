@@ -2,22 +2,25 @@
 using Makassed.Api.Repositories;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
-using Makassed.Api.Services.SharedServices;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
+using Makassed.Api.Services.Storage;
 
 namespace Makassed.Api.Services.Policies;
 
 public class PolicyService : IPolicyService
 {
     private readonly IPolicyRepository _policyRepository;
-    private readonly ISharedService _sharedService;
+    private readonly ILocalFileStorageService _localFileStorageService;
     private readonly IChapterRepository _chapterRepository;
 
-    public PolicyService(IPolicyRepository policyRepository, ISharedService sharedService, IChapterRepository chapterRepository)
+    public PolicyService(
+        IPolicyRepository policyRepository,
+        ILocalFileStorageService localFileStorageService, 
+        IChapterRepository chapterRepository)
     {
         _policyRepository = policyRepository;
-        _sharedService = sharedService;
+        _localFileStorageService = localFileStorageService;
         _chapterRepository = chapterRepository;
     }
     private async Task<bool> IsUniqueName(string name)
@@ -56,9 +59,9 @@ public class PolicyService : IPolicyService
 
         policy.ChapterId = chapterId;
         
-        policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
+        policy.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policy.MainFile);
 
-        policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);
+        policy.PageCount = _localFileStorageService.GetPdfFilePageCount(policy.MainFile);
         
         await _policyRepository.CreatePolicyAsync(policy);
 
@@ -81,8 +84,8 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Updated>> UpdatePolicyAsync(Guid id, Policy policy)
     {
-        policy.PdfUrl = await _sharedService.GetFilePathUrl(policy.MainFile);
-        policy.PageCount = _sharedService.GetFilePageCount(policy.MainFile);
+        policy.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policy.MainFile);
+        policy.PageCount = _localFileStorageService.GetPdfFilePageCount(policy.MainFile);
         
         var updatePolicyResult = await _policyRepository.UpdatePolicyAsync(id, policy);
 

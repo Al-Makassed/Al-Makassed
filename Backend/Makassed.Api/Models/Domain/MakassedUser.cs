@@ -10,7 +10,7 @@ public class MakassedUser : IdentityUser
 
     public DateTime CreatedOn { get; set; }
 
-    public string? ProfileUrl { get; set; }
+    public string? AvatarUrl { get; set; }
 
     // Navigation Properties
     public Department Department { get; set; } = null!;

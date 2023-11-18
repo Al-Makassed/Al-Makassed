@@ -2,7 +2,7 @@ namespace Makassed.Api.Services.SharedServices;
 
 public interface ISharedService
 {
-    Task<string> GetFilePathUrl(IFormFile file);
-    
-    int GetFilePageCount(IFormFile file);
+    string GetCode(string parentName, string name, int siblingsCount);
+
+    string UpdateCode(string oldCode, string newName, int index);
 }
