@@ -1,21 +1,25 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace Makassed.Api.Repositories;
 
 public class SqlMonitoringToolRepository : IMonitoringToolRepository
 {
     private readonly MakassedDbContext _dbContext;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    public SqlMonitoringToolRepository(MakassedDbContext dbContext)
+    public SqlMonitoringToolRepository(MakassedDbContext dbContext, ISieveProcessor sieveProcessor)
     {
         _dbContext = dbContext;
+        _sieveProcessor = sieveProcessor;
     }
 
-    public async Task<List<MonitoringTool>> GetMonitoringToolsAsync()
+    public async Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel)
     {
-        return await _dbContext.MonitoringTools.ToListAsync();
+        return await _sieveProcessor.Apply(sieveModel, _dbContext.MonitoringTools).ToListAsync();
     }
 
     public async Task<MonitoringTool?> GetMonitoringToolByIdAsync(Guid id)

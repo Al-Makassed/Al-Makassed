@@ -5,6 +5,7 @@ using Makassed.Api.Models.DTO;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Microsoft.IdentityModel.Tokens;
+using Sieve.Models;
 
 namespace Makassed.Api.Services.MonitoringTools;
 
@@ -23,9 +24,9 @@ public class MonitoringToolService : IMonitoringToolService
         _mapper = mapper;
     }
 
-    public async Task<List<MonitoringTool>> GetMonitoringToolsAsync()
+    public async Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel)
     {
-        return await _monitoringToolRepository.GetMonitoringToolsAsync();
+        return await _monitoringToolRepository.GetMonitoringToolsAsync(sieveModel);
     }
 
     private MonitoringToolDto MapMonitoringToolDto(MonitoringTool monitoringTool)

@@ -1,10 +1,11 @@
 ﻿using Makassed.Api.Models.Domain;
+using Sieve.Models;
 
 namespace Makassed.Api.Repositories;
 
 public interface IMonitoringToolRepository
 {
-    Task<List<MonitoringTool>> GetMonitoringToolsAsync();
+    Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel);
     
     Task<MonitoringTool?> GetMonitoringToolByIdAsync(Guid id);
     
