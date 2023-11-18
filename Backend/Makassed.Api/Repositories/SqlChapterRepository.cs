@@ -1,16 +1,20 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace Makassed.Api.Repositories;
 
 public class SqlChapterRepository : IChapterRepository
 {
     private readonly MakassedDbContext _dbContext;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    public SqlChapterRepository(MakassedDbContext dbContext)
+    public SqlChapterRepository(MakassedDbContext dbContext, ISieveProcessor sieveProcessor)
     {
         _dbContext = dbContext;
+        _sieveProcessor = sieveProcessor;
     }
         
     public async Task<Chapter?> GetChapterByNameAsync(string name)
@@ -18,9 +22,11 @@ public class SqlChapterRepository : IChapterRepository
         return await _dbContext.Chapters.FirstOrDefaultAsync(ch => ch.Name == name);
     }
         
-    public  async Task<List<Chapter>> GetChaptersAsync()
+    public  async Task<List<Chapter>> GetChaptersAsync(SieveModel sieveModel)
     {
-        return await _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).ToListAsync();
+        var chapters = _dbContext.Chapters.Include(ch => ch.Policies).ThenInclude(p => p.Dependencies).AsNoTracking();
+
+        return await _sieveProcessor.Apply(sieveModel, chapters).ToListAsync();
     }
 
     public async Task<Chapter?> GetChapterByIdAsync(Guid id)
