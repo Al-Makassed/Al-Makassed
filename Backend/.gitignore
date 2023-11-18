@@ -43,5 +43,5 @@ packages/
 *.sln.docstates
 
 # Storage Folders
-Files/
-Avatars/
+Makassed.Api/Avatars/
+Makassed.Api/Files/
