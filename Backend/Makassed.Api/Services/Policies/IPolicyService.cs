@@ -1,11 +1,12 @@
 ﻿using ErrorOr;
 using Makassed.Api.Models.Domain;
+using Sieve.Models;
 
 namespace Makassed.Api.Services.Policies;
 
 public interface IPolicyService
 {
-    Task<List<Policy>> GetPoliciesAsync();
+    Task<List<Policy>> GetPoliciesAsync(SieveModel sieveModel, Guid chapterId);
         
     Task<ErrorOr<Policy>> GetPolicyByIdAsync(Guid id);
         

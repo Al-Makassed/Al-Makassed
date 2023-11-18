@@ -23,6 +23,8 @@ public static class DependencyInjection
 
         SwaggerConfiguration.AddSwaggerConfiguration(services);
 
+        SieveConfiguration.AddSieve(services, configuration);
+
         services.AddAutoMapper(typeof(AutoMapperProfile));
 
         // Convert the URLs, including controller and action names, to lowercase

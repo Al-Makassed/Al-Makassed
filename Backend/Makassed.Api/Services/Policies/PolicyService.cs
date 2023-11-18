@@ -4,6 +4,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.SharedServices;
 using Microsoft.IdentityModel.Tokens;
+using Sieve.Models;
 
 namespace Makassed.Api.Services.Policies;
 
@@ -26,9 +27,9 @@ public class PolicyService : IPolicyService
         return policy is null;
     }
 
-    public async Task<List<Policy>> GetPoliciesAsync()
+    public async Task<List<Policy>> GetPoliciesAsync(SieveModel sieveModel, Guid chapterId)
     {
-        return await _policyRepository.GetPoliciesAsync();
+        return await _policyRepository.GetPoliciesAsync(sieveModel, chapterId);
     }
 
     public async Task<ErrorOr<Policy>> GetPolicyByIdAsync(Guid id)

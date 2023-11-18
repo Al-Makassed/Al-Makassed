@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Chapters;
 using Makassed.Contracts.Chapter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace Makassed.Api.Controllers;
 
@@ -11,20 +14,22 @@ public class ChaptersController : ApiController
 {
     private readonly IChapterService _chapterService;
     private readonly IMapper _mapper;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    public ChaptersController(IChapterService chapterService, IMapper mapper)
+    public ChaptersController(IChapterService chapterService, IMapper mapper, ISieveProcessor sieveProcessor)
     {
         _chapterService = chapterService;
         _mapper = mapper;
+        _sieveProcessor = sieveProcessor;
     }
 
     [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetChapters()
+    public async Task<IActionResult> GetChapters([FromQuery] SieveModel sieveModel)
     {
-        var chapters = await _chapterService.GetChaptersAsync();
+        var chapters = await _chapterService.GetChaptersAsync(sieveModel);
         return Ok(_mapper.Map<List<GetChapterResponse>>(chapters));
     }
 
