@@ -5,6 +5,7 @@ export interface Policy {
   file: string;
   chapterId: string;
   estimatedTime: number;
+  summary: string;
   dependencies: Dependency[];
 }
 
@@ -17,15 +18,14 @@ export interface Dependency {
   policyDependencyType: number;
 }
 
-export interface CreatePolicyResponse extends Omit<Policy, "dependencies "> {}
-
 export interface PolicyResponse {
-  name: string;
-  file: string | Blob;
-  estimatedTime: number;
-  chapterId: string;
+  Name: string;
+  MainFile?: File;
+  EstimatedTimeInMin: number;
+  ChapterId: string;
+  Summary: string;
 }
 
-export interface uploadFile {
-  file: string | Blob;
+export interface PolicyRequest {
+  formData: FormData;
 }

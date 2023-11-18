@@ -15,3 +15,12 @@ const axiosMaqasid = axios.create({
 });
 
 export default axiosMaqasid;
+
+export const axiosFormData = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: {
+    ...defaultAxiosSettings.headers,
+    Accept: "*/*",
+    "Content-Type": "multipart/form-data",
+  },
+});

@@ -20,13 +20,14 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
   const { addNewPolicy } = useAddPolicyAPI();
   const closeDialog = () => onClose();
   const { id } = useParams();
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState();
 
   const initialValues: PolicyResponse = {
-    name: "",
-    estimatedTime: 0,
-    file: "",
-    chapterId: `${id}`,
+    Name: "",
+    EstimatedTimeInMin: 0,
+    MainFile: undefined,
+    ChapterId: `${id}`,
+    Summary: "",
   };
   //@ts-ignore
   const handleFileChange = (event) => {
@@ -34,21 +35,16 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
   };
 
   const onSubmit = (values: PolicyResponse) => {
-    // const fd = new FormData();
+    const formData = new FormData();
+    formData.set("Name", values.Name);
+    formData.set("MainFile", file!);
+    formData.set("EstimatedTimeInMin", values.EstimatedTimeInMin.toString());
+    formData.set("ChapterId", values.ChapterId);
+    formData.set("Summary", values.Summary);
 
-    // fd.append("pdfUrl", file as File);
-
-    // const pdfFile = fd.get("pdfUrl") as string | Blob;
-
-    addNewPolicy({
-      name: values.name,
-      //@ts-ignore
-      file: file,
-      estimatedTime: values.estimatedTime,
-      chapterId: values.chapterId,
-    });
+    addNewPolicy({ formData });
     closeDialog();
-    console.log(file);
+    console.log(formData);
   };
 
   return (
@@ -80,19 +76,19 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
         {() => (
           <Form>
             <Stack p={3} gap={2.5} justifyContent="center">
-              <Field type="text" name="name" placeholder="policyName" />
+              <Field type="text" name="Name" placeholder="policyName" />
               <ErrorMessage name="name" component="div" />
 
               <Field
                 type="number"
-                name="estimatedTime"
+                name="EstimatedTimeInMin"
                 placeholder="Time in (min)"
               />
               <ErrorMessage name="estimatedTime" component="div" />
 
-              {/* <Field type="file" name="pdfUrl" /> */}
-              {/* <ErrorMessage name="file" component="div" /> */}
-              <input type="file" name="file" onChange={handleFileChange} />
+              <input type="file" name="MainFile" onChange={handleFileChange} />
+
+              <Field type="text" name="Summary" placeholder="summary" />
 
               <Stack direction="row" justifyContent="center">
                 <Button
@@ -108,7 +104,6 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
           </Form>
         )}
       </Formik>
-      {/* <input type="file" name="pdfUrl" onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleFileChange(event)} /> */}
     </Dialog>
   );
 };
