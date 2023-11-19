@@ -36,7 +36,7 @@ const EditChapterForm: FC = () => {
 
   const { renameChapter, isRenaming } = useRenameChapter();
 
-  // if (!chapter) return <Typography variant="h1">Invalid chapter id</Typography>;
+  if (!chapter) return <Typography variant="h1">Invalid chapter id</Typography>;
 
   const [chapterName, setChapterName] = useState<string>(chapter?.name ?? "");
 
@@ -119,7 +119,7 @@ const EditChapterForm: FC = () => {
           }}
           disablePadding
         >
-          {chapter?.policies.map((policy, index) => (
+          {chapter?.policies?.map((policy, index) => (
             <ListItemButton key={index} sx={{ pl: 4 }}>
               <ListItemIcon sx={{ color: "#d32f2f" }}>
                 <PictureAsPdfIcon />

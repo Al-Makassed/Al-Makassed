@@ -8,8 +8,8 @@ const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
-const PolicyDependency = lazy(() => import("src/pages/PolicyDependency"));
-const PolicyDetails = lazy(() => import("src/pages/ViewPolicy/PolicyDetails"));
+const PolicyDependency = lazy(() => import("src/pages/PolicyDependencies"));
+const PolicyDetails = lazy(() => import("src/pages/PolicyDetails"));
 const Unauthenticated = lazy(() => import("src/pages/Unauthenticated"));
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
@@ -17,8 +17,15 @@ const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetPasswordForm"),
 );
 const EditChapter = lazy(() => import("src/pages/EditChapterForm"));
+import { useParams } from "react-router-dom";
 
 const AppRoutes: FC = () => {
+  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
+
+  const chapterId = chapterIdParam ?? "";
+
+  const policyId = policyIdParam ?? "";
+
   return (
     <Suspense fallback={<BlockUI />}>
       <Routes>
@@ -32,6 +39,23 @@ const AppRoutes: FC = () => {
             <Route path=":id" />
             <Route path="edit-chapter/:id" element={<EditChapter />} />
             <Route path="policy/:code" element={<PolicyDetails />} />
+            {/* <Route path="chapter/:id/edit" element={} /> */}
+            {/* <Route path="chapters/:chapterId/policies/:policyId" element={<PolicyDetails />} /> */}
+
+            <Route path="chapters">
+              <Route index element={<h1>List of all Chapters</h1>} />
+              <Route path=":chapterId" element={<h1>One Chapter</h1>} />
+              <Route path=":chapterId/edit" element={<EditChapter />} />
+              <Route
+                path=":chapterId/policies"
+                element={<h1>Policies of a Chapter</h1>}
+              />
+              <Route
+                path=":chapterId/policies/:policyId"
+                element={<PolicyDetails />}
+                key={`${chapterId}-${policyId}`}
+              />
+            </Route>
           </Route>
         </Route>
 

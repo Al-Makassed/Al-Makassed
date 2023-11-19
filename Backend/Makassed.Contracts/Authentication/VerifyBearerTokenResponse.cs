@@ -7,7 +7,7 @@ public record VerifyBearerTokenResponse(
     string UserName,
     string Email,
     string PhoneNumber,
-    string ProfileUrl,
+    string AvatarUrl,
     List<string> Roles,
     long Exp,
     string Iss,

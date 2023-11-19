@@ -70,14 +70,19 @@ public class AuthenticationController : ApiController
 
         var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-        var forgotPasswordUrl = isLocal? Url.Action(nameof(ResetPassword), "Authentication", new { token = forgetPasswordResult, email = userResult.Value.Email }, Request.Scheme): forgetPasswordResult;
-        
+        var forgotPasswordUrl = isLocal
+            ? Url.Action(
+                nameof(ResetPassword),
+                "Authentication",
+                new { token = forgetPasswordResult, email = userResult.Value.Email }, Request.Scheme)
+            : forgetPasswordResult;
+
         if (forgotPasswordUrl is null)
             return Problem();
 
         await _emailService.SendForgetPasswordEmail(userResult.Value.Email!, forgotPasswordUrl);
 
-        return Ok(new SuccessResponse(Message: "Password recovery link is sent to your Email."));
+        return Ok(new SuccessResponse(Message: $"Password recovery link is sent to your Email: {userResult.Value.Email}"));
     }
 
 
@@ -116,11 +121,11 @@ public class AuthenticationController : ApiController
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
-         var resetPasswordResult = await _authenticationService.ResetPassword(request);
+        var resetPasswordResult = await _authenticationService.ResetPassword(request);
 
         return resetPasswordResult.Match(
             Ok,
-            Problem                                
+            Problem
         );
     }
 
@@ -142,7 +147,7 @@ public class AuthenticationController : ApiController
     }
 
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(VerifyBearerTokenResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VerifyBearerTokenResponse))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpGet("verify-bearer-token")]
     public IActionResult VerifyBearerToken()
@@ -152,7 +157,7 @@ public class AuthenticationController : ApiController
 
         //Get the Authorization token from the request header.
         var authorizationToken = HttpContext.Request.Headers["Authorization"].ToString();
-        
+
         // The token is in the format "Bearer {token}". We only need the token.
         authorizationToken = authorizationToken.Replace("Bearer ", string.Empty);
 

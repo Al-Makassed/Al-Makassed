@@ -3,8 +3,9 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Policies;
-using Makassed.Api.Services.SharedServices;
+using Makassed.Api.Services.Storage;
 using Makassed.Contracts.Enums;
+using Sieve.Models;
 using Policy = Makassed.Api.Models.Domain.Policy;
 
 namespace Makassed.Api.Services.PolicyDependencies;
@@ -13,13 +14,16 @@ public class PolicyDependencyService : IPolicyDependencyService
 {
     private readonly IPolicyDependencyRepository _policyDependencyRepository;
     private readonly IPolicyService _policyService;
-    private readonly ISharedService _sharedService;
+    private readonly ILocalFileStorageService _localFileStorageService;
 
-    public PolicyDependencyService(IPolicyDependencyRepository policyDependencyRepository, IPolicyService policyService, ISharedService sharedService)
+    public PolicyDependencyService(
+        IPolicyDependencyRepository policyDependencyRepository, 
+        IPolicyService policyService, 
+        ILocalFileStorageService localFileStorageService)
     {
         _policyDependencyRepository = policyDependencyRepository;
         _policyService = policyService;
-        _sharedService = sharedService;
+        _localFileStorageService = localFileStorageService;
     }
 
     private async Task<ErrorOr<Policy>> CheckExistedPolicy(Guid id)
@@ -29,9 +33,9 @@ public class PolicyDependencyService : IPolicyDependencyService
         return findPolicyResult;
     }
 
-    public Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, string? filterOn, string? filterQuery)
+    public Task<List<Dependency>> GetPolicyDependenciesAsync(Guid policyId, SieveModel sieveModel)
     {
-        return _policyDependencyRepository.GetPolicyDependenciesAsync(policyId, filterOn, filterQuery);
+        return _policyDependencyRepository.GetPolicyDependenciesAsync(policyId, sieveModel);
     }
 
     public Task<Dependency?> GetPolicyDependencyByIdAsync(Guid id)
@@ -48,9 +52,9 @@ public class PolicyDependencyService : IPolicyDependencyService
 
         policyDependency.PolicyId = policyId;
 
-        policyDependency.PdfUrl = await _sharedService.GetFilePathUrl(policyDependency.File);
+        policyDependency.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policyDependency.File);
 
-        policyDependency.PagesCount = _sharedService.GetFilePageCount(policyDependency.File);
+        policyDependency.PagesCount = _localFileStorageService.GetPdfFilePageCount(policyDependency.File);
 
         await _policyDependencyRepository.CreatePolicyDependencyAsync(policyDependency);
 
@@ -73,8 +77,8 @@ public class PolicyDependencyService : IPolicyDependencyService
 
     public async Task<ErrorOr<Updated>> UpdatePolicyDependencyAsync(Guid id, Dependency policyDependency)
     {
-        policyDependency.PdfUrl = await _sharedService.GetFilePathUrl(policyDependency.File);
-        policyDependency.PagesCount = _sharedService.GetFilePageCount(policyDependency.File);
+        policyDependency.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policyDependency.File);
+        policyDependency.PagesCount = _localFileStorageService.GetPdfFilePageCount(policyDependency.File);
         
         var updatedPolicyDependency = await _policyDependencyRepository.UpdatePolicyDependencyAsync(id, policyDependency);
 

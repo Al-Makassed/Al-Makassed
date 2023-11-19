@@ -36,6 +36,13 @@ var app = builder.Build();
         RequestPath = "/Files"
     });
 
+    // You can add another middleware registration in case you need to expose another physical directory to another RequestPath
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Avatars")),
+        RequestPath = "/Avatars"  // specifies the URL path at which the static files will be served.
+    });
+
     app.MapControllers();
 
     app.Run();
