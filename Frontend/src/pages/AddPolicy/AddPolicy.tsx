@@ -44,7 +44,6 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
 
     addNewPolicy({ formData });
     closeDialog();
-    console.log(formData);
   };
 
   return (
@@ -73,36 +72,34 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
         validationSchema={ValidationSchema}
         onSubmit={onSubmit}
       >
-        {() => (
-          <Form>
-            <Stack p={3} gap={2.5} justifyContent="center">
-              <Field type="text" name="Name" placeholder="policyName" />
-              <ErrorMessage name="name" component="div" />
+        <Form>
+          <Stack p={3} gap={2.5} justifyContent="center">
+            <Field type="text" name="Name" placeholder="policyName" />
+            <ErrorMessage name="name" component="div" />
 
-              <Field
-                type="number"
-                name="EstimatedTimeInMin"
-                placeholder="Time in (min)"
-              />
-              <ErrorMessage name="estimatedTime" component="div" />
+            <Field
+              type="number"
+              name="EstimatedTimeInMin"
+              placeholder="Time in (min)"
+            />
+            <ErrorMessage name="estimatedTime" component="div" />
 
-              <input type="file" name="MainFile" onChange={handleFileChange} />
+            <input type="file" name="MainFile" onChange={handleFileChange} />
 
-              <Field type="text" name="Summary" placeholder="summary" />
+            <Field type="text" name="Summary" placeholder="summary" />
 
-              <Stack direction="row" justifyContent="center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddIcon />}
-                  type="submit"
-                >
-                  Add
-                </Button>
-              </Stack>
+            <Stack direction="row" justifyContent="center">
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AddIcon />}
+                type="submit"
+              >
+                Add
+              </Button>
             </Stack>
-          </Form>
-        )}
+          </Stack>
+        </Form>
       </Formik>
     </Dialog>
   );
