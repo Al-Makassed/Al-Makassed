@@ -14,27 +14,36 @@ import { Dependency } from "../API/types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useParams } from "react-router-dom";
-import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
+import useGetPolicy from "../hooks/useGetPolicy";
 import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
-import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
+import useDeleteDependency from "../hooks/useDeleteDependency";
+import { PolicyDependencyType } from "../constants";
 
 const ProtocolsList: FC = () => {
-  const { code } = useParams();
-  const {
-    policy,
-    // isFetching
-  } = useGetPolicyByCode(code ?? "");
+  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
+
+  const id = chapterIdParam ?? "";
+
+  const policyId = policyIdParam ?? "";
+
+  const { policy } = useGetPolicy({ chapterId: id, policyId });
+
   const { deleteAllDependencies } = useDeleteAllPolicyDependencies();
 
   const handleDeleteAllDependencies = () => {
-    deleteAllDependencies({ type: 2, code: code || "" });
+    deleteAllDependencies({ chapterId: id, policyId, type: 2 });
   };
-  const { deleteDependency } = useDeleteDependencyByCode();
+  const { deleteDependency } = useDeleteDependency();
 
-  const handleDeleteDependency = () => {
-    deleteDependency(code || "");
+  const handleDeleteDependency = (dependencyId: string) => () => {
+    deleteDependency({ chapterId: id, policyId, dependencyId });
   };
-  if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
+
+  const policyProtocols =
+    policy?.dependencies.filter(
+      (dependency) => dependency.type === PolicyDependencyType.Protocol,
+    ) ?? [];
+
   return (
     <Stack>
       <Box
@@ -63,23 +72,19 @@ const ProtocolsList: FC = () => {
         }}
         disablePadding
       >
-        {policy.dependencies.map((dependency: Dependency, index) => (
-          <React.Fragment key={index}>
-            {dependency.policyDependencyType === 2 && (
-              <ListItem sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: "#d32f2f" }}>
-                  <PictureAsPdfIcon />
-                </ListItemIcon>
-                <ListItemText primary={dependency.name} sx={{ ml: -2 }} />
+        {policyProtocols.map((policyProtocols: Dependency, index) => (
+          <ListItem sx={{ pl: 4 }} key={index}>
+            <ListItemIcon sx={{ color: (theme) => theme.palette.error.main }}>
+              <PictureAsPdfIcon />
+            </ListItemIcon>
+            <ListItemText primary={policyProtocols.name} sx={{ ml: -2 }} />
 
-                <Tooltip title="Delete">
-                  <IconButton onClick={handleDeleteDependency}>
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              </ListItem>
-            )}
-          </React.Fragment>
+            <Tooltip title="Delete">
+              <IconButton onClick={handleDeleteDependency(policyProtocols.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </ListItem>
         ))}
       </List>
     </Stack>

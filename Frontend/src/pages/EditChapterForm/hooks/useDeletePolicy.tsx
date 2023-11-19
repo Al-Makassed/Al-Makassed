@@ -1,25 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteDependencyByCode } from "../API";
+import { deletePolicyAPI } from "../API";
 import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { POLICY_QUERY_KEY } from "../constants";
+import { CHAPTER_QUERY_KEY } from "../constants";
 
-const useDeleteDependencyByCode = () => {
+const useDeletePolicy = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: deleteDependency } = useMutation({
-    mutationFn: deleteDependencyByCode,
+  const { mutate: deletePolicy } = useMutation({
+    mutationFn: deletePolicyAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [POLICY_QUERY_KEY],
+        queryKey: [CHAPTER_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({
-          message: "Deleted Dependency Successfully!",
+          message: "Deleted Policy Successfully!",
         }),
       );
     },
@@ -35,8 +35,8 @@ const useDeleteDependencyByCode = () => {
   });
 
   return {
-    deleteDependency,
+    deletePolicy,
   };
 };
 
-export default useDeleteDependencyByCode;
+export default useDeletePolicy;

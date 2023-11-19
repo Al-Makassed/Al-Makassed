@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getPolicyByCode } from "../API";
+import { getPolicy } from "../API";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types/axios";
 import { POLICY_QUERY_KEY } from "../constants";
+import { GetPolicy } from "../API/types";
 
-const useGetPolicyByCode = (code: string) => {
+const useGetPolicy = ({ chapterId, policyId }: GetPolicy) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -15,8 +16,8 @@ const useGetPolicyByCode = (code: string) => {
     isFetching,
     error,
   } = useQuery({
-    queryFn: () => getPolicyByCode(code),
-    queryKey: [POLICY_QUERY_KEY, code],
+    queryFn: () => getPolicy({ chapterId, policyId }),
+    queryKey: [POLICY_QUERY_KEY, { chapterId, policyId }],
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -37,4 +38,4 @@ const useGetPolicyByCode = (code: string) => {
   };
 };
 
-export default useGetPolicyByCode;
+export default useGetPolicy;

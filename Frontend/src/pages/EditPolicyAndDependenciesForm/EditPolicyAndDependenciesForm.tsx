@@ -1,9 +1,9 @@
-import React from "react";
-import EditPolicyForm from "./components/PoliciesList";
+import React, { FC } from "react";
+import EditPolicyForm from "./components/EditPolicyForm";
 import EditDependencies from "./components/DependenciesList";
 import { Grid, useTheme } from "@mui/material";
 
-const EditPolicyAndDependencyForm = () => {
+const EditPolicyAndDependencyForm: FC = () => {
   const theme = useTheme();
 
   return (

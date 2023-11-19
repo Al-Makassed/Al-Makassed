@@ -16,8 +16,8 @@ const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetPasswordForm"),
 );
 const EditChapter = lazy(() => import("src/pages/EditChapterForm"));
-const EditPolicyAndDependencyForm = lazy(
-  () => import("src/pages/EditPolicyAndDependencyForm"),
+const EditPolicyAndDependenciesForm = lazy(
+  () => import("src/pages/EditPolicyAndDependenciesForm"),
 );
 import { useParams } from "react-router-dom";
 
@@ -37,13 +37,11 @@ const AppRoutes: FC = () => {
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
-            {/* <Route path="chapter/:id/edit" element={} /> */}
-            {/* <Route path="chapters/:chapterId/policies/:policyId" element={<PolicyDetails />} /> */}
 
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
               <Route path=":chapterId" element={<h1>One Chapter</h1>} />
-              <Route path=":chapterId/edit" element={<EditChapter />} />
+              <Route path="edit/:chapterId" element={<EditChapter />} />
               <Route
                 path=":chapterId/policies"
                 element={<h1>Policies of a Chapter</h1>}
@@ -53,11 +51,11 @@ const AppRoutes: FC = () => {
                 element={<PolicyDetails />}
                 key={`${chapterId}-${policyId}`}
               />
+              <Route
+                path="edit/:chapterId/policies/:policyId"
+                element={<EditPolicyAndDependenciesForm />}
+              />
             </Route>
-            <Route
-              path=":chapterId/policies/:policyId/edit"
-              element={<EditPolicyAndDependencyForm />}
-            />
           </Route>
         </Route>
 

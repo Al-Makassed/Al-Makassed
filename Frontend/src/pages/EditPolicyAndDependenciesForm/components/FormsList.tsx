@@ -14,28 +14,35 @@ import { Dependency } from "../API/types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useParams } from "react-router-dom";
-import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
+import useGetPolicy from "../hooks/useGetPolicy";
 import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
-import useDeleteDependencyByCode from "../hooks/useDeleteDependencyByCode";
+import useDeleteDependency from "../hooks/useDeleteDependency";
+import { PolicyDependencyType } from "../constants";
 
 const FormsList: FC = () => {
-  const { code: codeParam } = useParams();
+  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
 
-  const code = codeParam ?? "";
+  const id = chapterIdParam ?? "";
 
-  const { policy } = useGetPolicyByCode(code);
+  const policyId = policyIdParam ?? "";
+
+  const { policy } = useGetPolicy({ chapterId: id, policyId });
 
   const { deleteAllDependencies } = useDeleteAllPolicyDependencies();
 
   const handleDeleteAllDependencies = () => {
-    deleteAllDependencies({ type: 0, code });
+    deleteAllDependencies({ chapterId: id, policyId, type: 0 });
   };
-  const { deleteDependency } = useDeleteDependencyByCode();
+  const { deleteDependency } = useDeleteDependency();
 
-  const handleDeleteDependency = () => {
-    deleteDependency(code);
+  const handleDeleteDependency = (dependencyId: string) => () => {
+    deleteDependency({ chapterId: id, policyId, dependencyId });
   };
-  if (!policy) return <Typography variant="h1">Invalid Policy Code</Typography>;
+
+  const policyForms =
+    policy?.dependencies.filter(
+      (dependency) => dependency.type === PolicyDependencyType.Form,
+    ) ?? [];
 
   return (
     <Stack>
@@ -65,26 +72,22 @@ const FormsList: FC = () => {
         }}
         disablePadding
       >
-        {policy.dependencies.map((dependency: Dependency, index) => (
-          <React.Fragment key={index}>
-            {dependency.policyDependencyType === 0 && (
-              <ListItem sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: "palette.error.dark" }}>
-                  <PictureAsPdfIcon />
-                </ListItemIcon>
-                <ListItemText primary={dependency.name} sx={{ ml: -2 }} />
+        {policyForms.map((policyForm: Dependency, index) => (
+          <ListItem sx={{ pl: 4 }} key={index}>
+            <ListItemIcon sx={{ color: (theme) => theme.palette.error.main }}>
+              <PictureAsPdfIcon />
+            </ListItemIcon>
+            <ListItemText primary={policyForm.name} sx={{ ml: -2 }} />
 
-                <Tooltip title="Delete">
-                  <IconButton
-                    aria-label="Delete Policy"
-                    onClick={handleDeleteDependency}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              </ListItem>
-            )}
-          </React.Fragment>
+            <Tooltip title="Delete">
+              <IconButton
+                aria-label="Delete Policy"
+                onClick={handleDeleteDependency(policyForm.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </ListItem>
         ))}
       </List>
     </Stack>

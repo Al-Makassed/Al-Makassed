@@ -19,7 +19,7 @@ const PolicyDetails: FC = () => {
   const navigate = useNavigate();
 
   const handleEditPolicy = () => {
-    navigate(`:${chapterId}/policies/:${policyId}/edit`);
+    navigate(`/me/chapters/edit/${policy?.chapterId}/policies/${policy?.id}`);
   };
 
   if (isFetching) return <PolicyDetailsLoadingSkeleton />;

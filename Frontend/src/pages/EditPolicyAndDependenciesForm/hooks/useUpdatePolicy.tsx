@@ -20,7 +20,7 @@ const useUpdatePolicy = () => {
       dispatch(
         showSuccessSnackbar({
           message: "Policy Updated Successfully!",
-        })
+        }),
       );
     },
     onError: (error: AxiosBaseError) => {
@@ -28,7 +28,7 @@ const useUpdatePolicy = () => {
       dispatch(
         showErrorSnackbar({
           message: errorMessage,
-        })
+        }),
       );
     },
   });

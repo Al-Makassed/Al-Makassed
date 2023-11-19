@@ -11,14 +11,17 @@ import { LoadingButton } from "@mui/lab";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import { useParams } from "react-router-dom";
-import useGetPolicyByCode from "../hooks/useGetPolicyBYCode";
-import EditChapterFormSkeleton from "src/pages/EditChapterForm/components/EditChapterFormSkeleton";
+import useGetPolicy from "../hooks/useGetPolicy";
 import useUpdatePolicy from "../hooks/useUpdatePolicy";
 
-const PoliciesList: FC = () => {
-  const { code } = useParams();
+const EditPolicyForm: FC = () => {
+  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
 
-  const { policy, isFetching } = useGetPolicyByCode(code ?? "");
+  const id = chapterIdParam ?? "";
+
+  const policyId = policyIdParam ?? "";
+
+  const { policy } = useGetPolicy({ chapterId: id, policyId });
 
   const { updatePolicy, isUpdating } = useUpdatePolicy();
 
@@ -30,37 +33,44 @@ const PoliciesList: FC = () => {
     }
   };
 
-  const [policyName, setPolicyName] = useState<string>(policy?.name ?? "");
-  const [summary, setSummary] = useState<string>(policy?.summary ?? "");
-
   const [estimatedTimeInMin, setEstimatedTimeInMin] = useState<number>(
     policy?.dependencies[0]?.estimatedTime ?? 0,
   );
+  const handleChangePolicyTime = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
 
+    const numericValue = parseInt(inputValue); // Parse the input value to a number
+
+    setEstimatedTimeInMin(numericValue);
+  };
+
+  const [policyName, setPolicyName] = useState<string>(policy?.name ?? "");
+
+  const [policyCode, setPolicyCode] = useState<string>(policy?.code ?? "");
+
+  const [summary, setSummary] = useState<string>(policy?.summary ?? "");
+
+  const handleChangePolicyCode = (event: ChangeEvent<HTMLInputElement>) => {
+    setPolicyCode(event.target.value);
+  };
   const handleChangePolicyName = (event: ChangeEvent<HTMLInputElement>) => {
     setPolicyName(event.target.value);
   };
   const handleChangeSummary = (event: ChangeEvent<HTMLInputElement>) => {
     setSummary(event.target.value);
   };
-  const handleChangePolicyTime = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-    const numericValue = parseInt(inputValue); // Parse the input value to a number
-    setEstimatedTimeInMin(numericValue);
-  };
 
   const handleSubmitChanges = () => {
     if (estimatedTimeInMin == null) return;
     const formData = new FormData();
+    formData.set("Code", policyCode!);
     formData.set("MainFile", mainFile!);
     formData.set("Name", policyName);
     formData.set("EstimatedTimeInMin", estimatedTimeInMin?.toString());
     formData.set("Summary", summary);
 
-    updatePolicy({ code: code!, formData: formData });
+    updatePolicy({ chapterId: id, policyId, formData: formData });
   };
-
-  if (isFetching) return <EditChapterFormSkeleton />;
 
   return (
     <Grid
@@ -74,6 +84,14 @@ const PoliciesList: FC = () => {
         <Typography component="h1" variant="h4" fontWeight={600}>
           Edit Policy
         </Typography>
+
+        <TextField
+          value={policyCode}
+          color="success"
+          label="Policy Code"
+          variant="outlined"
+          onChange={handleChangePolicyCode}
+        />
         <TextField
           value={policyName}
           color="success"
@@ -135,4 +153,4 @@ const PoliciesList: FC = () => {
   );
 };
 
-export default PoliciesList;
+export default EditPolicyForm;
