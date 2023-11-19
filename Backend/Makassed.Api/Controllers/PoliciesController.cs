@@ -69,7 +69,7 @@ public class PoliciesController : ApiController
         return policyCreationResult.Match(
             _ => CreatedAtAction(
                 nameof(GetPolicy), 
-                new { id = policy.Id }, 
+                new { chapterID = chapterId, id = policy.Id }, 
                 _mapper.Map<GetPolicyResponse>(policy)
             ),
             errors => Problem(errors)

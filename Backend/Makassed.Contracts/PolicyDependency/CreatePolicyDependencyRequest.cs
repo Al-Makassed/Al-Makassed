@@ -7,7 +7,7 @@ public record CreatePolicyDependencyRequest
 {
     public required string Code { get; set; }
     
-    public required PolicyDependencyType PolicyDependencyType { get; set; }
+    public required PolicyDependencyType Type { get; set; }
     
     public required string Name { get; set; }
 

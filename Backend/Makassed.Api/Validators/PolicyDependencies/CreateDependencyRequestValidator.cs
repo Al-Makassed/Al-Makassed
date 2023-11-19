@@ -20,7 +20,7 @@ public class CreateDependencyRequestValidator : AbstractValidator<CreatePolicyDe
         RuleFor(d => d.EstimatedTimeInMin)
             .NotNull().WithMessage("Estimated time shouldn't be null.");
 
-        RuleFor(d => d.PolicyDependencyType)
+        RuleFor(d => d.Type)
             .NotNull().WithMessage("Policy dependency type must be specified.");;
     }
 }

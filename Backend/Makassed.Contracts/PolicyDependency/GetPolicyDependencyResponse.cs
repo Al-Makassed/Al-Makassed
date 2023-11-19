@@ -18,6 +18,6 @@ public record  GetPolicyDependencyResponse
     
     public string PolicyCode { get; set; } = null!;
     
-    public PolicyDependencyType PolicyDependencyType { get; set; }
+    public PolicyDependencyType Type { get; set; }
 }
 

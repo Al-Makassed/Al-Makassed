@@ -19,7 +19,7 @@ public class Dependency
 
     public int PagesCount { get; set; }
 
-    public PolicyDependencyType PolicyDependencyType { get; set; }
+    public PolicyDependencyType Type { get; set; }
 
     public Guid PolicyId { get; set; }
 
