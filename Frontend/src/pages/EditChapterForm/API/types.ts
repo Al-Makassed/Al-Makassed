@@ -6,6 +6,7 @@ export interface Chapter {
 }
 
 export interface Policy {
+  id: string;
   code: string;
   name: string;
   state: boolean;
@@ -24,4 +25,8 @@ export interface Dependency {
 export interface RenameChapterRequest {
   id: string;
   newChapterName: string;
+}
+export interface DeletePolicy {
+  chapterId: string;
+  policyId: string;
 }

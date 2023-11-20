@@ -53,7 +53,7 @@ public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
 
     public async Task<List<Dependency>?> DeleteAllPolicyDependencyTypeAsync(PolicyDependencyType type, Guid policyId)
     {
-        var policyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyId == policyId && d.PolicyDependencyType == type).ToListAsync();
+        var policyDependencies = await _dbContext.Dependencies.Where(d => d.PolicyId == policyId && d.Type == type).ToListAsync();
 
         if (policyDependencies.IsNullOrEmpty())
             return null;
