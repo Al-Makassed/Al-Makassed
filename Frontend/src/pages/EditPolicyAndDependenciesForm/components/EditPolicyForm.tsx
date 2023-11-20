@@ -134,7 +134,6 @@ const EditPolicyForm: FC = () => {
         <Typography>
           {mainFile ? `File name: ${mainFile.name}` : "no files uploaded yet"}
         </Typography>
-
         <LoadingButton
           loading={isUpdating}
           loadingPosition="start"

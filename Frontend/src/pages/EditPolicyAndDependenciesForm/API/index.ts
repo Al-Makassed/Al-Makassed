@@ -33,7 +33,7 @@ export const deleteAllPolicyDependenciesAPI = ({
   return axios
 
     .delete<void>(
-      `/chapters/${chapterId}/policies/${policyId}/policy-dependencies/?type${type}`,
+      `/chapters/${chapterId}/policies/${policyId}/policy-dependencies/?type=${type}`,
     )
     .then((res) => res.data);
 };

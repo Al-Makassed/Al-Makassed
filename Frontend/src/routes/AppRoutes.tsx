@@ -52,7 +52,7 @@ const AppRoutes: FC = () => {
                 key={`${chapterId}-${policyId}`}
               />
               <Route
-                path="edit/:chapterId/policies/:policyId"
+                path=":chapterId/policies/:policyId/edit"
                 element={<EditPolicyAndDependenciesForm />}
               />
             </Route>
