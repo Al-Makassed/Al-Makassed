@@ -19,25 +19,19 @@ const EditChapter = lazy(() => import("src/pages/EditChapterForm"));
 const EditPolicyAndDependenciesForm = lazy(
   () => import("src/pages/EditPolicyAndDependenciesForm"),
 );
-import { useParams } from "react-router-dom";
 
 const AppRoutes: FC = () => {
-  const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
-
-  const chapterId = chapterIdParam ?? "";
-
-  const policyId = policyIdParam ?? "";
-
   return (
     <Suspense fallback={<BlockUI />}>
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="" element={<LandingPage />} />
+
         <Route path="me" element={<AppLayout />}>
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
-
+           
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
               <Route path=":chapterId" element={<h1>One Chapter</h1>} />
@@ -49,7 +43,6 @@ const AppRoutes: FC = () => {
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}
-                key={`${chapterId}-${policyId}`}
               />
               <Route
                 path=":chapterId/policies/:policyId/edit"
@@ -57,11 +50,6 @@ const AppRoutes: FC = () => {
               />
             </Route>
           </Route>
-        </Route>
-
-        <Route path="x" element={<AppLayout />}>
-          <Route path="" element={<h1>Hello</h1>} />
-          <Route path="y" element={<h1>Hallo</h1>} />
         </Route>
 
         <Route path="forgot-password" element={<ForgotPasswordForm />} />

@@ -15,12 +15,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import { Policy } from "../API/types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import AddPolicyForm from "src/pages/AddPolicyForm";
 import { useAppDispatch } from "src/store/hooks";
 import { toggleSidebar } from "src/features/appSettings";
 import { useNavigate } from "react-router-dom";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+    // navigate(`/me/${chapter.id}`);
+  };
+
+  const handleOpenDialog = () => setIsDialogOpen(true);
+
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
   const navigate = useNavigate();
 
@@ -29,8 +40,6 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
     navigate(`chapters/edit/${chapter.id}`);
   };
-
-  const handleClick = () => setOpen(!open);
 
   const dispatch = useAppDispatch();
 
@@ -83,7 +92,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
               <ListItemText primary={policy.name} />
             </ListItemButton>
           ))}
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
             <ListItemIcon
               sx={{
                 color: (theme) => theme.palette.maqasid.primary,
@@ -92,9 +101,14 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
             >
               <AddIcon />
             </ListItemIcon>
-            {/* <ListItemText primary="Add policy" /> */}
+
             <Typography fontWeight={590}>Add Policy</Typography>
           </ListItemButton>
+          <AddPolicyForm
+            chapterId={chapter.id}
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+          />
         </List>
       </Collapse>
     </>
