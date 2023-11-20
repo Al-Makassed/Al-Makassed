@@ -34,7 +34,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("MonitoringToolsId");
 
-                    b.ToTable("FieldMonitoringTool");
+                    b.ToTable("FieldMonitoringTool", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
@@ -52,7 +52,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chapters");
+                    b.ToTable("Chapters", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Department", b =>
@@ -74,7 +74,7 @@ namespace Makassed.Api.Migrations
                         .IsUnique()
                         .HasFilter("[HeadId] IS NOT NULL");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
@@ -101,17 +101,17 @@ namespace Makassed.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PolicyDependencyType")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("PolicyId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PolicyId");
 
-                    b.ToTable("Dependencies");
+                    b.ToTable("Dependencies", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.DependencyUser", b =>
@@ -133,7 +133,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("DependencyUser");
+                    b.ToTable("DependencyUser", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Field", b =>
@@ -148,7 +148,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fields");
+                    b.ToTable("Fields", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.FieldAnswer", b =>
@@ -166,7 +166,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("SubmissionId");
 
-                    b.ToTable("FieldAnswers");
+                    b.ToTable("FieldAnswers", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.FocalPointTask", b =>
@@ -193,7 +193,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("MonitoringToolId");
 
-                    b.ToTable("FocalPointTasks");
+                    b.ToTable("FocalPointTasks", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.MakassedUser", b =>
@@ -299,7 +299,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MonitoringTools");
+                    b.ToTable("MonitoringTools", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
@@ -335,7 +335,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Policies");
+                    b.ToTable("Policies", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.PolicyUser", b =>
@@ -357,7 +357,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("PolicyUser");
+                    b.ToTable("PolicyUser", (string)null);
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
@@ -385,7 +385,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("SubmitterId");
 
-                    b.ToTable("Submissions");
+                    b.ToTable("Submissions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -15,7 +15,8 @@ public class UserService : IUserService
     private readonly UserManager<MakassedUser> _userManager;
 
     private string? _cachedUserId; // Cache the userId to avoid redundant calls to HttpContext
-    private readonly ILocalFileStorageService _localFilleStorageService;
+    private string? _cachedUserRole;
+    private readonly ILocalFileStorageService _localFileStorageService;
     private readonly IUserRepository _userRepository;
 
     public UserService(
@@ -26,7 +27,7 @@ public class UserService : IUserService
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
-        _localFilleStorageService = localFileStorageService;
+        _localFileStorageService = localFileStorageService;
         _userRepository = userRepository;
     }
 
@@ -44,6 +45,16 @@ public class UserService : IUserService
         return _cachedUserId;
     }
 
+    public string? GetUserRole()
+    {
+        if (_cachedUserRole is not null)
+            return _cachedUserRole;
+
+        _cachedUserRole = _httpContextAccessor.HttpContext?.User.FindFirstValue(MakassedClaimTypes.Roles);
+
+        return _cachedUserRole;
+    }
+
     public async Task<ErrorOr<string>> UploadUserAvatarAsync(IFormFile image)
     {
         var userId = GetUserId();
@@ -59,10 +70,10 @@ public class UserService : IUserService
 
         // Remove the old avatar from the Avatars folder.
         if (user.AvatarUrl is not null)
-            _localFilleStorageService.DeleteAvatar(user.AvatarUrl);
+            _localFileStorageService.DeleteAvatar(user.AvatarUrl);
 
         // Upload the new avatar to the Avatars folder.
-        var avatarUrl = await _localFilleStorageService.UploadFileAndGetUrlAsync(image, "Avatars");
+        var avatarUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(image, "Avatars");
 
         // Update the user's avatarUrl in the database.
         await _userRepository.SaveUserAvatarAsync(user, avatarUrl);

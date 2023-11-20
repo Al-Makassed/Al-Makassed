@@ -29,6 +29,11 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
 
         builder.CustomizeIdentityTablesNames();
 
+        builder.Entity<Policy>()
+               .HasOne(p => p.Creator)
+               .WithOne()
+               .HasForeignKey<Policy>(p=> p.CreatorId);
+
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

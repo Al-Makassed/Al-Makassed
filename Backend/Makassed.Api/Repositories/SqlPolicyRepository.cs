@@ -24,10 +24,8 @@ public class SqlPolicyRepository : IPolicyRepository
     }
 
     public async Task CreatePolicyAsync(Policy policy)
-     {
+    {
         await _dbContext.Policies.AddAsync(policy);
-
-        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes)
