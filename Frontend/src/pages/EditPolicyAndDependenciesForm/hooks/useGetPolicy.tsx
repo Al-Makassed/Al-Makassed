@@ -11,11 +11,7 @@ import { GetPolicy } from "../API/types";
 const useGetPolicy = ({ chapterId, policyId }: GetPolicy) => {
   const dispatch = useAppDispatch();
 
-  const {
-    data: policy,
-    isFetching,
-    error,
-  } = useQuery({
+  const { data: policy, error } = useQuery({
     queryFn: () => getPolicy({ chapterId, policyId }),
     queryKey: [POLICY_QUERY_KEY, { chapterId, policyId }],
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -34,7 +30,6 @@ const useGetPolicy = ({ chapterId, policyId }: GetPolicy) => {
 
   return {
     policy,
-    isFetching,
   };
 };
 
