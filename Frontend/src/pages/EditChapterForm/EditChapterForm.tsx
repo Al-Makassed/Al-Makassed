@@ -14,19 +14,22 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { useParams } from "react-router-dom";
-import useFetchChapter from "./hooks/useGetChapterById";
+import useGetChapterById from "./hooks/useGetChapterById";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import useDeletePolicyByCode from "./hooks/useDeletePolicyByCode";
+import useDeletePolicyByCode from "./hooks/useDeletePolicy";
 import useDeleteAllPolicies from "./hooks/useDeleteAllPolicies";
 import useRenameChapter from "./hooks/useRenameChapter";
 import { LoadingButton } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
 import EditChapterFormSkeleton from "./components/EditChapterFormSkeleton";
+import { Policy } from "./API/types";
 
 const EditChapterForm: FC = () => {
-  const { id } = useParams();
+  const { chapterId: chapterIdParam } = useParams();
 
-  const { chapter, isFetching } = useFetchChapter(id ?? "");
+  const id = chapterIdParam ?? "";
+
+  const { chapter, isFetching } = useGetChapterById(id);
 
   const theme = useTheme();
 
@@ -36,10 +39,12 @@ const EditChapterForm: FC = () => {
 
   const { renameChapter, isRenaming } = useRenameChapter();
 
-  if (!chapter) return <Typography variant="h1">Invalid chapter id</Typography>;
-
   const [chapterName, setChapterName] = useState<string>(chapter?.name ?? "");
 
+  const handleDeletePolicy = (policy: Policy) => {
+    console.log(policy.id);
+    deletePolicy({ chapterId: id, policyId: policy.id });
+  };
   const handleDeleteAllPolicies = () => {
     deleteAllPolicies(chapter?.id ?? "");
   };
@@ -121,14 +126,14 @@ const EditChapterForm: FC = () => {
         >
           {chapter?.policies?.map((policy, index) => (
             <ListItemButton key={index} sx={{ pl: 4 }}>
-              <ListItemIcon sx={{ color: "#d32f2f" }}>
+              <ListItemIcon sx={{ color: (theme) => theme.palette.error.main }}>
                 <PictureAsPdfIcon />
               </ListItemIcon>
               <ListItemText primary={policy.name} />
               <Tooltip title="Delete">
                 <IconButton
                   aria-label="Delete Policy"
-                  onClick={() => deletePolicy(policy.code)}
+                  onClick={() => handleDeletePolicy(policy)}
                 >
                   <DeleteIcon />
                 </IconButton>

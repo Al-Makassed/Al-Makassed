@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deletePolicyByCode } from "../API";
+import { deletePolicyAPI } from "../API";
 import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { CHAPTER_QUERY_KEY } from "../constants";
 
-const useDeletePolicyByCode = () => {
+const useDeletePolicy = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
   const { mutate: deletePolicy } = useMutation({
-    mutationFn: deletePolicyByCode,
+    mutationFn: deletePolicyAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [CHAPTER_QUERY_KEY],
@@ -39,4 +39,4 @@ const useDeletePolicyByCode = () => {
   };
 };
 
-export default useDeletePolicyByCode;
+export default useDeletePolicy;
