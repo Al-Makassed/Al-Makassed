@@ -34,6 +34,11 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
                .WithOne()
                .HasForeignKey<Policy>(p=> p.CreatorId);
 
+        builder.Entity<Dependency>()
+               .HasOne(d => d.Creator)
+               .WithOne()
+               .HasForeignKey<Dependency>(d => d.CreatorId);
+
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
