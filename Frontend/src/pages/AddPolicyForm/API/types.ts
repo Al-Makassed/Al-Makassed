@@ -11,7 +11,7 @@ export interface Policy {
 }
 
 export interface Dependency {
-  id:string;
+  id: string;
   code: string;
   pdfUrl: string;
   estimatedTime: number;

@@ -15,7 +15,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import { Policy } from "../API/types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import AddPolicy from "src/pages/AddPolicy";
+import AddPolicyForm from "src/pages/AddPolicyForm";
 import { useAppDispatch } from "src/store/hooks";
 import { toggleSidebar } from "src/features/appSettings";
 import { useNavigate } from "react-router-dom";
@@ -104,7 +104,11 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
             <Typography fontWeight={590}>Add Policy</Typography>
           </ListItemButton>
-          <AddPolicy chapterId={chapter.id}  open={isDialogOpen} onClose={handleCloseDialog} />
+          <AddPolicyForm
+            chapterId={chapter.id}
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+          />
         </List>
       </Collapse>
     </>

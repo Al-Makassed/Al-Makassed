@@ -65,7 +65,7 @@ const MaqasidDialogHeaderTitle: FC<
             noWrap
             variant={isFullscreen ? "h5" : "h6"}
             sx={{
-              fontSize: "1rem",
+              fontSize: "1.2rem",
               fontWeight: 500,
             }}
           >
