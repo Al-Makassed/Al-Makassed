@@ -58,7 +58,7 @@ public class PolicyDependenciesController : ApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreatePolicyDependency([FromForm] CreatePolicyDependencyRequest request,
-        Guid policyId)
+        Guid policyId, Guid chapterId)
     {
         var policyDependency= _mapper.Map<Dependency>(request);
 
@@ -68,7 +68,7 @@ public class PolicyDependenciesController : ApiController
         return policyDependencyCreationResult.Match(
             dependency => CreatedAtAction(
                 nameof(GetPolicyDependency),
-                new { id = dependency.Id, policyId = dependency.PolicyId },
+                new { id = dependency.Id, policyId = dependency.PolicyId, chapterId },
                 _mapper.Map<GetPolicyDependencyResponse>(dependency)
             ),
             errors => Problem(errors)
