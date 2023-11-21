@@ -1,6 +1,5 @@
 import { createTheme } from "@mui/material/styles";
 import customMixins from "./mixins";
-import { grey } from "@mui/material/colors";
 
 const maqasidTheme = createTheme({
   mixins: customMixins,
@@ -8,10 +7,11 @@ const maqasidTheme = createTheme({
     primary: {
       main: "#009688",
     },
-    maqasid: {
-      primary: "#009688",
-      secondary: grey[300],
-    },
+    // @deprecated - use primary instead
+    // maqasid: {
+    //   primary: "#009688",
+    //   secondary: grey[300],
+    // },
   },
   typography: {
     fontFamily: "Sora",
