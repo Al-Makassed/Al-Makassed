@@ -31,7 +31,7 @@ const AppRoutes: FC = () => {
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
-
+           
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
               <Route path=":chapterId" element={<h1>One Chapter</h1>} />

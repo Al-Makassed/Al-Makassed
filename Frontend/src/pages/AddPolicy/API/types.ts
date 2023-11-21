@@ -1,4 +1,5 @@
 export interface Policy {
+  id: string;
   code: string;
   name: string;
   state: boolean;
@@ -10,6 +11,7 @@ export interface Policy {
 }
 
 export interface Dependency {
+  id:string;
   code: string;
   pdfUrl: string;
   estimatedTime: number;
@@ -20,12 +22,13 @@ export interface Dependency {
 
 export interface PolicyResponse {
   Name: string;
+  Code: string;
   MainFile?: File;
   EstimatedTimeInMin: number;
-  ChapterId: string;
   Summary: string;
 }
 
 export interface PolicyRequest {
   formData: FormData;
+  chapterId: string;
 }

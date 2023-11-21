@@ -26,7 +26,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
   const handleClick = () => {
     setOpen(!open);
-    navigate(`/me/${chapter.id}`);
+    // navigate(`/me/${chapter.id}`);
   };
 
   const handleOpenDialog = () => setIsDialogOpen(true);
@@ -104,7 +104,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
             <Typography fontWeight={590}>Add Policy</Typography>
           </ListItemButton>
-          <AddPolicy open={isDialogOpen} onClose={handleCloseDialog} />
+          <AddPolicy chapterId={chapter.id}  open={isDialogOpen} onClose={handleCloseDialog} />
         </List>
       </Collapse>
     </>

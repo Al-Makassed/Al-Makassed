@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { Button, Dialog, DialogTitle, Stack } from "@mui/material";
 import { AddPolicyProps } from "./types";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,40 +9,45 @@ import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 const ValidationSchema = Yup.object().shape({
-  name: Yup.string().required("Policy name is required *"),
-  estimatedTime: Yup.number()
+  Name: Yup.string().required("Policy name is required *"),
+  EstimatedTimeInMin: Yup.number()
     .max(60, "Too long*")
     .positive("must be a positive number")
     .integer(" must be an integer"),
 });
 
-const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
+const AddPolicy: FC<AddPolicyProps> = ({ onClose, open, chapterId }) => {
+  // const { chapterId: chapterIdParam } = useParams();
+  // const chapterId = chapterIdParam ?? "";
   const { addNewPolicy } = useAddPolicyAPI();
   const closeDialog = () => onClose();
-  const { id } = useParams();
-  const [file, setFile] = useState();
+  // const { id } = useParams();
+  const [file, setFile] = useState<File>();
+
 
   const initialValues: PolicyResponse = {
     Name: "",
+    Code: "",
     EstimatedTimeInMin: 0,
     MainFile: undefined,
-    ChapterId: `${id}`,
     Summary: "",
   };
-  //@ts-ignore
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
+    }
   };
 
-  const onSubmit = (values: PolicyResponse) => {
+  const handleSubmit = (values: PolicyResponse) => {
+
     const formData = new FormData();
     formData.set("Name", values.Name);
+    formData.set("Code", values.Code);
     formData.set("MainFile", file!);
     formData.set("EstimatedTimeInMin", values.EstimatedTimeInMin.toString());
-    formData.set("ChapterId", values.ChapterId);
     formData.set("Summary", values.Summary);
-
-    addNewPolicy({ formData });
+    addNewPolicy({ formData, chapterId });
     closeDialog();
   };
 
@@ -70,12 +75,15 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={ValidationSchema}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
       >
+
         <Form>
           <Stack p={3} gap={2.5} justifyContent="center">
             <Field type="text" name="Name" placeholder="policyName" />
             <ErrorMessage name="name" component="div" />
+
+            <Field type="text" name="Code" placeholder="policyCode" />
 
             <Field
               type="number"
@@ -100,6 +108,7 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open }) => {
             </Stack>
           </Stack>
         </Form>
+
       </Formik>
     </Dialog>
   );

@@ -11,6 +11,7 @@ import { AxiosBaseError } from "src/types";
 const useGetPolicy = (chapterId: string, policyId: string) => {
   const dispatch = useAppDispatch();
   const {
+    //@ts-ignore
     data: policy,
     isFetching,
     isError,
