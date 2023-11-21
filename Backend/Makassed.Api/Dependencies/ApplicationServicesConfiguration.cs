@@ -14,6 +14,7 @@ using Makassed.Api.Services.MonitoringTools;
 using Makassed.Api.Services.FocalPointTasks;
 using Makassed.Api.Services.Users;
 using Makassed.Api.Services.Storage;
+using Makassed.Api.Services.ApprovalRequests;
 
 public static class ApplicationServicesConfiguration
 {
@@ -52,6 +53,9 @@ public static class ApplicationServicesConfiguration
 
         services.AddScoped<ILocalFileStorageService, LocalFileStorageService>();
         services.AddScoped<ICloudinaryStorageService, CloudinaryStorageService>();
+
+        services.AddScoped<IApprovalRequestService, ApprovalRequestService>();
+        services.AddScoped<IApprovalRequestRepository, SqlApprovalRequestRepository>();
 
         return services;
     }
