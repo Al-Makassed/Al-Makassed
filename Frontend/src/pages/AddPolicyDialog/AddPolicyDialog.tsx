@@ -1,21 +1,28 @@
-import React, { FC } from "react";
-import { Stack } from "@mui/material";
-import { AddPolicyProps } from "./types";
 import AddIcon from "@mui/icons-material/Add";
-import useAddPolicyForm from "./hooks/useAddPolicyForm";
-import TextField from "src/components/Fields/TextField";
 import { LoadingButton } from "@mui/lab";
+import { Stack } from "@mui/material";
+import { Form, FormikProvider } from "formik";
+import { FC } from "react";
+import FileDropzoneField from "src/components/Fields/FileDropzoneField";
+import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import { FormikProvider, Form } from "formik";
-import FileDropzone from "./components/FileDropzone";
+import useAddPolicyForm from "./hooks/useAddPolicyForm";
+import { AddPolicyDialogProps } from "./types";
 
-const AddPolicy: FC<AddPolicyProps> = ({ onClose, open, chapterId }) => {
+const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
+  onClose,
+  open,
+  chapterId,
+}) => {
   const formikProps = useAddPolicyForm(chapterId);
 
-  const { dirty, isValid, isSubmitting, resetForm, handleSubmit, submitForm } =
-    formikProps;
+  const { dirty, isValid, isSubmitting, resetForm, submitForm } = formikProps;
 
   const handleCloseDialog = () => onClose();
+
+  const handleSubmitForm = () => {
+    submitForm().then(() => resetForm());
+  };
 
   return (
     <MaqasidDialog
@@ -26,7 +33,7 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open, chapterId }) => {
       disableEscapeKeyDown
     >
       <FormikProvider value={formikProps}>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <MaqasidDialog.Header>
             <MaqasidDialog.Title title="Add Policy" />
             <MaqasidDialog.Actions>
@@ -51,13 +58,13 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open, chapterId }) => {
 
                 <TextField
                   name="EstimatedTimeInMin"
-                  label="Time in (min)"
+                  label="Time in minutes"
                   placeholder="e.g. 25"
                   type="number"
                   InputProps={{ inputProps: { min: 0 } }}
                 />
 
-                <FileDropzone />
+                <FileDropzoneField name="MainFile" />
 
                 <TextField
                   name="Summary"
@@ -69,7 +76,7 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open, chapterId }) => {
           </MaqasidDialog.Body>
           <MaqasidDialog.Footer>
             <LoadingButton
-              onClick={submitForm}
+              onClick={handleSubmitForm}
               type="submit"
               disabled={!dirty || !isValid}
               variant="contained"
@@ -88,4 +95,4 @@ const AddPolicy: FC<AddPolicyProps> = ({ onClose, open, chapterId }) => {
   );
 };
 
-export default AddPolicy;
+export default AddPolicyDialog;

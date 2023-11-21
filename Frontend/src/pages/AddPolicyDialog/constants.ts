@@ -8,5 +8,3 @@ export const initialValues: PolicyResponse = {
   MainFile: undefined,
   Summary: "",
 };
-
-export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB

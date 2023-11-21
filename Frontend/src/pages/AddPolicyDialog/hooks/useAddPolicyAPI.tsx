@@ -11,7 +11,7 @@ const useAddPolicyAPI = () => {
 
   const dispatch = useAppDispatch();
 
-  const { mutate: addNewPolicy } = useMutation({
+  const { mutate: addNewPolicy, isPending } = useMutation({
     mutationFn: createPolicy,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -23,7 +23,6 @@ const useAddPolicyAPI = () => {
         }),
       );
     },
-
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
       dispatch(
@@ -36,6 +35,7 @@ const useAddPolicyAPI = () => {
 
   return {
     addNewPolicy,
+    isPending,
   };
 };
 

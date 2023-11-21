@@ -1,6 +1,6 @@
 import { PolicyResponse } from "./API/types";
 
-export interface AddPolicyProps {
+export interface AddPolicyDialogProps {
   open: boolean;
   onClose: () => void;
   chapterId: string;
