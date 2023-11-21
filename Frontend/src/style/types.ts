@@ -3,12 +3,11 @@ import { MixinsOptions } from "@mui/material/styles/createMixins";
 
 export interface MaqasidPalette {
   primary: string;
-  secondary: string;
 }
 
 export interface MaqasidThemeMixins extends MixinsOptions {
-  // niceScroll: (configs?: NiceScrollConfigs) => {};
-  niceScroll: typeof noop;
+  /* eslint-disable @typescript-eslint/ban-types */
+  niceScroll: (width?: number) => {};
   showTextOverflowEllipsis: typeof noop;
   removeInputNumberArrows: typeof noop;
   hideTextFieldBorder: typeof noop;

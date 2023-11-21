@@ -7,11 +7,10 @@ const maqasidTheme = createTheme({
     primary: {
       main: "#009688",
     },
-    // @deprecated - use primary instead
-    // maqasid: {
-    //   primary: "#009688",
-    //   secondary: grey[300],
-    // },
+    // @deprecated - use palette.primary instead
+    maqasid: {
+      primary: "#009688",
+    },
   },
   typography: {
     fontFamily: "Sora",
