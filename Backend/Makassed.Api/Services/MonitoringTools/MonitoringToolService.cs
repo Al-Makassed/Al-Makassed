@@ -4,6 +4,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
 using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
+using Makassed.Api.Services.Users;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 
@@ -15,13 +16,15 @@ public class MonitoringToolService : IMonitoringToolService
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IFieldRepository _fieldRepository;
     private readonly IMapper _mapper;
+    private readonly IUserService _userService;
 
-    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper)
+    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper, IUserService userService)
     {
         _monitoringToolRepository = monitoringToolRepository;
         _departmentRepository = departmentRepository;
         _fieldRepository = fieldRepository;
         _mapper = mapper;
+        _userService = userService;
     }
 
     public async Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel)
@@ -95,6 +98,11 @@ public class MonitoringToolService : IMonitoringToolService
 
     public async Task<ErrorOr<MonitoringToolDto>> CreateMonitoringToolAsync(MonitoringTool monitoringTool, List<Guid> departmentsIdes, List<Guid> fieldsIdes)
     {
+        var userRole = _userService.GetUserRole();
+
+        if (userRole is null)
+            return Errors.User.Unauthorized;
+
         // Add the existed departments and fields to the monitoring tool
         var departments = await AssignDepartmentsAsync(monitoringTool, departmentsIdes);
 
@@ -105,6 +113,11 @@ public class MonitoringToolService : IMonitoringToolService
 
         if (fields.IsError)
             return fields.Errors;
+
+        monitoringTool.CreatorId = _userService.GetUserId()!;
+
+        if (userRole.Equals("Admin"))
+            monitoringTool.IsApproved = true;
 
         // Create the monitoring tool
         var result = await _monitoringToolRepository.CreateMonitoringToolAsync(monitoringTool);

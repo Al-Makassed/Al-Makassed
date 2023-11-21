@@ -32,12 +32,14 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
         builder.Entity<Policy>()
                .HasOne(p => p.Creator)
                .WithOne()
-               .HasForeignKey<Policy>(p=> p.CreatorId);
+               .HasForeignKey<Policy>(p=> p.CreatorId)
+               .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Dependency>()
                .HasOne(d => d.Creator)
                .WithOne()
-               .HasForeignKey<Dependency>(d => d.CreatorId);
+               .HasForeignKey<Dependency>(d => d.CreatorId)
+               .OnDelete(DeleteBehavior.Restrict);
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
