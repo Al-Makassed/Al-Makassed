@@ -1,21 +1,22 @@
-import React, { Avatar, Grid } from "@mui/material";
+import { FC } from "react";
+import { Avatar, Grid } from "@mui/material";
 import maqasidLogo from "../../../images/logo.jpg";
 
-const LoginBackground = () => {
+const LoginBackground: FC = () => {
   return (
     <Grid
       item
-      sm={4}
-      md={5}
+      xs={0}
+      md={6}
       sx={{
         width: "100%",
         bgcolor: "primary.main",
+        justifyContent: "center",
         alignItems: "center",
         display: {
           xs: "none",
-          sm: "flex",
+          md: "flex",
         },
-        justifyContent: "center",
       }}
     >
       <Avatar

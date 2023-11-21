@@ -3,7 +3,7 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
-const Login = lazy(() => import("src/pages/Login"));
+const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
@@ -24,7 +24,7 @@ const AppRoutes: FC = () => {
   return (
     <Suspense fallback={<BlockUI />}>
       <Routes>
-        <Route path="login" element={<Login />} />
+        <Route path="login" element={<LoginPage />} />
         <Route path="" element={<LandingPage />} />
 
         <Route path="me" element={<AppLayout />}>
