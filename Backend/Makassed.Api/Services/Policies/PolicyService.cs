@@ -56,7 +56,7 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Created>> CreatePolicyAsync(Guid chapterId, Policy policy)
     {
-        var userRole = _userService.GetUserRole();
+        var userRole = await _userService.GetUserRoleAsync();
 
         if (userRole == null)
             return Errors.User.Unauthorized;

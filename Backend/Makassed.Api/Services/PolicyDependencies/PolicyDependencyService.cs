@@ -49,7 +49,7 @@ public class PolicyDependencyService : IPolicyDependencyService
 
     public async Task<ErrorOr<Dependency>> CreatePolicyDependencyAsync(Dependency policyDependency, Guid policyId)
     {
-        var userRole = _userService.GetUserRole();
+        var userRole = await _userService.GetUserRoleAsync();
 
         if (userRole == null)
             return Errors.User.Unauthorized;

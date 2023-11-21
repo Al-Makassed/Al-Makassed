@@ -98,7 +98,7 @@ public class MonitoringToolService : IMonitoringToolService
 
     public async Task<ErrorOr<MonitoringToolDto>> CreateMonitoringToolAsync(MonitoringTool monitoringTool, List<Guid> departmentsIdes, List<Guid> fieldsIdes)
     {
-        var userRole = _userService.GetUserRole();
+        var userRole = await _userService.GetUserRoleAsync();
 
         if (userRole is null)
             return Errors.User.Unauthorized;

@@ -12,8 +12,7 @@ public class MonitoringToolConfiguration : IEntityTypeConfiguration<MonitoringTo
                .WithOne(ft => ft.MonitoringTool);
 
         builder.HasOne(mt => mt.Creator)
-               .WithOne()
-               .HasForeignKey<MonitoringTool>(mt => mt.CreatorId)
+               .WithMany()
                .OnDelete(DeleteBehavior.Restrict);
     }
 }

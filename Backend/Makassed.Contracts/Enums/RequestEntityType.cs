@@ -2,7 +2,7 @@
 
 public enum RequestEntityType
 {
-    policy,
-    dependency,
-    monitoringTool
+    Policy,
+    Dependency,
+    MonitoringTool
 }

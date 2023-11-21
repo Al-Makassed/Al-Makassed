@@ -45,12 +45,24 @@ public class UserService : IUserService
         return _cachedUserId;
     }
 
-    public string? GetUserRole()
+    public async Task<string?> GetUserRoleAsync()
     {
-        if (_cachedUserRole is not null)
-            return _cachedUserRole;
+        var userId = GetUserId();
 
-        _cachedUserRole = _httpContextAccessor.HttpContext?.User.FindFirstValue(MakassedClaimTypes.Roles);
+        if (userId is null)
+            return null;
+
+        if (_cachedUserRole is null)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+                return null;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            _cachedUserRole = roles.FirstOrDefault();
+        }
 
         return _cachedUserRole;
     }

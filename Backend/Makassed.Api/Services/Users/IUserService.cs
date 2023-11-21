@@ -6,7 +6,7 @@ public interface IUserService
 {
     string? GetUserId();
 
-    string? GetUserRole();
+    Task<string?> GetUserRoleAsync();
 
     Task<ErrorOr<string>> UploadUserAvatarAsync(IFormFile file);
 }
