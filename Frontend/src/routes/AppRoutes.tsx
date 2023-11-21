@@ -13,9 +13,9 @@ const Unauthenticated = lazy(() => import("src/pages/Unauthenticated"));
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
-  () => import("src/pages/ResetPasswordForm"),
+  () => import("src/pages/ResetForgottenPasswordForm"),
 );
-const EditChapter = lazy(() => import("src/pages/EditChapterForm"));
+const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
 const EditPolicyAndDependenciesForm = lazy(
   () => import("src/pages/EditPolicyAndDependenciesForm"),
 );
@@ -31,11 +31,11 @@ const AppRoutes: FC = () => {
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
-           
+
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
               <Route path=":chapterId" element={<h1>One Chapter</h1>} />
-              <Route path="edit/:chapterId" element={<EditChapter />} />
+              <Route path="edit/:chapterId" element={<EditChapterForm />} />
               <Route
                 path=":chapterId/policies"
                 element={<h1>Policies of a Chapter</h1>}

@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import useGetPolicy from "./hooks/useGetPolicy";
-import { Stack, Typography, Link, Tooltip, IconButton } from "@mui/material";
+import { Stack, Typography, Tooltip, IconButton, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import PolicyDependencies from "src/pages/PolicyDependencies";
 import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
 import EditIcon from "@mui/icons-material/Edit";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
 
 const PolicyDetails: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -36,11 +36,7 @@ const PolicyDetails: FC = () => {
           {policy.code}
         </Typography>
         <Stack direction="row">
-          <Typography
-            fontWeight={600}
-            variant="h5"
-            sx={{ color: (theme) => theme.palette.maqasid.primary }}
-          >
+          <Typography fontWeight={600} variant="h5">
             {policy.name}
           </Typography>
           <Tooltip title="Edit Policy">
@@ -54,24 +50,14 @@ const PolicyDetails: FC = () => {
           </Tooltip>
         </Stack>
 
-        <Link
-          target="_blank"
-          rel="noopener"
+        <Button
+          startIcon={<FileOpenIcon />}
           href={policy.pdfUrl}
-          underline="none"
-          display="flex"
-          flexDirection="row"
-          gap={1}
-          justifyContent="center"
+          target="_blank"
+          variant="contained"
         >
-          <PictureAsPdfOutlinedIcon sx={{ color: "red" }} />
-          <Typography
-            variant="subtitle1"
-            sx={{ color: (theme) => theme.palette.text.primary }}
-          >
-            get policy&apos;s pdf
-          </Typography>
-        </Link>
+          Open Policy File
+        </Button>
       </Stack>
 
       <PolicyDependencies />

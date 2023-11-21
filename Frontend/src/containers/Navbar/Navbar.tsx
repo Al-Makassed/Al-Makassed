@@ -24,13 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar
-      position="static"
-      elevation={0}
-      sx={{
-        bgcolor: (theme) => theme.palette.maqasid.primary,
-      }}
-    >
+    <AppBar position="static" elevation={0} color="primary">
       <Toolbar sx={{ gap: 1 }}>
         <SidebarChevron />
 

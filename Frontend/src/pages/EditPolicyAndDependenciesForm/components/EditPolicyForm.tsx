@@ -87,14 +87,12 @@ const EditPolicyForm: FC = () => {
 
         <TextField
           value={policyCode}
-          color="success"
           label="Policy Code"
           variant="outlined"
           onChange={handleChangePolicyCode}
         />
         <TextField
           value={policyName}
-          color="success"
           label="Policy Name"
           variant="outlined"
           onChange={handleChangePolicyName}
@@ -106,7 +104,6 @@ const EditPolicyForm: FC = () => {
         </Stack>
 
         <TextField
-          color="success"
           variant="standard"
           value={summary}
           onChange={handleChangeSummary}
@@ -119,7 +116,6 @@ const EditPolicyForm: FC = () => {
             value={estimatedTimeInMin}
             onChange={handleChangePolicyTime}
             type="number"
-            color="success"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -134,7 +130,6 @@ const EditPolicyForm: FC = () => {
           loading={isUpdating}
           loadingPosition="start"
           size="medium"
-          color="success"
           type="submit"
           variant="contained"
           onClick={handleSubmitChanges}

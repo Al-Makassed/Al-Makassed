@@ -72,15 +72,15 @@ const LoginForm = () => {
           variant="h3"
           fontWeight={500}
           fontSize={{ xs: "1.8em", sm: "2.8em" }}
-          sx={{
-            color: (theme) => theme.palette.maqasid.primary,
-          }}
         >
-          Login to Maqasid
+          Login
+        </Typography>
+        <Typography variant="subtitle1" sx={{ mt: 1 }} color="grey">
+          🩺 Al-Maqasid Platform, Your Gateway to Effortless Hospital Management
+          🚀
         </Typography>
         <Box component="form" onSubmit={handleSubmitForm} sx={{ mt: 1 }}>
           <TextField
-            color="success"
             variant="standard"
             margin="normal"
             // required
@@ -97,11 +97,7 @@ const LoginForm = () => {
             {errors.userId?.message}
           </Typography>
 
-          <FormControl
-            sx={{ m: 1, width: "25ch" }}
-            variant="standard"
-            color="success"
-          >
+          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Password
             </InputLabel>
@@ -136,7 +132,6 @@ const LoginForm = () => {
             control={
               <Checkbox
                 value="remember"
-                color="success"
                 onChange={handleRememberMeChange}
                 checked={rememberMe}
               />
@@ -144,7 +139,6 @@ const LoginForm = () => {
             label="Remember me"
           />
           <LoadingButton
-            color="success"
             type="submit"
             fullWidth
             variant="contained"
@@ -164,11 +158,7 @@ const LoginForm = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <Button
-                variant="text"
-                color="success"
-                onClick={goToForgotPassword}
-              >
+              <Button variant="text" onClick={goToForgotPassword}>
                 Forgot password?
               </Button>
             </Grid>

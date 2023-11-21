@@ -9,7 +9,7 @@ const LoginBackground = () => {
       md={5}
       sx={{
         width: "100%",
-        bgcolor: (theme) => theme.palette.maqasid.primary,
+        bgcolor: "primary.main",
         alignItems: "center",
         display: {
           xs: "none",

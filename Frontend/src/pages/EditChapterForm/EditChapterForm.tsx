@@ -72,75 +72,80 @@ const EditChapterForm: FC = () => {
         ...theme.mixins.niceScroll(),
       }}
     >
-      <Stack spacing={3} padding={6} width={500}>
+      <Stack gap={3} padding={6} width={500}>
         <Typography component="h1" variant="h4" fontWeight={600}>
           Edit Chapter
         </Typography>
 
         <TextField
-          color="success"
           label="Chapter Name"
           variant="outlined"
           value={chapterName}
           onChange={handleChangeChapterName}
         />
+
         <LoadingButton
           loading={isRenaming}
           loadingPosition="start"
           size="medium"
-          color="success"
           type="submit"
           variant="contained"
           aria-label="Forgot"
           onClick={handleSubmitChanges}
-          endIcon={<DriveFileRenameOutlineIcon />}
+          startIcon={<DriveFileRenameOutlineIcon />}
           disabled={chapterName === ""}
         >
           Rename Chapter
         </LoadingButton>
-        <Stack
-          direction="row"
-          sx={{ justifyContent: "space-between", mt: 2, pl: 1 }}
-        >
-          <Typography variant="h5" fontWeight={500}>
-            Chapter Policies
-          </Typography>
 
-          <Tooltip title="Delete All">
-            <IconButton
-              color="error"
-              aria-label="Delete All"
-              onClick={handleDeleteAllPolicies}
-              sx={{ mr: 2 }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </Stack>
-        <List
-          sx={{
-            border: (theme) => `1px dashed ${theme.palette.success.main}`,
-            borderRadius: (theme) => theme.shape.borderRadius,
-          }}
-          disablePadding
-        >
-          {chapter?.policies?.map((policy, index) => (
-            <ListItemButton key={index} sx={{ pl: 4 }}>
-              <ListItemIcon sx={{ color: (theme) => theme.palette.error.main }}>
-                <PictureAsPdfIcon />
-              </ListItemIcon>
-              <ListItemText primary={policy.name} />
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete Policy"
-                  onClick={() => handleDeletePolicy(policy)}
+        <Stack sx={{ mt: 1 }} gap={1}>
+          <Stack
+            direction="row"
+            sx={{ justifyContent: "space-between", pl: 1 }}
+          >
+            <Typography variant="h5" fontWeight={500}>
+              Chapter Policies
+            </Typography>
+
+            <Tooltip title="Delete All">
+              <IconButton
+                color="error"
+                aria-label="Delete All"
+                onClick={handleDeleteAllPolicies}
+                sx={{ mr: 2 }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+          <List
+            sx={{
+              border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
+              borderRadius: (theme) => theme.shape.borderRadius,
+              mt: 0,
+            }}
+            disablePadding
+          >
+            {chapter?.policies?.map((policy, index) => (
+              <ListItemButton key={index} sx={{ pl: 4 }}>
+                <ListItemIcon
+                  sx={{ color: (theme) => theme.palette.error.main }}
                 >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </ListItemButton>
-          ))}
-        </List>
+                  <PictureAsPdfIcon />
+                </ListItemIcon>
+                <ListItemText primary={policy.name} />
+                <Tooltip title="Delete">
+                  <IconButton
+                    aria-label="Delete Policy"
+                    onClick={() => handleDeletePolicy(policy)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </ListItemButton>
+            ))}
+          </List>
+        </Stack>
       </Stack>
     </Grid>
   );

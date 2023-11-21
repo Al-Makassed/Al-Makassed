@@ -1,7 +1,6 @@
 import React, { FC, useState, ChangeEvent, MouseEvent } from "react";
 import {
   Avatar,
-  Button,
   FormControl,
   Grid,
   IconButton,
@@ -19,9 +18,8 @@ import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar } from "src/features/snackbar";
-import { useNavigate } from "react-router-dom";
 
-const ResetForgotPasswordForm: FC = () => {
+const ResetForgottenPasswordForm: FC = () => {
   const url = new URL(window.location.href);
 
   const email = url.searchParams.get("email") ?? "";
@@ -77,9 +75,6 @@ const ResetForgotPasswordForm: FC = () => {
       );
     }
   };
-  const navigate = useNavigate();
-
-  const goToLogIn = () => navigate("/login");
 
   return (
     <Grid
@@ -127,18 +122,11 @@ const ResetForgotPasswordForm: FC = () => {
             variant="h3"
             fontWeight={500}
             fontSize={{ xs: "1.8em", sm: "2.3em" }}
-            sx={{
-              color: (theme) => theme.palette.maqasid.primary,
-            }}
           >
             Reset Password
           </Typography>
           <Stack gap={3}>
-            <FormControl
-              sx={{ width: "25ch" }}
-              variant="standard"
-              color="success"
-            >
+            <FormControl sx={{ width: "25ch" }} variant="standard">
               <InputLabel htmlFor="standard-adornment-password">
                 Password
               </InputLabel>
@@ -147,7 +135,6 @@ const ResetForgotPasswordForm: FC = () => {
                 onChange={handleChangePassword}
                 id="standard-adornment-password"
                 type={showPassword ? "text" : "password"}
-                placeholder=" eg p@ssw0rd12#"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -161,11 +148,7 @@ const ResetForgotPasswordForm: FC = () => {
                 }
               />
             </FormControl>
-            <FormControl
-              sx={{ width: "25ch" }}
-              variant="standard"
-              color="success"
-            >
+            <FormControl sx={{ width: "25ch" }} variant="standard">
               <InputLabel htmlFor="standard-adornment-password">
                 Confirm Password
               </InputLabel>
@@ -174,7 +157,6 @@ const ResetForgotPasswordForm: FC = () => {
                 onChange={handleChangeConfirmPassword}
                 id="standard-adornment-password"
                 type={showPasswordConfirm ? "text" : "password"}
-                placeholder=" eg p@ssw0rd12#"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -192,7 +174,6 @@ const ResetForgotPasswordForm: FC = () => {
             <LoadingButton
               loading={isPending}
               loadingPosition="start"
-              color="success"
               type="submit"
               fullWidth
               variant="contained"
@@ -202,9 +183,6 @@ const ResetForgotPasswordForm: FC = () => {
             >
               Reset Password
             </LoadingButton>
-            <Button variant="text" color="success" onClick={goToLogIn}>
-              LogIn
-            </Button>
           </Stack>
         </Stack>
       </Grid>
@@ -212,4 +190,4 @@ const ResetForgotPasswordForm: FC = () => {
   );
 };
 
-export default ResetForgotPasswordForm;
+export default ResetForgottenPasswordForm;

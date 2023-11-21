@@ -16,8 +16,6 @@ import { ChapterListItemProps } from "../types";
 import { Policy } from "../API/types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import AddPolicyDialog from "src/pages/AddPolicyDialog";
-import { useAppDispatch } from "src/store/hooks";
-import { toggleSidebar } from "src/features/appSettings";
 import { useNavigate } from "react-router-dom";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
@@ -32,19 +30,10 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
   const navigate = useNavigate();
 
-  const handleEditChapter = () => {
-    dispatch(toggleSidebar());
+  const handleEditChapter = () => navigate(`chapters/edit/${chapter.id}`);
 
-    navigate(`chapters/edit/${chapter.id}`);
-  };
-
-  const dispatch = useAppDispatch();
-
-  const handleClickPolicy = (policy: Policy) => () => {
-    dispatch(toggleSidebar());
-
+  const handleClickPolicy = (policy: Policy) => () =>
     navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
-  };
 
   return (
     <>
@@ -92,7 +81,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
           <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
             <ListItemIcon
               sx={{
-                color: (theme) => theme.palette.maqasid.primary,
+                color: "primary.main",
                 mr: -2.5,
               }}
             >
