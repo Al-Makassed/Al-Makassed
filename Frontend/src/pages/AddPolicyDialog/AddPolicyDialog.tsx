@@ -14,26 +14,28 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
   open,
   chapterId,
 }) => {
-  const formikProps = useAddPolicyForm(chapterId);
+  const { formikProps, isPending } = useAddPolicyForm(chapterId);
 
-  const { dirty, isValid, isSubmitting, resetForm, submitForm } = formikProps;
+  const { dirty, isValid, resetForm, submitForm } = formikProps;
+
+  const handleSubmitForm = async () => {
+    await submitForm();
+    resetForm();
+  };
 
   const handleCloseDialog = () => onClose();
 
-  const handleSubmitForm = () => {
-    submitForm().then(() => resetForm());
-  };
-
   return (
-    <MaqasidDialog
-      isOpen={open}
-      onClose={handleCloseDialog}
-      onClosed={() => resetForm()}
-      disableBackdropClick
-      disableEscapeKeyDown
-    >
-      <FormikProvider value={formikProps}>
-        <Form>
+    <FormikProvider value={formikProps}>
+      <Form>
+        <MaqasidDialog
+          isOpen={open}
+          onClose={handleCloseDialog}
+          onClosed={() => resetForm()}
+          disableBackdropClick
+          disableEscapeKeyDown
+          // variant="right"
+        >
           <MaqasidDialog.Header>
             <MaqasidDialog.Title title="Add Policy" />
             <MaqasidDialog.Actions>
@@ -41,7 +43,7 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
               <MaqasidDialog.Close />
             </MaqasidDialog.Actions>
           </MaqasidDialog.Header>
-          <MaqasidDialog.Body>
+          <MaqasidDialog.Body niceScroll>
             <FormikProvider value={formikProps}>
               <Stack p={3} gap={2.5} justifyContent="center">
                 <TextField
@@ -83,15 +85,15 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
               color="primary"
               startIcon={<AddIcon />}
               aria-label="Add policy"
-              loading={isSubmitting}
+              loading={isPending}
               loadingPosition="start"
             >
               Add
             </LoadingButton>
           </MaqasidDialog.Footer>
-        </Form>
-      </FormikProvider>
-    </MaqasidDialog>
+        </MaqasidDialog>
+      </Form>
+    </FormikProvider>
   );
 };
 

@@ -5,7 +5,7 @@ import { AddPolicyFormPayload } from "../types";
 import useAddPolicyAPI from "./useAddPolicyAPI";
 
 const useAddPolicyForm = (chapterId: string) => {
-  const { addNewPolicy } = useAddPolicyAPI();
+  const { addNewPolicy, isPending } = useAddPolicyAPI();
 
   const submitForm = (values: AddPolicyFormPayload) => {
     const formData = new FormData();
@@ -24,7 +24,7 @@ const useAddPolicyForm = (chapterId: string) => {
     onSubmit: submitForm,
   });
 
-  return formikProps;
+  return { formikProps, isPending };
 };
 
 export default useAddPolicyForm;
