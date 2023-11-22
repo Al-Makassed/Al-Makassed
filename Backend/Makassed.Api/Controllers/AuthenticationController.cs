@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Makassed.Contracts.Authentication;
-using UserManagement.Service.Services.Email;
+using Makassed.Email.Service.Services;
 using Makassed.Contracts.General;
 using Makassed.Contracts.User.Roles;
 using System.IdentityModel.Tokens.Jwt;

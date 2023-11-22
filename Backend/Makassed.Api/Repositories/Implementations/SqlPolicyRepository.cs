@@ -54,7 +54,6 @@ public class SqlPolicyRepository : IPolicyRepository
             return null;
             
         _dbContext.Policies.Remove(policy);
-        await _dbContext.SaveChangesAsync();
 
         return policy;
     }

@@ -83,5 +83,7 @@ public class SqlChapterRepository : IChapterRepository
             return;
         
         chapter.EnableState = chapter.Policies.Count > 0;
+
+        await _dbContext.SaveChangesAsync();
     }
 }

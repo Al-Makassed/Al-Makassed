@@ -4,12 +4,11 @@ using Makassed.Api.Repositories.Interfaces;
 namespace Makassed.Api.Dependencies;
 
 using Microsoft.Extensions.DependencyInjection;
-using Repositories;
 using Services.Authentication;
 using Services.Chapters;
 using Services.Policies;
 using Services.PolicyDependencies;
-using UserManagement.Service.Services.Email;
+using Makassed.Email.Service.Services;
 using Services.MonitoringTools.Fields;
 using Services.Users.Departments;
 using Services.MonitoringTools;

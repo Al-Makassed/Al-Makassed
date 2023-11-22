@@ -1,12 +1,11 @@
 ﻿using ErrorOr;
-using Makassed.Api.Repositories;
-using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 using Makassed.Api.Services.Storage;
 using Makassed.Api.Services.Users;
+using Policy = Makassed.Api.Models.Domain.Policy;
 
 namespace Makassed.Api.Services.Policies;
 
@@ -99,7 +98,7 @@ public class PolicyService : IPolicyService
         
         await _policyRepository.CreatePolicyAsync(policy);
 
-        await _chapterRepository.UpdateChapterEnableStateAsync(existedChapter.Id);
+        existedChapter.EnableState = (existedChapter.Policies.Count + 1) > 0;
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -108,7 +107,9 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Deleted>> DeletePolicyAsync(Guid chapterId, Guid id)
     {
-        if (!await CheckChapterExists(chapterId))
+        var chapter = await _chapterRepository.GetChapterByIdAsync(chapterId);
+
+        if (chapter is null)
             return Errors.Chapter.NotFound;
 
         var deletedPolicy = await _policyRepository.DeletePolicyAsync(id);
@@ -116,7 +117,9 @@ public class PolicyService : IPolicyService
         if (deletedPolicy is null)
             return Errors.Policy.NotFound;
 
-        await _chapterRepository.UpdateChapterEnableStateAsync(deletedPolicy.ChapterId);
+        chapter.EnableState = (chapter.Policies.Count - 1)  > 0;
+
+        await _unitOfWork.SaveChangesAsync();
         
         return Result.Deleted;
     }
