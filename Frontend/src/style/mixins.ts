@@ -1,7 +1,7 @@
 import { MaqasidThemeMixins } from "./types";
 
 const customMixins: MaqasidThemeMixins = {
-  niceScroll: () => {
+  niceScroll: (width = 10) => {
     return {
       overflow: "auto",
       transition: "all 0.3s ease",
@@ -12,9 +12,8 @@ const customMixins: MaqasidThemeMixins = {
         },
       },
       "&::-webkit-scrollbar": {
-        // width: 10,
         height: 10 /* height of horizontal scrollbar ← You're missing this */,
-        width: 9 /* width of vertical scrollbar */,
+        width /* width of vertical scrollbar */,
         position: "fixed",
         backgroundColor: "rgba(0,0,0,0)",
       },

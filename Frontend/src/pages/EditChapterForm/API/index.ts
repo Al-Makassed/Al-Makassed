@@ -1,18 +1,19 @@
 import axios from "src/API/axios";
-import { Chapter, RenameChapterRequest } from "./types";
+import { Chapter, DeletePolicy, RenameChapterRequest } from "./types";
 
 export const getChapterById = (id: string) => {
+  // console.log(id);
   return axios.get<Chapter>(`/chapters/${id}`).then((res) => res.data);
 };
 
-export const deletePolicyByCode = (code: string) => {
-  return axios.delete<void>(`/policies/${code}`).then((res) => res.data);
+export const deletePolicyAPI = ({ chapterId, policyId: Id }: DeletePolicy) => {
+  return axios
+    .delete<void>(`/chapters/${chapterId}/policies/${Id}`)
+    .then((res) => res.data);
 };
 
 export const deleteAllPoliciesAPI = (id: string) => {
-  return axios
-    .delete<void>(`/policies?chapterId=${id}`)
-    .then((res) => res.data);
+  return axios.delete<void>(`/chapters/${id}/policies`).then((res) => res.data);
 };
 
 export const renameChapterAPI = ({

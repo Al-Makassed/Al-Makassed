@@ -4,7 +4,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { CHAPTER_QUERY_KEY } from "../constants";
+import { CHAPTERS_QUERY_KEY } from "src/containers/Sidebar/constants";
 
 const useRenameChapter = () => {
   const queryClient = useQueryClient();
@@ -15,7 +15,7 @@ const useRenameChapter = () => {
     mutationFn: renameChapterAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [CHAPTER_QUERY_KEY],
+        queryKey: CHAPTERS_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

@@ -1,14 +1,25 @@
 import React, { forwardRef } from "react";
-import DialogContent, { DialogContentProps } from "@mui/material/DialogContent";
-
-interface MaqasidDialogBodyProps extends DialogContentProps {}
+import DialogContent from "@mui/material/DialogContent";
+import { Theme, useTheme } from "@mui/material/styles";
+import { MaqasidDialogBodyProps } from "./types";
 
 const MaqasidDialogBody = forwardRef<HTMLDivElement, MaqasidDialogBodyProps>(
   (props, ref) => {
-    const { dividers = true, children, ...rest } = props;
+    const { dividers = true, children, niceScroll, ...rest } = props;
+
+    const theme = useTheme<Theme>();
 
     return (
-      <DialogContent dividers={dividers} ref={ref} {...rest}>
+      <DialogContent
+        dividers={dividers}
+        ref={ref}
+        {...rest}
+        sx={{
+          ...(niceScroll && {
+            ...theme.mixins.niceScroll(),
+          }),
+        }}
+      >
         {children}
       </DialogContent>
     );

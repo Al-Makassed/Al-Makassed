@@ -1,8 +1,8 @@
 import * as yup from "yup";
 
-const loginSchema = yup.object().shape({
-  userId: yup.string().required("Your ID is required!"),
-  password: yup.string().required("Your password is required!"),
+const validationSchema = yup.object().shape({
+  userId: yup.string().required("Please enter your user ID"),
+  password: yup.string().required("Please enter your password"),
 });
 
-export default loginSchema;
+export default validationSchema;

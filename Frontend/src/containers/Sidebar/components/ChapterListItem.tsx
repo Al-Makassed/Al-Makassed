@@ -15,35 +15,30 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ChapterListItemProps } from "../types";
 import { Policy } from "../API/types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import { useAppDispatch } from "src/store/hooks";
-import { toggleSidebar } from "src/features/appSettings";
+import AddPolicyDialog from "src/pages/AddPolicyDialog";
 import { useNavigate } from "react-router-dom";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleClickChapter = () => setOpen(!open);
+
+  const handleOpenDialog = () => setIsDialogOpen(true);
+
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
   const navigate = useNavigate();
 
-  const handleEditChapter = () => {
-    dispatch(toggleSidebar());
+  const handleEditChapter = () => navigate(`chapters/edit/${chapter.id}`);
 
-    // navigate(`/me/edit-chapter/${chapter.id}`);
-    navigate(`/me/${chapter.id}/edit`);
-  };
-
-  const handleClick = () => setOpen(!open);
-
-  const dispatch = useAppDispatch();
-
-  const handleClickPolicy = (policy: Policy) => () => {
-    dispatch(toggleSidebar());
+  const handleClickPolicy = (policy: Policy) => () =>
     navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
-  };
 
   return (
     <>
       <Box sx={{ display: "flex", height: 55 }}>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={handleClickChapter}>
           <ListItemIcon sx={{ mr: -2.5 }}>
             <MenuBookIcon color="action" />
           </ListItemIcon>
@@ -83,18 +78,23 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
               <ListItemText primary={policy.name} />
             </ListItemButton>
           ))}
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
             <ListItemIcon
               sx={{
-                color: (theme) => theme.palette.maqasid.primary,
+                color: "primary.main",
                 mr: -2.5,
               }}
             >
               <AddIcon />
             </ListItemIcon>
-            {/* <ListItemText primary="Add policy" /> */}
+
             <Typography fontWeight={590}>Add Policy</Typography>
           </ListItemButton>
+          <AddPolicyDialog
+            chapterId={chapter.id}
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+          />
         </List>
       </Collapse>
     </>

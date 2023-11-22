@@ -30,7 +30,6 @@ const AddChapterButton = () => {
         direction="row"
       >
         <Button
-          color="success"
           variant="contained"
           startIcon={<AddIcon />}
           onClick={handleOpenDialog}

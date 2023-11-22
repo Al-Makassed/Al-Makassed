@@ -1,4 +1,5 @@
 import { DialogProps } from "@mui/material/Dialog";
+import { DialogContentProps } from "@mui/material/DialogContent";
 
 export type MaqasidDialogVariant = "right" | "center";
 
@@ -27,4 +28,8 @@ export interface MaqasidDialogProps
 
 export interface StyledDialogProps extends DialogProps {
   variant?: MaqasidDialogVariant;
+}
+
+export interface MaqasidDialogBodyProps extends DialogContentProps {
+  niceScroll?: boolean;
 }

@@ -74,6 +74,61 @@ const Home: FC = () => {
               placeholder="e.g. I love this dialog component!"
               onChange={handleChangeTextField}
             />
+
+            <Typography variant="body1">
+              Here goes the body, here goes the body, here goes the body, here
+            </Typography>
+
+            <TextField
+              label="What dou you think?"
+              variant="outlined"
+              placeholder="e.g. I love this dialog component!"
+              onChange={handleChangeTextField}
+            />
+
+            <Typography variant="body1">
+              Here goes the body, here goes the body, here goes the body, here
+            </Typography>
+
+            <TextField
+              label="What dou you think?"
+              variant="outlined"
+              placeholder="e.g. I love this dialog component!"
+              onChange={handleChangeTextField}
+            />
+
+            <Typography variant="body1">
+              Here goes the body, here goes the body, here goes the body, here
+            </Typography>
+
+            <TextField
+              label="What dou you think?"
+              variant="outlined"
+              placeholder="e.g. I love this dialog component!"
+              onChange={handleChangeTextField}
+            />
+
+            <Typography variant="body1">
+              Here goes the body, here goes the body, here goes the body, here
+            </Typography>
+
+            <TextField
+              label="What dou you think?"
+              variant="outlined"
+              placeholder="e.g. I love this dialog component!"
+              onChange={handleChangeTextField}
+            />
+
+            <Typography variant="body1">
+              Here goes the body, here goes the body, here goes the body, here
+            </Typography>
+
+            <TextField
+              label="What dou you think?"
+              variant="outlined"
+              placeholder="e.g. I love this dialog component!"
+              onChange={handleChangeTextField}
+            />
           </Stack>
         </MaqasidDialog.Body>
         <MaqasidDialog.Footer>

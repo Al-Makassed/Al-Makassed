@@ -12,7 +12,7 @@ const useLoginAPI = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { mutate: loginUser, isPending: isLoggingIn } = useMutation({
+  const { mutateAsync: loginUser, isPending: isLoggingIn } = useMutation({
     mutationFn: loginApi,
     onSuccess: (response) => {
       localStorage.setItem(ACCESS_TOKEN_KEY, response.token);
@@ -38,7 +38,7 @@ const useLoginAPI = () => {
         }),
       );
       navigate("/me");
-      window.location.reload();
+      // window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);

@@ -1,13 +1,15 @@
 import { createTheme } from "@mui/material/styles";
 import customMixins from "./mixins";
-import { green, grey } from "@mui/material/colors";
 
 const maqasidTheme = createTheme({
   mixins: customMixins,
   palette: {
+    primary: {
+      main: "#009688",
+    },
+    // @deprecated - use palette.primary instead
     maqasid: {
-      primary: green[800],
-      secondary: grey[300],
+      primary: "#009688",
     },
   },
   typography: {

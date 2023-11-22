@@ -12,7 +12,7 @@ const ChaptersList = () => {
 
   const { chapters, isFetching } = useFetchChapters(isSidebarOpen);
 
-  if (isFetching) return <LoaderCell size={38} color="success" />;
+  if (isFetching) return <LoaderCell size={38} />;
 
   return (
     <List

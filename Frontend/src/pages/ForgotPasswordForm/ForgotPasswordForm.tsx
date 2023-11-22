@@ -68,14 +68,13 @@ const ForgetPassword: FC = () => {
             fontWeight={500}
             fontSize={{ xs: "1.8em", sm: "2.3em" }}
             sx={{
-              color: (theme) => theme.palette.maqasid.primary,
+              color: "primary.main",
             }}
           >
             Forgot Password
           </Typography>
           <Stack gap={1}>
             <TextField
-              color="success"
               variant="standard"
               margin="normal"
               fullWidth
@@ -91,7 +90,6 @@ const ForgetPassword: FC = () => {
             <LoadingButton
               loading={isPending}
               loadingPosition="start"
-              color="success"
               type="submit"
               fullWidth
               variant="contained"
