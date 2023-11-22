@@ -4,6 +4,7 @@ using Makassed.Api.Repositories;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Policies;
 using Makassed.Api.Services.Storage;
+using Makassed.Api.Services.Users;
 using Makassed.Contracts.Enums;
 using Sieve.Models;
 using Policy = Makassed.Api.Models.Domain.Policy;
@@ -15,15 +16,18 @@ public class PolicyDependencyService : IPolicyDependencyService
     private readonly IPolicyDependencyRepository _policyDependencyRepository;
     private readonly IPolicyService _policyService;
     private readonly ILocalFileStorageService _localFileStorageService;
+    private readonly IUserService _userService;
 
     public PolicyDependencyService(
         IPolicyDependencyRepository policyDependencyRepository, 
         IPolicyService policyService, 
-        ILocalFileStorageService localFileStorageService)
+        ILocalFileStorageService localFileStorageService,
+        IUserService userService)
     {
         _policyDependencyRepository = policyDependencyRepository;
         _policyService = policyService;
         _localFileStorageService = localFileStorageService;
+        _userService = userService;
     }
 
     private async Task<ErrorOr<Policy>> CheckExistedPolicy(Guid id)
@@ -45,16 +49,29 @@ public class PolicyDependencyService : IPolicyDependencyService
 
     public async Task<ErrorOr<Dependency>> CreatePolicyDependencyAsync(Dependency policyDependency, Guid policyId)
     {
+        var userRole = await _userService.GetUserRoleAsync();
+
+        if (userRole == null)
+            return Errors.User.Unauthorized;
+
         var existedPolicyResult = await CheckExistedPolicy(policyId);
 
         if (existedPolicyResult.IsError)
             return existedPolicyResult.Errors;
+
+        if (!existedPolicyResult.Value.IsApproved)
+            return Errors.PolicyDependency.CantAdd;
 
         policyDependency.PolicyId = policyId;
 
         policyDependency.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policyDependency.File);
 
         policyDependency.PagesCount = _localFileStorageService.GetPdfFilePageCount(policyDependency.File);
+
+        policyDependency.CreatorId = _userService.GetUserId()!;
+
+        if (userRole.Equals("Admin"))
+            policyDependency.IsApproved = true;
 
         await _policyDependencyRepository.CreatePolicyDependencyAsync(policyDependency);
 

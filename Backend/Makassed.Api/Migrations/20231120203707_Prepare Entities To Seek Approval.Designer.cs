@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120203707_Prepare Entities To Seek Approval")]
+    partial class PrepareEntitiesToSeekApproval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +122,8 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CreatorId")
+                        .IsUnique();
 
                     b.HasIndex("PolicyId");
 
@@ -321,7 +325,8 @@ namespace Makassed.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CreatorId")
+                        .IsUnique();
 
                     b.ToTable("MonitoringTools");
                 });
@@ -369,7 +374,8 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CreatorId")
+                        .IsUnique();
 
                     b.ToTable("Policies");
                 });
@@ -615,8 +621,8 @@ namespace Makassed.Api.Migrations
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
                     b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
+                        .WithOne()
+                        .HasForeignKey("Makassed.Api.Models.Domain.Dependency", "CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -698,8 +704,8 @@ namespace Makassed.Api.Migrations
             modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringTool", b =>
                 {
                     b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
+                        .WithOne()
+                        .HasForeignKey("Makassed.Api.Models.Domain.MonitoringTool", "CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -715,8 +721,8 @@ namespace Makassed.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
+                        .WithOne()
+                        .HasForeignKey("Makassed.Api.Models.Domain.Policy", "CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

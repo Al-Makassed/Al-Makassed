@@ -5,6 +5,7 @@ using Makassed.Api.ServiceErrors;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 using Makassed.Api.Services.Storage;
+using Makassed.Api.Services.Users;
 
 namespace Makassed.Api.Services.Policies;
 
@@ -13,15 +14,21 @@ public class PolicyService : IPolicyService
     private readonly IPolicyRepository _policyRepository;
     private readonly ILocalFileStorageService _localFileStorageService;
     private readonly IChapterRepository _chapterRepository;
+    private readonly IUserService _userService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public PolicyService(
         IPolicyRepository policyRepository,
         ILocalFileStorageService localFileStorageService, 
-        IChapterRepository chapterRepository)
+        IChapterRepository chapterRepository,
+        IUserService userService,
+        IUnitOfWork unitOfWork)
     {
         _policyRepository = policyRepository;
         _localFileStorageService = localFileStorageService;
         _chapterRepository = chapterRepository;
+        _userService = userService;
+        _unitOfWork = unitOfWork;
     }
     private async Task<bool> IsUniqueName(string name)
     {
@@ -49,6 +56,11 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Created>> CreatePolicyAsync(Guid chapterId, Policy policy)
     {
+        var userRole = await _userService.GetUserRoleAsync();
+
+        if (userRole == null)
+            return Errors.User.Unauthorized;
+
         var existedChapterResult = await CheckChapterExists(chapterId);
 
         if (existedChapterResult is null)
@@ -62,10 +74,17 @@ public class PolicyService : IPolicyService
         policy.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policy.MainFile);
 
         policy.PageCount = _localFileStorageService.GetPdfFilePageCount(policy.MainFile);
+
+        policy.CreatorId = _userService.GetUserId()!;
+
+        if(userRole.Equals("Admin"))
+            policy.IsApproved = true;
         
         await _policyRepository.CreatePolicyAsync(policy);
 
         await _chapterRepository.UpdateChapterEnableStateAsync(existedChapterResult.Id);
+
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Created;
     }

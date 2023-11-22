@@ -29,6 +29,16 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
 
         builder.CustomizeIdentityTablesNames();
 
+        builder.Entity<Policy>()
+               .HasOne(p => p.Creator)
+               .WithMany()
+               .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Dependency>()
+               .HasOne(d => d.Creator)
+               .WithMany()
+               .OnDelete(DeleteBehavior.Restrict);
+
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
