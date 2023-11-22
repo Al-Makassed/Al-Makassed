@@ -47,7 +47,6 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IUserRepository, SqlUserRepository>();
 
         services.AddScoped<ILocalFileStorageService, LocalFileStorageService>();
         services.AddScoped<ICloudinaryStorageService, CloudinaryStorageService>();

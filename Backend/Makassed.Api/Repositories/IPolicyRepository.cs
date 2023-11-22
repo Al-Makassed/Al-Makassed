@@ -9,7 +9,7 @@ public interface IPolicyRepository
     
     Task<List<Policy>> FindValidPoliciesAsync(IEnumerable<string> policiesCodes);
     
-    Task<List<Policy>> GetPoliciesAsync(SieveModel sieveModel, Guid ChapterId);
+    Task<List<Policy>> GetPoliciesAsync(SieveModel sieveModel, Guid chapterId);
     
     Task<Policy?> GetPolicyByIdAsync(Guid id);
     

@@ -6,7 +6,7 @@ public static class CorsConfiguration
     {
         var allowedOrigins =
             configuration.GetSection("CorsAllowedOrigins").Get<string[]>()
-            ?? new string[] { "*" };
+            ?? new[] { "*" };
 
         services.AddCors(options =>
         {
