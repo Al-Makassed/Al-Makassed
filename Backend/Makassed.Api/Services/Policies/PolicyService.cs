@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using Makassed.Api.Repositories;
 using Makassed.Api.Models.Domain;
+using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;

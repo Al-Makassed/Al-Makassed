@@ -1,4 +1,7 @@
-﻿namespace Makassed.Api.Dependencies;
+﻿using Makassed.Api.Repositories.Implementations;
+using Makassed.Api.Repositories.Interfaces;
+
+namespace Makassed.Api.Dependencies;
 
 using Microsoft.Extensions.DependencyInjection;
 using Repositories;

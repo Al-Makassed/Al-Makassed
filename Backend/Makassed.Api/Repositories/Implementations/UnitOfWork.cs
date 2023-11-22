@@ -1,6 +1,7 @@
 ﻿using Makassed.Api.Data;
+using Makassed.Api.Repositories.Interfaces;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Implementations;
 
 public class UnitOfWork : IUnitOfWork
 {

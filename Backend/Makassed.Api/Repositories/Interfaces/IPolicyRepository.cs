@@ -1,7 +1,7 @@
 ﻿using Makassed.Api.Models.Domain;
 using Sieve.Models;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Interfaces;
 
 public interface IPolicyRepository
 {

@@ -1,10 +1,11 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
+using Makassed.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Implementations;
 
 public class SqlChapterRepository : IChapterRepository
 {

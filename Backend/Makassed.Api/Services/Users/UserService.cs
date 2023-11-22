@@ -5,6 +5,7 @@ using Makassed.Api.ServiceErrors;
 using Makassed.Api.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Makassed.Api.Repositories;
+using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.Services.Storage;
 
 namespace Makassed.Api.Services.Users;

@@ -1,6 +1,6 @@
 ﻿using Makassed.Api.Models.Domain;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Interfaces;
 
 public interface IDepartmentRepository
 {

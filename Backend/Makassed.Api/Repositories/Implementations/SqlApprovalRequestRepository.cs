@@ -1,9 +1,10 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.DTO;
+using Makassed.Api.Repositories.Interfaces;
 using Makassed.Contracts.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Implementations;
 
 public class SqlApprovalRequestRepository : IApprovalRequestRepository
 {
