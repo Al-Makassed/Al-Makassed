@@ -17,18 +17,18 @@ public class UserService : IUserService
     private string? _cachedUserId; // Cache the userId to avoid redundant calls to HttpContext
     private string? _cachedUserRole;
     private readonly ILocalFileStorageService _localFileStorageService;
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UserService(
         IHttpContextAccessor httpContextAccessor,
         UserManager<MakassedUser> userManager,
         ILocalFileStorageService localFileStorageService,
-        IUserRepository userRepository)
+        IUnitOfWork unitOfWork)
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
         _localFileStorageService = localFileStorageService;
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -88,7 +88,9 @@ public class UserService : IUserService
         var avatarUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(image, "Avatars");
 
         // Update the user's avatarUrl in the database.
-        await _userRepository.SaveUserAvatarAsync(user, avatarUrl);
+        user.AvatarUrl = avatarUrl;
+
+        await _unitOfWork.SaveChangesAsync();
 
         return avatarUrl;
     }

@@ -46,7 +46,7 @@ public class LocalFileStorageService : ILocalFileStorageService
         // ex: https://localhost:1234/Files/fileName.jpg
         var scheme = _httpContextAccessor.HttpContext?.Request.Scheme ?? string.Empty; // http or https
         var host = _httpContextAccessor.HttpContext?.Request.Host; // e.g. localhost:8888
-        var pathBase = _httpContextAccessor?.HttpContext?.Request.PathBase ?? string.Empty;
+        var pathBase = _httpContextAccessor.HttpContext?.Request.PathBase ?? string.Empty;
 
         // - pathBase shouldn't end with a trailing slash.
         // - In our case the pathBase is empty string.
@@ -59,9 +59,6 @@ public class LocalFileStorageService : ILocalFileStorageService
     {
         // Get last part of the URL (the file name e.g. image.jpg)
         var fileName = avatarUrl.Split("/").Last();
-
-        if (fileName is null)
-            return;
 
         // Get the local path of the file
         var localFilePath = Path.Combine(
