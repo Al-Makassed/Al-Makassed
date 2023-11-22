@@ -8,6 +8,7 @@ public abstract partial class Errors
     {
         public abstract class Field
         {
+            // ReSharper disable once MemberHidesStaticFromOuterClass
             public static Error NotFound => Error.NotFound(
                 code: "Field.NotFound",
                 description: "Field is not found."

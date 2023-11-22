@@ -1,4 +1,4 @@
-namespace UserManagement.Service.Models.Domain;
+namespace Makassed.Email.Service.Models.Domain;
 
 public class EmailConfiguration
 {

@@ -26,7 +26,7 @@ public class ApprovalRequestsController : ApiController
         var approvalRequests = await _approvalRequestService.GetApprovalRequestsAsync();
 
         return approvalRequests.Match(
-            _ => Ok(),
+            Ok,
             errors => Problem(errors)
         );
     }

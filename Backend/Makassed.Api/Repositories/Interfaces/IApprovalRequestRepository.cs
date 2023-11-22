@@ -1,6 +1,6 @@
 ﻿using Makassed.Api.Models.DTO;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Interfaces;
 
 public interface IApprovalRequestRepository
 {

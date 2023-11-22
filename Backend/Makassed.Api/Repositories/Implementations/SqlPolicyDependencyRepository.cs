@@ -1,12 +1,13 @@
 using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
+using Makassed.Api.Repositories.Interfaces;
 using Makassed.Contracts.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Implementations;
 
 public class SqlPolicyDependencyRepository : IPolicyDependencyRepository
 {

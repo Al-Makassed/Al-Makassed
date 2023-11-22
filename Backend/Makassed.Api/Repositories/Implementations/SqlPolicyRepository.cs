@@ -1,11 +1,12 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
+using Makassed.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Implementations;
 
 public class SqlPolicyRepository : IPolicyRepository
 {
@@ -53,7 +54,6 @@ public class SqlPolicyRepository : IPolicyRepository
             return null;
             
         _dbContext.Policies.Remove(policy);
-        await _dbContext.SaveChangesAsync();
 
         return policy;
     }

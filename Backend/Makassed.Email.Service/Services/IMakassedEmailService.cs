@@ -1,6 +1,6 @@
-using UserManagement.Service.Models.Domain;
+using Makassed.Email.Service.Models.Domain;
 
-namespace UserManagement.Service.Services.Email;
+namespace Makassed.Email.Service.Services;
 
 public interface IMakassedEmailService
 {

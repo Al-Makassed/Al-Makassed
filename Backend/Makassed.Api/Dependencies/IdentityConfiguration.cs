@@ -1,7 +1,7 @@
 ﻿namespace Makassed.Api.Dependencies;
 
-using Makassed.Api.Data;
-using Makassed.Api.Models.Domain;
+using Data;
+using Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

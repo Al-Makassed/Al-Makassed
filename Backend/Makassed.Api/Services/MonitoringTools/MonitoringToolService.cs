@@ -3,6 +3,7 @@ using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
 using Makassed.Api.Repositories;
+using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Users;
 using Microsoft.IdentityModel.Tokens;

@@ -2,7 +2,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Contracts.Enums;
 using Sieve.Models;
 
-namespace Makassed.Api.Repositories;
+namespace Makassed.Api.Repositories.Interfaces;
 
 public interface IPolicyDependencyRepository
 {

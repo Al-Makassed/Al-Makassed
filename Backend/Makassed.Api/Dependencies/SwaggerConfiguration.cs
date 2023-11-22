@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 
 namespace Makassed.Api.Dependencies;
 
-public class SwaggerConfiguration
+public static class SwaggerConfiguration
 {
     public static IServiceCollection AddSwaggerConfiguration(IServiceCollection services)
     {

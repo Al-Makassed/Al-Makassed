@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Makassed.Api.Data;
+using Data;
 using Microsoft.EntityFrameworkCore;
 
 public static class DbContextsConfiguration
