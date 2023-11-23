@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import { closeDialog, selectIsDialogOpen } from "src/features/deleteDialog";
@@ -6,7 +6,10 @@ import { useAppSelector } from "src/store/hooks";
 import { ConfirmDeleteDialogProps } from "../../pages/EditChapterForm/components/types";
 import { useDispatch } from "react-redux";
 
-const ConfirmDeleteDialog = ({ title, handle }: ConfirmDeleteDialogProps) => {
+const ConfirmDeleteDialog: FC<ConfirmDeleteDialogProps> = ({
+  title,
+  handle,
+}) => {
   const isOpenDialog = useAppSelector(selectIsDialogOpen);
   const dispatch = useDispatch();
 
