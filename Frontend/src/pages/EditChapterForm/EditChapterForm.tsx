@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useState } from "react";
 import {
+  Button,
   Grid,
   IconButton,
   List,
@@ -22,6 +23,10 @@ import useRenameChapter from "./hooks/useRenameChapter";
 import { LoadingButton } from "@mui/lab";
 import { useTheme } from "@mui/material/styles";
 import EditChapterFormSkeleton from "./components/EditChapterFormSkeleton";
+import useDeleteChapter from "./hooks/useDeleteChapter";
+import ConfirmDeleteDialog from "../../components/ConfirmDeleteDialog/ConfirmDeleteDialog";
+import { openDialog } from "src/features/deleteDialog";
+import { useDispatch } from "react-redux";
 import { Policy } from "./API/types";
 
 const EditChapterForm: FC = () => {
@@ -32,6 +37,7 @@ const EditChapterForm: FC = () => {
   const { chapter, isFetching } = useGetChapterById(id);
 
   const theme = useTheme();
+  const [deleteType, setDeleteType] = useState<string>("");
 
   const { deletePolicy } = useDeletePolicyByCode();
 
@@ -39,12 +45,21 @@ const EditChapterForm: FC = () => {
 
   const { renameChapter, isRenaming } = useRenameChapter();
 
+  const { deleteChapter } = useDeleteChapter();
+
   const [chapterName, setChapterName] = useState<string>(chapter?.name ?? "");
 
   const handleDeletePolicy = (policy: Policy) => {
-    console.log(policy.id);
     deletePolicy({ chapterId: id, policyId: policy.id });
   };
+  const [policyToDelete, setPolicyToDelete] = useState<Policy>();
+
+  const handleDeleteSetting = (policy: Policy) => {
+    setPolicyToDelete(policy);
+
+    handleOpenDialog("Delete Policy");
+  };
+
   const handleDeleteAllPolicies = () => {
     deleteAllPolicies(chapter?.id ?? "");
   };
@@ -52,12 +67,22 @@ const EditChapterForm: FC = () => {
   const handleChangeChapterName = (event: ChangeEvent<HTMLInputElement>) => {
     setChapterName(event.target.value);
   };
+
   const handleSubmitChanges = () => {
     renameChapter({
       newChapterName: chapterName,
       id: chapter?.id ?? "",
     });
   };
+
+  const dispatch = useDispatch();
+
+  const handleOpenDialog = (type: string) => {
+    setDeleteType(type);
+    dispatch(openDialog());
+  };
+
+  const handleDeleteChapter = () => deleteChapter(id);
   if (isFetching) return <EditChapterFormSkeleton />;
 
   return (
@@ -72,10 +97,43 @@ const EditChapterForm: FC = () => {
         ...theme.mixins.niceScroll(),
       }}
     >
+      {deleteType === "Delete Chapter" && (
+        <ConfirmDeleteDialog
+          title={"Delete Chapter"}
+          handle={handleDeleteChapter}
+        />
+      )}
+      {deleteType === "Delete All Policies" && (
+        <ConfirmDeleteDialog
+          title={"Delete All Policies "}
+          handle={handleDeleteAllPolicies}
+        />
+      )}
+      {deleteType === "Delete Policy" && policyToDelete && (
+        <ConfirmDeleteDialog
+          title={"Delete Policy"}
+          handle={() => handleDeletePolicy(policyToDelete)}
+        />
+      )}
+
       <Stack gap={3} padding={6} width={500}>
-        <Typography component="h1" variant="h4" fontWeight={600}>
-          Edit Chapter
-        </Typography>
+        <Stack direction="row" sx={{ justifyContent: "space-between", pl: 1 }}>
+          <Typography component="h1" variant="h4" fontWeight={600}>
+            Edit Chapter
+          </Typography>
+
+          <Tooltip title="Delete Chapter">
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              size="small"
+              onClick={() => handleOpenDialog("Delete Chapter")}
+            >
+              Delete
+            </Button>
+          </Tooltip>
+        </Stack>
 
         <TextField
           label="Chapter Name"
@@ -111,7 +169,7 @@ const EditChapterForm: FC = () => {
               <IconButton
                 color="error"
                 aria-label="Delete All"
-                onClick={handleDeleteAllPolicies}
+                onClick={() => handleOpenDialog("Delete All Policies")}
                 sx={{ mr: 2 }}
               >
                 <DeleteIcon />
@@ -137,7 +195,7 @@ const EditChapterForm: FC = () => {
                 <Tooltip title="Delete">
                   <IconButton
                     aria-label="Delete Policy"
-                    onClick={() => handleDeletePolicy(policy)}
+                    onClick={() => handleDeleteSetting(policy)}
                   >
                     <DeleteIcon />
                   </IconButton>
