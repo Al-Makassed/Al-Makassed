@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Lottie from "lottie-react";
-import infinityLoader from "src/animation/infinityLoader.json";
+import maqasidLoader from "src/animation/maqasidLoader.json";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 
@@ -21,12 +21,10 @@ const BlockUI: FC = () => {
           alignItems: "center",
           justifyContent: "center",
           outline: "none",
+          bgcolor: "grey.100",
         }}
       >
-        <Lottie
-          animationData={infinityLoader}
-          style={{ width: "100px", height: "100px" }}
-        />
+        <Lottie animationData={maqasidLoader} />
       </Box>
     </Modal>
   );
