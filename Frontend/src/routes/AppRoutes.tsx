@@ -3,6 +3,7 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
+import MonitoringTools from "src/pages/MonitoringTools/MonitoringTools";
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -48,6 +49,11 @@ const AppRoutes: FC = () => {
                 path=":chapterId/policies/:policyId/edit"
                 element={<EditPolicyAndDependenciesForm />}
               />
+            </Route>
+
+            <Route path="monitoring-tools">
+              <Route index element={<MonitoringTools />} />
+              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
             </Route>
           </Route>
         </Route>
