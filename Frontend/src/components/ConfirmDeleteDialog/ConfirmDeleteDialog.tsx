@@ -3,7 +3,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import { closeDialog, selectIsDialogOpen } from "src/features/deleteDialog";
 import { useAppSelector } from "src/store/hooks";
-import { ConfirmDeleteDialogProps } from "../../pages/EditChapterForm/components/types";
+import { ConfirmDeleteDialogProps } from "../../pages/EditChapterDialog/components/types";
 import { useDispatch } from "react-redux";
 
 const ConfirmDeleteDialog: FC<ConfirmDeleteDialogProps> = ({
@@ -40,7 +40,7 @@ const ConfirmDeleteDialog: FC<ConfirmDeleteDialogProps> = ({
         </Stack>
       </MaqasidDialog.Body>
       <MaqasidDialog.Footer>
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" gap={1}>
           <Button variant="outlined" color="error" onClick={handleAction}>
             Yes
           </Button>
