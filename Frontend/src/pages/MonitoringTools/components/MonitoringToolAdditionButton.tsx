@@ -1,18 +1,49 @@
 import React, { FC } from "react";
-import { Fab, Tooltip } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import {
+  Backdrop,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+} from "@mui/material";
+import FieldAddIcon from "@mui/icons-material/PostAdd";
+import MTAddIcon from "@mui/icons-material/LibraryAdd";
+
+const actions = [
+  { icon: <MTAddIcon />, name: "MonitoringTool" },
+  { icon: <FieldAddIcon />, name: "Field" },
+];
 
 const MonitoringToolAdditionButton: FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
-    <Tooltip title="Add Monitoring Tool" placement="top">
-      <Fab
-        color="primary"
-        aria-label="add"
-        sx={{ position: "absolute", bottom: -60, right: 25 }}
+    <>
+      <Backdrop open={open} />
+      <SpeedDial
+        ariaLabel=""
+        sx={{
+          position: "absolute",
+          bottom: { xs: -70, md: -16 },
+          right: 16,
+        }}
+        icon={<SpeedDialIcon />}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        open={open}
       >
-        <AddIcon />
-      </Fab>
-    </Tooltip>
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            tooltipOpen
+            onClick={handleClose}
+          />
+        ))}
+      </SpeedDial>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
         sx={{
           display: "flex",
           flexDirection: "column",
-          minWidth: { xs: 100, md: 330 },
+          minWidth: { xs: 300, md: 330 },
           maxWidth: 345,
           minHeight: 230,
           borderRadius: "0 15px 0 10px",
