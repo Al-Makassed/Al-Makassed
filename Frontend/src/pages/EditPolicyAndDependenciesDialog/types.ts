@@ -5,3 +5,8 @@ export interface EditPolicy {
   newMainFile?: File;
   newSummary: string;
 }
+export interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
