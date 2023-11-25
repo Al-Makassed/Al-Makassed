@@ -8,11 +8,11 @@ import ProtocolsList from "./ProtocolsList";
 const EditDependencies: FC = () => {
   return (
     <Grid
-      paddingBottom={2}
-      sx={{
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+    // paddingBottom={2}
+    // sx={{
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    // }}
     >
       <Stack spacing={1}>
         <Typography
@@ -28,7 +28,7 @@ const EditDependencies: FC = () => {
         >
           Policy Dependencies
         </Typography>
-        <Stack direction="row" spacing={5}>
+        <Stack spacing={5}>
           <FormsList />
           <PostersList />
           <ProtocolsList />

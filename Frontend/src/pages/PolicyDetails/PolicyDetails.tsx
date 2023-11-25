@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import useGetPolicy from "./hooks/useGetPolicy";
 import { Stack, Typography, Tooltip, IconButton, Button } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PolicyDependencies from "src/pages/PolicyDependencies";
 import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
 import EditIcon from "@mui/icons-material/Edit";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
+import EditPolicyAndDependenciesDialog from "../EditPolicyAndDependenciesDialog";
 
 const PolicyDetails: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -16,11 +17,11 @@ const PolicyDetails: FC = () => {
 
   const { policy, isFetching } = useGetPolicy(chapterId, policyId);
 
-  const navigate = useNavigate();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleEditPolicy = () => {
-    navigate(`/me/chapters/${policy?.chapterId}/policies/${policy?.id}/edit`);
-  };
+  const handleOpenDialog = () => setIsDialogOpen(true);
+
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
   if (isFetching) return <PolicyDetailsLoadingSkeleton />;
 
@@ -43,11 +44,17 @@ const PolicyDetails: FC = () => {
             <IconButton
               aria-label="Edit Policy"
               sx={{ mr: 1 }}
-              onClick={handleEditPolicy}
+              onClick={handleOpenDialog}
             >
               <EditIcon />
             </IconButton>
           </Tooltip>
+          <EditPolicyAndDependenciesDialog
+            open={isDialogOpen}
+            chapterId={chapterId}
+            policyId={policyId}
+            onClose={handleCloseDialog}
+          />
         </Stack>
 
         <Button
