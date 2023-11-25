@@ -37,14 +37,12 @@ const Navbar = () => {
           src={maqasidLogo}
         />
 
-        <Box sx={{ flexGrow: 1 }} />
-
-        <Searching />
+        <Box sx={{ flexGrow: 0.06 }} />
 
         <Box
           sx={{
             flexGrow: 2,
-            gap: 2,
+            gap: 1,
             display: { xs: "none", md: "flex" },
           }}
         >
@@ -54,6 +52,7 @@ const Navbar = () => {
               // onClick={handleCloseNavMenu}
               sx={{
                 my: 2,
+                mx: 0,
                 textTransform: "none",
                 color: (theme) => theme.palette.grey[50],
                 display: "block",
@@ -63,6 +62,10 @@ const Navbar = () => {
             </Button>
           ))}
         </Box>
+
+        <Box sx={{ flexGrow: 1 }} />
+
+        <Searching />
 
         <Box
           sx={{

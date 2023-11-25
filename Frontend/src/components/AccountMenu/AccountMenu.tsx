@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 import { useAppDispatch } from "src/store/hooks";
 import { logout } from "src/features/user";
+import { useAppSelector } from "src/store/hooks";
+import { selectUser } from "src/features/user";
 
 const AccountMenu: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,11 +25,9 @@ const AccountMenu: FC = () => {
 
   const open = Boolean(anchorEl);
 
-  const user = {
-    username: "Omar",
-  }; // TODO: replace with user from redux store
+  const { userName, profileUrl, avatarUrl } = useAppSelector(selectUser);
 
-  const userInitial = user?.username[0].toUpperCase();
+  const userInitial = userName.toUpperCase()[0];
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +36,7 @@ const AccountMenu: FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -60,8 +61,9 @@ const AccountMenu: FC = () => {
                 width: 30,
                 height: 30,
               }}
+              src={avatarUrl}
             >
-              {userInitial}
+              {!avatarUrl && userInitial}
             </Avatar>
           }
           sx={{
@@ -69,7 +71,7 @@ const AccountMenu: FC = () => {
             color: (theme) => theme.palette.grey[50],
           }}
         >
-          {user.username}
+          {userName}
         </Button>
       </Tooltip>
       <Menu
@@ -109,7 +111,7 @@ const AccountMenu: FC = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={noop}>
+        <MenuItem onClick={noop} href={profileUrl}>
           <Avatar /> Profile
         </MenuItem>
         <Divider />

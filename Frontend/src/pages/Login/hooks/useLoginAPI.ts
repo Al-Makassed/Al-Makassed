@@ -24,6 +24,7 @@ const useLoginAPI = () => {
         roles,
         profileUrl,
         phoneNumber,
+        avatarUrl,
       } = response;
 
       dispatch(
@@ -35,6 +36,7 @@ const useLoginAPI = () => {
           phoneNumber,
           roles,
           profileUrl: profileUrl ?? "",
+          avatarUrl: avatarUrl ?? "",
         }),
       );
       navigate("/me");

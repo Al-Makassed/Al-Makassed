@@ -6,6 +6,7 @@ export interface UserState {
   phoneNumber: string;
   roles: string[];
   profileUrl: string;
+  avatarUrl: string;
 }
 
 export interface LoginPayload extends UserState {}

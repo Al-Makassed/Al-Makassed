@@ -10,6 +10,7 @@ const initialState: UserState = {
   roles: [""],
   profileUrl: "",
   phoneNumber: "",
+  avatarUrl: "",
 };
 
 export const userSlice = createSlice({
@@ -25,6 +26,7 @@ export const userSlice = createSlice({
         roles,
         profileUrl,
         phoneNumber,
+        avatarUrl,
       } = action.payload;
 
       state.userId = userId;
@@ -34,6 +36,7 @@ export const userSlice = createSlice({
       state.roles = roles;
       state.profileUrl = profileUrl;
       state.phoneNumber = phoneNumber;
+      state.avatarUrl = avatarUrl;
     },
     logout: (state) => {
       state = initialState;

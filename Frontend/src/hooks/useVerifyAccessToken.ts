@@ -26,8 +26,16 @@ const useVerifyAccessToken = () => {
       return;
     }
 
-    const { id, roles, userName, fullName, email, phoneNumber, profileUrl } =
-      data;
+    const {
+      id,
+      roles,
+      userName,
+      fullName,
+      email,
+      phoneNumber,
+      profileUrl,
+      avatarUrl,
+    } = data;
 
     dispatch(
       login({
@@ -38,6 +46,7 @@ const useVerifyAccessToken = () => {
         fullName,
         phoneNumber,
         profileUrl,
+        avatarUrl,
       }),
     );
 

@@ -13,4 +13,5 @@ export interface LoginResponse {
   phoneNumber: string;
   token: string;
   expiration: string;
+  avatarUrl: string | null;
 }
