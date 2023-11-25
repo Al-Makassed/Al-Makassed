@@ -2,8 +2,8 @@ import React, { FC } from "react";
 import MonitoringToolCard from "./MonitoringToolCard";
 import { Grid } from "@mui/material";
 import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
-import { MonitoringTool } from "../types";
 import MonitoringToolsSkeleton from "./MonitoringToolsSkeleton";
+import { MonitoringTool } from "../API/types";
 
 const AdminMonitoringTools: FC = () => {
   const { monitoringTools, isFetching } = useGetMonitoringTools();

@@ -1,14 +1,8 @@
 import React, { FC } from "react";
 import { MonitoringToolCardProps } from "../types";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Stack,
-} from "@mui/material";
+import { Card, CardActions, Stack } from "@mui/material";
 import { Typography, Button, Divider } from "@mui/material";
-import styles from "../style.module.css";
+import MonitoringToolCardBody from "./MonitoringToolCardBody";
 
 const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
   monitoringTool,
@@ -25,20 +19,7 @@ const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
           borderRadius: "0 15px 0 10px",
         }}
       >
-        <CardHeader
-          title={monitoringTool.name}
-          sx={{ bgcolor: (theme) => theme.palette.grey[200] }}
-        ></CardHeader>
-
-        <CardContent>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            className={styles.textClamp}
-          >
-            {monitoringTool.description}
-          </Typography>
-        </CardContent>
+        <MonitoringToolCardBody monitoringTool={monitoringTool} />
 
         <Divider sx={{ mt: "auto", justifyContent: "flex-end" }} />
 

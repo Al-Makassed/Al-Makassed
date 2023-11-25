@@ -1,10 +1,14 @@
-export interface MonitoringTool {
-  id: string;
-  name: string;
-  description: string;
-  lastModified: string;
-}
+import { FocalPointTask, MonitoringTool } from "./API/types";
 
 export interface MonitoringToolCardProps {
   monitoringTool: MonitoringTool;
+}
+
+export interface MonitoringToolBodyCardProps {
+  monitoringTool: MonitoringTool;
+  isFinished?: boolean;
+}
+
+export interface FocalPointTaskProps {
+  focalPointTask: FocalPointTask;
 }
