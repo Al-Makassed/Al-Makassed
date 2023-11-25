@@ -17,6 +17,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { logout } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
 import { selectUser } from "src/features/user";
+import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const AccountMenu: FC = () => {
   const dispatch = useAppDispatch();
@@ -71,7 +72,7 @@ const AccountMenu: FC = () => {
             color: (theme) => theme.palette.grey[50],
           }}
         >
-          {userName}
+          <ArrowDownIcon />
         </Button>
       </Tooltip>
       <Menu
