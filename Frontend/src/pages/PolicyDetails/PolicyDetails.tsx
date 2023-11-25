@@ -35,7 +35,7 @@ const PolicyDetails: FC = () => {
         >
           {policy.code}
         </Typography>
-        <Stack direction="row">
+        <Stack justifyContent="center" direction="row">
           <Typography fontWeight={600} variant="h5">
             {policy.name}
           </Typography>
@@ -60,7 +60,7 @@ const PolicyDetails: FC = () => {
         </Button>
       </Stack>
 
-      <PolicyDependencies />
+      <PolicyDependencies chapterId={chapterId} policyId={policyId} />
     </Stack>
   );
 };
