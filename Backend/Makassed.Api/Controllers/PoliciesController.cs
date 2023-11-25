@@ -8,8 +8,6 @@ using Sieve.Models;
 
 namespace Makassed.Api.Controllers;
 
-
-
 [Route("api/chapters/{chapterId:guid}/[controller]")]
 public class PoliciesController : ApiController
 {
@@ -26,25 +24,33 @@ public class PoliciesController : ApiController
     // Get All Policies
     [Authorize]
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<GetPolicyResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetPolicies([FromQuery] SieveModel sieveModel, Guid chapterId)
     {
-        var policies = await _policyService.GetPoliciesAsync(sieveModel, chapterId);
+        var policiesResult = await _policyService.GetPoliciesAsync(sieveModel, chapterId);
         
-        return Ok(_mapper.Map<List<GetPolicyResponse>>(policies));
+        return policiesResult.Match(
+            policies => Ok(_mapper.Map<List<GetPolicyResponse>>(policies)),
+            errors => Problem(errors)
+            );
     }
 
 
     // Get Policy by ID
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetPolicyResponse),StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetPolicy(Guid id)
+    public async Task<IActionResult> GetPolicy(Guid chapterId, Guid id)
     {
-        var getPolicyResult = await _policyService.GetPolicyByIdAsync(id);
+        var getPolicyResult = await _policyService.GetPolicyByIdAsync(chapterId, id);
 
         return getPolicyResult.Match(
             policy => Ok(_mapper.Map<GetPolicyResponse>(policy)),
@@ -56,9 +62,10 @@ public class PoliciesController : ApiController
     // Create a New Policy
     [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(GetPolicyResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreatePolicy(Guid chapterId, [FromForm]CreatePolicyRequest request)
     {
@@ -77,17 +84,19 @@ public class PoliciesController : ApiController
     }
 
 
-    // Update a policy by code
+    // Update a policy by id
     [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdatePolicy(Guid id,[FromForm]UpdatePolicyRequest request)
+    public async Task<IActionResult> UpdatePolicy(Guid chapterId, Guid id,[FromForm]UpdatePolicyRequest request)
     {
         var policy = _mapper.Map<Policy>(request);
 
-        var updatePolicyResult = await _policyService.UpdatePolicyAsync(id, policy);
+        var updatePolicyResult = await _policyService.UpdatePolicyAsync(chapterId, id, policy);
 
         return updatePolicyResult.Match(
             _ => NoContent(),
@@ -95,15 +104,17 @@ public class PoliciesController : ApiController
         );
     }
 
-    // Delete a policy by code
+    // Delete a policy by id
     [Authorize(Roles = "Admin, Sub-Admin")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeletePolicy(Guid id)
+    public async Task<IActionResult> DeletePolicy(Guid chapterId, Guid id)
     {
-        var deletePolicyResult= await _policyService.DeletePolicyAsync(id);
+        var deletePolicyResult= await _policyService.DeletePolicyAsync(chapterId, id);
         return deletePolicyResult.Match(
             _ => NoContent(),
             errors => Problem(errors)
@@ -115,6 +126,7 @@ public class PoliciesController : ApiController
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteAllChapterPolicies(Guid chapterId)
     {
         var deleteAllPoliciesResult= await _policyService.DeleteAllChapterPoliciesAsync(chapterId);

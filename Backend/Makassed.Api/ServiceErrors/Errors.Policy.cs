@@ -25,5 +25,10 @@ public abstract partial class Errors
             code: "ChapterPolicies.NotFound",
             description: "There is no policies under this chapter."
         );
+
+        public static Error DoesNotBelongToChapter => Error.Validation(
+            code: "Policy.DoesNotBelongToChapter",
+            description: "Policy does not belong to this chapter."
+        );
     }
 }

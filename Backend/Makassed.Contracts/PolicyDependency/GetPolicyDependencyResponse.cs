@@ -10,14 +10,19 @@ public record  GetPolicyDependencyResponse
     
     public string Name { get; set; } = null!;
     
+    public PolicyDependencyType Type { get; set; }
+    
     public string? PdfUrl { get; set; }
     
     public int EstimatedTime { get; set; }
     
     public int PagesCount { get; set; }
     
-    public string PolicyCode { get; set; } = null!;
-    
-    public PolicyDependencyType Type { get; set; }
-}
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public bool IsApproved { get; set; }
+
+    public required string CreatorId { get; set; }
+    
+    public required string PolicyCode { get; set; }
+}

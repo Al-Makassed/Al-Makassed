@@ -8,11 +8,11 @@ public class MonitoringToolConfiguration : IEntityTypeConfiguration<MonitoringTo
 {
     public void Configure(EntityTypeBuilder<MonitoringTool> builder)
     {
-        //builder.HasMany(m => m.Fields)
-        //       .WithMany(f => f.MonitoringTools)
-        //       .UsingEntity<MonitoringToolFields>();
-
         builder.HasMany(m => m.FocalPointTasks)
                .WithOne(ft => ft.MonitoringTool);
+
+        builder.HasOne(mt => mt.Creator)
+               .WithMany()
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

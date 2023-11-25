@@ -19,6 +19,12 @@ public class Policy
     public int PageCount { get; set; }
 
     public int EstimatedTimeInMin { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public bool IsApproved { get; set; }
+
+    public string CreatorId { get; set; } = null!;
         
     public Guid ChapterId { get; set; }
 
@@ -29,4 +35,6 @@ public class Policy
     public List<Dependency> Dependencies { get; set; } = new();
 
     public List<MakassedUser> Users { get; set; } = new();
+
+    public MakassedUser Creator { get; set; } = null!;
 }
