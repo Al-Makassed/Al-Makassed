@@ -63,7 +63,7 @@ const Navbar = () => {
           ))}
         </Box>
 
-        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: { xs: 1, md: 90 } }} />
 
         <Searching />
 
