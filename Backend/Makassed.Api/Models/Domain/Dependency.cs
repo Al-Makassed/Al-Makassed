@@ -20,6 +20,12 @@ public class Dependency
     public int PagesCount { get; set; }
 
     public PolicyDependencyType Type { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public bool IsApproved { get; set; }
+
+    public string CreatorId { get; set; } = null!;
 
     public Guid PolicyId { get; set; }
 
@@ -27,4 +33,6 @@ public class Dependency
     public Policy Policy { get; set; } = null!;
 
     public List<MakassedUser> Users { get; set; } = new();
+
+    public MakassedUser Creator { get; set; } = null!;
 }

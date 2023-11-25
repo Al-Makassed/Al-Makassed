@@ -4,7 +4,6 @@ using System.Text;
 using Makassed.Api.Constants;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
-using Makassed.Contracts.Authentication;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Makassed.Api.Services.Authentication;

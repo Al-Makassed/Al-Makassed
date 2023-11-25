@@ -1,6 +1,4 @@
 ﻿using ErrorOr;
-using Makassed.Api.Models.Domain;
-using Makassed.Contracts.General;
 
 namespace Makassed.Api.ServiceErrors;
 

@@ -10,6 +10,8 @@ import {
   selectCount,
 } from "src/features/counter";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const Counter: FC = () => {
   const count = useAppSelector(selectCount);
@@ -28,7 +30,11 @@ const Counter: FC = () => {
     >
       <Grid item>
         <Stack gap={2} direction="row">
-          <Button aria-label="Increment value" onClick={handleIncrement}>
+          <Button
+            startIcon={<AddIcon />}
+            aria-label="Increment value"
+            onClick={handleIncrement}
+          >
             Increment
           </Button>
           <Button
@@ -38,7 +44,11 @@ const Counter: FC = () => {
             Increment by 5
           </Button>
           <Typography variant="h2">{count}</Typography>
-          <Button aria-label="Decrement value" onClick={handleDecrement}>
+          <Button
+            startIcon={<RemoveIcon />}
+            aria-label="Decrement value"
+            onClick={handleDecrement}
+          >
             Decrement
           </Button>
         </Stack>

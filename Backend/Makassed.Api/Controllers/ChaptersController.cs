@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.Chapters;
 using Makassed.Contracts.Chapter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
-using Sieve.Services;
 
 namespace Makassed.Api.Controllers;
 
@@ -14,18 +12,17 @@ public class ChaptersController : ApiController
 {
     private readonly IChapterService _chapterService;
     private readonly IMapper _mapper;
-    private readonly ISieveProcessor _sieveProcessor;
 
-    public ChaptersController(IChapterService chapterService, IMapper mapper, ISieveProcessor sieveProcessor)
+    public ChaptersController(IChapterService chapterService, IMapper mapper)
     {
         _chapterService = chapterService;
         _mapper = mapper;
-        _sieveProcessor = sieveProcessor;
     }
 
     [Authorize]
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetChapterResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetChapters([FromQuery] SieveModel sieveModel)
     {
@@ -36,6 +33,7 @@ public class ChaptersController : ApiController
     [Authorize]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetChapter(Guid id)
@@ -49,9 +47,10 @@ public class ChaptersController : ApiController
     }
 
     [Authorize(Roles = "Admin, Sub-Admin")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(CreateChapterResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost]
     public async Task<IActionResult> CreateChapter(CreateChapterRequest createChapterRequest)
@@ -62,16 +61,18 @@ public class ChaptersController : ApiController
 
         return chapterCreationResult.Match(
             _ => CreatedAtAction(
-                        nameof(GetChapter), 
-                        new { id = chapter.Id }, 
-                        _mapper.Map<CreateChapterResponse>(chapter)
-                       ),
+                nameof(GetChapter), 
+                new { id = chapter.Id }, 
+                _mapper.Map<CreateChapterResponse>(chapter)
+            ),
             errors => Problem(errors)
         );
     }
 
     [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPut("{id:guid}")]
@@ -89,6 +90,7 @@ public class ChaptersController : ApiController
 
     [Authorize(Roles = "Admin, Sub-Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpDelete]

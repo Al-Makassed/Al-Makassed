@@ -1,25 +1,26 @@
-﻿namespace Makassed.Api.Dependencies;
+﻿using Makassed.Api.Repositories.Implementations;
+using Makassed.Api.Repositories.Interfaces;
+
+namespace Makassed.Api.Dependencies;
 
 using Microsoft.Extensions.DependencyInjection;
-using Makassed.Api.Repositories;
-using Makassed.Api.Services.Authentication;
-using Makassed.Api.Services.Chapters;
-using Makassed.Api.Services.Policies;
-using Makassed.Api.Services.PolicyDependencies;
-using Makassed.Api.Services.SharedServices;
-using UserManagement.Service.Services.Email;
-using Makassed.Api.Services.MonitoringTools.Fields;
-using Makassed.Api.Services.Users.Departments;
-using Makassed.Api.Services.MonitoringTools;
-using Makassed.Api.Services.FocalPointTasks;
-using Makassed.Api.Services.Users;
-using Makassed.Api.Services.Storage;
+using Services.Authentication;
+using Services.Chapters;
+using Services.Policies;
+using Services.PolicyDependencies;
+using Makassed.Email.Service.Services;
+using Services.MonitoringTools.Fields;
+using Services.Users.Departments;
+using Services.MonitoringTools;
+using Services.FocalPointTasks;
+using Services.Users;
+using Services.Storage;
+using Services.ApprovalRequests;
 
 public static class ApplicationServicesConfiguration
 {
     public static IServiceCollection RegisterMakassedServices(IServiceCollection services)
     {
-        services.AddScoped<ISharedService, SharedService>();
         services.AddScoped<IChapterService, ChapterService>();
         services.AddScoped<IPolicyService, PolicyService>();
         services.AddScoped<IPolicyDependencyService, PolicyDependencyService>();
@@ -48,10 +49,12 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IUserRepository, SqlUserRepository>();
 
         services.AddScoped<ILocalFileStorageService, LocalFileStorageService>();
         services.AddScoped<ICloudinaryStorageService, CloudinaryStorageService>();
+
+        services.AddScoped<IApprovalRequestService, ApprovalRequestService>();
+        services.AddScoped<IApprovalRequestRepository, SqlApprovalRequestRepository>();
 
         return services;
     }
