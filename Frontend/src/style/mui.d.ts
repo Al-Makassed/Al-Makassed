@@ -2,14 +2,15 @@ import { MaqasidPalette } from "./types";
 
 declare module "@mui/material" {
   interface Palette {
-    maqasid: MaqasidPalette;
+    userAvatar: MaqasidPalette["userAvatar"];
   }
 
   interface PaletteOptions {
-    maqasid: MaqasidPalette;
+    userAvatar: MaqasidPalette["userAvatar"];
   }
 
   interface Theme {
     mixins: MaqasidThemeMixins;
+    palette: Theme["palette"] & MaqasidPalette;
   }
 }
