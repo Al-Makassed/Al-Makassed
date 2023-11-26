@@ -42,9 +42,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Searching = () => {
+const SearchBar = () => {
   return (
-    <Search sx={{ flexGrow: 1.5 }}>
+    <Search>
       <SearchIconWrapper>
         <SearchIcon sx={{ color: "white" }} />
       </SearchIconWrapper>
@@ -56,4 +56,4 @@ const Searching = () => {
   );
 };
 
-export default Searching;
+export default SearchBar;
