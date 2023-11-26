@@ -8,7 +8,6 @@ import MaqasidDialog from "src/components/MaqasidDialog";
 import useUpdatePolicyForm from "./hooks/useUpdatePolicyForm";
 import FileDropzoneField from "src/components/Fields/FileDropzoneField";
 import { EditPolicyFormProps } from "./components/types";
-// import EditDependencies from "./components/DependenciesList";
 import { TabPanelProps } from "./types";
 import FormsList from "./components/FormsList";
 import PostersList from "./components/PostersList";
