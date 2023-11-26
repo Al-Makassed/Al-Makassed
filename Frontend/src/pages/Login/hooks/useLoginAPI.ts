@@ -22,7 +22,6 @@ const useLoginAPI = () => {
         fullName,
         email,
         roles,
-        profileUrl,
         phoneNumber,
         avatarUrl,
       } = response;
@@ -35,7 +34,6 @@ const useLoginAPI = () => {
           email,
           phoneNumber,
           roles,
-          profileUrl: profileUrl ?? "",
           avatarUrl: avatarUrl ?? "",
         }),
       );

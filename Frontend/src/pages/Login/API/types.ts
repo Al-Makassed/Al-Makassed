@@ -9,7 +9,6 @@ export interface LoginResponse {
   fullName: string;
   email: string;
   roles: string[];
-  profileUrl: string | null;
   phoneNumber: string;
   token: string;
   expiration: string;

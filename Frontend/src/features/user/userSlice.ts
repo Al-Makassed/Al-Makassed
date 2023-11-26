@@ -8,7 +8,6 @@ const initialState: UserState = {
   fullName: "",
   email: "",
   roles: [""],
-  profileUrl: "",
   phoneNumber: "",
   avatarUrl: "",
 };
@@ -24,7 +23,6 @@ export const userSlice = createSlice({
         fullName,
         email,
         roles,
-        profileUrl,
         phoneNumber,
         avatarUrl,
       } = action.payload;
@@ -34,7 +32,6 @@ export const userSlice = createSlice({
       state.fullName = fullName;
       state.email = email;
       state.roles = roles;
-      state.profileUrl = profileUrl;
       state.phoneNumber = phoneNumber;
       state.avatarUrl = avatarUrl;
     },

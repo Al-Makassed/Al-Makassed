@@ -15,9 +15,12 @@ import LanguageSelector from "./components/LanguageSelector";
 import MobileMenu from "./components/MobileMenu";
 import SearchBar from "./components/SearchBar";
 import SidebarChevron from "./components/SidebarChevron";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+  const { isMobile } = useMediaQuery();
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -58,7 +61,7 @@ const Navbar = () => {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <SearchBar />
+        {!isMobile && <SearchBar />}
 
         <Box
           sx={{

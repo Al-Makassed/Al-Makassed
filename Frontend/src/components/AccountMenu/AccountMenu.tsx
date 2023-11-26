@@ -17,15 +17,18 @@ import { logout, selectUser } from "src/features/user";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { noop } from "src/utils";
 import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 const AccountMenu: FC = () => {
   const dispatch = useAppDispatch();
+
+  const { isMobile } = useMediaQuery();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
 
-  const { userName, profileUrl, avatarUrl } = useAppSelector(selectUser);
+  const { userName, avatarUrl } = useAppSelector(selectUser);
 
   const userInitial = getAvatarAbbreviation(userName);
 
@@ -59,7 +62,7 @@ const AccountMenu: FC = () => {
             color: (theme) => theme.palette.grey[50],
           }}
         >
-          {userName}
+          {!isMobile && userName}
           <ArrowDownIcon />
         </Button>
       </Tooltip>
@@ -100,7 +103,7 @@ const AccountMenu: FC = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={noop} href={profileUrl}>
+        <MenuItem onClick={noop}>
           <Avatar /> Profile
         </MenuItem>
         <Divider />

@@ -1,4 +1,4 @@
-import React, {
+import {
   FC,
   KeyboardEvent,
   PropsWithChildren,
@@ -6,22 +6,20 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Theme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { iPadProWidth } from "src/constants/responsive";
+import useMediaQuery from "src/hooks/useMediaQuery";
 import { noop } from "src/utils";
 import SlideTransition from "../SlideTransition";
+import MaqasidDialogBody from "./MaqasidDialogBody";
 import MaqasidDialogCloseButton from "./MaqasidDialogCloseButton";
+import MaqasidDialogFooter from "./MaqasidDialogFooter";
 import MaqasidDialogFullscreenButton from "./MaqasidDialogFullscreenButton";
 import MaqasidDialogHeader from "./MaqasidDialogHeader";
 import MaqasidDialogHeaderActions from "./MaqasidDialogHeaderActions";
 import MaqasidDialogHeaderTitle from "./MaqasidDialogHeaderTitle";
+import SaveChangesConfirmationDialog from "./SaveChangesConfirmation";
 import { DialogContext } from "./context/Dialog";
 import { StyledDialog } from "./styled";
 import { MaqasidDialogProps } from "./types";
-import MaqasidDialogBody from "./MaqasidDialogBody";
-import MaqasidDialogFooter from "./MaqasidDialogFooter";
-import SaveChangesConfirmationDialog from "./SaveChangesConfirmation";
 
 const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   isOpen = false,
@@ -37,9 +35,7 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   variant = "center",
   ...rest
 }) => {
-  const isTabletOrLessScreen = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down(iPadProWidth),
-  );
+  const { isTablet } = useMediaQuery();
   const [isSaveChangesConfirmationOpen, setIsSaveChangesConfirmationOpen] =
     useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -91,8 +87,8 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   };
 
   useEffect(() => {
-    if (fullWidthOnSmallScreen && isTabletOrLessScreen) setIsFullscreen(true);
-  }, [isOpen, isTabletOrLessScreen, fullWidthOnSmallScreen]);
+    if (fullWidthOnSmallScreen && isTablet) setIsFullscreen(true);
+  }, [isOpen, isTablet, fullWidthOnSmallScreen]);
 
   return (
     <DialogContext.Provider
@@ -101,7 +97,7 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
         onFullscreenToggle: handleFullScreenToggle,
         onDialogClose: () => handleClose(),
         fullWidthOnSmallScreen,
-        isTabletOrLessScreen,
+        isTabletOrLessScreen: isTablet,
         saveChangesConfirmationDialog: {
           isOpen: isDirty && isSaveChangesConfirmationOpen,
           onSetDirty: handleOnSetDirty,

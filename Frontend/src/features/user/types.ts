@@ -5,7 +5,6 @@ export interface UserState {
   email: string;
   phoneNumber: string;
   roles: string[];
-  profileUrl: string;
   avatarUrl: string;
 }
 
