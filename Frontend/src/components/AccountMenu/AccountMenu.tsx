@@ -16,6 +16,7 @@ import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
 import { logout, selectUser } from "src/features/user";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { noop } from "src/utils";
+import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
 
 const AccountMenu: FC = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ const AccountMenu: FC = () => {
 
   const { userName, profileUrl, avatarUrl } = useAppSelector(selectUser);
 
-  const userInitial = userName.toUpperCase()[0];
+  const userInitial = getAvatarAbbreviation(userName);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
