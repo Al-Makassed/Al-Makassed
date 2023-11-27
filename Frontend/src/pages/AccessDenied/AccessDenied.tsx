@@ -61,7 +61,6 @@ const AccessDenied: FC = () => {
             onClick={goToHome}
             size="large"
             variant="outlined"
-            color="info"
           >
             Home
           </Button>

@@ -54,7 +54,6 @@ const NotFound: FC = () => {
             onClick={goToHome}
             size="large"
             variant="outlined"
-            color="info"
           >
             Home
           </Button>
@@ -63,7 +62,6 @@ const NotFound: FC = () => {
             onClick={reloadPage}
             size="large"
             variant="outlined"
-            color="info"
           >
             Reload
           </Button>
