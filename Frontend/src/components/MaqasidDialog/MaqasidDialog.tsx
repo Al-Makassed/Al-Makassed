@@ -35,7 +35,7 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   variant = "center",
   ...rest
 }) => {
-  const { isTablet } = useMediaQuery();
+  const { isTabletOrLess } = useMediaQuery();
   const [isSaveChangesConfirmationOpen, setIsSaveChangesConfirmationOpen] =
     useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -87,8 +87,8 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
   };
 
   useEffect(() => {
-    if (fullWidthOnSmallScreen && isTablet) setIsFullscreen(true);
-  }, [isOpen, isTablet, fullWidthOnSmallScreen]);
+    if (fullWidthOnSmallScreen && isTabletOrLess) setIsFullscreen(true);
+  }, [isOpen, isTabletOrLess, fullWidthOnSmallScreen]);
 
   return (
     <DialogContext.Provider
@@ -97,7 +97,7 @@ const MaqasidDialog: FC<PropsWithChildren<MaqasidDialogProps>> = ({
         onFullscreenToggle: handleFullScreenToggle,
         onDialogClose: () => handleClose(),
         fullWidthOnSmallScreen,
-        isTabletOrLessScreen: isTablet,
+        isTabletOrLessScreen: isTabletOrLess,
         saveChangesConfirmationDialog: {
           isOpen: isDirty && isSaveChangesConfirmationOpen,
           onSetDirty: handleOnSetDirty,

@@ -4,7 +4,7 @@ export interface MonitoringToolCardProps {
   monitoringTool: MonitoringTool;
 }
 
-export interface MonitoringToolBodyCardProps {
+export interface CardBodyProps {
   monitoringTool: MonitoringTool;
   isFinished?: boolean;
 }

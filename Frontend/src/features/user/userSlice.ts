@@ -10,6 +10,7 @@ const initialState: UserState = {
   roles: [""],
   phoneNumber: "",
   avatarUrl: "",
+  isAdmin: false,
 };
 
 export const userSlice = createSlice({
@@ -34,6 +35,7 @@ export const userSlice = createSlice({
       state.roles = roles;
       state.phoneNumber = phoneNumber;
       state.avatarUrl = avatarUrl;
+      state.isAdmin = roles.includes("Admin");
     },
     logout: (state) => {
       state = initialState;

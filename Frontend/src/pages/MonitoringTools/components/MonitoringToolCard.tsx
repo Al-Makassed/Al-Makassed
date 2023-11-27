@@ -1,37 +1,45 @@
-import React, { FC } from "react";
+import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
+import UpdateIcon from "@mui/icons-material/Update";
+import {
+  Button,
+  Card,
+  CardActions,
+  Chip,
+  Divider,
+  Tooltip,
+} from "@mui/material";
+import { FC } from "react";
+import formatDate from "src/utils/formatDate";
 import { MonitoringToolCardProps } from "../types";
-import { Card, CardActions, Stack } from "@mui/material";
-import { Typography, Button, Divider } from "@mui/material";
-import MonitoringToolCardBody from "./MonitoringToolCardBody";
+import CardBody from "./CardBody";
 
 const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
   monitoringTool,
 }) => {
+  const lastModified = formatDate(monitoringTool.lastModified);
+
   return (
-    <Stack justifyContent={"center"} alignItems={"center"}>
-      <Card
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minWidth: { xs: 300, md: 330 },
-          maxWidth: 345,
-          minHeight: 230,
-          borderRadius: "0 15px 0 10px",
-        }}
-      >
-        <MonitoringToolCardBody monitoringTool={monitoringTool} />
+    <Card
+      elevation={2}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: 230,
+        // borderRadius: "0 15px 0 15px",
+      }}
+    >
+      <CardBody monitoringTool={monitoringTool} />
 
-        <Divider sx={{ mt: "auto", justifyContent: "flex-end" }} />
+      <Divider sx={{ justifyContent: "flex-end" }} />
 
-        <CardActions sx={{ justifyContent: "space-between" }}>
-          <Typography variant="body2" color="text.secondary">
-            Last Modifies: {monitoringTool.lastModified.slice(0, 10)}
-          </Typography>
+      <CardActions sx={{ justifyContent: "space-between" }}>
+        <Tooltip title="Last modified" arrow>
+          <Chip icon={<UpdateIcon />} label={lastModified} sx={{ mr: 1 }} />
+        </Tooltip>
 
-          <Button size="small">View</Button>
-        </CardActions>
-      </Card>
-    </Stack>
+        <Button startIcon={<TroubleshootIcon />}>View</Button>
+      </CardActions>
+    </Card>
   );
 };
 

@@ -5,17 +5,17 @@ const useMediaQuery = () => {
   const isMobile = useMuiMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm"),
   );
-  const isTablet = useMuiMediaQuery<Theme>((theme) =>
+  const isTabletOrLess = useMuiMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("md"),
   );
-  const isDesktop = useMuiMediaQuery<Theme>((theme) =>
+  const isDesktopOrMore = useMuiMediaQuery<Theme>((theme) =>
     theme.breakpoints.up("md"),
   );
   const isLargeDesktop = useMuiMediaQuery<Theme>((theme) =>
     theme.breakpoints.up("lg"),
   );
 
-  return { isMobile, isTablet, isDesktop, isLargeDesktop };
+  return { isMobile, isTabletOrLess, isDesktopOrMore, isLargeDesktop };
 };
 
 export default useMediaQuery;

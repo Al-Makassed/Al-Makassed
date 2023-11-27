@@ -10,21 +10,27 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import AccountMenu from "src/components/AccountMenu";
 import { pages, settings } from "src/constants";
+import { selectIsNavbarVisible } from "src/features/appSettings/selectors";
+import useMediaQuery from "src/hooks/useMediaQuery";
+import { useAppSelector } from "src/store/hooks";
 import maqasidLogo from "../../images/logo.jpg";
 import LanguageSelector from "./components/LanguageSelector";
 import MobileMenu from "./components/MobileMenu";
 import SearchBar from "./components/SearchBar";
 import SidebarChevron from "./components/SidebarChevron";
-import useMediaQuery from "src/hooks/useMediaQuery";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const { isMobile } = useMediaQuery();
 
+  const isNavbarVisible = useAppSelector(selectIsNavbarVisible);
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  if (!isNavbarVisible) return null;
 
   return (
     <AppBar position="static" elevation={0} color="primary">

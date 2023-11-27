@@ -1,10 +1,14 @@
+import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
-import Grid, { GridProps } from "@mui/material/Grid";
 import { NAVBAR_HEIGHT } from "src/constants";
+import { AppLayoutContainerProps } from "./types";
 
-export const AppLayoutContainer = styled(Grid)<GridProps>(({ theme }) => ({
+export const AppLayoutContainer = styled(Grid, {
+  shouldForwardProp: (prop) => prop !== "isNavbarVisible",
+  name: "AppLayoutContainer",
+})<AppLayoutContainerProps>(({ theme, isNavbarVisible }) => ({
   position: "absolute",
-  top: NAVBAR_HEIGHT,
+  top: isNavbarVisible ? NAVBAR_HEIGHT : 0,
   right: 0,
   display: "block",
   overflow: "auto",

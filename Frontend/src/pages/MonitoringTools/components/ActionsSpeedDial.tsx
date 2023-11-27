@@ -1,20 +1,20 @@
-import React, { FC } from "react";
+import MTAddIcon from "@mui/icons-material/LibraryAdd";
+import FieldAddIcon from "@mui/icons-material/PostAdd";
 import {
   Backdrop,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
 } from "@mui/material";
-import FieldAddIcon from "@mui/icons-material/PostAdd";
-import MTAddIcon from "@mui/icons-material/LibraryAdd";
+import { FC, useState } from "react";
 
-const actions = [
+const ACTIONS = [
   { icon: <MTAddIcon />, name: "MonitoringTool" },
   { icon: <FieldAddIcon />, name: "Field" },
 ];
 
-const MonitoringToolAdditionButton: FC = () => {
-  const [open, setOpen] = React.useState(false);
+const ActionsSpeedDial: FC = () => {
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -22,7 +22,7 @@ const MonitoringToolAdditionButton: FC = () => {
     <>
       <Backdrop open={open} />
       <SpeedDial
-        ariaLabel=""
+        ariaLabel="MonitoringToolAdditionButton"
         sx={{
           position: "absolute",
           bottom: { xs: -70, md: -16 },
@@ -33,7 +33,7 @@ const MonitoringToolAdditionButton: FC = () => {
         onOpen={handleOpen}
         open={open}
       >
-        {actions.map((action) => (
+        {ACTIONS.map((action) => (
           <SpeedDialAction
             key={action.name}
             icon={action.icon}
@@ -47,4 +47,4 @@ const MonitoringToolAdditionButton: FC = () => {
   );
 };
 
-export default MonitoringToolAdditionButton;
+export default ActionsSpeedDial;

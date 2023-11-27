@@ -1,29 +1,28 @@
-import React, { FC } from "react";
-import { Stack } from "@mui/material";
-import AdminMonitoringTools from "./components/MonitoringToolsList";
-import MonitoringToolAdditionButton from "./components/MonitoringToolAdditionButton";
-import { selectUserRoles } from "src/features/user";
+import { Box, Stack } from "@mui/material";
+import { FC } from "react";
+import { selectIsFocalPointUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
-import FocalPointTasksList from "./components/FocalPointTasksList";
+import ActionsSpeedDial from "./components/ActionsSpeedDial";
+import AdminMonitoringToolsGrid from "./components/AdminMonitoringToolsGrid";
+import FocalPointTasksGrid from "./components/FocalPointTasksGrid";
+import PageHeader from "./components/PageHeader";
 
 const MonitoringTools: FC = () => {
-  const userRole = useAppSelector(selectUserRoles)[0];
+  const isFocalPointUser = useAppSelector(selectIsFocalPointUser);
 
   return (
-    <Stack
-      alignItems={"center"}
-      justifyContent={"center"}
-      m={"3.5em 0 4.5em 0"}
-      position={"relative"}
-    >
-      {userRole == "Focal Point" ? (
-        <FocalPointTasksList />
-      ) : (
-        <>
-          <AdminMonitoringTools />
-          <MonitoringToolAdditionButton />
-        </>
-      )}
+    <Stack gap={3} sx={{ p: 3 }}>
+      <PageHeader />
+      <Box>
+        {isFocalPointUser ? (
+          <FocalPointTasksGrid />
+        ) : (
+          <>
+            <AdminMonitoringToolsGrid />
+            <ActionsSpeedDial />
+          </>
+        )}
+      </Box>
     </Stack>
   );
 };
