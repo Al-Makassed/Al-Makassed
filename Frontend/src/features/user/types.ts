@@ -5,7 +5,8 @@ export interface UserState {
   email: string;
   phoneNumber: string;
   roles: string[];
-  profileUrl: string;
+  avatarUrl: string;
+  isAdmin: boolean;
 }
 
-export interface LoginPayload extends UserState {}
+export interface LoginPayload extends Omit<UserState, "isAdmin"> {}
