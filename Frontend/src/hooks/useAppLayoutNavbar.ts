@@ -25,14 +25,6 @@ const useAppLayoutNavbar = () => {
       const scrollHeight = appLayoutContainer.scrollHeight;
       const documentHeight = appLayoutContainer.offsetHeight;
       const distanceToBottom = scrollHeight - scrollTop - documentHeight;
-
-      console.log({
-        scrollTop,
-        scrollHeight,
-        documentHeight,
-        distanceToBottom,
-      });
-
       const isScrollingDown = scrollTop > lastScrollTop;
 
       // Update the last scroll position
@@ -48,8 +40,9 @@ const useAppLayoutNavbar = () => {
         isVisible = false;
         dispatch(hideNavbar());
       }
+
       // If scrolling up and navbar is hidden, show it
-      if (!isVisible && !isScrollingDown) {
+      if (!isVisible && !isScrollingDown && distanceToBottom > 50) {
         isVisible = true;
         dispatch(showNavbar());
       }

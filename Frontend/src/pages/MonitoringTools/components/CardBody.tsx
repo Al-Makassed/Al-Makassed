@@ -2,6 +2,7 @@ import { CardContent, CardHeader, Typography } from "@mui/material";
 import { FC } from "react";
 import styles from "../style.module.css";
 import { CardBodyProps } from "../types";
+import { teal } from "@mui/material/colors";
 
 const CardBody: FC<CardBodyProps> = ({ monitoringTool, isFinished }) => {
   return (
@@ -9,7 +10,7 @@ const CardBody: FC<CardBodyProps> = ({ monitoringTool, isFinished }) => {
       <CardHeader
         title={monitoringTool.name}
         sx={{
-          bgcolor: isFinished ? "primary.light" : "grey.200",
+          bgcolor: isFinished ? "primary.light" : teal[50],
           color: isFinished ? "grey.100" : "",
         }}
       />

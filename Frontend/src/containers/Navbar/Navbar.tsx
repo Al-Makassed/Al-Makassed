@@ -9,7 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import AccountMenu from "src/components/AccountMenu";
-import { pages, settings } from "src/constants";
+import { SETTINGS, NAVBAR_PAGES } from "./constants";
 import { selectIsNavbarVisible } from "src/features/appSettings/selectors";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
@@ -18,6 +18,7 @@ import LanguageSelector from "./components/LanguageSelector";
 import MobileMenu from "./components/MobileMenu";
 import SearchBar from "./components/SearchBar";
 import SidebarChevron from "./components/SidebarChevron";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -30,18 +31,14 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  // if (!isNavbarVisible) return null;
+  const navigate = useNavigate();
+
+  const handleNavigate = (page: string) => () => navigate(page);
+
+  if (!isNavbarVisible) return null;
 
   return (
-    <AppBar
-      position="static"
-      elevation={0}
-      color="primary"
-      sx={{
-        // display: isNavbarVisible ? "flex" : "none",
-        visibility: isNavbarVisible ? "visible" : "hidden",
-      }}
-    >
+    <AppBar position="static" elevation={0} color="primary">
       <Toolbar sx={{ gap: 1 }}>
         <SidebarChevron />
 
@@ -49,8 +46,10 @@ const Navbar = () => {
           alt="logo"
           sx={{
             display: { xs: "none", md: "flex" },
+            cursor: "pointer",
           }}
           src={maqasidLogo}
+          onClick={handleNavigate("/me")}
         />
 
         <Stack
@@ -60,15 +59,16 @@ const Navbar = () => {
             ml: 1.5,
           }}
         >
-          {pages.map((page) => (
+          {NAVBAR_PAGES.map((page) => (
             <Button
-              key={page}
+              key={page.name}
               sx={{
                 textTransform: "none",
                 color: (theme) => theme.palette.grey[50],
               }}
+              onClick={handleNavigate(page.path)}
             >
-              {page}
+              {page.name}
             </Button>
           ))}
         </Stack>
@@ -95,7 +95,7 @@ const Navbar = () => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {settings.map((setting) => (
+            {SETTINGS.map((setting) => (
               <MenuItem key={setting} onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
