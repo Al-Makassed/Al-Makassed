@@ -9,4 +9,4 @@ export interface UserState {
   isAdmin: boolean;
 }
 
-export interface LoginPayload extends UserState {}
+export interface LoginPayload extends Omit<UserState, "isAdmin"> {}

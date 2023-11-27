@@ -30,10 +30,18 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  if (!isNavbarVisible) return null;
+  // if (!isNavbarVisible) return null;
 
   return (
-    <AppBar position="static" elevation={0} color="primary">
+    <AppBar
+      position="static"
+      elevation={0}
+      color="primary"
+      sx={{
+        // display: isNavbarVisible ? "flex" : "none",
+        visibility: isNavbarVisible ? "visible" : "hidden",
+      }}
+    >
       <Toolbar sx={{ gap: 1 }}>
         <SidebarChevron />
 
