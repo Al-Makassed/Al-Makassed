@@ -24,7 +24,10 @@ const BlockUI: FC = () => {
           bgcolor: "grey.100",
         }}
       >
-        <Lottie animationData={maqasidLoader} />
+        <Lottie
+          animationData={maqasidLoader}
+          style={{ width: "1000px", height: "1000px" }}
+        />
       </Box>
     </Modal>
   );
