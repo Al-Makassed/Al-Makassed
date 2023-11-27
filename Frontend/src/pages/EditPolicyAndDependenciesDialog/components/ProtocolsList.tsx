@@ -67,7 +67,7 @@ const ProtocolsList: FC = () => {
       </Box>
       <List
         sx={{
-          border: (theme) => `1px dashed ${theme.palette.success.main}`,
+          border: `1px dashed `,
           borderRadius: (theme) => theme.shape.borderRadius,
         }}
         disablePadding

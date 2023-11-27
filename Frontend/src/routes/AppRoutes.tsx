@@ -18,9 +18,6 @@ const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
 const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
-// const EditPolicyAndDependenciesForm = lazy(
-//   () => import("src/pages/EditPolicyAndDependenciesForm"),
-// );
 
 const AppRoutes: FC = () => {
   return (
@@ -34,23 +31,20 @@ const AppRoutes: FC = () => {
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
-
-            <Route path="chapters">
-              <Route index element={<h1>List of all Chapters</h1>} />
-              <Route path=":chapterId" element={<h1>One Chapter</h1>} />
-              <Route path="edit/:chapterId" element={<EditChapterForm />} />
-              <Route
-                path=":chapterId/policies"
-                element={<h1>Policies of a Chapter</h1>}
-              />
-              <Route
-                path=":chapterId/policies/:policyId"
-                element={<PolicyDetails />}
-              />
-              {/* <Route
-                path=":chapterId/policies/:policyId/edit"
-                element={<EditPolicyAndDependenciesForm />}
-              /> */}
+            <Route path="policies-and-procedures">
+              <Route path="chapters">
+                <Route index element={<h1>List of all Chapters</h1>} />
+                <Route path=":chapterId" element={<h1>One Chapter</h1>} />
+                <Route path="edit/:chapterId" element={<EditChapterForm />} />
+                <Route
+                  path=":chapterId/policies"
+                  element={<h1>Policies of a Chapter</h1>}
+                />
+                <Route
+                  path=":chapterId/policies/:policyId"
+                  element={<PolicyDetails />}
+                />
+              </Route>
             </Route>
 
             <Route path="monitoring-tools">
