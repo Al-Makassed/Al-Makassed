@@ -1,2 +1,2 @@
-export const pages = ["Policies and procedures", "Manuals", "Group3", "Group4"];
+export const pages = ["Policies and procedures", "Manuals", "Monitoring Tools"];
 export const settings = ["Logout"];

@@ -5,7 +5,7 @@ interface AppSettingsState {
   sidebar: {
     isOpen: boolean;
   };
-  // pageTitle: string;
+  isNavbarVisible: boolean;
 }
 
 // Define the initial state using that type
@@ -13,7 +13,7 @@ const initialState: AppSettingsState = {
   sidebar: {
     isOpen: false,
   },
-  // pageTitle: "Al-Maqasid"
+  isNavbarVisible: true,
 };
 
 export const appSettingsSlice = createSlice({
@@ -29,11 +29,25 @@ export const appSettingsSlice = createSlice({
     toggleSidebar: (state) => {
       state.sidebar.isOpen = !state.sidebar.isOpen;
     },
+    toggleNavbar: (state) => {
+      state.isNavbarVisible = !state.isNavbarVisible;
+    },
+    hideNavbar: (state) => {
+      state.isNavbarVisible = false;
+    },
+    showNavbar: (state) => {
+      state.isNavbarVisible = true;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { openSidebar, closeSidebar, toggleSidebar } =
-  appSettingsSlice.actions;
+export const {
+  openSidebar,
+  closeSidebar,
+  toggleSidebar,
+  showNavbar,
+  hideNavbar,
+} = appSettingsSlice.actions;
 
 export default appSettingsSlice.reducer;

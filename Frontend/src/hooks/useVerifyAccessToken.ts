@@ -26,7 +26,7 @@ const useVerifyAccessToken = () => {
       return;
     }
 
-    const { id, roles, userName, fullName, email, phoneNumber, profileUrl } =
+    const { id, roles, userName, fullName, email, phoneNumber, avatarUrl } =
       data;
 
     dispatch(
@@ -37,7 +37,7 @@ const useVerifyAccessToken = () => {
         email,
         fullName,
         phoneNumber,
-        profileUrl,
+        avatarUrl,
       }),
     );
 

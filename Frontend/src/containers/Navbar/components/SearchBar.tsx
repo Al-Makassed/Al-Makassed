@@ -14,7 +14,7 @@ const Search = styled("div")(({ theme }) => ({
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(1),
     width: "auto",
   },
 }));
@@ -42,9 +42,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Searching = () => {
+const SearchBar = () => {
   return (
-    <Search sx={{ flexGrow: 1.5 }}>
+    <Search>
       <SearchIconWrapper>
         <SearchIcon sx={{ color: "white" }} />
       </SearchIconWrapper>
@@ -56,4 +56,4 @@ const Searching = () => {
   );
 };
 
-export default Searching;
+export default SearchBar;
