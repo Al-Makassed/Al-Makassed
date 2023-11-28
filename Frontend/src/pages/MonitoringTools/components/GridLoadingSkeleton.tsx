@@ -15,7 +15,7 @@ const MonitoringToolsSkeleton: FC = () => {
               md: "calc((100% - 48px) / 3)",
               xl: "calc((100% - 72px) / 4)",
             },
-            height: 330,
+            height: 250,
           }}
         >
           <Skeleton variant="rounded" height="100%" />
