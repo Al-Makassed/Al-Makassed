@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPolicy } from "../API";
-import { POLICIES_QUERY_KEY } from "../constants";
+// import { POLICIES_QUERY_KEY } from "../constants";
 import { useAppDispatch } from "src/store/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
+import { CHAPTERS_QUERY_KEY } from "src/containers/Sidebar/constants";
 
 const useAddPolicyAPI = () => {
   const queryClient = useQueryClient();
@@ -15,7 +16,7 @@ const useAddPolicyAPI = () => {
     mutationFn: createPolicy,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: POLICIES_QUERY_KEY,
+        queryKey: CHAPTERS_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

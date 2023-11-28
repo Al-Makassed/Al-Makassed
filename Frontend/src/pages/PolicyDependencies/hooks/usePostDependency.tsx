@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addNewDependency } from "../API";
-import { DEPENDENCIES_QUERY_KEY } from "../constants";
 import { useAppDispatch } from "src/store/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
+import { POLICY_QUERY_KEY } from "src/pages/EditPolicyAndDependenciesForm/constants";
 
 const usePostDependency = () => {
   const queryClient = useQueryClient();
@@ -15,14 +15,13 @@ const usePostDependency = () => {
     mutationFn: addNewDependency,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: DEPENDENCIES_QUERY_KEY,
+        queryKey: [POLICY_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({
           message: "Dependency added successfully",
         }),
       );
-      window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
