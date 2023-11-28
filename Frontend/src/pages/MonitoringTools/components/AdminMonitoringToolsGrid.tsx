@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { FC } from "react";
 import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
 import MonitoringToolCard from "./MonitoringToolCard";
-import LoadingSkeleton from "./LoadingSkeleton";
+import LoadingSkeleton from "./GridLoadingSkeleton";
 
 const AdminMonitoringToolsGrid: FC = () => {
   const { monitoringTools, isFetching } = useGetMonitoringTools();

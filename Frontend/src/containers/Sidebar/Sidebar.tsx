@@ -6,6 +6,7 @@ import AddChapterButton from "./components/AddChapterButton";
 import { useAppSelector } from "src/store/hooks";
 import { selectIsSidebarOpen } from "src/features/appSettings";
 import { useTheme } from "@mui/material/styles";
+import { selectUserRoles } from "src/features/user";
 
 const Sidebar: FC = () => {
   const drawerWidth = 400;
@@ -13,6 +14,8 @@ const Sidebar: FC = () => {
   const theme = useTheme();
 
   const isOpen = useAppSelector(selectIsSidebarOpen);
+
+  const userRole = useAppSelector(selectUserRoles)[0];
 
   return (
     <Stack>
@@ -28,7 +31,7 @@ const Sidebar: FC = () => {
           },
           "& .MuiPaper-root": {
             backgroundColor: (theme) => theme.palette.grey[200],
-            height: `calc(100% - 115px)`,
+            height: userRole === "Admin" ? `calc(100% - 115px)` : `calc(91%)`,
             mt: 8,
           },
         }}
@@ -41,7 +44,7 @@ const Sidebar: FC = () => {
       >
         <Title />
         <ChaptersList />
-        <AddChapterButton />
+        {userRole === "Admin" && <AddChapterButton />}
       </Drawer>
     </Stack>
   );

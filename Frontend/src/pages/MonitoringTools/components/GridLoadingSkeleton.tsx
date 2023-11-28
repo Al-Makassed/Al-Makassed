@@ -11,6 +11,7 @@ const MonitoringToolsSkeleton: FC = () => {
           sx={{
             width: {
               xs: "100%",
+              sm: "calc((100% - 28px) / 2)",
               md: "calc((100% - 48px) / 3)",
               xl: "calc((100% - 72px) / 4)",
             },
