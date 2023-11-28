@@ -12,3 +12,12 @@ export interface FocalPointTask {
   totalSubmissions: number;
   isFinished: boolean;
 }
+
+export interface Field {
+  id: string;
+  content: string;
+}
+
+export interface CreateFieldRequest {
+  content: string;
+}

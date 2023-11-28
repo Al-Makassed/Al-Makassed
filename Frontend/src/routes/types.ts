@@ -1,4 +1,4 @@
-export type Role = "Admin" | "Staff" | "Focal Point";
+export type Role = "Admin" | "Sub-Admin" | "Focal Point" | "Staff";
 
 export interface PageAccessRight {
   roles: Role[][];

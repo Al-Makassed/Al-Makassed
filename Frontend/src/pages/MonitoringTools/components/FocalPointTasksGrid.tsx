@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
 import { FocalPointTask } from "../API/types";
-import useGetFocalPointTasks from "../hooks/userGetFocalPointTasks";
+import useGetFocalPointTasks from "../hooks/userGetFocalPointTask";
 import FocalPointTaskCard from "./FocalPointTaskCard";
 import LoadingSkeleton from "./LoadingSkeleton";
 // import { selectUser } from "src/features/user";
@@ -27,6 +27,7 @@ const FocalPointTasksGrid: FC = () => {
           sx={{
             width: {
               xs: "100%",
+              sm: "calc((100% - 28px) / 2)",
               md: "calc((100% - 48px) / 3)",
               xl: "calc((100% - 72px) / 4)",
             },

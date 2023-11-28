@@ -7,7 +7,7 @@ import { AxiosBaseError } from "src/types/axios";
 import { getFocalPointTasks } from "../API";
 import { FOCAL_POINT_TASKS_QUERY_KEY } from "../constants";
 
-const useGetFocalPointTasks = (departmentId: string) => {
+const useGetFocalPointTask = (departmentId: string) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -36,4 +36,4 @@ const useGetFocalPointTasks = (departmentId: string) => {
   };
 };
 
-export default useGetFocalPointTasks;
+export default useGetFocalPointTask;

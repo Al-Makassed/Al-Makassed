@@ -32,9 +32,18 @@ const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
 
       <Divider sx={{ justifyContent: "flex-end" }} />
 
-      <CardActions sx={{ justifyContent: "space-between" }}>
+      <CardActions
+        sx={{
+          justifyContent: "space-between",
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
         <Tooltip title="Last modified" arrow>
-          <Chip icon={<UpdateIcon />} label={lastModified} sx={{ mr: 1 }} />
+          <Chip
+            icon={<UpdateIcon />}
+            label={lastModified}
+            sx={{ mr: 1, fontSize: { xs: "0.7rem", lg: "0.8125rem" } }}
+          />
         </Tooltip>
 
         <Button startIcon={<TroubleshootIcon />}>View</Button>

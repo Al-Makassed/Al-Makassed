@@ -1,5 +1,5 @@
-import { Box, Stack } from "@mui/material";
 import { FC } from "react";
+import { Box, Stack } from "@mui/material";
 import { selectIsFocalPointUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
 import ActionsSpeedDial from "./components/ActionsSpeedDial";
@@ -11,7 +11,7 @@ const MonitoringTools: FC = () => {
   const isFocalPointUser = useAppSelector(selectIsFocalPointUser);
 
   return (
-    <Stack gap={3} sx={{ p: 3 }}>
+    <Stack gap={2} sx={{ p: "1.7em 2.5em", position: "relative" }}>
       <PageHeader />
       <Box>
         {isFocalPointUser ? (

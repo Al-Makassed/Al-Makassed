@@ -12,3 +12,8 @@ export interface CardBodyProps {
 export interface FocalPointTaskProps {
   focalPointTask: FocalPointTask;
 }
+
+export interface AddFieldDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
