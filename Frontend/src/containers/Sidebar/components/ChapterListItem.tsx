@@ -30,17 +30,19 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
   const navigate = useNavigate();
 
-  const handleEditChapter = () => navigate(`chapters/edit/${chapter.id}`);
+  const handleEditChapter = () =>
+    navigate(`policies-and-procedures/chapters/edit/${chapter.id}`);
 
   const handleClickPolicy = (policy: Policy) => () =>
-    navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
-
+    navigate(
+      `policies-and-procedures/chapters/${policy.chapterId}/policies/${policy.id}`,
+    );
   return (
     <>
       <Box sx={{ display: "flex", height: 55 }}>
         <ListItemButton onClick={handleClickChapter}>
           <ListItemIcon sx={{ mr: -2.5 }}>
-            <MenuBookIcon color="action" />
+            <MenuBookIcon color={chapter.enableState ? "action" : "disabled"} />
           </ListItemIcon>
 
           <Typography

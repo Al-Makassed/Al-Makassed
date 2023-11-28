@@ -38,7 +38,7 @@ const useLoginAPI = () => {
         }),
       );
       navigate("/me");
-      // window.location.reload();
+      window.location.reload(); //please Don't remove this
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
