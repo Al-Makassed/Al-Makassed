@@ -30,13 +30,10 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
   const navigate = useNavigate();
 
-  const handleEditChapter = () =>
-    navigate(`policies-and-procedures/chapters/edit/${chapter.id}`);
+  const handleEditChapter = () => navigate(`chapters/edit/${chapter.id}`);
 
   const handleClickPolicy = (policy: Policy) => () =>
-    navigate(
-      `policies-and-procedures/chapters/${policy.chapterId}/policies/${policy.id}`,
-    );
+    navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
 
   return (
     <>

@@ -8,6 +8,7 @@ import {
   ListItemIcon,
   ListItem,
   ListItemText,
+  Button,
 } from "@mui/material";
 import React, { FC } from "react";
 import { Dependency } from "../API/types";
@@ -49,20 +50,22 @@ const PostersList: FC = () => {
       <Box
         display="flex"
         flexDirection="row"
-        sx={{ justifyContent: "space-between", mt: 2, pl: 1 }}
+        sx={{ justifyContent: "space-between", mt: 2, p: 1 }}
       >
         <Typography variant="subtitle1" fontWeight={500}>
           Posters information
         </Typography>
         <Tooltip title="Delete All">
-          <IconButton
+          <Button
+            size="small"
+            variant="outlined"
             color="error"
             aria-label="Delete All"
-            sx={{ mr: 2 }}
             onClick={handleDeleteAllDependencies}
+            startIcon={<DeleteIcon />}
           >
-            <DeleteIcon />
-          </IconButton>
+            Delete
+          </Button>
         </Tooltip>
       </Box>
       <List
