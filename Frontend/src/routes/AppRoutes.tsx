@@ -14,6 +14,9 @@ const PolicyDetails = lazy(() => import("src/pages/PolicyDetails"));
 const Unauthenticated = lazy(() => import("src/pages/Unauthenticated"));
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
+const AddMonitoringToolForm = lazy(
+  () => import("src/pages/AddMonitoringToolForm"),
+);
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
@@ -56,6 +59,7 @@ const AppRoutes: FC = () => {
             <Route path="monitoring-tools">
               <Route index element={<MonitoringTools />} />
               <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+              <Route path="mt" element={<AddMonitoringToolForm />} />
             </Route>
           </Route>
         </Route>
