@@ -87,8 +87,18 @@ namespace Makassed.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("EstimatedTimeInMin")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -108,6 +118,8 @@ namespace Makassed.Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.HasIndex("PolicyId");
 
@@ -286,9 +298,19 @@ namespace Makassed.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
@@ -298,6 +320,8 @@ namespace Makassed.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("MonitoringTools");
                 });
@@ -315,8 +339,18 @@ namespace Makassed.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("EstimatedTimeInMin")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -334,6 +368,8 @@ namespace Makassed.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChapterId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Policies");
                 });
@@ -578,11 +614,19 @@ namespace Makassed.Api.Migrations
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Dependency", b =>
                 {
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Makassed.Api.Models.Domain.Policy", "Policy")
                         .WithMany("Dependencies")
                         .HasForeignKey("PolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Creator");
 
                     b.Navigation("Policy");
                 });
@@ -651,6 +695,17 @@ namespace Makassed.Api.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Makassed.Api.Models.Domain.MonitoringTool", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("Makassed.Api.Models.Domain.Policy", b =>
                 {
                     b.HasOne("Makassed.Api.Models.Domain.Chapter", "Chapter")
@@ -659,7 +714,15 @@ namespace Makassed.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Chapter");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.PolicyUser", b =>

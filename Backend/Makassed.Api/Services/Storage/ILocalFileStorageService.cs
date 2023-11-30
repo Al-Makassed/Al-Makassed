@@ -8,4 +8,3 @@ public interface ILocalFileStorageService
 
     int GetPdfFilePageCount(IFormFile file);
 }
-

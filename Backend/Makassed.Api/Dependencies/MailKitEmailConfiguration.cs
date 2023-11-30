@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using UserManagement.Service.Models.Domain;
+using Makassed.Email.Service.Models.Domain;
 
 public static class MailKitEmailConfiguration
 {

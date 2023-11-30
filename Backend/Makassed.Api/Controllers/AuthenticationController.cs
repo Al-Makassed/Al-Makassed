@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Makassed.Contracts.Authentication;
-using UserManagement.Service.Services.Email;
+using Makassed.Email.Service.Services;
 using Makassed.Contracts.General;
 using Makassed.Contracts.User.Roles;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,7 +21,7 @@ public class AuthenticationController : ApiController
     }
 
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [AllowAnonymous]
@@ -147,7 +147,7 @@ public class AuthenticationController : ApiController
     }
 
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VerifyBearerTokenResponse))]
+    [ProducesResponseType(typeof(VerifyBearerTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpGet("verify-bearer-token")]
     public IActionResult VerifyBearerToken()

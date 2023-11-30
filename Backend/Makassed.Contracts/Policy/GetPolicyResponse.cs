@@ -19,6 +19,12 @@ public record GetPolicyResponse
     public int EstimatedTimeInMin { get; set; }
         
     public Guid ChapterId { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public bool IsApproved { get; set; }
+
+    public required string CreatorId { get; set; }
         
     public ICollection<GetPolicyDependencyResponse> Dependencies { get; set; } = new List<GetPolicyDependencyResponse>();
 }

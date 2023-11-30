@@ -3,11 +3,13 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
+import MonitoringTools from "src/pages/MonitoringTools";
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
+const Counter2 = lazy(() => import("src/pages/Counter2"));
 const PolicyDetails = lazy(() => import("src/pages/PolicyDetails"));
 const Unauthenticated = lazy(() => import("src/pages/Unauthenticated"));
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
@@ -30,6 +32,7 @@ const AppRoutes: FC = () => {
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
+            <Route path="counter-with-provider" element={<Counter2 />} />
 
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
@@ -46,6 +49,11 @@ const AppRoutes: FC = () => {
                 path=":chapterId/policies/:policyId/edit"
                 element={<EditPolicyAndDependenciesForm />}
               />
+            </Route>
+
+            <Route path="monitoring-tools">
+              <Route index element={<MonitoringTools />} />
+              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
             </Route>
           </Route>
         </Route>

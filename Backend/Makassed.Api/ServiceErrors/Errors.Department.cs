@@ -4,7 +4,7 @@ namespace Makassed.Api.ServiceErrors;
 
 public abstract partial class Errors
 {
-    public class Department
+    public abstract class Department
     {
         public static Error NotFound => Error.NotFound(
             code: "Department.NotFound",

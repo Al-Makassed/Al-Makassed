@@ -1,33 +1,36 @@
-import React, { FC, useState, MouseEvent } from "react";
+import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Logout from "@mui/icons-material/Logout";
+import PasswordIcon from "@mui/icons-material/Password";
+import Settings from "@mui/icons-material/Settings";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import { cyan } from "@mui/material/colors";
-import { noop } from "src/utils";
-import PasswordIcon from "@mui/icons-material/Password";
+import { FC, MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UserAvatar from "src/components/UserAvatar";
 import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
-import { useAppDispatch } from "src/store/hooks";
-import { logout } from "src/features/user";
+import { logout, selectUser } from "src/features/user";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { noop } from "src/utils";
+import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 const AccountMenu: FC = () => {
   const dispatch = useAppDispatch();
+
+  const { isMobile } = useMediaQuery();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
 
-  const user = {
-    username: "Omar",
-  }; // TODO: replace with user from redux store
+  const { userName, avatarUrl } = useAppSelector(selectUser);
 
-  const userInitial = user?.username[0].toUpperCase();
+  const userInitial = getAvatarAbbreviation(userName);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +39,7 @@ const AccountMenu: FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -52,24 +56,14 @@ const AccountMenu: FC = () => {
           aria-controls={open ? "account-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
-          startIcon={
-            <Avatar
-              sx={{
-                bgcolor: cyan[50],
-                color: "grey.800",
-                width: 30,
-                height: 30,
-              }}
-            >
-              {userInitial}
-            </Avatar>
-          }
+          startIcon={<UserAvatar src={avatarUrl} initials={userInitial} />}
           sx={{
             textTransform: "none",
             color: (theme) => theme.palette.grey[50],
           }}
         >
-          {user.username}
+          {!isMobile && userName}
+          <ArrowDownIcon />
         </Button>
       </Tooltip>
       <Menu
