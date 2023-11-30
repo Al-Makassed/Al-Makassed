@@ -32,8 +32,8 @@ const AddFieldDialog: FC<AddFieldDialogProps> = ({ open, onClose }) => {
           isOpen={open}
           onClose={handleCloseDialog}
           onClosed={() => resetForm()}
-          disableBackdropClick
-          disableEscapeKeyDown
+          disableBackdropClick={dirty}
+          disableEscapeKeyDown={dirty}
         >
           <MaqasidDialog.Header>
             <MaqasidDialog.Title title="Add Field" />

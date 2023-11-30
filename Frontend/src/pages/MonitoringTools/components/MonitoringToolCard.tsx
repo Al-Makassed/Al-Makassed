@@ -1,3 +1,4 @@
+import { FC } from "react";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 import UpdateIcon from "@mui/icons-material/Update";
 import {
@@ -8,47 +9,56 @@ import {
   Divider,
   Tooltip,
 } from "@mui/material";
-import { FC } from "react";
 import formatDate from "src/utils/formatDate";
 import { MonitoringToolCardProps } from "../types";
 import CardBody from "./CardBody";
 
 const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
   monitoringTool,
+  onOpen,
 }) => {
+  const handleViewButtonClicked = () => onOpen();
+
   const lastModified = formatDate(monitoringTool.lastModified);
 
   return (
-    <Card
-      elevation={2}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 230,
-        // borderRadius: "0 15px 0 15px",
-      }}
-    >
-      <CardBody monitoringTool={monitoringTool} />
-
-      <Divider sx={{ justifyContent: "flex-end" }} />
-
-      <CardActions
+    <>
+      <Card
+        elevation={2}
         sx={{
-          justifyContent: "space-between",
-          flexDirection: { xs: "column", sm: "row" },
+          display: "flex",
+          flexDirection: "column",
+          minHeight: 230,
+          // borderRadius: "0 15px 0 15px",
         }}
       >
-        <Tooltip title="Last modified" arrow>
-          <Chip
-            icon={<UpdateIcon />}
-            label={lastModified}
-            sx={{ mr: 1, fontSize: { xs: "0.7rem", lg: "0.8125rem" } }}
-          />
-        </Tooltip>
+        <CardBody monitoringTool={monitoringTool} />
 
-        <Button startIcon={<TroubleshootIcon />}>View</Button>
-      </CardActions>
-    </Card>
+        <Divider sx={{ justifyContent: "flex-end" }} />
+
+        <CardActions
+          sx={{
+            justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
+          <Tooltip title="Last modified" arrow>
+            <Chip
+              icon={<UpdateIcon />}
+              label={lastModified}
+              sx={{ mr: 1, fontSize: { xs: "0.7rem", lg: "0.8125rem" } }}
+            />
+          </Tooltip>
+
+          <Button
+            startIcon={<TroubleshootIcon />}
+            onClick={() => handleViewButtonClicked()}
+          >
+            View
+          </Button>
+        </CardActions>
+      </Card>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import { FocalPointTask, MonitoringTool } from "./API/types";
 
 export interface MonitoringToolCardProps {
   monitoringTool: MonitoringTool;
+  onOpen: () => void;
 }
 
 export interface CardBodyProps {
