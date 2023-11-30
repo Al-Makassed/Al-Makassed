@@ -6,12 +6,16 @@ import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 
-const useSidebarAPI = () => {
+const useAddChapterAPI = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: addNewChapter } = useMutation({
+  const {
+    mutate: addNewChapter,
+    isPending: isAdding,
+    status,
+  } = useMutation({
     mutationFn: createChapter,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -36,7 +40,9 @@ const useSidebarAPI = () => {
 
   return {
     addNewChapter,
+    isAdding,
+    status,
   };
 };
 
-export default useSidebarAPI;
+export default useAddChapterAPI;

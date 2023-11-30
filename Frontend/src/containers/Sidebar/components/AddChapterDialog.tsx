@@ -1,62 +1,72 @@
-import React, { FC, useState } from "react";
-import { Button, Dialog, DialogTitle, Stack, TextField } from "@mui/material";
+import React, { FC, useEffect } from "react";
+import TextField from "src/components/Fields/TextField";
 import { AddChapterDialogProps } from "../types";
 import AddIcon from "@mui/icons-material/Add";
-import useSidebarAPI from "../hooks/useSidebarAPI";
+import MaqasidDialog from "src/components/MaqasidDialog";
+import useAddChapterForm from "../hooks/useAddChapterForm";
+import { Form, FormikProvider } from "formik";
+import { LoadingButton } from "@mui/lab";
 
 const AddChapterDialog: FC<AddChapterDialogProps> = ({ onClose, open }) => {
-  const [chapter, setChapter] = useState<string>("");
+  const { formikProps, isAdding, status } = useAddChapterForm();
 
-  const { addNewChapter } = useSidebarAPI();
+  const { dirty, isValid, resetForm, submitForm } = formikProps;
 
-  const closeDialog = () => onClose();
-
-  const handleAddChapter = () => {
-    addNewChapter(chapter);
-    closeDialog();
+  const handleSubmitForm = async () => {
+    await submitForm();
+    resetForm();
   };
+
+  const handleCloseDialog = () => onClose();
+
+  useEffect(() => {
+    if (!isAdding && status === "success") {
+      handleCloseDialog();
+    }
+  }, [isAdding]);
+
   return (
-    <Dialog
-      sx={{
-        "& .MuiPaper-root": {
-          minWidth: 350,
-        },
-      }}
-      aria-labelledby="responsive-dialog-title"
-      onClose={closeDialog}
-      open={open}
-    >
-      <DialogTitle
-        variant="h5"
-        sx={{
-          fontWeight: "500",
-        }}
-      >
-        Add Chapter
-      </DialogTitle>
-      <Stack padding="1em" gap={2}>
-        <TextField
-          id="outlined-basic"
-          label="Add Chapter"
-          variant="outlined"
-          placeholder="e.g. My awesome chapter"
-          value={chapter}
-          onChange={(e) => {
-            setChapter(e.target.value);
-          }}
-        />
-        <Stack direction="row" justifyContent="center">
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={handleAddChapter}
-          >
-            Add
-          </Button>
-        </Stack>
-      </Stack>
-    </Dialog>
+    <FormikProvider value={formikProps}>
+      <Form>
+        <MaqasidDialog
+          isOpen={open}
+          onClose={handleCloseDialog}
+          onClosed={() => resetForm()}
+          disableBackdropClick
+          disableEscapeKeyDown
+        >
+          <MaqasidDialog.Header>
+            <MaqasidDialog.Title title="Add Chapter" />
+            <MaqasidDialog.Actions>
+              <MaqasidDialog.Close />
+            </MaqasidDialog.Actions>
+          </MaqasidDialog.Header>
+          <MaqasidDialog.Body niceScroll>
+            <TextField
+              label="Chapter Name"
+              placeholder="e.g. International Patient Safety Goals"
+              name="chapterName"
+            />{" "}
+          </MaqasidDialog.Body>
+
+          <MaqasidDialog.Footer>
+            <LoadingButton
+              onClick={handleSubmitForm}
+              type="submit"
+              disabled={!dirty || !isValid}
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+              aria-label="Add Chapter"
+              loading={isAdding}
+              loadingPosition="start"
+            >
+              Add
+            </LoadingButton>
+          </MaqasidDialog.Footer>
+        </MaqasidDialog>
+      </Form>
+    </FormikProvider>
   );
 };
 export default AddChapterDialog;

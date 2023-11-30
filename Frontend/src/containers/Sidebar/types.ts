@@ -14,3 +14,7 @@ export interface AddChapterDialogProps {
   open: boolean;
   onClose: () => void;
 }
+
+export interface AddChapterProps {
+  chapterName: string;
+}
