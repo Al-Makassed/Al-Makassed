@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import {
   Button,
+  Chip,
   Grid,
   IconButton,
   List,
@@ -110,12 +111,14 @@ const EditChapterForm: FC<EditChapterDialogProps> = ({
             <MaqasidDialog.Header>
               <MaqasidDialog.Title title="Edit Chapter" />
               <MaqasidDialog.Actions>
+                <Chip label="Edit" />
+
                 <MaqasidDialog.Fullscreen />
                 <MaqasidDialog.Close />
               </MaqasidDialog.Actions>
             </MaqasidDialog.Header>
             <MaqasidDialog.Body niceScroll>
-              <Stack gap={3} padding={6} width={500}>
+              <Stack gap={3} padding={6}>
                 <Stack
                   direction="row"
                   sx={{ justifyContent: "space-between", pl: 1 }}
