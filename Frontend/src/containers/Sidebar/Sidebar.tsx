@@ -1,18 +1,29 @@
-import React, { FC } from "react";
+import React from "react";
+import { useTheme } from "@mui/material/styles";
 import { Drawer, Stack } from "@mui/material";
 import Title from "./components/Title";
 import ChaptersList from "./components/ChaptersList";
 import AddChapterButton from "./components/AddChapterButton";
-import { useAppSelector } from "src/store/hooks";
-import { selectIsSidebarOpen } from "src/features/appSettings";
-import { useTheme } from "@mui/material/styles";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { selectIsSidebarOpen, closeSidebar } from "src/features/appSettings";
+import { useLocation } from "react-router-dom";
+import { FC, useEffect } from "react";
 
 const Sidebar: FC = () => {
   const drawerWidth = 400;
 
   const theme = useTheme();
-
   const isOpen = useAppSelector(selectIsSidebarOpen);
+
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+
+  // Add an effect to listen for route changes and close the sidebar
+  useEffect(() => {
+    if (isOpen) {
+      dispatch(closeSidebar());
+    }
+  }, [location, dispatch]);
 
   return (
     <Stack>
