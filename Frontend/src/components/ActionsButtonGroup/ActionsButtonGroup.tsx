@@ -15,9 +15,12 @@ import { ActionsButtonGroupProps } from "./types";
 const ActionsButtonGroup: FC<ActionsButtonGroupProps> = ({ options }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const selectedOption = options[selectedIndex];
 
   const handleClick = () => {
-    options[0].onClick();
+    selectedOption.onClick();
   };
 
   const handleToggle = () => setOpen((prevOpen) => !prevOpen);
@@ -26,7 +29,7 @@ const ActionsButtonGroup: FC<ActionsButtonGroupProps> = ({ options }) => {
     _event: MouseEvent<HTMLLIElement>,
     index: number,
   ) => {
-    options[index].onClick();
+    setSelectedIndex(index);
     setOpen(false);
   };
 
@@ -47,8 +50,8 @@ const ActionsButtonGroup: FC<ActionsButtonGroupProps> = ({ options }) => {
         ref={anchorRef}
         aria-label="split button"
       >
-        <Button onClick={handleClick} value={options[0].label}>
-          {options[0].label}
+        <Button onClick={handleClick} value={selectedOption.label}>
+          {selectedOption.label}
         </Button>
         <Button
           size="small"

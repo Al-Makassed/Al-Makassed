@@ -14,7 +14,7 @@ const useGetPolicy = ({ chapterId, policyId }: GetPolicy) => {
   const { data: policy, error } = useQuery({
     queryFn: () => getPolicy({ chapterId, policyId }),
     queryKey: [POLICY_QUERY_KEY, { chapterId, policyId }],
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    // staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   useEffect(() => {

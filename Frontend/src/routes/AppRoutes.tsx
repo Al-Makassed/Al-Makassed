@@ -3,7 +3,7 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
-import MonitoringTools from "src/pages/MonitoringTools";
+const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -17,7 +17,10 @@ const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
-const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
+// const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
+// const EditPolicyAndDependenciesForm = lazy(
+//   () => import("src/pages/EditPolicyAndDependenciesForm"),
+// );
 
 const AppRoutes: FC = () => {
   return (
@@ -34,7 +37,6 @@ const AppRoutes: FC = () => {
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
               <Route path=":chapterId" element={<h1>One Chapter</h1>} />
-              <Route path="edit/:chapterId" element={<EditChapterForm />} />
               <Route
                 path=":chapterId/policies"
                 element={<h1>Policies of a Chapter</h1>}
