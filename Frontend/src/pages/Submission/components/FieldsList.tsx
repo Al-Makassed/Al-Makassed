@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { FieldsListProps } from "../types";
 import { Button, Stack } from "@mui/material";
-import FieldCard from "./FieldCard";
+import FieldCard from "./FieldPaper";
 import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline";
 
 const FieldsList: FC<FieldsListProps> = ({ fields }) => {
