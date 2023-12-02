@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Stack, Typography } from "@mui/material";
-import { HeaderProps } from "../types";
+import { HeaderProps } from "../../types";
 import DescriptionSection from "./DescriptionSection";
 import SubmissionsSegment from "./SubmissionsSegment";
 

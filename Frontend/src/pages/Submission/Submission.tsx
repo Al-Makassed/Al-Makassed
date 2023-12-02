@@ -2,7 +2,7 @@ import React from "react";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
 import { useParams } from "react-router-dom";
 import { Stack } from "@mui/material";
-import Header from "./Header/Header";
+import Header from "./components/Header/Header";
 
 const Submission = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
