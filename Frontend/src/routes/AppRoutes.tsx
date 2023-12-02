@@ -3,7 +3,7 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
-import MonitoringTools from "src/pages/MonitoringTools";
+const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
