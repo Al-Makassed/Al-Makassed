@@ -39,7 +39,6 @@ const PostersList: FC = () => {
     deleteDependency({ chapterId: id, policyId, dependencyId });
   };
 
-  console.log(policy);
   const policyPosters =
     policy?.dependencies.filter(
       (dependency) => dependency.type === PolicyDependencyType.Poster,

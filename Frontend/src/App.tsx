@@ -15,7 +15,7 @@ const App: FC = () => {
       <Snackbar />
       <ReactQueryDevtools
         initialIsOpen={false}
-        position="right"
+        position="left"
         buttonPosition="bottom-left"
       />
     </QueryClientProvider>

@@ -5,7 +5,7 @@ import useRenameChapter from "./useRenameChapter";
 import { Chapter } from "../API/types";
 
 const useRenameChapterForm = (chapter: Chapter) => {
-  const { renameChapter, isRenaming } = useRenameChapter();
+  const { renameChapter, isRenaming } = useRenameChapter(chapter.id);
 
   const submitForm = (values: EditChapterFormValues) => {
     renameChapter({
@@ -21,6 +21,7 @@ const useRenameChapterForm = (chapter: Chapter) => {
     validationSchema,
     onSubmit: submitForm,
     enableReinitialize: true,
+    isInitialValid: false,
   });
 
   return { formikProps, isRenaming };
