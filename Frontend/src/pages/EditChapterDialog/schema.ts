@@ -1,7 +1,7 @@
 import * as Yup from "yup";
-import { NewChapterName } from "./types";
+import { EditChapterFormValues } from "./types";
 
-const validationSchema = Yup.object<NewChapterName>().shape({
+const validationSchema = Yup.object<EditChapterFormValues>().shape({
   newChapterName: Yup.string().nullable().required("Chapter name is required"),
 });
 

@@ -1,23 +1,26 @@
 import { useFormik } from "formik";
 import validationSchema from "../schema";
-import { initialValues } from "../constants";
-import { NewChapterName } from "../types";
+import { EditChapterFormValues } from "../types";
 import useRenameChapter from "./useRenameChapter";
+import { Chapter } from "../API/types";
 
-const useRenameChapterForm = (chapterId: string) => {
+const useRenameChapterForm = (chapter: Chapter) => {
   const { renameChapter, isRenaming } = useRenameChapter();
 
-  const submitForm = (values: NewChapterName) => {
+  const submitForm = (values: EditChapterFormValues) => {
     renameChapter({
       newChapterName: values.newChapterName,
-      id: chapterId,
+      id: chapter.id,
     });
   };
 
   const formikProps = useFormik({
-    initialValues,
+    initialValues: {
+      newChapterName: chapter.name,
+    },
     validationSchema,
     onSubmit: submitForm,
+    enableReinitialize: true,
   });
 
   return { formikProps, isRenaming };

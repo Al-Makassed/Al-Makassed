@@ -3,6 +3,6 @@ export interface EditChapterDialogProps {
   onClose: () => void;
   chapterId: string;
 }
-export interface NewChapterName {
+export interface EditChapterFormValues {
   newChapterName: string;
 }

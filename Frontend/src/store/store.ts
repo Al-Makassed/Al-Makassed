@@ -3,7 +3,6 @@ import counterReducer from "../features/counter/counterSlice";
 import appSettingsReducer from "../features/appSettings/appSettingsSlice";
 import snackbarReducer from "../features/snackbar/snackbarSlice";
 import userReducer from "../features/user/userSlice";
-import deleteDialog from "src/features/deleteDialog/deleteDialogSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ const store = configureStore({
     appSettings: appSettingsReducer,
     snackbar: snackbarReducer,
     user: userReducer,
-    deleteDialog: deleteDialog,
   },
 });
 
