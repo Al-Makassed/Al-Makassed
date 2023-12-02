@@ -13,7 +13,7 @@ const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {
 
   return (
     <Stack direction={"row"} alignItems={"center"}>
-      <Collapse in={expanded} collapsedSize={24}>
+      <Collapse in={expanded} collapsedSize={"1em"}>
         <Typography variant="body2">{description}</Typography>
       </Collapse>
 

@@ -7,7 +7,7 @@ import SubmissionsSegment from "./SubmissionsSegment";
 const Header: FC<HeaderProps> = ({ focalPointTask }) => {
   return (
     <Stack gap={2} width={"100%"}>
-      <Stack direction={"row"} alignItems={"center"}>
+      <Stack direction={{ xs: "column", sm: "row" }} alignItems={"center"}>
         <Typography component="h1" variant="h4">
           {focalPointTask.monitoringTool.name}
         </Typography>

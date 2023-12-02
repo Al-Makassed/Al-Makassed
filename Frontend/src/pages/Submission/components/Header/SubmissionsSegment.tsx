@@ -9,12 +9,12 @@ const SubmissionsSegment: FC<SubmissionsSegmentProps> = ({
     <Typography
       variant="body1"
       component={"div"}
-      sx={{ ml: "auto" }}
+      sx={{ ml: { sm: "auto" } }}
       display={"flex"}
       alignItems={"center"}
       gap={1}
     >
-      <Box color={"primary.main"}>{totalSubmissions} / 14</Box>
+      <Box color={"primary.main"}>{totalSubmissions}/14</Box>
       Submissions
     </Typography>
   );

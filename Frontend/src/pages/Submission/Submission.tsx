@@ -3,6 +3,7 @@ import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
 import { useParams } from "react-router-dom";
 import { Stack } from "@mui/material";
 import Header from "./components/Header/Header";
+import FieldsList from "./components/FieldsList";
 
 const Submission = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -17,23 +18,22 @@ const Submission = () => {
     departmentId,
     focalPointTaskId,
   );
+
+  if (isFetching) return <h1>Loading...</h1>;
+
+  if (!focalPointTask) return null;
+
   return (
-    <>
-      {isFetching ? (
-        <h1>Loading...</h1>
-      ) : (
-        <Stack
-          alignItems={"center"}
-          sx={{ p: 4 }}
-          width={"70%"}
-          margin={"auto"}
-          gap={3}
-        >
-          <Header focalPointTask={focalPointTask!} />
-          {/* <Box bgcolor={"red"} width={700} height={300}></Box> */}
-        </Stack>
-      )}
-    </>
+    <Stack
+      alignItems={"center"}
+      sx={{ p: 4 }}
+      width={{ xs: "100%", md: "70%" }}
+      margin={"auto"}
+      gap={3}
+    >
+      <Header focalPointTask={focalPointTask} />
+      <FieldsList fields={focalPointTask.monitoringTool.fields} />
+    </Stack>
   );
 };
 
