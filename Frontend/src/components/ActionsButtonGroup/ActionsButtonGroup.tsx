@@ -90,6 +90,7 @@ const ActionsButtonGroup: FC<ActionsButtonGroupProps> = ({ options }) => {
                       key={option.label}
                       disabled={index === 2}
                       onClick={(event) => handleMenuItemClick(event, index)}
+                      selected={index === selectedIndex}
                     >
                       <ListItemIcon>{option.icon}</ListItemIcon>
                       <ListItemText>{option.label}</ListItemText>
