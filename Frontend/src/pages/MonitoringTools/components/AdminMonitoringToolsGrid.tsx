@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
 import MonitoringToolCard from "./MonitoringToolCard";
 import LoadingSkeleton from "./GridLoadingSkeleton";
-import MonitoringToolViewDialog from "./MonitoringToolViewer/MonitoringToolViewDialog";
+import MonitoringToolViewDialog from "./MonitoringToolDialog/MonitoringToolDialog";
 import { MonitoringTool } from "../API/types";
 
 const AdminMonitoringToolsGrid: FC = () => {
