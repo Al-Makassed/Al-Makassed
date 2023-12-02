@@ -11,7 +11,6 @@ const useResetPasswordAPI = () => {
   const { mutate: resetForgottenPassword, isPending } = useMutation({
     mutationFn: resetForgottenPasswordApi,
     onSuccess: (response) => {
-      console.log(response);
       dispatch(
         showSuccessSnackbar({
           message: response.message,

@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ConfirmDialog from "src/components/ConfirmDialog";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import { Policy } from "./API/types";
@@ -21,14 +22,17 @@ import useDeleteAllPolicies from "./hooks/useDeleteAllPolicies";
 import useDeleteChapter from "./hooks/useDeleteChapter";
 import useDeletePolicyByCode from "./hooks/useDeletePolicy";
 import useGetChapterById from "./hooks/useGetChapterById";
-import { EditChapterDialogProps } from "./types";
-import LoadingSkeleton from "./components/LoadingSkeleton";
 
-const EditChapterDialog: FC<EditChapterDialogProps> = ({
-  open,
-  onClose,
-  chapterId,
-}) => {
+const EditChapterDialog: FC = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const navigate = useNavigate();
+
+  // Open the dialog if the route matches: /chapters/:chapterId
+  const { chapterId: chapterIdParam } = useParams();
+
+  const chapterId = chapterIdParam ?? "";
+
   const { chapter } = useGetChapterById(chapterId);
 
   const [openedDialog, setOpenedDialog] = useState<DialogName | null>(null);
@@ -47,10 +51,10 @@ const EditChapterDialog: FC<EditChapterDialogProps> = ({
   };
 
   const handleDeleteAllPolicies = () => {
-    deleteAllPolicies(chapter?.id ?? "");
+    deleteAllPolicies(chapterId);
   };
 
-  const handleCloseMainDialog = () => onClose();
+  const navigateToChapters = () => navigate("/me/chapters");
 
   const closeConfirmDialog = () => setOpenedDialog(null);
 
@@ -65,90 +69,94 @@ const EditChapterDialog: FC<EditChapterDialogProps> = ({
   const openConfirmDeleteChapterDialog = () =>
     setOpenedDialog(DialogName.DeleteChapter);
 
-  if (!chapter) return <LoadingSkeleton isOpen={open} />;
+  const closeMainDialog = () => setIsOpen(false);
 
   return (
     <>
-      <MaqasidDialog
-        isOpen={open}
-        onClose={handleCloseMainDialog}
-        disableBackdropClick
-        disableEscapeKeyDown
-        variant="right"
-      >
-        <MaqasidDialog.Header>
-          <MaqasidDialog.Title title={`Chapter: ${chapter.name}`} />
-          <MaqasidDialog.Actions>
-            <MaqasidDialog.Fullscreen />
-            <MaqasidDialog.Close />
-          </MaqasidDialog.Actions>
-        </MaqasidDialog.Header>
-        <MaqasidDialog.Body niceScroll>
-          <Stack gap={3}>
-            <EditChapterForm chapter={chapter} />
+      {!!chapter && (
+        <MaqasidDialog
+          isOpen={isOpen}
+          onClose={closeMainDialog}
+          onClosed={navigateToChapters}
+          // disableBackdropClick
+          // disableEscapeKeyDown
+          variant="right"
+        >
+          <MaqasidDialog.Header>
+            <MaqasidDialog.Title title={`Chapter: ${chapter.name}`} />
+            <MaqasidDialog.Actions>
+              <MaqasidDialog.Fullscreen />
+              <MaqasidDialog.Close />
+            </MaqasidDialog.Actions>
+          </MaqasidDialog.Header>
+          <MaqasidDialog.Body niceScroll>
+            <Stack gap={3}>
+              <EditChapterForm chapter={chapter!} />
 
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<DeleteIcon />}
-              size="small"
-              onClick={openConfirmDeleteChapterDialog}
-            >
-              Delete Chapter
-            </Button>
-
-            <Stack sx={{ mt: 1 }} gap={1}>
-              <Stack
-                direction="row"
-                sx={{ justifyContent: "space-between", pl: 1 }}
+              <Button
+                variant="outlined"
+                color="error"
+                startIcon={<DeleteIcon />}
+                size="small"
+                onClick={openConfirmDeleteChapterDialog}
               >
-                <Typography variant="h5" fontWeight={500}>
-                  Chapter Policies
-                </Typography>
+                Delete Chapter
+              </Button>
 
-                <Tooltip title="Delete All">
-                  <IconButton
-                    color="error"
-                    aria-label="Delete All"
-                    onClick={openConfirmDeleteAllPoliciesDialog}
-                    sx={{ mr: 2 }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              </Stack>
+              <Stack sx={{ mt: 1 }} gap={1}>
+                <Stack
+                  direction="row"
+                  sx={{ justifyContent: "space-between", pl: 1 }}
+                >
+                  <Typography variant="h5" fontWeight={500}>
+                    Chapter Policies
+                  </Typography>
 
-              <List
-                sx={{
-                  border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
-                  borderRadius: (theme) => theme.shape.borderRadius,
-                  mt: 0,
-                }}
-                disablePadding
-              >
-                {chapter?.policies?.map((policy, index) => (
-                  <ListItemButton key={index} sx={{ pl: 4 }}>
-                    <ListItemIcon
-                      sx={{ color: (theme) => theme.palette.error.main }}
+                  <Tooltip title="Delete All">
+                    <IconButton
+                      color="error"
+                      aria-label="Delete All"
+                      onClick={openConfirmDeleteAllPoliciesDialog}
+                      sx={{ mr: 2 }}
+                      disabled={chapter?.policies?.length === 0}
                     >
-                      <PictureAsPdfIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={policy.name} />
-                    <Tooltip title="Delete">
-                      <IconButton
-                        aria-label="Delete Policy"
-                        onClick={() => handleDeleteSetting(policy)}
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Stack>
+
+                <List
+                  sx={{
+                    border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
+                    borderRadius: (theme) => theme.shape.borderRadius,
+                    mt: 0,
+                  }}
+                  disablePadding
+                >
+                  {chapter?.policies?.map((policy, index) => (
+                    <ListItemButton key={index} sx={{ pl: 4 }}>
+                      <ListItemIcon
+                        sx={{ color: (theme) => theme.palette.error.main }}
                       >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </ListItemButton>
-                ))}
-              </List>
+                        <PictureAsPdfIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={policy.name} />
+                      <Tooltip title="Delete">
+                        <IconButton
+                          aria-label="Delete Policy"
+                          onClick={() => handleDeleteSetting(policy)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Stack>
             </Stack>
-          </Stack>
-        </MaqasidDialog.Body>
-      </MaqasidDialog>
+          </MaqasidDialog.Body>
+        </MaqasidDialog>
+      )}
 
       <ConfirmDialog
         isOpen={openedDialog === DialogName.DeleteChapter}
@@ -163,7 +171,10 @@ const EditChapterDialog: FC<EditChapterDialogProps> = ({
           },
           {
             text: "Delete",
-            onClick: handleDeleteChapter,
+            onClick: () => {
+              handleDeleteChapter();
+              closeMainDialog();
+            },
             color: "error",
           },
         ]}
@@ -182,7 +193,10 @@ const EditChapterDialog: FC<EditChapterDialogProps> = ({
           },
           {
             text: "Delete",
-            onClick: handleDeleteAllPolicies,
+            onClick: () => {
+              handleDeleteAllPolicies();
+              closeConfirmDialog();
+            },
             color: "error",
           },
         ]}
@@ -201,8 +215,10 @@ const EditChapterDialog: FC<EditChapterDialogProps> = ({
           },
           {
             text: "Delete",
-            onClick: () =>
-              deletePolicy({ chapterId, policyId: policyToDelete!.id }),
+            onClick: () => {
+              deletePolicy({ chapterId, policyId: policyToDelete!.id });
+              closeConfirmDialog();
+            },
             color: "error",
           },
         ]}
