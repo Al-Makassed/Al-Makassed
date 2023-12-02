@@ -18,7 +18,7 @@ const useFetchChapters = (isSidebarOpen = false) => {
     queryFn: () => getChapters(),
     queryKey: CHAPTERS_QUERY_KEY,
     enabled: isSidebarOpen, // only fetch chapters when sidebar is open
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    // staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   useEffect(() => {

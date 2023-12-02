@@ -16,7 +16,7 @@ const useGetChapterById = (id: string) => {
   } = useQuery({
     queryFn: () => getChapterById(id),
     queryKey: [CHAPTER_QUERY_KEY, id],
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    // staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   useEffect(() => {

@@ -17,7 +17,6 @@ const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
-const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
 const EditPolicyAndDependenciesForm = lazy(
   () => import("src/pages/EditPolicyAndDependenciesForm"),
 );
@@ -38,7 +37,6 @@ const AppRoutes: FC = () => {
             <Route path="chapters">
               <Route index element={<h1>List of all Chapters</h1>} />
               <Route path=":chapterId" element={<h1>One Chapter</h1>} />
-              <Route path="edit/:chapterId" element={<EditChapterForm />} />
               <Route
                 path=":chapterId/policies"
                 element={<h1>Policies of a Chapter</h1>}

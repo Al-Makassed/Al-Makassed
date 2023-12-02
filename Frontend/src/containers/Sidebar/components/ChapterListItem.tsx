@@ -17,10 +17,18 @@ import { Policy } from "../API/types";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import AddPolicyDialog from "src/pages/AddPolicyDialog";
 import { useNavigate } from "react-router-dom";
+import EditChapterDialog from "src/pages/EditChapterDialog";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const [open, setOpen] = useState(false);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [isEditChapterDialog, setIsEditChapterDialog] = useState(false);
+
+  const handleEditChapterDialog = () => setIsEditChapterDialog(true);
+
+  const handleCloseEditChapterDialog = () => setIsEditChapterDialog(false);
 
   const handleClickChapter = () => setOpen(!open);
 
@@ -29,8 +37,6 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   const navigate = useNavigate();
-
-  const handleEditChapter = () => navigate(`chapters/edit/${chapter.id}`);
 
   const handleClickPolicy = (policy: Policy) => () =>
     navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
@@ -55,15 +61,20 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
         <Tooltip title="Edit chapter">
           <IconButton
+            onClick={handleEditChapterDialog}
             aria-label="Edit chapter"
             sx={{ mr: 1 }}
-            onClick={handleEditChapter}
           >
             <EditIcon />
           </IconButton>
         </Tooltip>
-      </Box>
 
+        <EditChapterDialog
+          chapterId={chapter.id}
+          open={isEditChapterDialog}
+          onClose={handleCloseEditChapterDialog}
+        />
+      </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {chapter.policies.map((policy, index) => (
