@@ -17,10 +17,6 @@ const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
-// const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
-// const EditPolicyAndDependenciesForm = lazy(
-//   () => import("src/pages/EditPolicyAndDependenciesForm"),
-// );
 
 const AppRoutes: FC = () => {
   return (
