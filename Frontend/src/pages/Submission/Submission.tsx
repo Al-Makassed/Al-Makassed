@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Stack } from "@mui/material";
 import Header from "./components/Header/Header";
 import FieldsList from "./components/FieldsList";
+import LoadingSkeleton from "./components/LoadingSkeleton";
 
 const Submission = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -19,7 +20,7 @@ const Submission = () => {
     focalPointTaskId,
   );
 
-  if (isFetching) return <h1>Loading...</h1>;
+  if (isFetching) return <LoadingSkeleton />;
 
   if (!focalPointTask) return null;
 

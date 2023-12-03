@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Makassed.Api", "Makassed.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Makassed.Contracts", "Makassed.Contracts\Makassed.Contracts.csproj", "{B624A519-11E7-43BF-8038-4A6F894D747F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Service", "UserManagement.Service\UserManagement.Service.csproj", "{A2408F7B-19C0-4836-9BED-FE81133B902F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Makassed.Email.Service", "Makassed.Email.Service\Makassed.Email.Service.csproj", "{78F2A4E2-0639-49AA-B245-EBB46D7DC7F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{B624A519-11E7-43BF-8038-4A6F894D747F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B624A519-11E7-43BF-8038-4A6F894D747F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B624A519-11E7-43BF-8038-4A6F894D747F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2408F7B-19C0-4836-9BED-FE81133B902F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2408F7B-19C0-4836-9BED-FE81133B902F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2408F7B-19C0-4836-9BED-FE81133B902F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2408F7B-19C0-4836-9BED-FE81133B902F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78F2A4E2-0639-49AA-B245-EBB46D7DC7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78F2A4E2-0639-49AA-B245-EBB46D7DC7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78F2A4E2-0639-49AA-B245-EBB46D7DC7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78F2A4E2-0639-49AA-B245-EBB46D7DC7F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
