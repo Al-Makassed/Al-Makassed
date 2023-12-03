@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import {
   FormControl,
   FormControlLabel,
@@ -10,7 +10,16 @@ import {
 } from "@mui/material";
 import { FieldCardProps } from "../types";
 
-const FieldCard: FC<FieldCardProps> = ({ field }) => {
+const FieldPaper: FC<FieldCardProps> = ({ field, onAnswerChange }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
+
+  const handleAnswerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const answer = e.target.value === "true";
+    setSelectedAnswer(answer);
+    onAnswerChange(field.id, answer);
+    //console.log(answer);
+  };
+
   return (
     <Paper
       sx={{
@@ -29,14 +38,16 @@ const FieldCard: FC<FieldCardProps> = ({ field }) => {
           name="field-answer-group"
           aria-labelledby="field-answer-group-label"
           row
+          value={selectedAnswer}
+          onChange={handleAnswerChange}
           sx={{ gap: 3 }}
         >
-          <FormControlLabel value={true} control={<Radio />} label="Yes" />
-          <FormControlLabel value={false} control={<Radio />} label="No" />
+          <FormControlLabel value={"true"} control={<Radio />} label="Yes" />
+          <FormControlLabel value={"false"} control={<Radio />} label="No" />
         </RadioGroup>
       </FormControl>
     </Paper>
   );
 };
 
-export default FieldCard;
+export default FieldPaper;

@@ -18,3 +18,14 @@ export interface FocalPointTask {
   totalSubmissions: number;
   isFinished: boolean;
 }
+
+export interface Answer {
+  fieldId: string;
+  answer: boolean;
+}
+
+export interface SubmissionRequest {
+  departmentId: string;
+  focalPointTaskId: string;
+  answers: Answer[];
+}

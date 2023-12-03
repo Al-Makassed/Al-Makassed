@@ -32,7 +32,7 @@ const Submission = () => {
       gap={3}
     >
       <Header focalPointTask={focalPointTask} />
-      <FieldsList fields={focalPointTask.monitoringTool.fields} />
+      <FieldsList focalPointTask={focalPointTask} />
     </Stack>
   );
 };

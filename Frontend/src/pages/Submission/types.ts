@@ -5,9 +5,10 @@ export interface HeaderProps {
 }
 
 export interface FieldsListProps {
-  fields: Field[];
+  focalPointTask: FocalPointTask;
 }
 
 export interface FieldCardProps {
   field: Field;
+  onAnswerChange: (fieldId: string, answer: boolean) => void;
 }
