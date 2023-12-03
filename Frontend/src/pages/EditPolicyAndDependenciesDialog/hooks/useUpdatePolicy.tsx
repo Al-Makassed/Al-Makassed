@@ -11,7 +11,11 @@ const useUpdatePolicy = () => {
 
   const dispatch = useAppDispatch();
 
-  const { mutate: updatePolicy, isPending: isUpdating } = useMutation({
+  const {
+    mutate: updatePolicy,
+    isPending: isUpdating,
+    status,
+  } = useMutation({
     mutationFn: updatePolicyAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -36,6 +40,7 @@ const useUpdatePolicy = () => {
   return {
     updatePolicy,
     isUpdating,
+    status,
   };
 };
 

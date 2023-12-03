@@ -1,31 +1,49 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import TextField from "src/components/Fields/TextField";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { LoadingButton } from "@mui/lab";
-import { FormikProvider, Form } from "formik";
+import { FormikProvider } from "formik";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import useUpdatePolicyForm from "./hooks/useUpdatePolicyForm";
 import FileDropzoneField from "src/components/Fields/FileDropzoneField";
-import { EditPolicyFormProps } from "./components/types";
 import FormsList from "./components/FormsList";
 import PostersList from "./components/PostersList";
 import ProtocolsList from "./components/ProtocolsList";
 import { CustomTabPanel, a11yProps } from "./components/CustomTabPanel";
+import useGetPolicy from "./hooks/useGetPolicy";
+import { useNavigate, useParams } from "react-router-dom";
 
-const EditPolicyAndDependenciesDialog: FC<EditPolicyFormProps> = ({
-  open,
-  chapterId,
-  policyId,
-  onClose,
-}) => {
-  const [value, setValue] = React.useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+const EditPolicyAndDependenciesDialog: FC = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const [value, setValue] = useState(0);
+
+  const { chapterId: chapterIdParam } = useParams();
+
+  const { policyId: policyIdParam } = useParams();
+
+  const chapterId = chapterIdParam ?? "";
+
+  const policyId = policyIdParam ?? "";
+
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const { formikProps, isUpdating } = useUpdatePolicyForm(chapterId, policyId);
+  const navigate = useNavigate();
 
+  const navigateToPolicyDetails = () =>
+    navigate(`/me/chapters/${chapterId}/policies/${policyId}`);
+
+  const { policy } = useGetPolicy({ chapterId, policyId });
+
+  if (!policy) return null;
+
+  const { formikProps, isUpdating, status } = useUpdatePolicyForm({
+    chapterId,
+    policy,
+  });
   const { dirty, isValid, resetForm, submitForm } = formikProps;
 
   const handleSubmitForm = async () => {
@@ -34,96 +52,90 @@ const EditPolicyAndDependenciesDialog: FC<EditPolicyFormProps> = ({
   };
 
   useEffect(() => {
-    if (!isUpdating) {
-      handleCloseDialog();
+    if (!isUpdating && status == "success") {
+      closeMainDialog();
     }
-  }, [isUpdating]);
+  }, [isUpdating, status]);
 
-  const handleCloseDialog = () => onClose();
+  const closeMainDialog = () => setIsOpen(false);
 
   return (
-    <FormikProvider value={formikProps}>
-      <Form>
-        <MaqasidDialog
-          isOpen={open}
-          onClose={handleCloseDialog}
-          onClosed={() => resetForm()}
-          disableBackdropClick
-          disableEscapeKeyDown
-          variant="right"
-        >
-          <MaqasidDialog.Header>
-            <MaqasidDialog.Title title="Edit Policy" padding={1} />
-            <MaqasidDialog.Actions>
-              <MaqasidDialog.Fullscreen />
-              <MaqasidDialog.Close />
-            </MaqasidDialog.Actions>
-          </MaqasidDialog.Header>
-          <MaqasidDialog.Body niceScroll>
-            <Box sx={{ width: "100%" }}>
-              <Box>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
+    <>
+      <MaqasidDialog
+        isOpen={isOpen}
+        onClose={closeMainDialog}
+        onClosed={navigateToPolicyDetails}
+        // disableBackdropClick
+        // disableEscapeKeyDown
+        variant="right"
+      >
+        <MaqasidDialog.Header>
+          <MaqasidDialog.Title title="Edit Policy" />
+          <MaqasidDialog.Actions>
+            <MaqasidDialog.Fullscreen />
+            <MaqasidDialog.Close />
+          </MaqasidDialog.Actions>
+        </MaqasidDialog.Header>
+        <MaqasidDialog.Body niceScroll>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Policy" {...a11yProps(0)} />
+              <Tab label="Forms " {...a11yProps(1)} />
+              <Tab label="Posters " {...a11yProps(2)} />
+              <Tab label="Protocols " {...a11yProps(3)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <FormikProvider value={formikProps}>
+              <Stack gap={2.5} justifyContent="center">
+                <TextField name="newName" label="Policy Name" />
+
+                <TextField name="newCode" label="Policy Code" />
+
+                <TextField
+                  name="newEstimatedTimeInMin"
+                  label="Time in minutes"
+                  type="number"
+                  InputProps={{ inputProps: { min: 0 } }}
+                />
+
+                <FileDropzoneField name="newMainFile" />
+
+                <TextField name="newSummary" label="Summary" />
+                <LoadingButton
+                  fullWidth
+                  onClick={handleSubmitForm}
+                  type="submit"
+                  disabled={!dirty || !isValid}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<DriveFileRenameOutlineIcon />}
+                  aria-label="Add policy"
+                  loading={isUpdating}
+                  loadingPosition="start"
                 >
-                  <Tab label="Policy" {...a11yProps(0)} />
-                  <Tab label="Forms " {...a11yProps(1)} />
-                  <Tab label="Posters " {...a11yProps(2)} />
-                  <Tab label="Protocols " {...a11yProps(3)} />
-                </Tabs>
-              </Box>
-              <CustomTabPanel value={value} index={0}>
-                <MaqasidDialog.Body niceScroll>
-                  <FormikProvider value={formikProps}>
-                    <Stack p={3} gap={2.5} justifyContent="center">
-                      <TextField name="newName" label="Policy Name" />
+                  Update
+                </LoadingButton>
+              </Stack>
+            </FormikProvider>
+          </CustomTabPanel>
 
-                      <TextField name="newCode" label="Policy Code" />
-
-                      <TextField
-                        name="newEstimatedTimeInMin"
-                        label="Time in minutes"
-                        type="number"
-                        InputProps={{ inputProps: { min: 0 } }}
-                      />
-
-                      <FileDropzoneField name="newMainFile" />
-
-                      <TextField name="newSummary" label="Summary" />
-                    </Stack>
-                  </FormikProvider>
-                </MaqasidDialog.Body>
-                <MaqasidDialog.Footer>
-                  <LoadingButton
-                    onClick={handleSubmitForm}
-                    type="submit"
-                    disabled={!dirty || !isValid}
-                    variant="contained"
-                    color="primary"
-                    startIcon={<DriveFileRenameOutlineIcon />}
-                    aria-label="Add policy"
-                    loading={isUpdating}
-                    loadingPosition="start"
-                  >
-                    Add
-                  </LoadingButton>
-                </MaqasidDialog.Footer>
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={1}>
-                <FormsList />
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={2}>
-                <PostersList />
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={3}>
-                <ProtocolsList />
-              </CustomTabPanel>
-            </Box>
-          </MaqasidDialog.Body>
-        </MaqasidDialog>
-      </Form>
-    </FormikProvider>
+          <CustomTabPanel value={value} index={1}>
+            <FormsList />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
+            <PostersList />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={3}>
+            <ProtocolsList />
+          </CustomTabPanel>
+        </MaqasidDialog.Body>
+      </MaqasidDialog>
+    </>
   );
 };
 

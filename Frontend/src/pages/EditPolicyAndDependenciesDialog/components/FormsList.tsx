@@ -1,6 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
-  Box,
   Button,
   IconButton,
   List,
@@ -18,7 +17,8 @@ import { useParams } from "react-router-dom";
 import useGetPolicy from "../hooks/useGetPolicy";
 import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependencies";
 import useDeleteDependency from "../hooks/useDeleteDependency";
-import { PolicyDependencyType } from "../constants";
+import { DialogName, PolicyDependencyType } from "../constants";
+import ConfirmDialog from "src/components/ConfirmDialog";
 
 const FormsList: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -26,6 +26,10 @@ const FormsList: FC = () => {
   const id = chapterIdParam ?? "";
 
   const policyId = policyIdParam ?? "";
+  const [openedDialog, setOpenedDialog] = useState<DialogName | null>(null);
+
+  const openConfirmDeleteAllFormsDialog = () =>
+    setOpenedDialog(DialogName.DeleteForms);
 
   const { policy } = useGetPolicy({ chapterId: id, policyId });
 
@@ -39,6 +43,7 @@ const FormsList: FC = () => {
   const handleDeleteDependency = (dependencyId: string) => () => {
     deleteDependency({ chapterId: id, policyId, dependencyId });
   };
+  const closeConfirmDialog = () => setOpenedDialog(null);
 
   const policyForms =
     policy?.dependencies.filter(
@@ -46,32 +51,27 @@ const FormsList: FC = () => {
     ) ?? [];
 
   return (
-    <Stack>
-      <Box
-        display="flex"
-        flexDirection="row"
-        sx={{ justifyContent: "space-between", mt: 2, p: 1 }}
-      >
-        <Typography variant="subtitle1" fontWeight={500}>
-          Forms information
-        </Typography>
-        <Tooltip title="Delete All">
-          <Button
-            size="small"
-            variant="outlined"
-            color="error"
-            aria-label="Delete All"
-            onClick={handleDeleteAllDependencies}
-            startIcon={<DeleteIcon />}
-          >
-            Delete
-          </Button>
-        </Tooltip>
-      </Box>
+    <Stack gap={3}>
+      <Typography variant="subtitle1" fontWeight={500}>
+        Forms information
+      </Typography>
+      <Tooltip title="Delete All">
+        <Button
+          size="small"
+          variant="outlined"
+          color="error"
+          aria-label="Delete All"
+          onClick={openConfirmDeleteAllFormsDialog}
+          startIcon={<DeleteIcon />}
+        >
+          Delete
+        </Button>
+      </Tooltip>
       <List
         sx={{
-          border: `1px dashed `,
+          border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
           borderRadius: (theme) => theme.shape.borderRadius,
+          mt: 0,
         }}
         disablePadding
       >
@@ -93,6 +93,27 @@ const FormsList: FC = () => {
           </ListItem>
         ))}
       </List>
+      <ConfirmDialog
+        isOpen={openedDialog === DialogName.DeleteForms}
+        title="Delete Chapter"
+        body="Are you sure you want to permanently delete this chapter?"
+        onClose={closeConfirmDialog}
+        actions={[
+          {
+            text: "Cancel",
+            onClick: closeConfirmDialog,
+            sx: { color: "grey.700" },
+          },
+          {
+            text: "Delete",
+            onClick: () => {
+              closeConfirmDialog();
+              handleDeleteAllDependencies();
+            },
+            color: "error",
+          },
+        ]}
+      />
     </Stack>
   );
 };

@@ -1,5 +1,3 @@
-import { EditPolicy } from "./types";
-
 export const POLICY_QUERY_KEY = ["Policy"];
 
 export enum PolicyDependencyType {
@@ -7,11 +5,8 @@ export enum PolicyDependencyType {
   Poster = 1,
   Protocol = 2,
 }
-
-export const initialValues: EditPolicy = {
-  newName: "",
-  newCode: "",
-  newEstimatedTimeInMin: 0,
-  newMainFile: undefined,
-  newSummary: "",
-};
+export enum DialogName {
+  DeleteForms = "DeleteForms",
+  DeletePosters = "DeletePosters",
+  DeleteProtocols = "DeleteProtocols",
+}

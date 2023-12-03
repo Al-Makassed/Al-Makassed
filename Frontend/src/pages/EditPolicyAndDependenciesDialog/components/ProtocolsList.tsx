@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import {
-  Box,
   Button,
   IconButton,
   List,
@@ -46,32 +45,27 @@ const ProtocolsList: FC = () => {
     ) ?? [];
 
   return (
-    <Stack>
-      <Box
-        display="flex"
-        flexDirection="row"
-        sx={{ justifyContent: "space-between", mt: 2, p: 1 }}
-      >
-        <Typography variant="subtitle1" fontWeight={500}>
-          Protocols information
-        </Typography>
-        <Tooltip title="Delete All">
-          <Button
-            size="small"
-            variant="outlined"
-            color="error"
-            aria-label="Delete All"
-            onClick={handleDeleteAllDependencies}
-            startIcon={<DeleteIcon />}
-          >
-            Delete
-          </Button>
-        </Tooltip>
-      </Box>
+    <Stack gap={3}>
+      <Typography variant="subtitle1" fontWeight={500}>
+        Protocols information
+      </Typography>
+      <Tooltip title="Delete All">
+        <Button
+          size="small"
+          variant="outlined"
+          color="error"
+          aria-label="Delete All"
+          onClick={handleDeleteAllDependencies}
+          startIcon={<DeleteIcon />}
+        >
+          Delete
+        </Button>
+      </Tooltip>
       <List
         sx={{
-          border: `1px dashed `,
+          border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
           borderRadius: (theme) => theme.shape.borderRadius,
+          mt: 0,
         }}
         disablePadding
       >
