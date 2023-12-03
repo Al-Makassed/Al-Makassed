@@ -1,15 +1,16 @@
 import React, { FC, useState } from "react";
 import { FieldsListProps } from "../types";
 import { Answer } from "../API/types";
-import { Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import FieldCard from "./FieldPaper";
 import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline";
 import useSubmitFocalPointTask from "../hooks/useSubmitFocalPointTask";
+import { LoadingButton } from "@mui/lab";
 
 const FieldsList: FC<FieldsListProps> = ({ focalPointTask }) => {
   const [answers, setAnswers] = useState<Answer[]>([]);
 
-  const { addSubmission } = useSubmitFocalPointTask();
+  const { addSubmission, isPending } = useSubmitFocalPointTask();
 
   const handleAnswerChange = (fieldId: string, answer: boolean) => {
     setAnswers((prevAnswers) => [...prevAnswers, { fieldId, answer }]);
@@ -23,6 +24,12 @@ const FieldsList: FC<FieldsListProps> = ({ focalPointTask }) => {
     });
   };
 
+  const checkAllFieldsAreAnswered = () => {
+    return focalPointTask.monitoringTool.fields.every((field) =>
+      answers.find((answer) => answer.fieldId === field.id),
+    );
+  };
+
   return (
     <Stack gap={4}>
       {focalPointTask.monitoringTool.fields.map((field, index) => (
@@ -32,14 +39,19 @@ const FieldsList: FC<FieldsListProps> = ({ focalPointTask }) => {
           onAnswerChange={handleAnswerChange}
         />
       ))}
-      <Button
+      <LoadingButton
+        type="submit"
         variant="contained"
         startIcon={<CheckCircleIcon />}
         sx={{ width: "fit-content", ml: "auto" }}
         onClick={handleSubmit}
+        loading={isPending}
+        loadingPosition="start"
+        aria-label="submit task"
+        disabled={!checkAllFieldsAreAnswered()}
       >
         Submit
-      </Button>
+      </LoadingButton>
     </Stack>
   );
 };
