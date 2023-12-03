@@ -24,7 +24,7 @@ const FieldsList: FC<FieldsListProps> = ({ focalPointTask }) => {
   };
 
   return (
-    <Stack gap={3}>
+    <Stack gap={4}>
       {focalPointTask.monitoringTool.fields.map((field, index) => (
         <FieldCard
           key={index}

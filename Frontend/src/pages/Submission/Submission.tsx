@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
 import { useParams } from "react-router-dom";
 import { Stack } from "@mui/material";
@@ -6,7 +6,7 @@ import Header from "./components/Header/Header";
 import FieldsList from "./components/FieldsList";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 
-const Submission = () => {
+const Submission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
 
   const focalPointTaskId = focalPointTaskIdParam ?? "";
@@ -30,7 +30,7 @@ const Submission = () => {
       sx={{ p: 4 }}
       width={{ xs: "100%", md: "70%" }}
       margin={"auto"}
-      gap={3}
+      gap={5}
     >
       <Header focalPointTask={focalPointTask} />
       <FieldsList focalPointTask={focalPointTask} />
