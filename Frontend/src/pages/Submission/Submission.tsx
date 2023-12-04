@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 import Header from "./components/Header/Header";
 import FieldsList from "./components/FieldsList";
 import LoadingSkeleton from "./components/LoadingSkeleton";
+import FinishedSubmissions from "./components/finishedSubmissions";
 
 const Submission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -32,8 +33,14 @@ const Submission: FC = () => {
       margin={"auto"}
       gap={5}
     >
-      <Header focalPointTask={focalPointTask} />
-      <FieldsList focalPointTask={focalPointTask} />
+      {focalPointTask.isFinished ? (
+        <FinishedSubmissions />
+      ) : (
+        <>
+          <Header focalPointTask={focalPointTask} />
+          <FieldsList focalPointTask={focalPointTask} />
+        </>
+      )}
     </Stack>
   );
 };
