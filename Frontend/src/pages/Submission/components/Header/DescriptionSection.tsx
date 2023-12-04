@@ -3,6 +3,7 @@ import { Collapse, IconButton, Stack, Typography } from "@mui/material";
 import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { DescriptionSectionProps } from "./types";
+import styles from "../../style.module.css";
 
 const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {
   const [expanded, setExpanded] = useState(false);
@@ -13,8 +14,13 @@ const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {
 
   return (
     <Stack direction={"row"} alignItems={"center"}>
-      <Collapse in={expanded} collapsedSize={"1em"}>
-        <Typography variant="body2">{description}</Typography>
+      <Collapse in={expanded} collapsedSize={"1.43em"}>
+        <Typography
+          variant="body2"
+          className={!expanded ? styles.showFirstLine : ""}
+        >
+          {description}
+        </Typography>
       </Collapse>
 
       {
