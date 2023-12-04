@@ -5,7 +5,7 @@ import { Stack } from "@mui/material";
 import Header from "./components/Header/Header";
 import FieldsList from "./components/FieldsList";
 import LoadingSkeleton from "./components/LoadingSkeleton";
-import FinishedSubmissions from "./components/finishedSubmissions";
+import FinishedSubmissions from "./components/FinishedSubmissions";
 
 const Submission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
