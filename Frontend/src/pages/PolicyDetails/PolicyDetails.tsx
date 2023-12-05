@@ -18,10 +18,12 @@ const PolicyDetails: FC = () => {
 
   const navigate = useNavigate();
 
-  if (isFetching) return <PolicyDetailsLoadingSkeleton />;
   const handleClickEditPoliciesAndProceduresDialog = () => {
     navigate(`/me/chapters/edit/${chapterId}/policies/${policyId}`);
   };
+
+  if (isFetching) return <PolicyDetailsLoadingSkeleton />;
+
   if (!policy) return null;
 
   return (
@@ -33,7 +35,7 @@ const PolicyDetails: FC = () => {
         >
           {policy.code}
         </Typography>
-        <Stack direction="row">
+        <Stack direction="row" justifyContent="center">
           <Typography fontWeight={600} variant="h5">
             {policy.name}
           </Typography>

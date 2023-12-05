@@ -1,3 +1,5 @@
+import { Policy } from "./API/types";
+
 export interface EditPolicy {
   newName: string;
   newCode: string;
@@ -9,4 +11,8 @@ export interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
+}
+export interface UpdatePolicyProps {
+  chapterId: string;
+  policy?: Policy;
 }

@@ -9,4 +9,7 @@ export enum DialogName {
   DeleteForms = "DeleteForms",
   DeletePosters = "DeletePosters",
   DeleteProtocols = "DeleteProtocols",
+  DeleteForm = "DeleteForm",
+  DeletePoster = "DeletePoster",
+  DeleteProtocol = "DeleteProtocol",
 }
