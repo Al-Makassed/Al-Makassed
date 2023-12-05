@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Typography } from "@mui/material";
-import { DescriptionSectionProps } from "./types";
+import { DescriptionSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
 
 const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {

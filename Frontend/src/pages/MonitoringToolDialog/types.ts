@@ -1,4 +1,4 @@
-import { Department, Field } from "../../API/types";
+import { Department, Field } from "../MonitoringTools/API/types";
 
 export interface MonitoringToolViewDialogProps {
   open: boolean;

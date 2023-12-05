@@ -7,7 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import FieldIcon from "@mui/icons-material/QuizOutlined";
-import { FieldsSectionProps } from "./types";
+import { FieldsSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
 
 const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {

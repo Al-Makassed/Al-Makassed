@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAppDispatch } from "src/store/hooks";
-import { getMonitoringTool } from "../API";
-import { MONITORING_TOOL_QUERY_KEY } from "../constants";
+import { getMonitoringTool } from "../../MonitoringTools/API";
+import { MONITORING_TOOL_QUERY_KEY } from "../../MonitoringTools/constants";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types";
 import { showErrorSnackbar } from "src/features/snackbar";

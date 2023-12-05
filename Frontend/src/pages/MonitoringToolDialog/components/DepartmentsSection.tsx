@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { DepartmentsSectionProps } from "./types";
+import { DepartmentsSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
 import { Chip, Stack } from "@mui/material";
 import BusinessIcon from "@mui/icons-material/Business";
