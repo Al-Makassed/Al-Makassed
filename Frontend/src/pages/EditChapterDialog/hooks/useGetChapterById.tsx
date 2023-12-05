@@ -15,8 +15,8 @@ const useGetChapterById = (id: string) => {
     error,
   } = useQuery({
     queryFn: () => getChapterById(id),
-    queryKey: [CHAPTER_QUERY_KEY, id],
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    queryKey: [...CHAPTER_QUERY_KEY, id],
+    // staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   useEffect(() => {

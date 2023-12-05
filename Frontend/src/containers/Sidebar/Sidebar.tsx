@@ -26,35 +26,37 @@ const Sidebar: FC = () => {
   }, [location, dispatch]);
 
   return (
-    <Stack>
-      <Drawer
-        sx={{
-          position: "relative",
-          backgroundColor: "black",
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
+    <>
+      <Stack>
+        <Drawer
+          sx={{
+            position: "relative",
+            backgroundColor: "black",
             width: drawerWidth,
-            boxSizing: "border-box",
-          },
-          "& .MuiPaper-root": {
-            backgroundColor: (theme) => theme.palette.grey[200],
-            height: `calc(100% - 115px)`,
-            mt: 8,
-          },
-        }}
-        style={{
-          ...theme.mixins.niceScroll(),
-        }}
-        variant="persistent"
-        anchor="left"
-        open={isOpen}
-      >
-        <Title />
-        <ChaptersList />
-        <AddChapterButton />
-      </Drawer>
-    </Stack>
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+            "& .MuiPaper-root": {
+              backgroundColor: (theme) => theme.palette.grey[200],
+              height: `calc(100% - 115px)`,
+              mt: 8,
+            },
+          }}
+          style={{
+            ...theme.mixins.niceScroll(),
+          }}
+          variant="persistent"
+          anchor="left"
+          open={isOpen}
+        >
+          <Title />
+          <ChaptersList />
+          <AddChapterButton />
+        </Drawer>
+      </Stack>
+    </>
   );
 };
 
