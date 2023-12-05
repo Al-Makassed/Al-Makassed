@@ -1,1 +1,1 @@
-export { default } from "./components/MonitoringToolDialog";
+export { default } from "./MonitoringToolDialog";
