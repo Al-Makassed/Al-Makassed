@@ -2,7 +2,6 @@
 using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
-using Makassed.Api.Repositories;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Users;
@@ -127,19 +126,18 @@ public class MonitoringToolService : IMonitoringToolService
         return result is null ? Errors.MonitoringTool.NameAlreadyExist : MapMonitoringToolDto(result);
     }
 
-    public async Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool, List<Guid> requestDepartmentsIdes,
-        List<Guid> requestFieldsIdes)
+    public async Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool)
     {
         // Add the existed departments and fields to the monitoring tool
-        var departments = await AssignDepartmentsAsync(monitoringTool, requestDepartmentsIdes);
+        // var departments = await AssignDepartmentsAsync(monitoringTool, requestDepartmentsIdes);
 
-        if (departments.IsError)
-            return departments.Errors;
+        //if (departments.IsError)
+        //    return departments.Errors;
 
-        var fields = await AssignFieldsAsync(monitoringTool, requestFieldsIdes);
+        //var fields = await AssignFieldsAsync(monitoringTool, requestFieldsIdes);
 
-        if (fields.IsError)
-            return fields.Errors;
+        //if (fields.IsError)
+        //    return fields.Errors;
 
         // Update the monitoring tool
         var result = await _monitoringToolRepository.UpdateMonitoringToolAsync(id, monitoringTool);

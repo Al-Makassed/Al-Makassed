@@ -13,7 +13,7 @@ public interface IMonitoringToolService
     
     Task<ErrorOr<MonitoringToolDto>> CreateMonitoringToolAsync(MonitoringTool monitoringTool, List<Guid> departmentsIdes, List<Guid> fieldsIdes);
     
-    Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool, List<Guid> requestDepartmentsIdes, List<Guid> requestFieldsIdes);
+    Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool);
     
     Task<ErrorOr<MonitoringToolDto>> DeleteMonitoringToolAsync(Guid id);
 }

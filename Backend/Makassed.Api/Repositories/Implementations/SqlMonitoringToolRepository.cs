@@ -51,6 +51,7 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
     {
         var existingMonitoringTool = await _dbContext.MonitoringTools
             .Include(mt => mt.FocalPointTasks)
+            .ThenInclude(fpt => fpt.Department)
             .Include(mt => mt.Fields)
             .FirstOrDefaultAsync(mt => mt.Id == id);
 
@@ -61,11 +62,11 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
         existingMonitoringTool.Description = monitoringTool.Description;
         existingMonitoringTool.LastModified = DateTime.UtcNow;
 
-        existingMonitoringTool.FocalPointTasks.Clear();
-        existingMonitoringTool.FocalPointTasks = monitoringTool.FocalPointTasks;
+        //existingMonitoringTool.FocalPointTasks.Clear();
+        //existingMonitoringTool.FocalPointTasks = monitoringTool.FocalPointTasks;
 
-        existingMonitoringTool.Fields.Clear();
-        existingMonitoringTool.Fields.AddRange(monitoringTool.Fields);
+        //existingMonitoringTool.Fields.Clear();
+        //existingMonitoringTool.Fields.AddRange(monitoringTool.Fields);
 
         await _dbContext.SaveChangesAsync();
 

@@ -73,7 +73,7 @@ public class MonitoringToolsController : ApiController
     {
         var monitoringTool = _mapper.Map<MonitoringTool>(request);
         
-        var result = await _monitoringToolService.UpdateMonitoringToolAsync(id, monitoringTool, request.DepartmentsIdes, request.FieldsIdes);
+        var result = await _monitoringToolService.UpdateMonitoringToolAsync(id, monitoringTool);
 
         return result.Match(
             _ => Ok(_mapper.Map<GetMonitoringToolResponse>(result.Value)),
