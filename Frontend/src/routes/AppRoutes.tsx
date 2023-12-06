@@ -34,6 +34,7 @@ const AppRoutes: FC = () => {
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
+
             <Route path="policies-and-procedures">
               <Route path="chapters">
                 <Route index element={<h1>List of all Chapters</h1>} />

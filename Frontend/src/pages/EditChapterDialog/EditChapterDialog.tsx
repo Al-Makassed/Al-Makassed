@@ -54,7 +54,8 @@ const EditChapterDialog: FC = () => {
     deleteAllPolicies(chapterId);
   };
 
-  const navigateToChapters = () => navigate("/me/chapters");
+  const navigateToChapters = () =>
+    navigate("/me/policies-and-procedures/chapters");
 
   const closeConfirmDialog = () => setOpenedDialog(null);
 

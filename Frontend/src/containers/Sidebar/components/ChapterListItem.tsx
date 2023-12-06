@@ -46,7 +46,7 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
 
   const handleClickEditChapter = () => {
     handleToggleSidebar();
-    navigate(`policies-and-procedures/chapters/edit/${chapter.id}`);
+    navigate(`policies-and-procedures/chapters/${chapter.id}`);
   };
 
   return (
