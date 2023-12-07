@@ -8,11 +8,11 @@ const useAddMonitoringToolForm = () => {
   const { addMonitoringTool, isAdding } = useAddMonitorintoolAPI();
 
   const submitForm = (values: AddMonitoringToolFormPayload) => {
-    const formData = new FormData();
-    formData.set("Name", values.name);
-    formData.set("Summary", values.summary);
-
-    addMonitoringTool({ formData });
+    addMonitoringTool({
+      name: values.name,
+      description: values.description,
+      departmentsIdes: values.departmentsIdes,
+    });
   };
 
   const formikProps = useFormik({
