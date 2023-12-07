@@ -40,13 +40,13 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleClickPolicy = (policy: Policy) => () => {
     handleToggleSidebar();
     navigate(
-      `policies-and-procedures/chapters/${policy.chapterId}/policies/${policy.id}`,
+      `policies-and-procedures/${policy.chapterId}/policies/${policy.id}`,
     );
   };
 
   const handleClickEditChapter = () => {
     handleToggleSidebar();
-    navigate(`policies-and-procedures/chapters/${chapter.id}`);
+    navigate(`policies-and-procedures/${chapter.id}`);
   };
 
   return (

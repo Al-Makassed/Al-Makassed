@@ -36,30 +36,30 @@ const AppRoutes: FC = () => {
             <Route path="counter-with-provider" element={<Counter2 />} />
 
             <Route path="policies-and-procedures">
-              <Route path="chapters">
-                <Route index element={<h1>List of all Chapters</h1>} />
-                <Route path=":chapterId" element={<EditChapterDialog />} />
-                <Route
+              {/* <Route path="chapters"> */}
+              {/* <Route index element={<h1>List of all Chapters</h1>} /> */}
+              <Route path=":chapterId" element={<EditChapterDialog />} />
+              {/* <Route
                   path=":chapterId/policies"
                   element={<h1>Policies of a Chapter</h1>}
-                />
-                <Route
-                  path=":chapterId/policies/:policyId"
-                  element={<PolicyDetails />}
-                />
-                <Route
-                  path=":chapterId/policies/:policyId/edit"
-                  element={<EditPolicyAndDependenciesForm />}
-                />
-              </Route>
-            </Route>
-
-            <Route path="monitoring-tools">
-              <Route index element={<MonitoringTools />} />
-              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+                /> */}
+              <Route
+                path=":chapterId/policies/:policyId"
+                element={<PolicyDetails />}
+              />
+              <Route
+                path="edit/:chapterId/policies/:policyId"
+                element={<EditPolicyAndDependenciesForm />}
+              />
             </Route>
           </Route>
+
+          <Route path="monitoring-tools">
+            <Route index element={<MonitoringTools />} />
+            <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+          </Route>
         </Route>
+        {/* </Route> */}
         <Route path="forgot-password" element={<ForgotPasswordForm />} />
         <Route path="reset-password" element={<ResetForgottenPasswordForm />} />
         <Route path="access-denied" element={<AccessDenied />} />
