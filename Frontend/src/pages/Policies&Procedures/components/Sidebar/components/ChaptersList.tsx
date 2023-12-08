@@ -5,11 +5,17 @@ import { Chapter } from "../API/types";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";
 import { useAppSelector } from "src/store/hooks";
-import { selectIsSidebarOpen } from "src/features/appSettings";
+// import { selectIsSidebarOpen } from "src/features/appSettings";
 import { selectIsAdminUser, selectIsSubAdminUser } from "src/features/user";
+import useSidebarContext from "src/pages/Policies&Procedures/context/useSidebar";
 
 const ChaptersList = () => {
-  const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
+  // const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
+  const {
+    state: { isSidebarOpen },
+    // openSidebar,
+    // closeSidebar,
+  } = useSidebarContext();
 
   const { chapters, isFetching } = useFetchChapters(isSidebarOpen);
 

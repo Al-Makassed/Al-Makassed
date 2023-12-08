@@ -20,7 +20,11 @@ const ResetForgottenPasswordForm = lazy(
 const EditPolicyAndDependenciesForm = lazy(
   () => import("src/pages/EditPolicyAndDependenciesForm"),
 );
-import EditChapterDialog from "src/pages/EditChapterDialog";
+const PoliciesAndProcedures = lazy(
+  () => import("src/pages/Policies&Procedures/PoliciesAndProcedures"),
+);
+
+const EditChapterDialog = lazy(() => import("src/pages/EditChapterDialog"));
 
 const AppRoutes: FC = () => {
   return (
@@ -35,10 +39,13 @@ const AppRoutes: FC = () => {
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
 
-            <Route path="policies-and-procedures">
+            <Route
+              path="policies-and-procedures"
+              element={<PoliciesAndProcedures />}
+            >
+              <Route path=":chapterId" element={<EditChapterDialog />} />
               {/* <Route path="chapters"> */}
               {/* <Route index element={<h1>List of all Chapters</h1>} /> */}
-              <Route path=":chapterId" element={<EditChapterDialog />} />
               {/* <Route
                   path=":chapterId/policies"
                   element={<h1>Policies of a Chapter</h1>}
