@@ -5,7 +5,6 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
-const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -22,6 +21,7 @@ const ResetForgottenPasswordForm = lazy(
 const PoliciesAndProcedures = lazy(
   () => import("src/pages/PoliciesAndProcedures"),
 );
+const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 
 const AppRoutes: FC = () => {
   return (
@@ -50,13 +50,14 @@ const AppRoutes: FC = () => {
                 element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>
-          </Route>
 
-          <Route path="monitoring-tools">
-            <Route index element={<MonitoringTools />} />
-            <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+            <Route path="monitoring-tools">
+              <Route index path="" element={<MonitoringTools />} />
+              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+            </Route>
           </Route>
         </Route>
+
         <Route path="forgot-password" element={<ForgotPasswordForm />} />
         <Route path="reset-password" element={<ResetForgottenPasswordForm />} />
         <Route path="access-denied" element={<AccessDenied />} />

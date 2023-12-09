@@ -4,7 +4,9 @@ import styles from "../style.module.css";
 import { CardBodyProps } from "../types";
 import { teal } from "@mui/material/colors";
 
-const CardBody: FC<CardBodyProps> = ({ monitoringTool, isFinished }) => {
+const CardBody: FC<CardBodyProps> = ({ isFinished, monitoringTool }) => {
+  if (!monitoringTool) return null;
+
   return (
     <>
       <CardHeader

@@ -22,6 +22,11 @@ export const selectIsSubAdminUser = createSelector(
   (role) => role === "Sub-Admin",
 );
 
+export const selectIsManagerUser = createSelector(
+  selectUserRole,
+  (role) => role === "Admin" || role === "Sub-Admin",
+);
+
 export const selectIsFocalPointUser = createSelector(
   selectUserRole,
   (role) => role === "Focal Point",

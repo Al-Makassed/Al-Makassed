@@ -1,22 +1,22 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { showErrorSnackbar } from "src/features/snackbar";
 import { useAppDispatch } from "src/store/hooks";
+import { getMonitoringTool } from "../API";
+import { MONITORING_TOOL_QUERY_KEY } from "../constants";
 import { extractErrorMessage } from "src/utils";
-import { AxiosBaseError } from "src/types/axios";
-import { getFocalPointTasks } from "../API";
-import { FOCAL_POINT_TASKS_QUERY_KEY } from "../constants";
+import { AxiosBaseError } from "src/types";
+import { showErrorSnackbar } from "src/features/snackbar";
 
-const useGetFocalPointTasks = (departmentId: string) => {
+const useGetMonitoringTool = (monitoringToolId: string) => {
   const dispatch = useAppDispatch();
 
   const {
-    data: focalPointTasks,
+    data: monitoringTool,
     isFetching,
     error,
   } = useQuery({
-    queryFn: () => getFocalPointTasks(departmentId),
-    queryKey: [FOCAL_POINT_TASKS_QUERY_KEY, departmentId],
+    queryFn: () => getMonitoringTool(monitoringToolId),
+    queryKey: [MONITORING_TOOL_QUERY_KEY, monitoringToolId],
   });
 
   useEffect(() => {
@@ -31,9 +31,9 @@ const useGetFocalPointTasks = (departmentId: string) => {
   }, [error]);
 
   return {
-    focalPointTasks,
+    monitoringTool,
     isFetching,
   };
 };
 
-export default useGetFocalPointTasks;
+export default useGetMonitoringTool;
