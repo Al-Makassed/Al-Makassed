@@ -37,7 +37,7 @@ const PolicyDetails: FC = () => {
         >
           {policy.code}
         </Typography>
-        <Stack direction="row">
+        <Stack direction="row" justifyContent="center">
           <Typography fontWeight={600} variant="h5">
             {policy.name}
           </Typography>
