@@ -1,18 +1,19 @@
-import React, { FC } from "react";
+import React from "react";
+import { useTheme } from "@mui/material/styles";
 import { Drawer, Stack } from "@mui/material";
 import Title from "./components/Title";
 import ChaptersList from "./components/ChaptersList";
 import AddChapterButton from "./components/AddChapterButton";
-import { useAppSelector } from "src/store/hooks";
-import { selectIsSidebarOpen } from "src/features/appSettings";
-import { useTheme } from "@mui/material/styles";
+import { FC } from "react";
+import useSidebarContext from "../../context/useSidebar";
 
 const Sidebar: FC = () => {
   const drawerWidth = 400;
 
   const theme = useTheme();
-
-  const isOpen = useAppSelector(selectIsSidebarOpen);
+  const {
+    state: { isSidebarOpen },
+  } = useSidebarContext();
 
   return (
     <>
@@ -38,7 +39,7 @@ const Sidebar: FC = () => {
           }}
           variant="persistent"
           anchor="left"
-          open={isOpen}
+          open={isSidebarOpen}
         >
           <Title />
           <ChaptersList />

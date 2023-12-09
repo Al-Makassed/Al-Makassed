@@ -19,6 +19,9 @@ const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
+const PoliciesAndProcedures = lazy(
+  () => import("src/pages/PoliciesAndProcedures"),
+);
 
 const AppRoutes: FC = () => {
   return (
@@ -33,13 +36,11 @@ const AppRoutes: FC = () => {
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
 
-            <Route path="chapters">
-              <Route index element={<h1>List of all Chapters</h1>} />
+            <Route
+              path="policies-and-procedures"
+              element={<PoliciesAndProcedures />}
+            >
               <Route path=":chapterId" element={<EditChapterDialog />} />
-              <Route
-                path=":chapterId/policies"
-                element={<h1>Policies of a Chapter</h1>}
-              />
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}
@@ -49,14 +50,13 @@ const AppRoutes: FC = () => {
                 element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>
+          </Route>
 
-            <Route path="monitoring-tools">
-              <Route index element={<MonitoringTools />} />
-              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
-            </Route>
+          <Route path="monitoring-tools">
+            <Route index element={<MonitoringTools />} />
+            <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
           </Route>
         </Route>
-
         <Route path="forgot-password" element={<ForgotPasswordForm />} />
         <Route path="reset-password" element={<ResetForgottenPasswordForm />} />
         <Route path="access-denied" element={<AccessDenied />} />

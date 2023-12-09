@@ -18,8 +18,10 @@ const PolicyDetails: FC = () => {
 
   const navigate = useNavigate();
 
-  const handleClickEditPoliciesAndProceduresDialog = () => {
-    navigate(`/me/chapters/edit/${chapterId}/policies/${policyId}`);
+  const handleEditPolicy = () => {
+    navigate(
+      `/me/policies-and-procedures/edit/${policy?.chapterId}/policies/${policy?.id}`,
+    );
   };
 
   if (isFetching) return <PolicyDetailsLoadingSkeleton />;
@@ -43,7 +45,7 @@ const PolicyDetails: FC = () => {
             <IconButton
               aria-label="Edit Policy"
               sx={{ mr: 1 }}
-              onClick={handleClickEditPoliciesAndProceduresDialog}
+              onClick={handleEditPolicy}
             >
               <EditIcon />
             </IconButton>

@@ -17,11 +17,12 @@ import { useNavigate } from "react-router-dom";
 import AddPolicyDialog from "src/pages/AddPolicyDialog";
 import { Policy } from "../API/types";
 import { ChapterListItemProps } from "../types";
-import { toggleSidebar } from "src/features/appSettings";
-import { useAppDispatch } from "src/store/hooks";
+import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
+// import { toggleSidebar } from "src/features/appSettings";
+// import { useAppDispatch } from "src/store/hooks";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState(false);
 
@@ -34,17 +35,23 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   const navigate = useNavigate();
+  const {
+    // state: { isSidebarOpen },
+    // openSidebar,
+    closeSidebar,
+  } = useSidebarContext();
 
-  const handleToggleSidebar = () => dispatch(toggleSidebar());
+  // const handleToggleSidebar = () => dispatch(toggleSidebar());
 
   const handleClickPolicy = (policy: Policy) => () => {
-    handleToggleSidebar();
-    navigate(`chapters/${policy.chapterId}/policies/${policy.id}`);
+    // handleToggleSidebar();
+    closeSidebar;
+    navigate(`${policy.chapterId}/policies/${policy.id}`);
   };
 
   const handleClickEditChapter = () => {
-    handleToggleSidebar();
-    navigate(`/me/chapters/${chapter.id}`);
+    closeSidebar;
+    navigate(`${chapter.id}`);
   };
 
   return (
@@ -52,7 +59,8 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
       <Box sx={{ display: "flex", height: 55 }}>
         <ListItemButton onClick={handleClickChapter}>
           <ListItemIcon sx={{ mr: -2.5 }}>
-            <MenuBookIcon color="action" />
+            <MenuBookIcon color={chapter.enableState ? "action" : "disabled"} />
+            {/* I change the action for this because the admin not approved this until now   */}
           </ListItemIcon>
 
           <Typography

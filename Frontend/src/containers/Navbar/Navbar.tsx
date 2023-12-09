@@ -17,7 +17,7 @@ import maqasidLogo from "../../images/logo.jpg";
 import LanguageSelector from "./components/LanguageSelector";
 import MobileMenu from "./components/MobileMenu";
 import SearchBar from "./components/SearchBar";
-import SidebarChevron from "./components/SidebarChevron";
+// import SidebarChevron from "./components/SidebarChevron";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <AppBar position="static" elevation={0} color="primary">
       <Toolbar sx={{ gap: 1 }}>
-        <SidebarChevron />
+        {/* <SidebarChevron /> */}
 
         <Avatar
           alt="logo"
