@@ -3,6 +3,7 @@ export interface Policy {
   code: string;
   name: string;
   summary: string;
+  estimatedTimeInMin: string;
   state: boolean;
   pdfUrl: string;
   chapterId: string;

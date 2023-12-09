@@ -3,6 +3,8 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
+import EditChapterDialog from "src/pages/EditChapterDialog";
+import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
 const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
@@ -17,10 +19,6 @@ const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
-const EditPolicyAndDependenciesForm = lazy(
-  () => import("src/pages/EditPolicyAndDependenciesForm"),
-);
-import EditChapterDialog from "src/pages/EditChapterDialog";
 
 const AppRoutes: FC = () => {
   return (
@@ -47,8 +45,8 @@ const AppRoutes: FC = () => {
                 element={<PolicyDetails />}
               />
               <Route
-                path=":chapterId/policies/:policyId/edit"
-                element={<EditPolicyAndDependenciesForm />}
+                path="edit/:chapterId/policies/:policyId"
+                element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>
 

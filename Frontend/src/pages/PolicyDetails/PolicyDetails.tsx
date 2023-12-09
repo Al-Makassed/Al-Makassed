@@ -18,8 +18,8 @@ const PolicyDetails: FC = () => {
 
   const navigate = useNavigate();
 
-  const handleEditPolicy = () => {
-    navigate(`/me/chapters/${policy?.chapterId}/policies/${policy?.id}/edit`);
+  const handleClickEditPoliciesAndProceduresDialog = () => {
+    navigate(`/me/chapters/edit/${chapterId}/policies/${policyId}`);
   };
 
   if (isFetching) return <PolicyDetailsLoadingSkeleton />;
@@ -35,7 +35,7 @@ const PolicyDetails: FC = () => {
         >
           {policy.code}
         </Typography>
-        <Stack direction="row">
+        <Stack direction="row" justifyContent="center">
           <Typography fontWeight={600} variant="h5">
             {policy.name}
           </Typography>
@@ -43,7 +43,7 @@ const PolicyDetails: FC = () => {
             <IconButton
               aria-label="Edit Policy"
               sx={{ mr: 1 }}
-              onClick={handleEditPolicy}
+              onClick={handleClickEditPoliciesAndProceduresDialog}
             >
               <EditIcon />
             </IconButton>

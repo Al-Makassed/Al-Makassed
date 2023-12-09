@@ -8,7 +8,6 @@ import { SIDEBAR_CHEVRON_ID } from "src/constants";
 
 const SidebarChevron: FC = () => {
   const dispatch = useAppDispatch();
-
   const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
 
   const handleDrawerOpen = () => {

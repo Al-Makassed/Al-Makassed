@@ -4,18 +4,22 @@ import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { POLICY_QUERY_KEY } from "../constants";
+import { POLICIES_QUERY_KEY } from "../../PolicyDetails/constants";
 
 const useUpdatePolicy = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: updatePolicy, isPending: isUpdating } = useMutation({
+  const {
+    mutate: updatePolicy,
+    isPending: isUpdating,
+    status,
+  } = useMutation({
     mutationFn: updatePolicyAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [POLICY_QUERY_KEY],
+        queryKey: [POLICIES_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({
@@ -36,6 +40,7 @@ const useUpdatePolicy = () => {
   return {
     updatePolicy,
     isUpdating,
+    status,
   };
 };
 

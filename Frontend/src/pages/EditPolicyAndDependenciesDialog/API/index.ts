@@ -19,7 +19,6 @@ export const updatePolicyAPI = ({
   formData,
 }: UpdatePolicyRequest) => {
   return axiosFormData
-
     .put<void>(`/chapters/${chapterId}/policies/${policyId}`, formData)
 
     .then((res) => res.data);
