@@ -7,7 +7,7 @@ import { ActionsButtonGroupProps } from "src/components/ActionsButtonGroup/types
 import { selectIsManagerUser } from "src/features/user";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
-import AddFieldDialog from "../AddFieldDialog";
+import AddFieldDialog from "./AddFieldDialog";
 
 const PageHeader: FC = () => {
   const [isAddFieldDialogOpen, setIsAddFieldDialogOpen] = useState(false);

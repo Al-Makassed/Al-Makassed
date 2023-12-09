@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import { SectionHeaderProps } from "./types";
+import { SectionHeaderProps } from "../types";
 
 const SectionHeader: FC<SectionHeaderProps> = ({ title }) => {
   return (

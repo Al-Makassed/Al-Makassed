@@ -27,12 +27,3 @@ export interface Department {
   name: string;
   headId: string;
 }
-
-export interface MonitoringToolDetails {
-  id: string;
-  name: string;
-  description: string;
-  lastModified: string;
-  fields: Field[];
-  departments: Department[];
-}

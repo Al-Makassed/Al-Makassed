@@ -4,7 +4,6 @@ import {
   Field,
   FocalPointTask,
   MonitoringTool,
-  MonitoringToolDetails,
 } from "./types";
 
 export const getMonitoringTools = () => {
@@ -22,11 +21,5 @@ export const getFocalPointTasks = (departmentId: string) => {
 export const createField = ({ content }: CreateFieldRequest) => {
   return axios
     .post<Field>("/fields", { content: content })
-    .then((res) => res.data);
-};
-
-export const getMonitoringTool = (monitoringToolId: string) => {
-  return axios
-    .get<MonitoringToolDetails>(`/monitoringtools/${monitoringToolId}`)
     .then((res) => res.data);
 };
