@@ -1,20 +1,14 @@
 import { FocalPointTask, MonitoringTool } from "./API/types";
 
-export interface MonitoringToolCardProps {
-  monitoringTool: MonitoringTool;
-  onOpen: () => void;
-}
-
 export interface CardBodyProps {
-  monitoringTool: MonitoringTool;
   isFinished?: boolean;
+  monitoringTool: MonitoringTool;
 }
 
 export interface FocalPointTaskProps {
   focalPointTask: FocalPointTask;
 }
 
-export interface AddFieldDialogProps {
-  open: boolean;
-  onClose: () => void;
+export interface MonitoringToolCardProps {
+  monitoringTool: MonitoringTool;
 }

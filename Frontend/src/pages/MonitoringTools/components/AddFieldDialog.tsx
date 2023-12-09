@@ -1,19 +1,22 @@
-import React, { FC, useEffect } from "react";
-import { AddFieldDialogProps } from "../types";
-import useAddFieldForm from "../hooks/useAddFieldForm";
-import { Form, FormikProvider } from "formik";
-import MaqasidDialog from "src/components/MaqasidDialog";
-import { Stack } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import TextField from "src/components/Fields/TextField";
 import AddIcon from "@mui/icons-material/Add";
+import { LoadingButton } from "@mui/lab";
+import { Stack } from "@mui/material";
+import { Form, FormikProvider } from "formik";
+import { FC, useEffect } from "react";
+import TextField from "src/components/Fields/TextField";
+import MaqasidDialog from "src/components/MaqasidDialog";
+import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
+import useAddFieldForm from "../hooks/useAddFieldForm";
 
-const AddFieldDialog: FC<AddFieldDialogProps> = ({ open, onClose }) => {
+const AddFieldDialog: FC = () => {
   const { formikProps, isPending, status } = useAddFieldForm();
 
   const { dirty, isValid, resetForm, submitForm } = formikProps;
 
-  const handleCloseDialog = () => onClose();
+  const { isAddFieldDialogOpen, onCloseAddFieldDialog } =
+    useMonitoringToolsContext();
+
+  const handleCloseDialog = () => onCloseAddFieldDialog();
 
   const handleSubmitForm = () => {
     submitForm();
@@ -29,7 +32,7 @@ const AddFieldDialog: FC<AddFieldDialogProps> = ({ open, onClose }) => {
     <FormikProvider value={formikProps}>
       <Form>
         <MaqasidDialog
-          isOpen={open}
+          isOpen={isAddFieldDialogOpen}
           onClose={handleCloseDialog}
           onClosed={() => resetForm()}
           disableBackdropClick={dirty}
@@ -44,7 +47,7 @@ const AddFieldDialog: FC<AddFieldDialogProps> = ({ open, onClose }) => {
           </MaqasidDialog.Header>
           <MaqasidDialog.Body>
             <FormikProvider value={formikProps}>
-              <Stack p={5} justifyContent="center">
+              <Stack py={2} justifyContent="center">
                 <TextField
                   name="content"
                   label="Field Content (Question)"

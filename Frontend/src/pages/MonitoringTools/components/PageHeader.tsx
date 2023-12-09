@@ -1,26 +1,26 @@
-import { FC, useState } from "react";
 import MTAddIcon from "@mui/icons-material/LibraryAdd";
 import FieldAddIcon from "@mui/icons-material/PostAdd";
 import { Grid, Typography } from "@mui/material";
+import { FC } from "react";
 import ActionsButtonGroup from "src/components/ActionsButtonGroup";
 import { ActionsButtonGroupProps } from "src/components/ActionsButtonGroup/types";
 import { selectIsManagerUser } from "src/features/user";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
+import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
 import AddFieldDialog from "./AddFieldDialog";
 
 const PageHeader: FC = () => {
-  const [isAddFieldDialogOpen, setIsAddFieldDialogOpen] = useState(false);
+  const { onOpenAddFieldDialog } = useMonitoringToolsContext();
 
-  const handelOpenAddFieldDialog = () => setIsAddFieldDialogOpen(true);
+  const { isTabletOrLess } = useMediaQuery();
 
-  const handleCloseAddFieldDialog = () => setIsAddFieldDialogOpen(false);
+  const isManager = useAppSelector(selectIsManagerUser);
 
-  // TODO: Move up options to a Context Provider
   const OPTIONS: ActionsButtonGroupProps["options"] = [
     {
       label: "Add Field",
-      onClick: handelOpenAddFieldDialog,
+      onClick: onOpenAddFieldDialog,
       icon: <FieldAddIcon />,
     },
     {
@@ -29,10 +29,6 @@ const PageHeader: FC = () => {
       icon: <MTAddIcon />,
     },
   ];
-
-  const { isTabletOrLess } = useMediaQuery();
-
-  const isManager = useAppSelector(selectIsManagerUser);
 
   return (
     <>
@@ -52,10 +48,7 @@ const PageHeader: FC = () => {
         </Grid>
       </Grid>
 
-      <AddFieldDialog
-        onClose={handleCloseAddFieldDialog}
-        open={isAddFieldDialogOpen}
-      />
+      <AddFieldDialog />
     </>
   );
 };

@@ -1,35 +1,19 @@
 import { Grid } from "@mui/material";
-import { FC, useState } from "react";
-import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
-import MonitoringToolCard from "./MonitoringToolCard";
-import LoadingSkeleton from "./GridLoadingSkeleton";
+import { FC } from "react";
 import MonitoringToolViewDialog from "../../MonitoringToolDialog/MonitoringToolDialog";
-import { MonitoringTool } from "../API/types";
+import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
+import LoadingSkeleton from "./GridLoadingSkeleton";
+import MonitoringToolCard from "./MonitoringToolCard";
 
 const AdminMonitoringToolsGrid: FC = () => {
-  const [isMTViewDialogOpen, setIsMTViewDialogOpen] = useState(false);
-  const [selectedMonitoringTool, setSelectedMonitoringTool] =
-    useState<MonitoringTool | null>(null);
-
   const { monitoringTools, isFetching } = useGetMonitoringTools();
 
-  const handelOpenMTViewDialog = (monitoringTool: MonitoringTool) => {
-    setIsMTViewDialogOpen(true);
-    setSelectedMonitoringTool(monitoringTool);
-  };
-  const handleCloseMTViewDialog = () => {
-    setIsMTViewDialogOpen(false);
-    setSelectedMonitoringTool(null);
-  };
-
-  if (isFetching) return <LoadingSkeleton />;
-
-  if (!monitoringTools) return null;
+  if (isFetching) return <LoadingSkeleton key="AdminMonitoringToolsGrid" />;
 
   return (
     <>
       <Grid container gap={3}>
-        {monitoringTools.map((mt) => (
+        {monitoringTools?.map((mt) => (
           <Grid
             item
             key={mt.id}
@@ -42,19 +26,12 @@ const AdminMonitoringToolsGrid: FC = () => {
               },
             }}
           >
-            <MonitoringToolCard
-              monitoringTool={mt}
-              onOpen={() => handelOpenMTViewDialog(mt)}
-            />
+            <MonitoringToolCard monitoringTool={mt} />
           </Grid>
         ))}
       </Grid>
 
-      <MonitoringToolViewDialog
-        open={isMTViewDialogOpen}
-        onClose={handleCloseMTViewDialog}
-        monitoringToolId={selectedMonitoringTool?.id ?? ""}
-      />
+      <MonitoringToolViewDialog />
     </>
   );
 };

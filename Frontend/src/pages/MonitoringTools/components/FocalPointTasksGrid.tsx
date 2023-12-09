@@ -14,7 +14,7 @@ const FocalPointTasksGrid: FC = () => {
 
   const { focalPointTasks, isFetching } = useGetFocalPointTasks(departmentId);
 
-  if (isFetching) return <LoadingSkeleton />;
+  if (isFetching) return <LoadingSkeleton key="FocalPointTasksGrid" />;
 
   if (!focalPointTasks) return null;
 

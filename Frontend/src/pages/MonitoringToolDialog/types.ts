@@ -1,11 +1,5 @@
 import { Department, Field } from "../MonitoringTools/API/types";
 
-export interface MonitoringToolViewDialogProps {
-  open: boolean;
-  onClose: () => void;
-  monitoringToolId: string;
-}
-
 export interface DescriptionSectionProps {
   description: string;
 }

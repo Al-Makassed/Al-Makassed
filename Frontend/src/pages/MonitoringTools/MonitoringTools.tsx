@@ -5,25 +5,24 @@ import { useAppSelector } from "src/store/hooks";
 import AdminMonitoringToolsGrid from "./components/AdminMonitoringToolsGrid";
 import FocalPointTasksGrid from "./components/FocalPointTasksGrid";
 import PageHeader from "./components/PageHeader";
-// import ActionsSpeedDial from "./components/ActionsSpeedDial";
+import MonitoringToolsProvider from "./context/MonitoringToolsProvider";
 
 const MonitoringTools: FC = () => {
   const isFocalPointUser = useAppSelector(selectIsFocalPointUser);
 
   return (
-    <Stack gap={2} sx={{ p: "1.7em 2.5em", position: "relative" }}>
-      <PageHeader />
-      <Box>
-        {isFocalPointUser ? (
-          <FocalPointTasksGrid />
-        ) : (
-          <>
+    <MonitoringToolsProvider>
+      <Stack gap={2} sx={{ px: 4, py: 3 }}>
+        <PageHeader />
+        <Box>
+          {isFocalPointUser ? (
+            <FocalPointTasksGrid />
+          ) : (
             <AdminMonitoringToolsGrid />
-            {/* <ActionsSpeedDial /> */}
-          </>
-        )}
-      </Box>
-    </Stack>
+          )}
+        </Box>
+      </Stack>
+    </MonitoringToolsProvider>
   );
 };
 
