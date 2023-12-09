@@ -4,7 +4,7 @@ import MaqasidDialog from "src/components/MaqasidDialog";
 import FormsList from "./components/FormsList";
 import PostersList from "./components/PostersList";
 import ProtocolsList from "./components/ProtocolsList";
-import { CustomTabPanel, a11yProps } from "./components/CustomTabPanel";
+import TabPanel from "src/components/TabPanel/TabPanel";
 import { useNavigate, useParams } from "react-router-dom";
 import EditPolicyForm from "./components/EditPolicyForm";
 
@@ -46,32 +46,36 @@ const EditPolicyAndDependenciesDialog: FC = () => {
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
-      <MaqasidDialog.Body niceScroll>
+
+      <MaqasidDialog.Body niceScroll noPadding>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs ">
-            <Tab label="Policy" {...a11yProps(0)} />
-            <Tab label="Forms " {...a11yProps(1)} />
-            <Tab label="Posters " {...a11yProps(2)} />
-            <Tab label="Protocols " {...a11yProps(3)} />
+          <Tabs value={value} onChange={handleChange} aria-label="Policy Tabs">
+            <Tab label="Policy" />
+            <Tab label="Forms" />
+            <Tab label="Posters" />
+            <Tab label="Protocols" />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
+
+        <TabPanel value={value} index={0} sx={{ p: 3 }}>
           <EditPolicyForm
             chapterId={chapterId}
             policyId={policyId}
             closeMainDialog={closeMainDialog}
           />
-        </CustomTabPanel>
+        </TabPanel>
 
-        <CustomTabPanel value={value} index={1}>
+        <TabPanel value={value} index={1} sx={{ p: 3 }}>
           <FormsList />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        </TabPanel>
+
+        <TabPanel value={value} index={2} sx={{ p: 3 }}>
           <PostersList />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>
+        </TabPanel>
+
+        <TabPanel value={value} index={3} sx={{ p: 3 }}>
           <ProtocolsList />
-        </CustomTabPanel>
+        </TabPanel>
       </MaqasidDialog.Body>
     </MaqasidDialog>
   );
