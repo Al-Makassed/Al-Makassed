@@ -65,15 +65,15 @@ const EditPolicyAndDependenciesDialog: FC = () => {
           />
         </TabPanel>
 
-        <TabPanel value={value} index={1} sx={{ p: 3 }}>
+        <TabPanel value={value} index={1} sx={{ py: 2, px: 3 }}>
           <FormsList />
         </TabPanel>
 
-        <TabPanel value={value} index={2} sx={{ p: 3 }}>
+        <TabPanel value={value} index={2} sx={{ py: 2, px: 3 }}>
           <PostersList />
         </TabPanel>
 
-        <TabPanel value={value} index={3} sx={{ p: 3 }}>
+        <TabPanel value={value} index={3} sx={{ py: 2, px: 3 }}>
           <ProtocolsList />
         </TabPanel>
       </MaqasidDialog.Body>
