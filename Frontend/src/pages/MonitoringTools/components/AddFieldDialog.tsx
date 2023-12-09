@@ -13,8 +13,10 @@ const AddFieldDialog: FC = () => {
 
   const { dirty, isValid, resetForm, submitForm } = formikProps;
 
-  const { isAddFieldDialogOpen, onCloseAddFieldDialog } =
-    useMonitoringToolsContext();
+  const {
+    state: { isAddFieldDialogOpen },
+    onCloseAddFieldDialog,
+  } = useMonitoringToolsContext();
 
   const handleCloseDialog = () => onCloseAddFieldDialog();
 

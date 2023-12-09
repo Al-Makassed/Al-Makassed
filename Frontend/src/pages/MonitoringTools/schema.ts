@@ -1,4 +1,4 @@
-import Yup from "yup";
+import * as Yup from "yup";
 import { CreateFieldRequest } from "./API/types";
 
 const validationSchema = Yup.object<CreateFieldRequest>().shape({

@@ -1,36 +1,51 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useCallback, useReducer } from "react";
 import { MonitoringTool } from "../API/types";
-import MonitoringToolsContext from "./MonitoringTools";
-import { MonitoringToolsContextValue } from "./types";
+import MonitoringToolsContext, { initialState } from "./MonitoringTools";
+import {
+  MonitoringToolsContextValue,
+  MonitoringToolsState,
+  MonitoringToolsReducerAction,
+  MonitoringToolsReducerActionType,
+} from "./types";
 
 const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [isMTViewDialogOpen, setIsMTViewDialogOpen] = useState(false);
-  const [isAddFieldDialogOpen, setIsAddFieldDialogOpen] = useState(false);
-  const [selectedMonitoringTool, setSelectedMonitoringTool] =
-    useState<MonitoringTool | null>(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const onOpenMTViewDialog = (monitoringTool: MonitoringTool) => {
-    setIsMTViewDialogOpen(true);
-    setSelectedMonitoringTool(monitoringTool);
-  };
+  const onOpenAddFieldDialog = useCallback(
+    () =>
+      dispatch({ type: MonitoringToolsReducerActionType.OpenAddFieldDialog }),
+    [],
+  );
 
-  const onCloseMTViewDialog = () => {
-    setIsMTViewDialogOpen(false);
-    setSelectedMonitoringTool(null);
-  };
+  const onCloseAddFieldDialog = useCallback(
+    () =>
+      dispatch({ type: MonitoringToolsReducerActionType.CloseAddFieldDialog }),
+    [],
+  );
 
-  const onOpenAddFieldDialog = () => setIsAddFieldDialogOpen(true);
+  const onOpenMTViewDialog = useCallback(
+    (monitoringTool: MonitoringTool) =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.OpenMonitoringToolsViewDialog,
+        payload: monitoringTool,
+      }),
+    [],
+  );
 
-  const onCloseAddFieldDialog = () => setIsAddFieldDialogOpen(false);
+  const onCloseMTViewDialog = useCallback(
+    () =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.CloseMonitoringToolsViewDialog,
+      }),
+    [],
+  );
 
   const contextValue: MonitoringToolsContextValue = {
-    isMTViewDialogOpen,
-    selectedMonitoringTool,
-    onOpenMTViewDialog,
-    onCloseMTViewDialog,
-    isAddFieldDialogOpen,
+    state,
     onOpenAddFieldDialog,
     onCloseAddFieldDialog,
+    onOpenMTViewDialog,
+    onCloseMTViewDialog,
   };
 
   return (
@@ -38,6 +53,42 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
       {children}
     </MonitoringToolsContext.Provider>
   );
+};
+
+export const reducer = (
+  state: MonitoringToolsState,
+  action: MonitoringToolsReducerAction,
+): MonitoringToolsState => {
+  switch (action.type) {
+    case MonitoringToolsReducerActionType.OpenAddFieldDialog:
+      return {
+        ...state,
+        isAddFieldDialogOpen: true,
+      };
+
+    case MonitoringToolsReducerActionType.CloseAddFieldDialog:
+      return {
+        ...state,
+        isAddFieldDialogOpen: false,
+      };
+
+    case MonitoringToolsReducerActionType.OpenMonitoringToolsViewDialog:
+      return {
+        ...state,
+        isMTViewDialogOpen: true,
+        selectedMonitoringTool: action.payload!,
+      };
+
+    case MonitoringToolsReducerActionType.CloseMonitoringToolsViewDialog:
+      return {
+        ...state,
+        isMTViewDialogOpen: false,
+        selectedMonitoringTool: null,
+      };
+
+    default:
+      return state;
+  }
 };
 
 export default MonitoringToolsProvider;

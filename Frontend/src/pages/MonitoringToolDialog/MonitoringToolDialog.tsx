@@ -11,8 +11,10 @@ import ViewerDialogSkeleton from "./components/ViewerDialogSkeleton";
 import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
 
 const MonitoringToolViewDialog: FC = () => {
-  const { selectedMonitoringTool, isMTViewDialogOpen, onCloseMTViewDialog } =
-    useMonitoringToolsContext();
+  const {
+    state: { selectedMonitoringTool, isMTViewDialogOpen },
+    onCloseMTViewDialog,
+  } = useMonitoringToolsContext();
 
   const monitoringToolId = selectedMonitoringTool?.id ?? "";
 
