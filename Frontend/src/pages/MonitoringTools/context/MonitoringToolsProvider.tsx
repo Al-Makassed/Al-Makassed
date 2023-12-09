@@ -26,7 +26,7 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const onOpenMTViewDialog = useCallback(
     (monitoringTool: MonitoringTool) =>
       dispatch({
-        type: MonitoringToolsReducerActionType.OpenMonitoringToolsViewDialog,
+        type: "OpenMonitoringToolsViewDialog",
         payload: monitoringTool,
       }),
     [],
@@ -72,11 +72,11 @@ export const reducer = (
         isAddFieldDialogOpen: false,
       };
 
-    case MonitoringToolsReducerActionType.OpenMonitoringToolsViewDialog:
+    case "OpenMonitoringToolsViewDialog":
       return {
         ...state,
         isMTViewDialogOpen: true,
-        selectedMonitoringTool: action.payload!,
+        selectedMonitoringTool: action.payload,
       };
 
     case MonitoringToolsReducerActionType.CloseMonitoringToolsViewDialog:

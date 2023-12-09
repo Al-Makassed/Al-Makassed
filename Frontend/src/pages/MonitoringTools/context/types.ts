@@ -14,10 +14,9 @@ export interface MonitoringToolsState {
   selectedMonitoringTool: MonitoringTool | null;
 }
 
-export interface MonitoringToolsReducerAction {
-  type: MonitoringToolsReducerActionType;
-  payload?: MonitoringTool;
-}
+export type MonitoringToolsReducerAction =
+  | { type: MonitoringToolsReducerActionType }
+  | { type: "OpenMonitoringToolsViewDialog"; payload: MonitoringTool };
 
 export enum MonitoringToolsReducerActionType {
   OpenMonitoringToolsViewDialog,
