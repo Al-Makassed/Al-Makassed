@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import { DrawerHeader } from "../styled";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Tooltip } from "@mui/material";
-import useSidebarContext from "src/pages/Policies&Procedures/context/useSidebar";
+import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
 
 const Title: FC = () => {
   const { closeSidebar } = useSidebarContext();

@@ -21,7 +21,7 @@ const EditPolicyAndDependenciesForm = lazy(
   () => import("src/pages/EditPolicyAndDependenciesForm"),
 );
 const PoliciesAndProcedures = lazy(
-  () => import("src/pages/Policies&Procedures/PoliciesAndProcedures"),
+  () => import("src/pages/PoliciesAndProcedures"),
 );
 
 const EditChapterDialog = lazy(() => import("src/pages/EditChapterDialog"));
@@ -44,12 +44,6 @@ const AppRoutes: FC = () => {
               element={<PoliciesAndProcedures />}
             >
               <Route path=":chapterId" element={<EditChapterDialog />} />
-              {/* <Route path="chapters"> */}
-              {/* <Route index element={<h1>List of all Chapters</h1>} /> */}
-              {/* <Route
-                  path=":chapterId/policies"
-                  element={<h1>Policies of a Chapter</h1>}
-                /> */}
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}

@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import AddPolicyDialog from "src/pages/AddPolicyDialog";
 import { Policy } from "../API/types";
 import { ChapterListItemProps } from "../types";
-import useSidebarContext from "src/pages/Policies&Procedures/context/useSidebar";
+import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
 // import { toggleSidebar } from "src/features/appSettings";
 // import { useAppDispatch } from "src/store/hooks";
 

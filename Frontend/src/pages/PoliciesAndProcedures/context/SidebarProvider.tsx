@@ -1,11 +1,11 @@
-import React, { FC, PropsWithChildren, useCallback, useReducer } from "react";
+import { FC, PropsWithChildren, useCallback, useReducer } from "react";
+import { SidebarContext, initialState } from "./Sidebar";
 import {
   SidebarContextValue,
   SidebarReducerAction,
   SidebarReducerActionType,
   SidebarState,
 } from "./types";
-import { SidebarContext, initialState } from "./Sidebar";
 
 const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -14,6 +14,7 @@ const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
     () => dispatch({ type: SidebarReducerActionType.OpenSidebar }),
     [],
   );
+
   const closeSidebar = useCallback(
     () => dispatch({ type: SidebarReducerActionType.CloseSidebar }),
     [],

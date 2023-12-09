@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { SIDEBAR_CHEVRON_ID } from "src/constants";
-import useSidebarContext from "src/pages/Policies&Procedures/context/useSidebar";
+import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
 
 const SidebarChevron: FC = () => {
   const {

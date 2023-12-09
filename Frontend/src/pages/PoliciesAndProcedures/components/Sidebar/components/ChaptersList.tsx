@@ -7,7 +7,7 @@ import useFetchChapters from "../hooks/useGetChapters";
 import { useAppSelector } from "src/store/hooks";
 // import { selectIsSidebarOpen } from "src/features/appSettings";
 import { selectIsAdminUser, selectIsSubAdminUser } from "src/features/user";
-import useSidebarContext from "src/pages/Policies&Procedures/context/useSidebar";
+import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
 
 const ChaptersList = () => {
   // const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
