@@ -89,4 +89,22 @@ public class SqlMonitoringToolRepository : IMonitoringToolRepository
 
         return existingMonitoringTool;
     }
+
+    public async Task<Field?> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId)
+    {
+        var existingMonitoringTool = await _dbContext.MonitoringTools
+            .Include(mt => mt.Fields)
+            .FirstOrDefaultAsync(mt => mt.Id == id);
+
+        var existingField = existingMonitoringTool!.Fields.FirstOrDefault(f => f.Id == fieldId);
+
+        if (existingField is null)
+            return null;
+
+        existingMonitoringTool.Fields.Remove(existingField);
+         
+        await _dbContext.SaveChangesAsync();
+
+        return existingField;
+    }   
 }   

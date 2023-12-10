@@ -25,5 +25,10 @@ public abstract partial class Errors
             code: "MonitoringTool.NoValidFields",
             description: "No valid fields."
         );
+
+        public static Error FieldNotFound => Error.NotFound(
+            code: "MonitoringTool.FieldNotFound",
+            description: "Field is not found."
+        );
     }
 }

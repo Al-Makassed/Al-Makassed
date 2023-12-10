@@ -14,4 +14,5 @@ public interface IMonitoringToolRepository
     Task<MonitoringTool?> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool);
     
     Task<MonitoringTool?> DeleteMonitoringToolAsync(Guid id);
+    Task<Field?> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId);
 }

@@ -151,4 +151,16 @@ public class MonitoringToolService : IMonitoringToolService
 
         return result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
     }
+
+    public async Task<ErrorOr<Deleted>> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        var result = await _monitoringToolRepository.DeleteFieldFromMonitoringToolAsync(id, fieldId);
+
+        return result is null ? Errors.MonitoringTool.FieldNotFound : Result.Deleted;
+    }
 }

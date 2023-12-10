@@ -16,4 +16,6 @@ public interface IMonitoringToolService
     Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool);
     
     Task<ErrorOr<MonitoringToolDto>> DeleteMonitoringToolAsync(Guid id);
+
+    Task<ErrorOr<Deleted>> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId);
 }

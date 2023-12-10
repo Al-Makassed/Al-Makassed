@@ -96,4 +96,21 @@ public class MonitoringToolsController : ApiController
             errors => Problem(errors)
         );
     }
+
+    // delete a field from a monitoring tool
+    [HttpPut("{id:guid}/fields/{fieldId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> DeleteFieldFromMonitoringTool(Guid id, Guid fieldId)
+    {
+        var result = await _monitoringToolService.DeleteFieldFromMonitoringToolAsync(id, fieldId);
+
+        return result.Match(
+            _ => NoContent(),
+            errors => Problem(errors)
+        );
+    }
 }
