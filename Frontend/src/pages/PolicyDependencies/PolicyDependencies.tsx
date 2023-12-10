@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import { FC } from "react";
-import DependenciesList from "./Componentss/DependenciesList";
+import DependenciesList from "./components/DependenciesList";
 import { PolicyDependencyType } from "./constants";
 import { PolicyDependenciesProps } from "./types";
 

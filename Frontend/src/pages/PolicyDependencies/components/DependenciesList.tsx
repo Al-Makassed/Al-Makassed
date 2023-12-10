@@ -10,8 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useState } from "react";
-import { Dependency } from "src/pages/EditPolicyAndDependenciesForm/API/types";
-import useGetPolicy from "src/pages/EditPolicyAndDependenciesForm/hooks/useGetPolicy";
+import { Dependency } from "src/API/types";
+import useGetPolicy from "src/pages/EditPolicyAndDependenciesDialog/hooks/useGetPolicy";
 import { POLICY_DEPENDENCIES_DISPLAY_NAMES } from "../constants";
 import { DependenciesListProps } from "../types";
 import AddPolicyDependencyDialog from "./AddPolicyDependencyDialog";

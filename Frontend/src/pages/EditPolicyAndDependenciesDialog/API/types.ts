@@ -1,3 +1,5 @@
+import { Dependency } from "src/API/types";
+
 export interface Policy {
   id: string;
   code: string;
@@ -9,16 +11,7 @@ export interface Policy {
   chapterId: string;
   dependencies: Dependency[];
 }
-export interface Dependency {
-  id: string;
-  code: string;
-  name: string;
-  pdfUrl: string;
-  estimatedTime: number;
-  pagesCount: number;
-  policyCode: string;
-  type: number;
-}
+
 export interface UpdatePolicyRequest {
   chapterId: string;
   policyId: string;
