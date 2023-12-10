@@ -1,9 +1,8 @@
-import React, { FC } from "react";
 import { Stack } from "@mui/material";
+import { FC } from "react";
+import DependenciesList from "./Componentss/DependenciesList";
+import { PolicyDependencyType } from "./constants";
 import { PolicyDependenciesProps } from "./types";
-import FormsList from "./Components/FormsList";
-import ProtocolsList from "./Components/ProtocolList";
-import PostersList from "./Components/PostersList";
 
 const PolicyDependencies: FC<PolicyDependenciesProps> = ({
   chapterId,
@@ -11,9 +10,24 @@ const PolicyDependencies: FC<PolicyDependenciesProps> = ({
 }) => {
   return (
     <Stack sx={{ p: 4 }} spacing={5} direction={{ xs: "column", md: "row" }}>
-      <FormsList chapterId={chapterId} policyId={policyId} />
-      <PostersList chapterId={chapterId} policyId={policyId} />
-      <ProtocolsList chapterId={chapterId} policyId={policyId} />
+      <DependenciesList
+        chapterId={chapterId}
+        policyId={policyId}
+        type={PolicyDependencyType.Form}
+        key="Forms"
+      />
+      <DependenciesList
+        chapterId={chapterId}
+        policyId={policyId}
+        type={PolicyDependencyType.Poster}
+        key="Posters"
+      />
+      <DependenciesList
+        chapterId={chapterId}
+        policyId={policyId}
+        type={PolicyDependencyType.Protocol}
+        key="Protocols"
+      />
     </Stack>
   );
 };

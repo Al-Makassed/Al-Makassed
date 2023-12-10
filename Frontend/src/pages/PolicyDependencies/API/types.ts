@@ -10,6 +10,7 @@ export interface DependencyResponse {
   policyCode: string;
   policyDependencyType: number;
 }
+
 export interface AddPolicyDependencyResponse {
   code: string;
   name: string;
@@ -17,6 +18,7 @@ export interface AddPolicyDependencyResponse {
   estimatedTime: number;
   type: number;
 }
+
 export interface DependencyRequest {
   formData: FormData;
   chapterId: string;

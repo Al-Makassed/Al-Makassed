@@ -8,6 +8,12 @@ export enum PolicyDependencyType {
   Protocol = 2,
 }
 
+export const POLICY_DEPENDENCIES_DISPLAY_NAMES = new Map([
+  [PolicyDependencyType.Form, "Form"],
+  [PolicyDependencyType.Poster, "Poster"],
+  [PolicyDependencyType.Protocol, "Protocol"],
+]);
+
 export const initialValues: AddPolicyDependencyResponse = {
   name: "",
   code: "",

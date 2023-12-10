@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
-// import useGetPolicy from "src/pages/EditPolicyAndDependenciesForm/hooks/useGetPolicy";
-import { PolicyDependencyType } from "../constants";
+import AddIcon from "@mui/icons-material/Add";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
 import {
   Accordion,
   AccordionDetails,
@@ -9,18 +9,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-// import { Dependency } from "src/pages/EditPolicyAndDependenciesForm/API/types";
-import AddIcon from "@mui/icons-material/Add";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { PolicyDependenciesProps } from "../types";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
+import { FC, useState } from "react";
+import { Dependency } from "src/pages/EditPolicyAndDependenciesForm/API/types";
+import useGetPolicy from "src/pages/EditPolicyAndDependenciesForm/hooks/useGetPolicy";
+import { POLICY_DEPENDENCIES_DISPLAY_NAMES } from "../constants";
+import { DependenciesListProps } from "../types";
 import AddPolicyDependencyDialog from "./AddPolicyDependencyDialog";
-import useGetPolicy from "src/pages/EditPolicyAndDependenciesDialog/hooks/useGetPolicy";
-import { Dependency } from "src/pages/EditPolicyAndDependenciesDialog/API/types";
 
-const ProtocolsList: FC<PolicyDependenciesProps> = ({
+const DependenciesList: FC<DependenciesListProps> = ({
   chapterId,
   policyId,
+  type,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -29,10 +28,11 @@ const ProtocolsList: FC<PolicyDependenciesProps> = ({
   const handleCloseDialog = () => setOpen(false);
 
   const { policy } = useGetPolicy({ chapterId, policyId });
-  const policyProtocols =
-    policy?.dependencies.filter(
-      (dependency) => dependency.type === PolicyDependencyType.Protocol,
-    ) ?? [];
+
+  const policyDependencies =
+    policy?.dependencies.filter((dependency) => dependency.type === type) ?? [];
+
+  const dependencyName = POLICY_DEPENDENCIES_DISPLAY_NAMES.get(type) ?? "";
 
   return (
     <Stack>
@@ -42,20 +42,20 @@ const ProtocolsList: FC<PolicyDependenciesProps> = ({
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Protocol</Typography>
+          <Typography variant="h6">{dependencyName}s</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Stack gap={3}>
             <Stack>
-              {policyProtocols.map((policyProtocol: Dependency, index) => (
+              {policyDependencies.map((dependency: Dependency, index) => (
                 <Stack direction="row" key={index}>
                   <FileOpenIcon sx={{ ml: 1 }} />
                   <Button
-                    href={policyProtocol.pdfUrl}
+                    href={dependency.pdfUrl}
                     target="_blank"
                     sx={{ color: "black" }}
                   >
-                    {policyProtocol.name}
+                    {dependency.name}
                   </Button>
                 </Stack>
               ))}
@@ -73,7 +73,7 @@ const ProtocolsList: FC<PolicyDependenciesProps> = ({
                 size="small"
                 onClick={handleOpenDialog}
               >
-                Add Protocol
+                Add {dependencyName}
               </Button>
             </Stack>
           </Stack>
@@ -84,10 +84,10 @@ const ProtocolsList: FC<PolicyDependenciesProps> = ({
         open={open}
         onClose={handleCloseDialog}
         policyId={policyId}
-        type={PolicyDependencyType.Protocol}
+        type={type}
       />
     </Stack>
   );
 };
 
-export default ProtocolsList;
+export default DependenciesList;

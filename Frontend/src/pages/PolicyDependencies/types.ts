@@ -1,4 +1,5 @@
 import { AddPolicyDependencyResponse } from "./API/types";
+import { PolicyDependencyType } from "./constants";
 
 export interface AddPolicyDependencyDialogProps {
   open: boolean;
@@ -11,6 +12,12 @@ export interface AddPolicyDependencyDialogProps {
 export interface PolicyDependenciesProps {
   chapterId: string;
   policyId: string;
+}
+
+export interface DependenciesListProps {
+  chapterId: string;
+  policyId: string;
+  type: PolicyDependencyType;
 }
 
 export interface AddDependencyFormPayload extends AddPolicyDependencyResponse {}
