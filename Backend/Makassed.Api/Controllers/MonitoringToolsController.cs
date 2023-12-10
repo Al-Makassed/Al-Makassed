@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.MonitoringTools;
-using Makassed.Contracts.General;
 using Makassed.Contracts.MonitoringTool;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 

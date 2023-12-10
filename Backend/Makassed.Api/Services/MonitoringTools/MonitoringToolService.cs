@@ -154,7 +154,7 @@ public class MonitoringToolService : IMonitoringToolService
         if (monitoringTool is null)
             return Errors.MonitoringTool.NotFound;
 
-        var field = monitoringTool!.Fields.FirstOrDefault(f => f.Id == fieldId);
+        var field = monitoringTool.Fields.FirstOrDefault(f => f.Id == fieldId);
 
         if (field is null)
             return Errors.MonitoringTool.FieldNotFound;

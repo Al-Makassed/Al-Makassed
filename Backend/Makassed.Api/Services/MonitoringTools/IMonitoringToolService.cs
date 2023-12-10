@@ -2,7 +2,6 @@
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
 using Makassed.Contracts.General;
-using Makassed.Contracts.MonitoringTool;
 using Sieve.Models;
 
 namespace Makassed.Api.Services.MonitoringTools;
