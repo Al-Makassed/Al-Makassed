@@ -1,3 +1,4 @@
+import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
 import {
   Checkbox,
@@ -10,55 +11,58 @@ import {
   Typography,
 } from "@mui/material";
 import { Form, FormikProvider } from "formik";
-import React, { FC } from "react";
+import { FC } from "react";
+import AutocompleteField from "src/components/Fields/AutocompleteField";
 import TextField from "src/components/Fields/TextField";
-import AddIcon from "@mui/icons-material/Add";
+import { Department } from "./API/types";
 import useAddMonitoringToolForm from "./hooks/useAddMonitoringToolForm";
+import useGetDepartment from "./hooks/useGetDepartment";
 import useGetField from "./hooks/useGetField";
-// import useGetDepartment from "./hooks/useGetDepartment";
-import Autocomplete from "src/components/Fields/Autocomplete";
+import TransferList from "src/components/TransferList";
 
 const AddMonitoringToolForm: FC = () => {
   const { formikProps, isAdding } = useAddMonitoringToolForm();
   const { fields } = useGetField();
-  // const { departments } = useGetDepartment();
+  const { departments } = useGetDepartment();
 
-  const { dirty, isValid, resetForm, submitForm } = formikProps;
+  const departmentsOptions = departments ?? [];
+
+  const { dirty, isValid, resetForm, submitForm, setFieldValue, values } = formikProps;
 
   const handleSubmitForm = async () => {
     await submitForm();
     resetForm();
   };
+
+  console.log(values);
+
   return (
     <FormikProvider value={formikProps}>
       <Form>
         <Stack p={3} gap={2.5} justifyContent="center" alignItems="center">
-          <TextField name="name" label="MT Name" sx={{ maxWidth: 350 }} />
+          <TextField name="name" label="MT Name" />
 
           <TextField
             name="description"
             label="Summary"
             placeholder="e.g. Here goes the description"
-            sx={{ maxWidth: 350 }}
           />
 
-          <Autocomplete
-            sx={{ width: 350 }}
-            name="departments"
+          <AutocompleteField<Department>
+            name="departmentsIdes"
+            label="Departments"
             multiple
-            options={top5Films}
-            getOptionLabel={(option) => option.title}
-            defaultValue={[top5Films[1]]}
-            renderInput={(params) => (
-              <TextField
-                name="departmentsIdes"
-                {...params}
-                variant="standard"
-                label="Departments"
-                placeholder="choose departments"
-              />
-            )}
+            disablePortal
+            id="combo-box-demo1"
+            options={departmentsOptions}
+            getOptionLabel={(option) => (option as Department).name}
+            fullWidth
+            onChange={(event, value) => {
+              const values = value as Department[];
+              setFieldValue("departmentsIdes", values);
+            }}
           />
+
           {/* <TextField
             name="departmentsIdes"
             label='Select department'
@@ -80,7 +84,7 @@ const AddMonitoringToolForm: FC = () => {
           
         {/* Fields List ........... */}
 
-          <List
+          {/* <List
             sx={{
               maxHeight: 400,
               maxWidth: 350,
@@ -104,7 +108,9 @@ const AddMonitoringToolForm: FC = () => {
                 </ListItemButton>
               </ListItem>
             ))}
-          </List>
+          </List> */}
+
+          <TransferList leftTitle="Fields" rightTitle="Selected Fields" />
         </Stack>
 
         <LoadingButton
@@ -126,11 +132,3 @@ const AddMonitoringToolForm: FC = () => {
 };
 
 export default AddMonitoringToolForm;
-
-const top5Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
-];
