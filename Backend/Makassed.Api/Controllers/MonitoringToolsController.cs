@@ -113,4 +113,21 @@ public class MonitoringToolsController : ApiController
             errors => Problem(errors)
         );
     }
+
+    // unassign monitoring tool to department
+    [HttpPut("{id:guid}/departments/{departmentId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> UnassignMonitoringToolToDepartment(Guid id, Guid departmentId)
+    {
+        var result = await _monitoringToolService.UnassignMonitoringToolToDepartmentAsync(id, departmentId);
+
+        return result.Match(
+            _ => NoContent(),
+            errors => Problem(errors)
+        );
+    }
 }

@@ -17,14 +17,16 @@ public class MonitoringToolService : IMonitoringToolService
     private readonly IFieldRepository _fieldRepository;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper, IUserService userService)
+    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper, IUserService userService, IUnitOfWork unitOfWork)
     {
         _monitoringToolRepository = monitoringToolRepository;
         _departmentRepository = departmentRepository;
         _fieldRepository = fieldRepository;
         _mapper = mapper;
         _userService = userService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel)
@@ -128,18 +130,6 @@ public class MonitoringToolService : IMonitoringToolService
 
     public async Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool)
     {
-        // Add the existed departments and fields to the monitoring tool
-        // var departments = await AssignDepartmentsAsync(monitoringTool, requestDepartmentsIdes);
-
-        //if (departments.IsError)
-        //    return departments.Errors;
-
-        //var fields = await AssignFieldsAsync(monitoringTool, requestFieldsIdes);
-
-        //if (fields.IsError)
-        //    return fields.Errors;
-
-        // Update the monitoring tool
         var result = await _monitoringToolRepository.UpdateMonitoringToolAsync(id, monitoringTool);
         
         return  result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
@@ -159,8 +149,44 @@ public class MonitoringToolService : IMonitoringToolService
         if (monitoringTool is null)
             return Errors.MonitoringTool.NotFound;
 
-        var result = await _monitoringToolRepository.DeleteFieldFromMonitoringToolAsync(id, fieldId);
+        var field = monitoringTool!.Fields.FirstOrDefault(f => f.Id == fieldId);
 
-        return result is null ? Errors.MonitoringTool.FieldNotFound : Result.Deleted;
+        if (field is null)
+            return Errors.MonitoringTool.FieldNotFound;
+
+        // if the field is the last one, return error
+        if (monitoringTool.Fields.Count == 1)
+            return Errors.MonitoringTool.LastField;
+
+        monitoringTool.Fields.Remove(field);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Deleted;
+    }
+
+    public async Task<ErrorOr<Deleted>> UnassignMonitoringToolToDepartmentAsync(Guid id, Guid departmentId)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        // get the focal point task
+        var focalPointTaskToDelete = monitoringTool.FocalPointTasks.FirstOrDefault(fpt => fpt.DepartmentId == departmentId);
+
+        if (focalPointTaskToDelete is null)
+            return Errors.MonitoringTool.DepartmentNotFound;
+
+        // if the focal point task is the last one, return error
+        if (monitoringTool.FocalPointTasks.Count == 1)
+            return Errors.MonitoringTool.LastFocalPointTask;
+
+        // remove the focal point task from the monitoring tool
+        monitoringTool.FocalPointTasks.Remove(focalPointTaskToDelete);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Deleted;
     }
 }

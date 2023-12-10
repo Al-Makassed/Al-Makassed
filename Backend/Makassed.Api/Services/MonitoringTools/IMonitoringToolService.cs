@@ -18,4 +18,6 @@ public interface IMonitoringToolService
     Task<ErrorOr<MonitoringToolDto>> DeleteMonitoringToolAsync(Guid id);
 
     Task<ErrorOr<Deleted>> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId);
+
+    Task<ErrorOr<Deleted>> UnassignMonitoringToolToDepartmentAsync(Guid id, Guid departmentId);
 }

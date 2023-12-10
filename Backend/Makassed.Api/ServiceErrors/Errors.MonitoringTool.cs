@@ -30,5 +30,20 @@ public abstract partial class Errors
             code: "MonitoringTool.FieldNotFound",
             description: "Field is not found."
         );
+
+        public static Error DepartmentNotFound => Error.NotFound(
+            code: "MonitoringTool.DepartmentNotFound",
+            description: "Monitoring tool is not assigned to department."
+        );
+
+        public static Error LastFocalPointTask => Error.Validation(
+            code: "MonitoringTool.LastFocalPointTask",
+            description: "Monitoring tool has only one assigned department left, assign other departments before removing the last one."
+        );
+
+        public static Error LastField => Error.Validation(
+            code: "MonitoringTool.LastField",
+            description: "Monitoring tool has only one field left, add other fields before removing the last one."
+        );
     }
 }
