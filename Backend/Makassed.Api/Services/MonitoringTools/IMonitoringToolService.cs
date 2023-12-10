@@ -1,6 +1,8 @@
 ﻿using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
+using Makassed.Contracts.General;
+using Makassed.Contracts.MonitoringTool;
 using Sieve.Models;
 
 namespace Makassed.Api.Services.MonitoringTools;
@@ -20,4 +22,8 @@ public interface IMonitoringToolService
     Task<ErrorOr<Deleted>> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId);
 
     Task<ErrorOr<Deleted>> UnassignMonitoringToolToDepartmentAsync(Guid id, Guid departmentId);
+
+    Task<ErrorOr<SuccessResponse>> AssignMonitoringToolToDepartmentsAsync(Guid id, List<Guid> departmentsIdes);
+
+    Task<ErrorOr<SuccessResponse>> AddFieldsToMonitoringToolAsync(Guid id, List<Guid> fieldsIdes);
 }

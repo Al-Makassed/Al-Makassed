@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Services.MonitoringTools;
+using Makassed.Contracts.General;
 using Makassed.Contracts.MonitoringTool;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
@@ -98,8 +100,9 @@ public class MonitoringToolsController : ApiController
     }
 
     // delete a field from a monitoring tool
-    [HttpPut("{id:guid}/fields/{fieldId:guid}")]
+    [HttpDelete("{id:guid}/fields/{fieldId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -115,8 +118,9 @@ public class MonitoringToolsController : ApiController
     }
 
     // unassign monitoring tool to department
-    [HttpPut("{id:guid}/departments/{departmentId:guid}")]
+    [HttpDelete("{id:guid}/departments/{departmentId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -127,6 +131,44 @@ public class MonitoringToolsController : ApiController
 
         return result.Match(
             _ => NoContent(),
+            errors => Problem(errors)
+        );
+    }
+
+    // assign monitoring tool to departments
+    [HttpPost("{id:guid}/departments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> AssignMonitoringToolToDepartment(
+        Guid id, 
+        AssignMonitoringToolToDepartmentRequest request)
+    {
+        var result = await _monitoringToolService.AssignMonitoringToolToDepartmentsAsync(id, request.DepartmentsIdes);
+
+        return result.Match(
+            successResponse => Ok(successResponse),
+            errors => Problem(errors)
+        );
+    }
+
+    // add field to monitoring tool
+    [HttpPost("{id:guid}/fields")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> AddFieldToMonitoringTool(Guid id, AddFieldToMonitoringToolRequest request)
+    {
+        var result = await _monitoringToolService.AddFieldsToMonitoringToolAsync(id, request.FieldsIdes);
+
+        return result.Match(
+            successResponse => Ok(successResponse),
             errors => Problem(errors)
         );
     }

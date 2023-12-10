@@ -45,5 +45,10 @@ public abstract partial class Errors
             code: "MonitoringTool.LastField",
             description: "Monitoring tool has only one field left, add other fields before removing the last one."
         );
+
+        public static Error DepartmentAlreadyAssigned => Error.Validation(
+            code: "MonitoringTool.DepartmentAlreadyAssigned",
+            description: "Monitoring tool is already assigned to department."
+        );
     }
 }

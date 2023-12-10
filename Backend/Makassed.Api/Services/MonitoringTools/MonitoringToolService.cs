@@ -5,6 +5,7 @@ using Makassed.Api.Models.DTO;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Users;
+using Makassed.Contracts.General;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 
@@ -59,7 +60,10 @@ public class MonitoringToolService : IMonitoringToolService
         {
             var department = await _departmentRepository.GetDepartmentAsync(departmentId);
 
-            if (department is not null)
+            var existingFocalPointTask = monitoringTool.FocalPointTasks.FirstOrDefault(fpt => fpt.DepartmentId == departmentId);
+
+            // Check if the department exists and id it is already assigned to the monitoring tool
+            if (department is not null && existingFocalPointTask is null)
                 focalPointTasks.Add(new FocalPointTask 
                 { 
                     MonitoringToolId = monitoringTool.Id,
@@ -71,7 +75,7 @@ public class MonitoringToolService : IMonitoringToolService
         if (focalPointTasks.IsNullOrEmpty())
             return Errors.MonitoringTool.NoValidAssignedDepartments;
 
-        monitoringTool.FocalPointTasks = focalPointTasks;
+        monitoringTool.FocalPointTasks.AddRange(focalPointTasks);
 
         return monitoringTool;
     }
@@ -84,8 +88,9 @@ public class MonitoringToolService : IMonitoringToolService
         foreach (var fieldId in fieldsIdes)
         {
             var field = await _fieldRepository.GetFieldAsync(fieldId);
+            var assignedField = monitoringTool.Fields.FirstOrDefault(f => f.Id == fieldId);
 
-            if (field is not null)
+            if (field is not null && assignedField is null)
                 fields.Add(field);
         }
 
@@ -93,7 +98,7 @@ public class MonitoringToolService : IMonitoringToolService
         if (fields.IsNullOrEmpty())
             return Errors.MonitoringTool.NoValidFields;
 
-        monitoringTool.Fields = fields;
+        monitoringTool.Fields.AddRange(fields);
 
         return monitoringTool;
     }
@@ -188,5 +193,39 @@ public class MonitoringToolService : IMonitoringToolService
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Deleted;
+    }
+
+    public async Task<ErrorOr<SuccessResponse>> AssignMonitoringToolToDepartmentsAsync(Guid id, List<Guid> departmentsIdes)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        var assignmentResult = await AssignDepartmentsAsync(monitoringTool, departmentsIdes);
+
+        if (assignmentResult.IsError)
+            return assignmentResult.Errors;
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new SuccessResponse( "Monitoring tool is assigned to departments successfully." );
+    }
+
+    public async Task<ErrorOr<SuccessResponse>> AddFieldsToMonitoringToolAsync(Guid id, List<Guid> fieldsIdes)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        var filedAdditionResult = await AssignFieldsAsync(monitoringTool, fieldsIdes);
+
+        if (filedAdditionResult.IsError)
+            return filedAdditionResult.Errors;
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new SuccessResponse( "Fields are added to monitoring tool successfully." );
     }
 }
