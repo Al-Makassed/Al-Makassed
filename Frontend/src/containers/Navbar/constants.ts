@@ -8,7 +8,7 @@ export const LANGUAGES = [
 export const NAVBAR_PAGES: NavbarPage[] = [
   {
     name: "Policies and procedures",
-    path: "/policies-and-procedures",
+    path: "/me/policies-and-procedures",
   },
   {
     name: "Manuals",

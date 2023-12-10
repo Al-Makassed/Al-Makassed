@@ -3,7 +3,8 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
-import MonitoringTools from "src/pages/MonitoringTools";
+import EditChapterDialog from "src/pages/EditChapterDialog";
+import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
 const Submission = lazy(() => import("src/pages/Submission"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
@@ -18,10 +19,10 @@ const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
-const EditChapterForm = lazy(() => import("src/pages/EditChapterForm"));
-const EditPolicyAndDependenciesForm = lazy(
-  () => import("src/pages/EditPolicyAndDependenciesForm"),
+const PoliciesAndProcedures = lazy(
+  () => import("src/pages/PoliciesAndProcedures"),
 );
+const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 
 const AppRoutes: FC = () => {
   return (
@@ -36,21 +37,18 @@ const AppRoutes: FC = () => {
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
 
-            <Route path="chapters">
-              <Route index element={<h1>List of all Chapters</h1>} />
-              <Route path=":chapterId" element={<h1>One Chapter</h1>} />
-              <Route path="edit/:chapterId" element={<EditChapterForm />} />
-              <Route
-                path=":chapterId/policies"
-                element={<h1>Policies of a Chapter</h1>}
-              />
+            <Route
+              path="policies-and-procedures"
+              element={<PoliciesAndProcedures />}
+            >
+              <Route path=":chapterId" element={<EditChapterDialog />} />
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}
               />
               <Route
-                path=":chapterId/policies/:policyId/edit"
-                element={<EditPolicyAndDependenciesForm />}
+                path="edit/:chapterId/policies/:policyId"
+                element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>
 
