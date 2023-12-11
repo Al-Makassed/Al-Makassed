@@ -18,12 +18,10 @@ import AddPolicyDialog from "src/pages/AddPolicyDialog";
 import { Policy } from "../API/types";
 import { ChapterListItemProps } from "../types";
 import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
-// import { toggleSidebar } from "src/features/appSettings";
-// import { useAppDispatch } from "src/store/hooks";
+import { useAppSelector } from "src/store/hooks";
+import { selectIsAdminUser, selectIsManagerUser } from "src/features/user";
 
 const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
-  // const dispatch = useAppDispatch();
-
   const [open, setOpen] = useState(false);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -35,24 +33,19 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   const navigate = useNavigate();
-  const {
-    // state: { isSidebarOpen },
-    // openSidebar,
-    closeSidebar,
-  } = useSidebarContext();
-
-  // const handleToggleSidebar = () => dispatch(toggleSidebar());
+  const { closeSidebar } = useSidebarContext();
 
   const handleClickPolicy = (policy: Policy) => () => {
-    // handleToggleSidebar();
-    closeSidebar;
     navigate(`${policy.chapterId}/policies/${policy.id}`);
+    closeSidebar();
   };
 
   const handleClickEditChapter = () => {
-    closeSidebar;
+    closeSidebar();
     navigate(`${chapter.id}`);
   };
+  const isAdmin = useAppSelector(selectIsAdminUser);
+  const isManager = useAppSelector(selectIsManagerUser);
 
   return (
     <>
@@ -73,15 +66,17 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
           {open ? <ExpandLess sx={{ ml: 2 }} /> : <ExpandMore sx={{ ml: 2 }} />}
         </ListItemButton>
 
-        <Tooltip title="Edit chapter">
-          <IconButton
-            onClick={handleClickEditChapter}
-            aria-label="Edit chapter"
-            sx={{ mr: 1 }}
-          >
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
+        {isAdmin && (
+          <Tooltip title="Edit chapter">
+            <IconButton
+              onClick={handleClickEditChapter}
+              aria-label="Edit chapter"
+              sx={{ mr: 1 }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
@@ -97,18 +92,20 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
               <ListItemText primary={policy.name} />
             </ListItemButton>
           ))}
-          <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
-            <ListItemIcon
-              sx={{
-                color: "primary.main",
-                mr: -2.5,
-              }}
-            >
-              <AddIcon />
-            </ListItemIcon>
+          {isManager && (
+            <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
+              <ListItemIcon
+                sx={{
+                  color: "primary.main",
+                  mr: -2.5,
+                }}
+              >
+                <AddIcon />
+              </ListItemIcon>
 
-            <Typography fontWeight={590}>Add Policy</Typography>
-          </ListItemButton>
+              <Typography fontWeight={590}>Add Policy</Typography>
+            </ListItemButton>
+          )}
           <AddPolicyDialog
             chapterId={chapter.id}
             open={isDialogOpen}

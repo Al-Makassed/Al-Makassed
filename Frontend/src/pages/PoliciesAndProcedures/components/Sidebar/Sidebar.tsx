@@ -1,9 +1,8 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Drawer, Stack } from "@mui/material";
+import { Divider, Drawer, Stack } from "@mui/material";
 import Title from "./components/Title";
 import ChaptersList from "./components/ChaptersList";
-import AddChapterButton from "./components/AddChapterButton";
 import { FC } from "react";
 import useSidebarContext from "../../context/useSidebar";
 
@@ -17,7 +16,7 @@ const Sidebar: FC = () => {
 
   return (
     <>
-      <Stack>
+      <Stack position="relative">
         <Drawer
           sx={{
             position: "relative",
@@ -30,7 +29,7 @@ const Sidebar: FC = () => {
             },
             "& .MuiPaper-root": {
               backgroundColor: (theme) => theme.palette.grey[200],
-              height: `calc(100% - 115px)`,
+              height: `calc(100% - 64px)`,
               mt: 8,
             },
           }}
@@ -42,8 +41,10 @@ const Sidebar: FC = () => {
           open={isSidebarOpen}
         >
           <Title />
+
+          <Divider sx={{ background: "action", mt: 1.5 }} />
+
           <ChaptersList />
-          <AddChapterButton />
         </Drawer>
       </Stack>
     </>

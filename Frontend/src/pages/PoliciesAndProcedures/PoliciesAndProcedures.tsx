@@ -1,16 +1,17 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import SidebarChevron from "./components/Sidebar/components/SidebarChevron";
-import VerticalLinearStepper from "./components/VerticalLinearStepper";
+import { Stack } from "@mui/material";
 
 const PoliciesAndProcedures = () => {
   return (
-    <>
-      <Sidebar />
-      <SidebarChevron />
-      <VerticalLinearStepper />
+    <Stack direction="row">
+      <>
+        <SidebarChevron />
+        <Sidebar />
+      </>
       <Outlet />
-    </>
+    </Stack>
   );
 };
 
