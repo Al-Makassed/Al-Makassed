@@ -10,16 +10,20 @@ import {
   Tooltip,
 } from "@mui/material";
 import formatDate from "src/utils/formatDate";
-import { MonitoringToolCardProps } from "../types";
 import CardBody from "./CardBody";
+import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
+import { MonitoringToolCardProps } from "../types";
 
 const MonitoringToolCard: FC<MonitoringToolCardProps> = ({
   monitoringTool,
-  onOpen,
 }) => {
-  const handleViewButtonClicked = () => onOpen();
+  const { onOpenMTViewDialog } = useMonitoringToolsContext();
 
-  const lastModified = formatDate(monitoringTool.lastModified);
+  if (!monitoringTool) return null;
+
+  const lastModified = formatDate(monitoringTool!.lastModified);
+
+  const handleViewButtonClicked = () => onOpenMTViewDialog(monitoringTool!);
 
   return (
     <>

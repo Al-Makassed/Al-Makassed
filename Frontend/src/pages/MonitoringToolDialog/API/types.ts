@@ -14,6 +14,15 @@ export interface MonitoringTool {
   name: string;
   description: string;
   lastModified: string;
+  createdAt: string;
+  isApproved: boolean;
+  creatorId: string;
   fields: Field[];
   departments: Department[];
+}
+
+export interface UpdateMonitoringToolRequest {
+  monitoringToolId: string;
+  name: string;
+  description: string;
 }

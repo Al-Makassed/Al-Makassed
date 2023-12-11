@@ -1,13 +1,8 @@
-import { Department, Field } from "../MonitoringTools/API/types";
-
-export interface MonitoringToolViewDialogProps {
-  open: boolean;
-  onClose: () => void;
-  monitoringToolId: string;
-}
+import { Department, Field, MonitoringTool } from "./API/types";
 
 export interface DescriptionSectionProps {
-  description: string;
+  monitoringTool: MonitoringTool;
+  isEditingMode: boolean;
 }
 
 export interface FieldsSectionProps {
@@ -20,4 +15,14 @@ export interface DepartmentsSectionProps {
 
 export interface SectionHeaderProps {
   title: string;
+}
+
+export interface HeaderTextFieldProps {
+  monitoringTool: MonitoringTool;
+  isEditingMode: boolean;
+}
+
+export interface SubmitButtonProps {
+  monitoringTool: MonitoringTool;
+  isEditingMode: boolean;
 }

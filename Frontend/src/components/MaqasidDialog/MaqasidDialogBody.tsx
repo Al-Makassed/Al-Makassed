@@ -5,7 +5,7 @@ import { MaqasidDialogBodyProps } from "./types";
 
 const MaqasidDialogBody = forwardRef<HTMLDivElement, MaqasidDialogBodyProps>(
   (props, ref) => {
-    const { dividers = true, children, niceScroll, ...rest } = props;
+    const { dividers = true, children, niceScroll, noPadding, ...rest } = props;
 
     const theme = useTheme<Theme>();
 
@@ -17,6 +17,9 @@ const MaqasidDialogBody = forwardRef<HTMLDivElement, MaqasidDialogBodyProps>(
         sx={{
           ...(niceScroll && {
             ...theme.mixins.niceScroll(),
+          }),
+          ...(noPadding && {
+            p: 0,
           }),
         }}
       >

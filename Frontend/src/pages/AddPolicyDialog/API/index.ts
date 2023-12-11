@@ -1,8 +1,8 @@
 import { Policy, PolicyRequest } from "./types";
 import { axiosFormData } from "src/API/axios";
 
-export const createPolicy = async ({ formData, chapterId }: PolicyRequest) => {
-  return await axiosFormData
+export const createPolicy = ({ formData, chapterId }: PolicyRequest) => {
+  return axiosFormData
     .post<Policy>(`/chapters/${chapterId}/policies`, formData)
     .then((res) => res.data);
 };

@@ -19,7 +19,5 @@ export const getFocalPointTasks = (departmentId: string) => {
 };
 
 export const createField = ({ content }: CreateFieldRequest) => {
-  return axios
-    .post<Field>("/fields", { content: content })
-    .then((res) => res.data);
+  return axios.post<Field>("/fields", { content }).then((res) => res.data);
 };
