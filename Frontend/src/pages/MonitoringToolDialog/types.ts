@@ -2,7 +2,6 @@ import { Department, Field, MonitoringTool } from "./API/types";
 
 export interface DescriptionSectionProps {
   monitoringTool: MonitoringTool;
-  isEditingMode: boolean;
 }
 
 export interface FieldsSectionProps {
@@ -25,4 +24,13 @@ export interface HeaderTextFieldProps {
 export interface SubmitButtonProps {
   monitoringTool: MonitoringTool;
   isEditingMode: boolean;
+}
+
+export interface DialogBodyAndFooterProps {
+  monitoringTool: MonitoringTool;
+}
+
+export interface DatesChipsProps {
+  createdAt: string;
+  lastModified: string;
 }
