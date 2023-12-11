@@ -32,7 +32,7 @@ const PolicyDetails: FC = () => {
   if (!policy) return null;
 
   return (
-    <Stack alignItems="center" textAlign="center" pt={4} gap={3}>
+    <Stack alignItems="center" textAlign="center" gap={3}>
       <Typography
         variant="subtitle1"
         sx={{ color: (theme) => theme.palette.text.primary }}

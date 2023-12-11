@@ -14,7 +14,7 @@ const AddChapterButton = () => {
   return (
     <>
       <Button
-        sx={{ maxWidth: "350px", height: 50, mt: 3 }}
+        sx={{ maxWidth: "350px" }}
         variant="contained"
         startIcon={<AddIcon />}
         onClick={handleOpenDialog}

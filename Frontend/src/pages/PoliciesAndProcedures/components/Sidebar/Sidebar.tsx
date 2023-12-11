@@ -16,7 +16,7 @@ const Sidebar: FC = () => {
 
   return (
     <>
-      <Stack position="relative">
+      <Stack>
         <Drawer
           sx={{
             position: "relative",
