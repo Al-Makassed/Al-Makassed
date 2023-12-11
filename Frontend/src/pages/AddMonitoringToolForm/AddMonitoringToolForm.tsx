@@ -1,24 +1,15 @@
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
-import {
-  Checkbox,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Stack } from "@mui/material";
 import { Form, FormikProvider } from "formik";
 import { FC } from "react";
 import AutocompleteField from "src/components/Fields/AutocompleteField";
 import TextField from "src/components/Fields/TextField";
+import TransferList from "src/components/TransferList";
 import { Department } from "./API/types";
 import useAddMonitoringToolForm from "./hooks/useAddMonitoringToolForm";
 import useGetDepartment from "./hooks/useGetDepartment";
 import useGetField from "./hooks/useGetField";
-import TransferList from "src/components/TransferList";
 
 const AddMonitoringToolForm: FC = () => {
   const { formikProps, isAdding } = useAddMonitoringToolForm();
@@ -27,14 +18,20 @@ const AddMonitoringToolForm: FC = () => {
 
   const departmentsOptions = departments ?? [];
 
-  const { dirty, isValid, resetForm, submitForm, setFieldValue, values } = formikProps;
+  const { dirty, isValid, resetForm, submitForm, setFieldValue } = formikProps;
 
   const handleSubmitForm = async () => {
     await submitForm();
     resetForm();
   };
 
-  console.log(values);
+  const leftList = [
+    { id: "1", label: "Field 1" },
+    { id: "2", label: "Field 2" },
+    { id: "3", label: "Field 3" },
+  ];
+
+  console.log(fields);
 
   return (
     <FormikProvider value={formikProps}>
@@ -63,54 +60,17 @@ const AddMonitoringToolForm: FC = () => {
             }}
           />
 
-          {/* <TextField
-            name="departmentsIdes"
-            label='Select department'
-            select
-            sx={{ width: 350 }}
-            SelectProps={{
-              multiple: true
-            }}
-            helperText='Please select the departments'
-            value={selectedDepartments}
-            onChange={handleChange}
-          >
-            {departments?.map((department: Department, index) => (
-              <MenuItem key={index} value={department.name}>
-                {department.name}
-              </MenuItem>
-            ))}
-          </TextField>
-          
-        {/* Fields List ........... */}
-
-          {/* <List
-            sx={{
-              maxHeight: 400,
-              maxWidth: 350,
-              position: "relative",
-              overflow: "auto",
-              border: "1px solid lightgrey",
-            }}
-          >
-            <Typography variant="h6" textAlign="center">
-              0/{fields?.length} Fields
-            </Typography>
-            <Divider sx={{ color: "red" }} />
-            {fields?.map((field, index) => (
-              <ListItem
-                key={index}
-                secondaryAction={<Checkbox edge="end" />}
-                disablePadding
-              >
-                <ListItemButton>
-                  <ListItemText id={field.fieldId} primary={field.content} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List> */}
-
-          <TransferList leftTitle="Fields" rightTitle="Selected Fields" />
+          <TransferList
+            leftTitle="Fields"
+            rightTitle="Selected Fields"
+            left={leftList}
+            // left={[
+            //   { id: "1", content: "Field 1" },
+            //   { id: "2", content: "Field 2" },
+            //   { id: "3", content: "Field 3" },
+            // ]}
+            // getOptionLabel={(option) => (option as any).content}
+          />
         </Stack>
 
         <LoadingButton
