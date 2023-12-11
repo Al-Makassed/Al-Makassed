@@ -10,7 +10,7 @@ export interface MonitoringToolResponse {
 }
 
 export interface Field {
-  fieldId: string;
+  id: string;
   content: string;
 }
 

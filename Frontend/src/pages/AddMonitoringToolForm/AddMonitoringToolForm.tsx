@@ -9,11 +9,11 @@ import TransferList from "src/components/TransferList";
 import { Department } from "./API/types";
 import useAddMonitoringToolForm from "./hooks/useAddMonitoringToolForm";
 import useGetDepartment from "./hooks/useGetDepartment";
-import useGetField from "./hooks/useGetField";
+import useGetFields from "./hooks/useGetFields";
 
 const AddMonitoringToolForm: FC = () => {
   const { formikProps, isAdding } = useAddMonitoringToolForm();
-  const { fields } = useGetField();
+  const { fields } = useGetFields();
   const { departments } = useGetDepartment();
 
   const departmentsOptions = departments ?? [];
@@ -24,14 +24,6 @@ const AddMonitoringToolForm: FC = () => {
     await submitForm();
     resetForm();
   };
-
-  const leftList = [
-    { id: "1", label: "Field 1" },
-    { id: "2", label: "Field 2" },
-    { id: "3", label: "Field 3" },
-  ];
-
-  console.log(fields);
 
   return (
     <FormikProvider value={formikProps}>
@@ -61,15 +53,16 @@ const AddMonitoringToolForm: FC = () => {
           />
 
           <TransferList
-            leftTitle="Fields"
-            rightTitle="Selected Fields"
-            left={leftList}
-            // left={[
-            //   { id: "1", content: "Field 1" },
-            //   { id: "2", content: "Field 2" },
-            //   { id: "3", content: "Field 3" },
-            // ]}
-            // getOptionLabel={(option) => (option as any).content}
+            left={fields}
+            getOptionLabel={(option) => option.content}
+            loading={!fields || fields.length === 0}
+            onTransfer={(left, right) => {
+              console.log({
+                left,
+                right,
+              });
+              setFieldValue("fields", right); // FIXME
+            }}
           />
         </Stack>
 

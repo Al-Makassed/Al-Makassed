@@ -7,7 +7,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types/axios";
 
-const useGetField = () => {
+const useGetFields = () => {
   const dispatch = useAppDispatch();
 
   const {
@@ -31,9 +31,9 @@ const useGetField = () => {
   }, [error]);
 
   return {
-    fields,
+    fields: fields ?? [],
     isFetching,
   };
 };
 
-export default useGetField;
+export default useGetFields;

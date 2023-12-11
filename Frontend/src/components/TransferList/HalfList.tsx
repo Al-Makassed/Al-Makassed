@@ -6,17 +6,17 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { FC } from "react";
-import { HalfListProps, ListItem } from "./types";
+import { WithId } from "src/types";
+import { HalfListProps } from "./types";
 import { not, union } from "./utils";
 
-const HalfList: FC<HalfListProps> = ({
+const HalfList = <T extends WithId<object>>({
   title,
   items,
   checkedItems,
   onSetCheckedItems,
-  getOptionLabel = (option) => option.label,
-}) => {
+  getOptionLabel,
+}: HalfListProps<T>) => {
   const checkedIds = checkedItems.map((x) => x.id);
 
   const isAllItemsSelected =
@@ -27,7 +27,7 @@ const HalfList: FC<HalfListProps> = ({
     items.some((item) => checkedIds.includes(item.id)) &&
     checkedItems.length > 0;
 
-  const handleToggleListItem = (item: ListItem) => {
+  const handleToggleListItem = (item: T) => {
     const isItemChecked = checkedItems.some((x) => x.id === item.id);
 
     isItemChecked
@@ -53,6 +53,7 @@ const HalfList: FC<HalfListProps> = ({
             inputProps={{
               "aria-label": "all items selected",
             }}
+            disabled={items.length === 0}
           />
         }
         title={title}
@@ -61,7 +62,6 @@ const HalfList: FC<HalfListProps> = ({
       <Divider />
       <List
         sx={{
-          width: 200,
           height: 230,
           bgcolor: "background.paper",
           overflow: "auto",
@@ -70,15 +70,15 @@ const HalfList: FC<HalfListProps> = ({
         component="div"
         role="list"
       >
-        {items.map((value) => {
-          const labelId = `transfer-list-all-item-${value}-label`;
-          const isChecked = checkedItems.some((x) => x.id === value.id);
+        {items.map((item) => {
+          const labelId = `transfer-list-all-item-${item}-label`;
+          const isChecked = checkedItems.some((x) => x.id === item.id);
 
           return (
             <ListItemButton
-              key={value.id}
+              key={item.id}
               role="listitem"
-              onClick={() => handleToggleListItem(value)}
+              onClick={() => handleToggleListItem(item)}
             >
               <ListItemIcon>
                 <Checkbox
@@ -90,7 +90,7 @@ const HalfList: FC<HalfListProps> = ({
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={getOptionLabel(value)} />
+              <ListItemText id={labelId} primary={getOptionLabel(item)} />
             </ListItemButton>
           );
         })}

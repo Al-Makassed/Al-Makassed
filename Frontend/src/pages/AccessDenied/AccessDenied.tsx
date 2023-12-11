@@ -43,11 +43,7 @@ const AccessDenied: FC = () => {
           system administrator if access is needed.
         </Typography>
 
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={2}
-          sx={{ mt: 4 }}
-        >
+        <Stack direction={{ xs: "column", md: "row" }} gap={2} sx={{ mt: 4 }}>
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={backToPreviousPage}

@@ -1,15 +1,15 @@
-import { ListItem } from "./types";
+import { WithId } from "src/types";
 
 /**
  * Returns items that are present in sourceArray but not in comparisonArray based on their `id` property.
  *
- * @param {readonly ListItem[]} sourceArray - The source array.
- * @param {readonly ListItem[]} comparisonArray - The array to compare against.
- * @returns {ListItem[]} An array containing items from sourceArray that are not present in comparisonArray.
+ * @param {readonly T[]} sourceArray - The source array.
+ * @param {readonly T[]} comparisonArray - The array to compare against.
+ * @returns {T[]} An array containing items from sourceArray that are not present in comparisonArray.
  */
-export const not = (
-  sourceArray: readonly ListItem[],
-  comparisonArray: readonly ListItem[],
+export const not = <T extends WithId<object>>(
+  sourceArray: readonly T[],
+  comparisonArray: readonly T[],
 ) => {
   return sourceArray.filter(
     (source) =>
@@ -20,13 +20,13 @@ export const not = (
 /**
  * Returns items that are present in BOTH sourceArray AND comparisonArray based on their `id` property.
  *
- * @param {readonly ListItem[]} sourceArray - The source array.
- * @param {readonly ListItem[]} comparisonArray - The array to compare against.
- * @returns {ListItem[]} An array containing items from sourceArray that are also present in comparisonArray.
+ * @param {readonly T[]} sourceArray - The source array.
+ * @param {readonly T[]} comparisonArray - The array to compare against.
+ * @returns {T[]} An array containing items from sourceArray that are also present in comparisonArray.
  */
-export const intersection = (
-  sourceArray: readonly ListItem[],
-  comparisonArray: readonly ListItem[],
+export const intersection = <T extends WithId<object>>(
+  sourceArray: readonly T[],
+  comparisonArray: readonly T[],
 ) => {
   return sourceArray.filter(
     (source) =>
@@ -37,10 +37,13 @@ export const intersection = (
 /**
  * Returns the union of two arrays based on their `id` property, eliminating duplicates.
  *
- * @param {readonly ListItem[]} a - The first array.
- * @param {readonly ListItem[]} b - The second array.
- * @returns {ListItem[]} An array containing unique items from both array `a` and array `b`.
+ * @param {readonly T[]} a - The first array.
+ * @param {readonly T[]} b - The second array.
+ * @returns {T[]} An array containing unique items from both array `a` and array `b`.
  */
-export const union = (a: readonly ListItem[], b: readonly ListItem[]) => {
+export const union = <T extends WithId<object>>(
+  a: readonly T[],
+  b: readonly T[],
+) => {
   return [...a, ...not(b, a)];
 };

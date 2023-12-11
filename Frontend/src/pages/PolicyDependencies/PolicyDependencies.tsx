@@ -9,7 +9,7 @@ const PolicyDependencies: FC<PolicyDependenciesProps> = ({
   policyId,
 }) => {
   return (
-    <Stack sx={{ p: 4 }} spacing={5} direction={{ xs: "column", md: "row" }}>
+    <Stack sx={{ p: 4 }} gap={5} direction={{ xs: "column", md: "row" }}>
       <DependenciesList
         chapterId={chapterId}
         policyId={policyId}
