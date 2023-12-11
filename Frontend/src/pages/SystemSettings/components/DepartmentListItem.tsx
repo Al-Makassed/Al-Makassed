@@ -8,9 +8,13 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DepartmentListItemProps } from "../types";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import EditDepartmentDialog from "./EditDepartmentDialog";
 
 const DepartmentListItem: FC<DepartmentListItemProps> = ({ department }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleOpenDialog = () => setIsDialogOpen(true);
+  const handleCloseDialog = () => setIsDialogOpen(false);
   return (
     <Stack direction="row" gap={3}>
       <ListItemButton>
@@ -23,13 +27,18 @@ const DepartmentListItem: FC<DepartmentListItemProps> = ({ department }) => {
       </ListItemButton>
       <Stack direction="row">
         <Tooltip title="Edit department">
-          <IconButton aria-label="Edit department" sx={{ mr: 0.5 }}>
+          <IconButton
+            onClick={handleOpenDialog}
+            aria-label="Edit department"
+            sx={{ mr: 0.5 }}
+          >
             <EditIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Edit department">
+        <EditDepartmentDialog open={isDialogOpen} onClose={handleCloseDialog} />
+        <Tooltip title="Delete department">
           <IconButton
-            aria-label="Edit department"
+            aria-label="Delete department"
             sx={{ mr: 0.5 }}
             color="error"
           >

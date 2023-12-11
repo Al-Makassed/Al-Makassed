@@ -5,8 +5,12 @@ export const getDepartments = () => {
   return axios.get<Department[]>("/departments").then((res) => res.data);
 };
 
-export const createDepartment = async (name: string) => {
-  return await axios
+export const createDepartment = (name: string) => {
+  return axios
     .post<Department>("/departments", { name })
     .then((res) => res.data);
+};
+
+export const renameDepartmentAPI = () => {
+  return axios.put<void>("").then((res) => res.data);
 };
