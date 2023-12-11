@@ -25,13 +25,15 @@ const ActionsSpeedDial: FC = () => {
         ariaLabel="MonitoringToolAdditionButton"
         sx={{
           position: "absolute",
-          bottom: { xs: -70, md: -16 },
-          right: 16,
+          bottom: -50,
+          right: 20,
+          // top: 12,
         }}
         icon={<SpeedDialIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
+        // direction="down"
       >
         {ACTIONS.map((action) => (
           <SpeedDialAction

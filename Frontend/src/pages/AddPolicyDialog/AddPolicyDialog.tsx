@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
 import { Stack } from "@mui/material";
 import { Form, FormikProvider } from "formik";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import FileDropzoneField from "src/components/Fields/FileDropzoneField";
 import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
@@ -23,6 +23,11 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
     resetForm();
   };
 
+  useEffect(() => {
+    if (!isPending) {
+      handleCloseDialog();
+    }
+  }, [isPending]);
   const handleCloseDialog = () => onClose();
 
   return (

@@ -32,4 +32,5 @@ export interface StyledDialogProps extends DialogProps {
 
 export interface MaqasidDialogBodyProps extends DialogContentProps {
   niceScroll?: boolean;
+  noPadding?: boolean;
 }
