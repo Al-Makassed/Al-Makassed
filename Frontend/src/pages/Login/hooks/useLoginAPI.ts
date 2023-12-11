@@ -22,8 +22,8 @@ const useLoginAPI = () => {
         fullName,
         email,
         roles,
-        profileUrl,
         phoneNumber,
+        avatarUrl,
       } = response;
 
       dispatch(
@@ -34,11 +34,11 @@ const useLoginAPI = () => {
           email,
           phoneNumber,
           roles,
-          profileUrl: profileUrl ?? "",
+          avatarUrl: avatarUrl ?? "",
         }),
       );
       navigate("/me");
-      // window.location.reload();
+      window.location.reload();
     },
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);

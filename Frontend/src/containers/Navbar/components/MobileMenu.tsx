@@ -5,7 +5,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import { pages } from "src/constants";
+import { NAVBAR_PAGES } from "../constants";
 import SegmentIcon from "@mui/icons-material/Segment";
 
 const MobileMenu: FC = () => {
@@ -51,9 +51,9 @@ const MobileMenu: FC = () => {
           display: { xs: "block", md: "none" },
         }}
       >
-        {pages.map((page) => (
-          <MenuItem key={page} onClick={handleCloseNavMenu}>
-            <Typography textAlign="center">{page}</Typography>
+        {NAVBAR_PAGES.map((page) => (
+          <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+            <Typography textAlign="center">{page.name}</Typography>
           </MenuItem>
         ))}
       </Menu>

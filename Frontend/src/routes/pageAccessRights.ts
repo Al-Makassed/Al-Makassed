@@ -14,9 +14,9 @@ const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
     },
   ],
   [
-    "Page3",
+    "MonitoringTools",
     {
-      roles: [["Focal Point"], ["Admin"]], // You can access this page if you have at least one of the roles
+      roles: [["Focal Point"], ["Sub-Admin"], ["Admin"]], // You can access this page if you have at least one of the roles
     },
   ],
   [

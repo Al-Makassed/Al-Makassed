@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import useGetPolicy from "src/pages/EditPolicyAndDependenciesForm/hooks/useGetPolicy";
+// import useGetPolicy from "src/pages/EditPolicyAndDependenciesForm/hooks/useGetPolicy";
 import { PolicyDependencyType } from "../constants";
 import {
   Accordion,
@@ -9,12 +9,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Dependency } from "src/pages/EditPolicyAndDependenciesForm/API/types";
+// import { Dependency } from "src/pages/EditPolicyAndDependenciesForm/API/types";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { PolicyDependenciesProps } from "../types";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import AddPolicyDependencyDialog from "./AddPolicyDependencyDialog";
+import useGetPolicy from "src/pages/EditPolicyAndDependenciesDialog/hooks/useGetPolicy";
+import { Dependency } from "src/pages/EditPolicyAndDependenciesDialog/API/types";
 
 const ProtocolsList: FC<PolicyDependenciesProps> = ({
   chapterId,

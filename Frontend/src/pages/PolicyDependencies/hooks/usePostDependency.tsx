@@ -4,7 +4,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { POLICY_QUERY_KEY } from "src/pages/EditPolicyAndDependenciesForm/constants";
+import { POLICY_QUERY_KEY } from "src/pages/EditPolicyAndDependenciesDialog/constants";
 
 const usePostDependency = () => {
   const queryClient = useQueryClient();

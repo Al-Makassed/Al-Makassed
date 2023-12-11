@@ -8,8 +8,9 @@ const initialState: UserState = {
   fullName: "",
   email: "",
   roles: [""],
-  profileUrl: "",
   phoneNumber: "",
+  avatarUrl: "",
+  isAdmin: false,
 };
 
 export const userSlice = createSlice({
@@ -23,8 +24,8 @@ export const userSlice = createSlice({
         fullName,
         email,
         roles,
-        profileUrl,
         phoneNumber,
+        avatarUrl,
       } = action.payload;
 
       state.userId = userId;
@@ -32,8 +33,9 @@ export const userSlice = createSlice({
       state.fullName = fullName;
       state.email = email;
       state.roles = roles;
-      state.profileUrl = profileUrl;
       state.phoneNumber = phoneNumber;
+      state.avatarUrl = avatarUrl;
+      state.isAdmin = roles.includes("Admin");
     },
     logout: (state) => {
       state = initialState;

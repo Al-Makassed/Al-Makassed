@@ -7,7 +7,7 @@ export interface VerifyAccessTokenResponse {
   userName: string;
   email: string;
   phoneNumber: string;
-  profileUrl: string;
+  avatarUrl: string;
   roles: string | string[];
   exp: number; // Expiration Time
   iss: string; // Issuer
