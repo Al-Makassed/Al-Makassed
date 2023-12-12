@@ -4,6 +4,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
@@ -14,10 +15,12 @@ import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogCo
 import DeleteIcon from "@mui/icons-material/Delete";
 import useDeleteMonitoringToolField from "../hooks/useDeleteMonitoringToolField";
 import ConfirmDialog from "src/components/ConfirmDialog";
-const FieldsSection: FC<FieldsSectionProps> = ({
-  monitoringToolId,
-  fields,
-}) => {
+import AddIcon from "@mui/icons-material/AddCircleOutline";
+import { teal } from "@mui/material/colors";
+import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import AppendFieldsDialog from "./AppendFieldsDialog";
+
+const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
     useState<boolean>(false);
 
@@ -25,7 +28,12 @@ const FieldsSection: FC<FieldsSectionProps> = ({
 
   const {
     state: { isEditingMode },
+    onOpenAppendFieldDialog,
   } = useMonitoringToolDialogContext();
+
+  const {
+    state: { selectedMonitoringTool },
+  } = useMonitoringToolsContext();
 
   const { removeMonitoringToolField } = useDeleteMonitoringToolField();
 
@@ -38,7 +46,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({
 
   const handleDeleteFieldFromMT = () =>
     removeMonitoringToolField({
-      monitoringToolId,
+      monitoringToolId: selectedMonitoringTool!.id,
       fieldId: selectedFieldId!,
     });
 
@@ -53,20 +61,23 @@ const FieldsSection: FC<FieldsSectionProps> = ({
               <ListItem
                 key={field.id}
                 sx={{
-                  border: isEditingMode ? 1.2 : 0,
+                  border: 1.2,
                   mb: 1.5,
                   borderRadius: 2,
                   borderColor: (theme) => theme.palette.grey[300],
+                  spacing: 0,
                 }}
               >
-                <ListItemIcon>
-                  <FieldIcon />
+                <ListItemIcon sx={{ mr: 0, pr: 0, width: 3 }}>
+                  <FieldIcon sx={{ width: 32 }} />
                 </ListItemIcon>
+
                 <ListItemText primary={field.content} />
+
                 {isEditingMode && (
                   <IconButton
                     aria-label="delete"
-                    size="large"
+                    size="small"
                     color="error"
                     sx={{ p: 0.5 }}
                     onClick={() => handleDeleteButtonClicked(field.id)}
@@ -76,6 +87,22 @@ const FieldsSection: FC<FieldsSectionProps> = ({
                 )}
               </ListItem>
             ))}
+          {isEditingMode && (
+            <ListItemButton
+              sx={{
+                border: 1.2,
+                borderRadius: 2,
+                borderColor: "primary.main",
+                bgcolor: teal[50],
+              }}
+              onClick={onOpenAppendFieldDialog}
+            >
+              <ListItemIcon>
+                <AddIcon sx={{ color: "primary.main" }} />
+              </ListItemIcon>
+              <ListItemText primary={"Add more fields"} />
+            </ListItemButton>
+          )}
         </List>
       </Grid>
 
@@ -100,6 +127,8 @@ const FieldsSection: FC<FieldsSectionProps> = ({
           },
         ]}
       />
+
+      <AppendFieldsDialog />
     </>
   );
 };

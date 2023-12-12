@@ -15,9 +15,27 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
     [],
   );
 
+  const onOpenAppendFieldDialog = useCallback(
+    () =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.OpenAppendFieldDialog,
+      }),
+    [],
+  );
+
+  const onCloseAppendFieldDialog = useCallback(
+    () =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.CloseAppendFieldDialog,
+      }),
+    [],
+  );
+
   const contextValue: MonitoringToolDialogContextValue = {
     state,
     setIsEditingMode,
+    onOpenAppendFieldDialog,
+    onCloseAppendFieldDialog,
   };
 
   return (
@@ -36,6 +54,17 @@ export const reducer = (
       return {
         ...state,
         isEditingMode: !state.isEditingMode,
+      };
+    case MonitoringToolsReducerActionType.OpenAppendFieldDialog:
+      return {
+        ...state,
+        isAppendFieldDialogOpen: true,
+      };
+
+    case MonitoringToolsReducerActionType.CloseAppendFieldDialog:
+      return {
+        ...state,
+        isAppendFieldDialogOpen: false,
       };
     default:
       return state;

@@ -36,3 +36,8 @@ export interface DeleteMonitoringToolDepartmentRequest {
   monitoringToolId: string;
   departmentId: string;
 }
+
+export interface AddFieldToMonitoringToolRequest {
+  monitoringToolId: string;
+  fieldsIdes: string[];
+}
