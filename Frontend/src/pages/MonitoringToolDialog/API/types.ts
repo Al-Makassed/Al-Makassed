@@ -31,3 +31,8 @@ export interface DeleteMonitoringToolFieldRequest {
   monitoringToolId: string;
   fieldId: string;
 }
+
+export interface DeleteMonitoringToolDepartmentRequest {
+  monitoringToolId: string;
+  departmentId: string;
+}

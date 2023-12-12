@@ -73,7 +73,10 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
             fields={monitoringTool.fields}
           />
 
-          <DepartmentsSection departments={monitoringTool.departments} />
+          <DepartmentsSection
+            monitoringToolId={monitoringTool.id}
+            departments={monitoringTool.departments}
+          />
         </Stack>
       </MaqasidDialog.Body>
 

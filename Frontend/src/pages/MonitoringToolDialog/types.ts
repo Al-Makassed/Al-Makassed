@@ -10,6 +10,7 @@ export interface FieldsSectionProps {
 }
 
 export interface DepartmentsSectionProps {
+  monitoringToolId: string;
   departments: Department[];
 }
 
