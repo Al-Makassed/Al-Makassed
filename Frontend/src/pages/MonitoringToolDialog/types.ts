@@ -5,6 +5,7 @@ export interface DescriptionSectionProps {
 }
 
 export interface FieldsSectionProps {
+  monitoringToolId: string;
   fields: Field[];
 }
 

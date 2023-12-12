@@ -1,5 +1,9 @@
 import axios from "src/API/axios";
-import { MonitoringTool, UpdateMonitoringToolRequest } from "./types";
+import {
+  DeleteMonitoringToolFieldRequest,
+  MonitoringTool,
+  UpdateMonitoringToolRequest,
+} from "./types";
 
 export const getMonitoringTool = (monitoringToolId: string) => {
   return axios
@@ -23,5 +27,14 @@ export const updateMonitoringTool = ({
 export const deleteMonitoringTool = (monitoringToolId: string) => {
   return axios
     .delete<MonitoringTool>(`/monitoringtools/${monitoringToolId}`)
+    .then((res) => res.data);
+};
+
+export const deleteMonitoringToolField = ({
+  monitoringToolId,
+  fieldId,
+}: DeleteMonitoringToolFieldRequest) => {
+  return axios
+    .delete(`/monitoringtools/${monitoringToolId}/fields/${fieldId}`)
     .then((res) => res.data);
 };

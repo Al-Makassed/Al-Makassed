@@ -61,18 +61,17 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
 
               <Stack gap={2}>
                 <SectionHeader title="Description" />
-                <TextField
-                  name="description"
-                  multiline
-                  // label="Description"
-                />
+                <TextField name="description" multiline />
               </Stack>
             </Stack>
           ) : (
             <DescriptionSection monitoringTool={monitoringTool} />
           )}
 
-          <FieldsSection fields={monitoringTool.fields} />
+          <FieldsSection
+            monitoringToolId={monitoringTool.id}
+            fields={monitoringTool.fields}
+          />
 
           <DepartmentsSection departments={monitoringTool.departments} />
         </Stack>

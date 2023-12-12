@@ -8,3 +8,7 @@ export interface CardBodyProps {
 export interface FocalPointTaskProps {
   focalPointTask: FocalPointTask;
 }
+
+export interface MonitoringToolCardProps {
+  monitoringTool: MonitoringTool;
+}

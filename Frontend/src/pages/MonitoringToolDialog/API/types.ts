@@ -26,3 +26,8 @@ export interface UpdateMonitoringToolRequest {
   name: string;
   description: string;
 }
+
+export interface DeleteMonitoringToolFieldRequest {
+  monitoringToolId: string;
+  fieldId: string;
+}
