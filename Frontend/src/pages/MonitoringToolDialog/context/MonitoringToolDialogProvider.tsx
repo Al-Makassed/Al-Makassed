@@ -15,18 +15,34 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
     [],
   );
 
-  const onOpenAppendFieldDialog = useCallback(
+  const onOpenAppendFieldsDialog = useCallback(
     () =>
       dispatch({
-        type: MonitoringToolsReducerActionType.OpenAppendFieldDialog,
+        type: MonitoringToolsReducerActionType.OpenAppendFieldsDialog,
       }),
     [],
   );
 
-  const onCloseAppendFieldDialog = useCallback(
+  const onCloseAppendFieldsDialog = useCallback(
     () =>
       dispatch({
-        type: MonitoringToolsReducerActionType.CloseAppendFieldDialog,
+        type: MonitoringToolsReducerActionType.CloseAppendFieldsDialog,
+      }),
+    [],
+  );
+
+  const onOpenAssignDepartmentsDialog = useCallback(
+    () =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.OpenAssignDepartmentsDialog,
+      }),
+    [],
+  );
+
+  const onCloseAssignDepartmentsDialog = useCallback(
+    () =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.CloseAssignDepartmentsDialog,
       }),
     [],
   );
@@ -34,8 +50,10 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const contextValue: MonitoringToolDialogContextValue = {
     state,
     setIsEditingMode,
-    onOpenAppendFieldDialog,
-    onCloseAppendFieldDialog,
+    onOpenAppendFieldsDialog,
+    onCloseAppendFieldsDialog,
+    onOpenAssignDepartmentsDialog,
+    onCloseAssignDepartmentsDialog,
   };
 
   return (
@@ -55,16 +73,27 @@ export const reducer = (
         ...state,
         isEditingMode: !state.isEditingMode,
       };
-    case MonitoringToolsReducerActionType.OpenAppendFieldDialog:
+    case MonitoringToolsReducerActionType.OpenAppendFieldsDialog:
       return {
         ...state,
         isAppendFieldDialogOpen: true,
       };
 
-    case MonitoringToolsReducerActionType.CloseAppendFieldDialog:
+    case MonitoringToolsReducerActionType.CloseAppendFieldsDialog:
       return {
         ...state,
         isAppendFieldDialogOpen: false,
+      };
+    case MonitoringToolsReducerActionType.OpenAssignDepartmentsDialog:
+      return {
+        ...state,
+        isAssignDepartmentDialogOpen: true,
+      };
+
+    case MonitoringToolsReducerActionType.CloseAssignDepartmentsDialog:
+      return {
+        ...state,
+        isAssignDepartmentDialogOpen: false,
       };
     default:
       return state;

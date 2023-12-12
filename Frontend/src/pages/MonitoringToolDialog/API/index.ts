@@ -1,6 +1,7 @@
 import axios from "src/API/axios";
 import {
   AddFieldToMonitoringToolRequest,
+  AssignMonitoringToolToDepartmentRequest,
   DeleteMonitoringToolDepartmentRequest,
   DeleteMonitoringToolFieldRequest,
   MonitoringTool,
@@ -56,5 +57,16 @@ export const addFieldToMonitoringTool = ({
 }: AddFieldToMonitoringToolRequest) => {
   return axios
     .post(`/monitoringtools/${monitoringToolId}/fields`, { fieldsIdes })
+    .then((res) => res.data);
+};
+
+export const assignMonitoringToolToDepartment = ({
+  monitoringToolId,
+  departmentsIdes,
+}: AssignMonitoringToolToDepartmentRequest) => {
+  return axios
+    .post(`/monitoringtools/${monitoringToolId}/departments`, {
+      departmentsIdes,
+    })
     .then((res) => res.data);
 };

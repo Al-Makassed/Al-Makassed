@@ -1,13 +1,16 @@
 export interface MonitoringToolDialogContextValue {
   state: MonitoringToolDialogState;
   setIsEditingMode: (isEditingMode: boolean) => void;
-  onOpenAppendFieldDialog: () => void;
-  onCloseAppendFieldDialog: () => void;
+  onOpenAppendFieldsDialog: () => void;
+  onCloseAppendFieldsDialog: () => void;
+  onOpenAssignDepartmentsDialog: () => void;
+  onCloseAssignDepartmentsDialog: () => void;
 }
 
 export interface MonitoringToolDialogState {
   isEditingMode: boolean;
   isAppendFieldDialogOpen: boolean;
+  isAssignDepartmentDialogOpen: boolean;
 }
 
 export type MonitoringToolsReducerAction = {
@@ -16,6 +19,8 @@ export type MonitoringToolsReducerAction = {
 
 export enum MonitoringToolsReducerActionType {
   setIsEditingMode,
-  OpenAppendFieldDialog,
-  CloseAppendFieldDialog,
+  OpenAppendFieldsDialog,
+  CloseAppendFieldsDialog,
+  OpenAssignDepartmentsDialog,
+  CloseAssignDepartmentsDialog,
 }

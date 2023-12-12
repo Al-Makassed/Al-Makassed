@@ -8,14 +8,17 @@ import { noop } from "src/utils/functionsUtils";
 export const initialState: MonitoringToolDialogState = {
   isEditingMode: false,
   isAppendFieldDialogOpen: false,
+  isAssignDepartmentDialogOpen: false,
 };
 
 export const MonitoringToolsContext =
   createContext<MonitoringToolDialogContextValue>({
     state: initialState,
     setIsEditingMode: noop,
-    onOpenAppendFieldDialog: noop,
-    onCloseAppendFieldDialog: noop,
+    onOpenAppendFieldsDialog: noop,
+    onCloseAppendFieldsDialog: noop,
+    onOpenAssignDepartmentsDialog: noop,
+    onCloseAssignDepartmentsDialog: noop,
   });
 
 export default MonitoringToolsContext;

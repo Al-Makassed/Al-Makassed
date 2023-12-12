@@ -12,7 +12,7 @@ import DialogSkeleton from "./components/DialogSkeleton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
-import DialogBodyAndFooter from "./components/DialogViewBody";
+import DialogBodyAndFooter from "./components/DialogBodyAndFooter";
 import useMonitoringToolDialogContext from "./context/useMonitoringToolDialogContext";
 
 const MonitoringToolViewDialog: FC = () => {

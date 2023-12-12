@@ -5,12 +5,10 @@ export interface DescriptionSectionProps {
 }
 
 export interface FieldsSectionProps {
-  monitoringToolId: string;
   fields: Field[];
 }
 
 export interface DepartmentsSectionProps {
-  monitoringToolId: string;
   departments: Department[];
 }
 

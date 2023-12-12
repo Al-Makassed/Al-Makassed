@@ -28,7 +28,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
 
   const {
     state: { isEditingMode },
-    onOpenAppendFieldDialog,
+    onOpenAppendFieldsDialog: onOpenAppendFieldDialog,
   } = useMonitoringToolDialogContext();
 
   const {

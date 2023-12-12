@@ -41,3 +41,8 @@ export interface AddFieldToMonitoringToolRequest {
   monitoringToolId: string;
   fieldsIdes: string[];
 }
+
+export interface AssignMonitoringToolToDepartmentRequest {
+  monitoringToolId: string;
+  departmentsIdes: string[];
+}

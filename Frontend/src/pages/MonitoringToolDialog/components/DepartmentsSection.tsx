@@ -1,16 +1,17 @@
 import React, { FC, useState } from "react";
 import { DepartmentsSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
-import { Chip, Stack } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import BusinessIcon from "@mui/icons-material/Business";
 import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 import useDeleteMonitoringToolDepartment from "../hooks/useDeleteMonitoringToolDepartmentRequest";
 import ConfirmDialog from "src/components/ConfirmDialog";
+import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import { teal } from "@mui/material/colors";
+import AddIcon from "@mui/icons-material/AddCircleOutline";
+import AssignDepartmentDialog from "./AssignDepartmentDialog";
 
-const DepartmentsSection: FC<DepartmentsSectionProps> = ({
-  monitoringToolId,
-  departments,
-}) => {
+const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
     useState<boolean>(false);
 
@@ -20,7 +21,12 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({
 
   const {
     state: { isEditingMode },
+    onOpenAssignDepartmentsDialog,
   } = useMonitoringToolDialogContext();
+
+  const {
+    state: { selectedMonitoringTool },
+  } = useMonitoringToolsContext();
 
   const { unassignDepartment } = useDeleteMonitoringToolDepartment();
 
@@ -33,7 +39,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({
 
   const handleUnassignDepartment = () =>
     unassignDepartment({
-      monitoringToolId,
+      monitoringToolId: selectedMonitoringTool!.id,
       departmentId: selectedDepartmentId!,
     });
 
@@ -41,7 +47,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({
     <>
       <SectionHeader title="Departments" />
 
-      <Stack gap={1} flexDirection={"row"}>
+      <Box flexDirection={"row"} width={"100 vw"} boxSizing={"border-box"}>
         {departments &&
           departments.map((department) =>
             isEditingMode ? (
@@ -50,7 +56,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({
                 color={department.headId ? "primary" : "default"}
                 label={department.name}
                 icon={<BusinessIcon sx={{ fontSize: "1rem" }} />}
-                sx={{ width: "fit-content", pl: 0.5 }}
+                sx={{ width: "fit-content", pl: 0.5, mb: 1, mr: 1 }}
                 onDelete={() => handleDeleteButtonClicked(department.id)}
               />
             ) : (
@@ -59,11 +65,25 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({
                 color={department.headId ? "primary" : "default"}
                 label={department.name}
                 icon={<BusinessIcon sx={{ fontSize: "1rem" }} />}
-                sx={{ width: "fit-content", pl: 0.5 }}
+                sx={{ width: "fit-content", pl: 0.5, mb: 1, mr: 1 }}
               />
             ),
           )}
-      </Stack>
+        {isEditingMode && (
+          <Chip
+            label={"Assign More Departments"}
+            icon={<AddIcon sx={{ fontSize: "1.2rem" }} />}
+            sx={{
+              width: "fit-content",
+              pl: 0.5,
+              bgcolor: teal[50],
+              border: 1,
+              borderColor: "primary.main",
+            }}
+            onClick={onOpenAssignDepartmentsDialog}
+          />
+        )}
+      </Box>
 
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
@@ -86,6 +106,8 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({
           },
         ]}
       />
+
+      <AssignDepartmentDialog />
     </>
   );
 };
