@@ -3,7 +3,8 @@ import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/containers/Layout";
 import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
-const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
+import EditChapterDialog from "src/pages/EditChapterDialog";
+import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -21,12 +22,12 @@ const DepartmentDetails = lazy(
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
-const EditPolicyAndDependenciesForm = lazy(
-  () => import("src/pages/EditPolicyAndDependenciesForm"),
+const PoliciesAndProcedures = lazy(
+  () => import("src/pages/PoliciesAndProcedures"),
 );
-import EditChapterDialog from "src/pages/EditChapterDialog";
+
 import SystemSettings from "src/pages/SystemSettings";
-// import DepartmentDetails from "src/pages/SystemSettings/components/DepartmentDetails";
+const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 
 const AppRoutes: FC = () => {
   return (
@@ -44,25 +45,23 @@ const AppRoutes: FC = () => {
               <Route path="dep" element={<DepartmentDetails />} />
             </Route>
 
-            <Route path="chapters">
-              <Route index element={<h1>List of all Chapters</h1>} />
+            <Route
+              path="policies-and-procedures"
+              element={<PoliciesAndProcedures />}
+            >
               <Route path=":chapterId" element={<EditChapterDialog />} />
-              <Route
-                path=":chapterId/policies"
-                element={<h1>Policies of a Chapter</h1>}
-              />
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}
               />
               <Route
-                path=":chapterId/policies/:policyId/edit"
-                element={<EditPolicyAndDependenciesForm />}
+                path="edit/:chapterId/policies/:policyId"
+                element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>
 
             <Route path="monitoring-tools">
-              <Route index element={<MonitoringTools />} />
+              <Route index path="" element={<MonitoringTools />} />
               <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
             </Route>
           </Route>
