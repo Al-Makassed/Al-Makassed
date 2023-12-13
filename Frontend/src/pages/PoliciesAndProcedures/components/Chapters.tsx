@@ -10,19 +10,23 @@ const Chapters = () => {
   const isManager = useAppSelector(selectIsManagerUser);
 
   return (
-    <Stack sx={{ alignItems: "center", gap: 1 }}>
-      {isManager && <AddChapterButton />}
-
-      <Lottie animationData={choose} style={{ width: "500px" }} />
-      <Typography
-        variant="h3"
-        sx={{ color: "grey.700" }}
-        fontSize={{ xs: "h5.fontSize", md: "h4.fontSize", xl: "h5.fontSize" }}
-        fontWeight={500}
-      >
-        Choose a Policy to be viewed
-      </Typography>
-    </Stack>
+    <>
+      <Stack sx={{ alignItems: "flex-end", pr: 3 }}>
+        {isManager && <AddChapterButton />}
+      </Stack>
+      <Stack sx={{ alignItems: "center" }}>
+        <Lottie animationData={choose} style={{ width: "500px" }} />
+        <Typography
+          variant="h1"
+          sx={{ color: "grey.700" }}
+          fontSize={{ xs: "h5.fontSize", md: "h4.fontSize", xl: "h5.fontSize" }}
+          pb={{ md: 2 }}
+          fontWeight={500}
+        >
+          Choose a Policy to be viewed
+        </Typography>
+      </Stack>
+    </>
   );
 };
 
