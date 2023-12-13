@@ -79,6 +79,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
               bgcolor: teal[50],
               border: 1,
               borderColor: "primary.main",
+              mb: 1,
             }}
             onClick={onOpenAssignDepartmentsDialog}
           />

@@ -100,7 +100,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
               <ListItemIcon>
                 <AddIcon sx={{ color: "primary.main" }} />
               </ListItemIcon>
-              <ListItemText primary={"Add more fields"} />
+              <ListItemText primary={"Add More Fields"} />
             </ListItemButton>
           )}
         </List>
