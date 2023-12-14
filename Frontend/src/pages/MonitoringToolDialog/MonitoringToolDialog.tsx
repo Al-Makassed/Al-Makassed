@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   FormControlLabel,
   IconButton,
@@ -14,8 +14,12 @@ import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
 import DialogBodyAndFooter from "./components/DialogBodyAndFooter";
 import useMonitoringToolDialogContext from "./context/useMonitoringToolDialogContext";
+import ConfirmDialog from "src/components/ConfirmDialog";
 
 const MonitoringToolViewDialog: FC = () => {
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
+    useState<boolean>(false);
+
   const {
     state: { isEditingMode },
     setIsEditingMode,
@@ -32,6 +36,8 @@ const MonitoringToolViewDialog: FC = () => {
 
   const { removeMonitoringTool } = useDeleteMonitoringTool();
 
+  const closeConfirmDialog = () => setIsConfirmDialogOpen(false);
+
   const handleCloseDialog = () => {
     onCloseMTViewDialog();
     isEditingMode && setIsEditingMode(false);
@@ -42,8 +48,7 @@ const MonitoringToolViewDialog: FC = () => {
     console.log("MonitoringToolViewDialog: isEditingMode:", isEditingMode);
   };
 
-  const handleDeleteMonitoringTool = () =>
-    removeMonitoringTool(monitoringToolId);
+  const handleDeleteButtonClicked = () => setIsConfirmDialogOpen(true);
 
   return (
     <>
@@ -73,7 +78,7 @@ const MonitoringToolViewDialog: FC = () => {
                 size="large"
                 color="error"
                 sx={{ p: 0.5 }}
-                onClick={handleDeleteMonitoringTool}
+                onClick={handleDeleteButtonClicked}
               >
                 <DeleteIcon />
               </IconButton>
@@ -93,6 +98,29 @@ const MonitoringToolViewDialog: FC = () => {
           )
         )}
       </MaqasidDialog>
+
+      <ConfirmDialog
+        isOpen={isConfirmDialogOpen}
+        title="Remove Field From Monitoring Tool"
+        body="Are you sure you want to permanently remove monitoring tool?"
+        onClose={closeConfirmDialog}
+        actions={[
+          {
+            text: "Cancel",
+            onClick: closeConfirmDialog,
+            sx: { color: "grey.700" },
+          },
+          {
+            text: "Delete",
+            onClick: () => {
+              closeConfirmDialog();
+              removeMonitoringTool(monitoringToolId);
+              handleCloseDialog();
+            },
+            color: "error",
+          },
+        ]}
+      />
     </>
   );
 };
