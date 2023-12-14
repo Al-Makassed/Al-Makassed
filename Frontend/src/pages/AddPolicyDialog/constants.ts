@@ -1,4 +1,3 @@
-export const POLICIES_QUERY_KEY = ["Policies"];
 import { PolicyResponse } from "./API/types";
 
 export const initialValues: PolicyResponse = {

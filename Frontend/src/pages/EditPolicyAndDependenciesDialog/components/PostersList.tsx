@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import React, { FC, useState } from "react";
-import { Dependency } from "../API/types";
+import { Dependency } from "src/API/types";
 import useGetPolicy from "../hooks/useGetPolicy";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
