@@ -56,7 +56,6 @@ const FileDropzoneField: FC<FileDropzoneFieldProps> = ({
 
   const handleFileUpload = (files: File[]) => {
     const updatedFiles = multiple ? [...acceptedFiles, ...files] : files;
-    console.log(updatedFiles);
     setFieldValue(name, multiple ? updatedFiles : files[0]);
     setAcceptedFiles(updatedFiles);
   };

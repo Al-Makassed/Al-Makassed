@@ -19,7 +19,9 @@ const PolicyDetails: FC = () => {
   const navigate = useNavigate();
 
   const handleEditPolicy = () => {
-    navigate(`/me/chapters/${policy?.chapterId}/policies/${policy?.id}/edit`);
+    navigate(
+      `/me/policies-and-procedures/edit/${policy?.chapterId}/policies/${policy?.id}`,
+    );
   };
 
   if (isFetching) return <PolicyDetailsLoadingSkeleton />;
@@ -27,7 +29,7 @@ const PolicyDetails: FC = () => {
   if (!policy) return null;
 
   return (
-    <Stack alignItems="center" pt={8} gap={3}>
+    <Stack alignItems="center" textAlign="center" pt={8} gap={3}>
       <Stack textAlign="center" gap={1}>
         <Typography
           variant="subtitle1"
@@ -35,32 +37,34 @@ const PolicyDetails: FC = () => {
         >
           {policy.code}
         </Typography>
-        <Stack direction="row">
-          <Typography fontWeight={600} variant="h5">
-            {policy.name}
-          </Typography>
-          <Tooltip title="Edit Policy">
-            <IconButton
-              aria-label="Edit Policy"
-              sx={{ mr: 1 }}
-              onClick={handleEditPolicy}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
+        <Stack justifyContent="center" direction="row">
+          <Stack direction="row" justifyContent="center">
+            <Typography fontWeight={600} variant="h5">
+              {policy.name}
+            </Typography>
+            <Tooltip title="Edit Policy">
+              <IconButton
+                aria-label="Edit Policy"
+                sx={{ mr: 1 }}
+                onClick={handleEditPolicy}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+
+          <Button
+            startIcon={<FileOpenIcon />}
+            href={policy.pdfUrl}
+            target="_blank"
+            variant="contained"
+          >
+            Open Policy File
+          </Button>
         </Stack>
 
-        <Button
-          startIcon={<FileOpenIcon />}
-          href={policy.pdfUrl}
-          target="_blank"
-          variant="contained"
-        >
-          Open Policy File
-        </Button>
+        <PolicyDependencies chapterId={chapterId} policyId={policyId} />
       </Stack>
-
-      <PolicyDependencies />
     </Stack>
   );
 };

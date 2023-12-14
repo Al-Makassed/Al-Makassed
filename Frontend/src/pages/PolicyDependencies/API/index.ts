@@ -1,11 +1,15 @@
-// import axios from "src/API/axios";
-import axios from "axios";
-import { AddPolicyDependencyResponse } from "./types";
+import { axiosFormData } from "src/API/axios";
+import { DependencyRequest, DependencyResponse } from "./types";
 
-export const addNewDependency = async (dependencyName: string) => {
-  return axios
-    .post<AddPolicyDependencyResponse>("/PoliciesDependencies", {
-      name: dependencyName,
-    })
-    .then((response) => response.data);
+export const addNewDependency = ({
+  formData,
+  chapterId,
+  policyId,
+}: DependencyRequest) => {
+  return axiosFormData
+    .post<DependencyResponse>(
+      `/chapters/${chapterId}/policies/${policyId}/policy-dependencies`,
+      formData,
+    )
+    .then((res) => res.data);
 };
