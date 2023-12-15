@@ -5,8 +5,15 @@ import Chip from "@mui/material/Chip";
 import { FC } from "react";
 import { FocalPointTaskProps } from "../types";
 import CardBody from "./CardBody";
+import { useNavigate } from "react-router-dom";
 
-const FocalPointTaskCard: FC<FocalPointTaskProps> = ({ focalPointTask }) => {
+const FocalPointTaskCard: FC<FocalPointTaskProps> = ({ task }) => {
+  const navigate = useNavigate();
+
+  const handelAddSubmissionButtonClick = () => {
+    navigate(`task/${task.id}`);
+  };
+
   return (
     <Card
       elevation={2}
@@ -14,12 +21,11 @@ const FocalPointTaskCard: FC<FocalPointTaskProps> = ({ focalPointTask }) => {
         display: "flex",
         flexDirection: "column",
         minHeight: 230,
-        // borderRadius: "0 15px 0 15px",
       }}
     >
       <CardBody
-        monitoringTool={focalPointTask.monitoringTool}
-        isFinished={focalPointTask.isFinished}
+        monitoringTool={task.monitoringTool}
+        isFinished={task.isFinished}
       />
 
       <Divider sx={{ justifyContent: "flex-end" }} />
@@ -31,20 +37,16 @@ const FocalPointTaskCard: FC<FocalPointTaskProps> = ({ focalPointTask }) => {
         }}
       >
         <Button
-          disabled={focalPointTask.isFinished}
+          disabled={task.isFinished}
           size="small"
           startIcon={<AddIcon />}
+          onClick={handelAddSubmissionButtonClick}
         >
           Add Submission
         </Button>
 
-        {focalPointTask.isFinished && (
-          <Chip
-            label="Done"
-            color="primary"
-            icon={<CheckCircleIcon />}
-            // clickable
-          />
+        {task.isFinished && (
+          <Chip label="Done" color="primary" icon={<CheckCircleIcon />} />
         )}
       </CardActions>
     </Card>

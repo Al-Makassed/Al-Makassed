@@ -128,7 +128,7 @@ public class FocalPointTaskService : IFocalPointTaskService
         };
 
         focalPointTask.TotalSubmissions++;
-        focalPointTask.IsFinished = focalPointTask.TotalSubmissions > 14;
+        focalPointTask.IsFinished = focalPointTask.TotalSubmissions >= 14;
 
         var addedSubmission = await _submissionRepository.AddSubmission(submission);
 

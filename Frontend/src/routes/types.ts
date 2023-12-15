@@ -4,7 +4,12 @@ export interface PageAccessRight {
   roles: Role[][];
 }
 
-export type PageAccessName = "Home" | "Dashboard" | "MonitoringTools" | "Page4";
+export type PageAccessName =
+  | "Home"
+  | "Dashboard"
+  | "MonitoringTools"
+  | "TaskSubmissionForm"
+  | "Page5";
 
 export interface RouteConfigs {
   title: string;

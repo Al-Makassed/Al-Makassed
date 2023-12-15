@@ -5,9 +5,10 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
-const Chapters = lazy(
+const DefaultView = lazy(
   () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
 );
+const TaskSubmission = lazy(() => import("src/pages/TaskSubmission"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -43,7 +44,7 @@ const AppRoutes: FC = () => {
               path="policies-and-procedures"
               element={<PoliciesAndProcedures />}
             >
-              <Route path="" element={<Chapters />} />
+              <Route path="" element={<DefaultView />} />
               <Route path=":chapterId" element={<EditChapterDialog />} />
               <Route
                 path=":chapterId/policies/:policyId"
@@ -56,8 +57,11 @@ const AppRoutes: FC = () => {
             </Route>
 
             <Route path="monitoring-tools">
-              <Route index path="" element={<MonitoringTools />} />
-              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+              <Route index element={<MonitoringTools />} />
+              <Route
+                path="task/:focalPointTaskId"
+                element={<TaskSubmission />}
+              />
             </Route>
           </Route>
         </Route>
