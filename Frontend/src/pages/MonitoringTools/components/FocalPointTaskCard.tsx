@@ -5,8 +5,15 @@ import Chip from "@mui/material/Chip";
 import { FC } from "react";
 import { FocalPointTaskProps } from "../types";
 import CardBody from "./CardBody";
+import { useNavigate } from "react-router-dom";
 
 const FocalPointTaskCard: FC<FocalPointTaskProps> = ({ focalPointTask }) => {
+  const navigate = useNavigate();
+
+  const handelAddSubmissionButtonClick = () => {
+    navigate(`task/${focalPointTask.id}`);
+  };
+
   return (
     <Card
       elevation={2}
@@ -34,6 +41,7 @@ const FocalPointTaskCard: FC<FocalPointTaskProps> = ({ focalPointTask }) => {
           disabled={focalPointTask.isFinished}
           size="small"
           startIcon={<AddIcon />}
+          onClick={handelAddSubmissionButtonClick}
         >
           Add Submission
         </Button>

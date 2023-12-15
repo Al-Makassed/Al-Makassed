@@ -8,7 +8,7 @@ public abstract partial class Errors
     {
         public static Error NotAllFieldsAnswered => Error.Validation(
             code: "Submission.NotAllFieldsAnswered",
-            description: "Not all fields are answered."
+            description: "One or more fields are not answered."
         );
     }
 }

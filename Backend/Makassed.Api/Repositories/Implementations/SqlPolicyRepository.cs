@@ -62,10 +62,7 @@ public class SqlPolicyRepository : IPolicyRepository
     {
         var existedPolicy = await _dbContext.Policies.FirstOrDefaultAsync(p => p.Id == id);
 
-        if (existedPolicy is null)
-            return null;
-
-        existedPolicy.Code = policy.Code;
+        existedPolicy!.Code = policy.Code;
         existedPolicy.Name = policy.Name;
         existedPolicy.PdfUrl = policy.PdfUrl;
         existedPolicy.PageCount = policy.PageCount;
