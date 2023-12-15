@@ -8,7 +8,7 @@ export type PageAccessName =
   | "Home"
   | "Dashboard"
   | "MonitoringTools"
-  | "FocalPointTaskSubmission"
+  | "TaskSubmissionForm"
   | "Page5";
 
 export interface RouteConfigs {

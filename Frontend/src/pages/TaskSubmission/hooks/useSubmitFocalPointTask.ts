@@ -41,7 +41,7 @@ const useSubmitFocalPointTask = () => {
 
   return {
     addSubmission,
-    isPending,
+    isSubmitting: isPending,
     status,
   };
 };

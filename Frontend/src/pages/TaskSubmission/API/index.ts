@@ -12,7 +12,6 @@ export const getFocalPointTask = (
     .then((res) => res.data);
 };
 
-// export const submitFocalPointTask = (departmentId:string, focalPointTaskId:string, answers: Answer[]) => {
 export const submitFocalPointTask = ({
   departmentId,
   focalPointTaskId,

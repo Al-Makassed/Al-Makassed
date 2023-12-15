@@ -1,9 +1,9 @@
-import React, { FC, useState } from "react";
-import { Collapse, IconButton, Stack, Typography } from "@mui/material";
 import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { DescriptionSectionProps } from "./types";
+import { Collapse, IconButton, Stack, Typography } from "@mui/material";
+import { FC, useState } from "react";
 import styles from "../../style.module.css";
+import { DescriptionSectionProps } from "./types";
 
 const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {
   const [expanded, setExpanded] = useState(false);
@@ -13,8 +13,8 @@ const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {
   };
 
   return (
-    <Stack direction={"row"} alignItems={"center"}>
-      <Collapse in={expanded} collapsedSize={"1.43em"}>
+    <Stack direction="row" alignItems="center">
+      <Collapse in={expanded} collapsedSize="1.43em">
         <Typography
           variant="body2"
           className={!expanded ? styles.showFirstLine : ""}
@@ -23,17 +23,15 @@ const DescriptionSection: FC<DescriptionSectionProps> = ({ description }) => {
         </Typography>
       </Collapse>
 
-      {
-        <IconButton
-          onClick={handleClick}
-          aria-label="expand"
-          size={"small"}
-          sx={{ mb: "auto" }}
-          disableRipple={true}
-        >
-          {expanded ? <ArrowUpIcon /> : <ArrowDownIcon />}
-        </IconButton>
-      }
+      <IconButton
+        onClick={handleClick}
+        aria-label="expand"
+        size="small"
+        sx={{ mb: "auto" }}
+        disableRipple
+      >
+        {expanded ? <ArrowUpIcon /> : <ArrowDownIcon />}
+      </IconButton>
     </Stack>
   );
 };

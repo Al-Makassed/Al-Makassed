@@ -4,7 +4,7 @@ export interface HeaderProps {
   focalPointTask: FocalPointTask;
 }
 
-export interface FieldsListProps {
+export interface SubmissionFormProps {
   focalPointTask: FocalPointTask;
 }
 

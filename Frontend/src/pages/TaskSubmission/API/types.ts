@@ -19,7 +19,7 @@ export interface FocalPointTask {
   isFinished: boolean;
 }
 
-export interface Answer {
+export interface AnsweredField {
   fieldId: string;
   answer: boolean;
 }
@@ -27,5 +27,5 @@ export interface Answer {
 export interface SubmissionRequest {
   departmentId: string;
   focalPointTaskId: string;
-  answers: Answer[];
+  answers: AnsweredField[];
 }

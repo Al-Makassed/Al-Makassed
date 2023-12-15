@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
-const Submission = lazy(() => import("src/pages/Submission"));
+const TaskSubmission = lazy(() => import("src/pages/TaskSubmission"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -54,8 +54,10 @@ const AppRoutes: FC = () => {
 
             <Route path="monitoring-tools">
               <Route index element={<MonitoringTools />} />
-              {/* <Route path=":monitoringToolId" element={<h1>one MT</h1>} /> */}
-              <Route path="task/:focalPointTaskId" element={<Submission />} />
+              <Route
+                path="task/:focalPointTaskId"
+                element={<TaskSubmission />}
+              />
             </Route>
           </Route>
         </Route>

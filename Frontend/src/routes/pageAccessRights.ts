@@ -20,7 +20,7 @@ const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
     },
   ],
   [
-    "FocalPointTaskSubmission",
+    "TaskSubmissionForm",
     {
       roles: [["Focal Point"]],
     },

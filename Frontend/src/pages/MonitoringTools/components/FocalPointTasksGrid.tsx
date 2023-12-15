@@ -20,10 +20,10 @@ const FocalPointTasksGrid: FC = () => {
 
   return (
     <Grid container gap={3}>
-      {focalPointTasks.map((fpt: FocalPointTask) => (
+      {focalPointTasks.map((task: FocalPointTask) => (
         <Grid
           item
-          key={fpt.id}
+          key={task.id}
           sx={{
             width: {
               xs: "100%",
@@ -33,7 +33,7 @@ const FocalPointTasksGrid: FC = () => {
             },
           }}
         >
-          <FocalPointTaskCard focalPointTask={fpt} />
+          <FocalPointTaskCard task={task} />
         </Grid>
       ))}
     </Grid>
