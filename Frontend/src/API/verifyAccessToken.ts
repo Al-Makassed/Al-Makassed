@@ -6,6 +6,7 @@ export interface VerifyAccessTokenResponse {
   fullName: string;
   userName: string;
   email: string;
+  departmentId: string;
   phoneNumber: string;
   avatarUrl: string;
   roles: string | string[];

@@ -6,6 +6,8 @@ import FinishedSubmissions from "./components/FinishedSubmissions";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import SubmissionForm from "./components/SubmissionForm";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
+import { selectUser } from "src/features/user";
+import { useAppSelector } from "src/store/hooks";
 
 const TaskSubmission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -14,9 +16,7 @@ const TaskSubmission: FC = () => {
 
   const focalPointTaskId = focalPointTaskIdParam ?? "";
 
-  // TODO: Fix it when departmentId is added to the token
-  //const { departmentId } = useAppSelector(selectUser);
-  const departmentId = "3232a08d-0327-4495-9a49-dfd03148ced6";
+  const { departmentId } = useAppSelector(selectUser);
 
   const { focalPointTask, isFetching } = useGetFocalPointTask(
     departmentId,

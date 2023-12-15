@@ -8,6 +8,7 @@ export interface LoginResponse {
   userName: string;
   fullName: string;
   email: string;
+  departmentId: string;
   roles: string[];
   phoneNumber: string;
   token: string;
