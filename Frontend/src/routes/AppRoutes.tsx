@@ -6,7 +6,7 @@ import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
 const Chapters = lazy(
-  () => import("src/pages/PoliciesAndProcedures/components/Chapters"),
+  () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
 );
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));

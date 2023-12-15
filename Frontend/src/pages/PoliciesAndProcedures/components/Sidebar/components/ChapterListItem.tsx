@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import AddPolicyDialog from "src/pages/AddPolicyDialog";
 import { Policy } from "../API/types";
 import { ChapterListItemProps } from "../types";
-import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
 import { useAppSelector } from "src/store/hooks";
 import { selectIsAdminUser, selectIsManagerUser } from "src/features/user";
 
@@ -33,15 +32,12 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   const navigate = useNavigate();
-  const { closeSidebar } = useSidebarContext();
 
   const handleClickPolicy = (policy: Policy) => () => {
     navigate(`${policy.chapterId}/policies/${policy.id}`);
-    closeSidebar();
   };
 
   const handleClickEditChapter = () => {
-    closeSidebar();
     navigate(`${chapter.id}`);
   };
   const isAdmin = useAppSelector(selectIsAdminUser);
@@ -52,8 +48,8 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
       <Box sx={{ display: "flex", height: 55 }}>
         <ListItemButton onClick={handleClickChapter}>
           <ListItemIcon sx={{ mr: -2.5 }}>
+            {/* If the chapter has no policies yet, it will look disabled*/}
             <MenuBookIcon color={chapter.enableState ? "action" : "disabled"} />
-            {/* I change the action for this because the admin not approved this until now   */}
           </ListItemIcon>
 
           <Typography

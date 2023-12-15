@@ -8,9 +8,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import { useAppSelector } from "src/store/hooks";
 import { selectIsAdminUser } from "src/features/user";
+import useSidebarContext from "../PoliciesAndProcedures/context/useSidebar";
 
 const PolicyDetails: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
+
+  const {
+    state: { isSidebarOpen },
+    closeSidebar,
+  } = useSidebarContext();
+
+  console.log("isSidebarOpen", isSidebarOpen);
 
   const chapterId = chapterIdParam ?? "";
 
@@ -25,9 +33,15 @@ const PolicyDetails: FC = () => {
       `/me/policies-and-procedures/${policy?.chapterId}/policies/edit/${policy?.id}`,
     );
   };
+
+  const handleCloseSideBar = () => closeSidebar();
+
   const isAdmin = useAppSelector(selectIsAdminUser);
 
-  if (isFetching) return <PolicyDetailsLoadingSkeleton />;
+  if (isFetching) {
+    isSidebarOpen && handleCloseSideBar();
+    return <PolicyDetailsLoadingSkeleton />;
+  }
 
   if (!policy) return null;
 

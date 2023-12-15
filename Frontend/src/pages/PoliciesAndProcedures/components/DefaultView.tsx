@@ -15,7 +15,7 @@ const Chapters = () => {
         {isManager && <AddChapterButton />}
       </Stack>
       <Stack sx={{ alignItems: "center" }}>
-        <Lottie animationData={choose} style={{ width: "500px" }} />
+        <Lottie animationData={choose} style={{ maxWidth: "400px" }} />
         <Typography
           variant="h1"
           sx={{ color: "grey.700" }}

@@ -17,12 +17,13 @@ const SidebarChevron: FC = () => {
           left: -30,
           padding: 2,
           borderRadius: 10,
-          mt: 2,
+          mt: 3,
           bgcolor: "grey.300",
           "&:hover": {
             bgcolor: "grey.400",
-            left: -25,
+            left: -20,
           },
+          position: "absolute",
         }}
         onClick={handleDrawerOpen}
       >
