@@ -16,9 +16,9 @@ public class UsersController : ApiController
         _userService = userService;
     }
 
+    [HttpPost("upload-avatar")]
     [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(UploadUserAvatarResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [HttpPost("upload-avatar")]
     [Authorize]
     public async Task<IActionResult> UploadAvatar([FromForm] UploadUserAvatarRequest request)
     {
@@ -28,4 +28,17 @@ public class UsersController : ApiController
                   avatarUrl => Ok(new UploadUserAvatarResponse(avatarUrl)),
                   Problem);
     }
+
+    // get all users
+    [HttpGet]
+    [ProducesResponseType(typeof(List<GetAllUsersBaseResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var usersResult = await _userService.GetAllUsersAsync();
+
+        return Ok(usersResult);
+    }
+
 }

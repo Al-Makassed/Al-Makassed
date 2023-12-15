@@ -4,9 +4,12 @@ using System.Security.Claims;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Models.Domain;
 using Microsoft.AspNetCore.Identity;
-using Makassed.Api.Repositories;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.Services.Storage;
+using Makassed.Contracts.User;
+using Microsoft.EntityFrameworkCore;
+using Makassed.Contracts.User.Department;
+using AutoMapper;
 
 namespace Makassed.Api.Services.Users;
 
@@ -19,17 +22,23 @@ public class UserService : IUserService
     private string? _cachedUserRole;
     private readonly ILocalFileStorageService _localFileStorageService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly IDepartmentRepository _departmentRepository;
 
     public UserService(
         IHttpContextAccessor httpContextAccessor,
         UserManager<MakassedUser> userManager,
         ILocalFileStorageService localFileStorageService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        IDepartmentRepository departmentRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
         _localFileStorageService = localFileStorageService;
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _departmentRepository = departmentRepository;
     }
 
     /// <summary>
@@ -94,5 +103,32 @@ public class UserService : IUserService
         await _unitOfWork.SaveChangesAsync();
 
         return avatarUrl;
+    }
+
+    public async Task<List<GetAllUsersBaseResponse>> GetAllUsersAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+
+        var usersResponse = new List<GetAllUsersBaseResponse>();
+
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            var department = await _departmentRepository.GetDepartmentByIdAsync(user.DepartmentId);
+
+            usersResponse.Add(new GetAllUsersBaseResponse
+            {
+                Id = user.Id,
+                UserName = user.UserName!,
+                FullName = user.FullName,
+                Email = user.Email!,
+                Department = _mapper.Map<GetDepartmentResponse>(department),
+                PhoneNumber = user.PhoneNumber,
+                Roles = roles.ToList(),
+                AvatarUrl = user.AvatarUrl
+            });
+        }
+
+        return usersResponse;
     }
 }
