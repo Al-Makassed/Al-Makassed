@@ -7,7 +7,7 @@ export const getFocalPointTask = (
 ) => {
   return axios
     .get<FocalPointTask>(
-      `/departments/${departmentId}/focal-point-task/${focalPointTaskId}`,
+      `/focal-point-tasks/${focalPointTaskId}/departments/${departmentId}`,
     )
     .then((res) => res.data);
 };
@@ -19,7 +19,7 @@ export const submitFocalPointTask = ({
 }: SubmissionRequest) => {
   return axios
     .post<FocalPointTask>(
-      `/departments/${departmentId}/focal-point-task/${focalPointTaskId}/submission`,
+      `/focal-point-tasks/${focalPointTaskId}/departments/${departmentId}/submissions`,
       { answers },
     )
     .then((res) => res.data);
