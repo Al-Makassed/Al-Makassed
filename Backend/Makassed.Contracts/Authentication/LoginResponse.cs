@@ -10,6 +10,8 @@ public record LoginResponse
 
     public required string Email { get; set; }
 
+    public required string DepartmentId { get; set; }
+
     public required List<string> Roles { get; set; } = new();
 
     public string? AvatarUrl { get; set; }

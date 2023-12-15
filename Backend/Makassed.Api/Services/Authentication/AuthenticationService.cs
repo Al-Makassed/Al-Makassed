@@ -138,6 +138,7 @@ public class AuthenticationService : IAuthenticationService
             UserName = user.UserName!,
             FullName = user.FullName,
             Email = user.Email!,
+            DepartmentId = user.DepartmentId.ToString(),
             PhoneNumber = user.PhoneNumber,
             Roles = roles.ToList(),
             Token = accessToken.Token,
