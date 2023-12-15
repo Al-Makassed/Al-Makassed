@@ -17,7 +17,7 @@ public class MonitoringTool
     public string CreatorId { get; set; } = null!;
 
     // Navigation Properties
-    public ICollection<FocalPointTask> FocalPointTasks { get; set; } = new List<FocalPointTask>();
+    public List<FocalPointTask> FocalPointTasks { get; set; } = new();
 
     public List<Field> Fields { get; set; } = new();
 

@@ -2,10 +2,10 @@
 using ErrorOr;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Models.DTO;
-using Makassed.Api.Repositories;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Users;
+using Makassed.Contracts.General;
 using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 
@@ -18,14 +18,16 @@ public class MonitoringToolService : IMonitoringToolService
     private readonly IFieldRepository _fieldRepository;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper, IUserService userService)
+    public MonitoringToolService(IMonitoringToolRepository monitoringToolRepository, IDepartmentRepository departmentRepository, IFieldRepository fieldRepository, IMapper mapper, IUserService userService, IUnitOfWork unitOfWork)
     {
         _monitoringToolRepository = monitoringToolRepository;
         _departmentRepository = departmentRepository;
         _fieldRepository = fieldRepository;
         _mapper = mapper;
         _userService = userService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<List<MonitoringTool>> GetMonitoringToolsAsync(SieveModel sieveModel)
@@ -58,7 +60,10 @@ public class MonitoringToolService : IMonitoringToolService
         {
             var department = await _departmentRepository.GetDepartmentAsync(departmentId);
 
-            if (department is not null)
+            var existingFocalPointTask = monitoringTool.FocalPointTasks.FirstOrDefault(fpt => fpt.DepartmentId == departmentId);
+
+            // Check if the department exists and id it is already assigned to the monitoring tool
+            if (department is not null && existingFocalPointTask is null)
                 focalPointTasks.Add(new FocalPointTask 
                 { 
                     MonitoringToolId = monitoringTool.Id,
@@ -70,7 +75,7 @@ public class MonitoringToolService : IMonitoringToolService
         if (focalPointTasks.IsNullOrEmpty())
             return Errors.MonitoringTool.NoValidAssignedDepartments;
 
-        monitoringTool.FocalPointTasks = focalPointTasks;
+        monitoringTool.FocalPointTasks.AddRange(focalPointTasks);
 
         return monitoringTool;
     }
@@ -83,8 +88,9 @@ public class MonitoringToolService : IMonitoringToolService
         foreach (var fieldId in fieldsIdes)
         {
             var field = await _fieldRepository.GetFieldAsync(fieldId);
+            var assignedField = monitoringTool.Fields.FirstOrDefault(f => f.Id == fieldId);
 
-            if (field is not null)
+            if (field is not null && assignedField is null)
                 fields.Add(field);
         }
 
@@ -92,7 +98,7 @@ public class MonitoringToolService : IMonitoringToolService
         if (fields.IsNullOrEmpty())
             return Errors.MonitoringTool.NoValidFields;
 
-        monitoringTool.Fields = fields;
+        monitoringTool.Fields.AddRange(fields);
 
         return monitoringTool;
     }
@@ -127,21 +133,8 @@ public class MonitoringToolService : IMonitoringToolService
         return result is null ? Errors.MonitoringTool.NameAlreadyExist : MapMonitoringToolDto(result);
     }
 
-    public async Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool, List<Guid> requestDepartmentsIdes,
-        List<Guid> requestFieldsIdes)
+    public async Task<ErrorOr<MonitoringToolDto>> UpdateMonitoringToolAsync(Guid id, MonitoringTool monitoringTool)
     {
-        // Add the existed departments and fields to the monitoring tool
-        var departments = await AssignDepartmentsAsync(monitoringTool, requestDepartmentsIdes);
-
-        if (departments.IsError)
-            return departments.Errors;
-
-        var fields = await AssignFieldsAsync(monitoringTool, requestFieldsIdes);
-
-        if (fields.IsError)
-            return fields.Errors;
-
-        // Update the monitoring tool
         var result = await _monitoringToolRepository.UpdateMonitoringToolAsync(id, monitoringTool);
         
         return  result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
@@ -152,5 +145,87 @@ public class MonitoringToolService : IMonitoringToolService
         var result = await _monitoringToolRepository.DeleteMonitoringToolAsync(id);
 
         return result is null ? Errors.MonitoringTool.NotFound : MapMonitoringToolDto(result);
+    }
+
+    public async Task<ErrorOr<Deleted>> DeleteFieldFromMonitoringToolAsync(Guid id, Guid fieldId)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        var field = monitoringTool.Fields.FirstOrDefault(f => f.Id == fieldId);
+
+        if (field is null)
+            return Errors.MonitoringTool.FieldNotFound;
+
+        // if the field is the last one, return error
+        if (monitoringTool.Fields.Count == 1)
+            return Errors.MonitoringTool.LastField;
+
+        monitoringTool.Fields.Remove(field);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Deleted;
+    }
+
+    public async Task<ErrorOr<Deleted>> UnassignMonitoringToolToDepartmentAsync(Guid id, Guid departmentId)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        // get the focal point task
+        var focalPointTaskToDelete = monitoringTool.FocalPointTasks.FirstOrDefault(fpt => fpt.DepartmentId == departmentId);
+
+        if (focalPointTaskToDelete is null)
+            return Errors.MonitoringTool.DepartmentNotFound;
+
+        // if the focal point task is the last one, return error
+        if (monitoringTool.FocalPointTasks.Count == 1)
+            return Errors.MonitoringTool.LastFocalPointTask;
+
+        // remove the focal point task from the monitoring tool
+        monitoringTool.FocalPointTasks.Remove(focalPointTaskToDelete);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Deleted;
+    }
+
+    public async Task<ErrorOr<SuccessResponse>> AssignMonitoringToolToDepartmentsAsync(Guid id, List<Guid> departmentsIdes)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        var assignmentResult = await AssignDepartmentsAsync(monitoringTool, departmentsIdes);
+
+        if (assignmentResult.IsError)
+            return assignmentResult.Errors;
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new SuccessResponse( "Monitoring tool is assigned to departments successfully." );
+    }
+
+    public async Task<ErrorOr<SuccessResponse>> AddFieldsToMonitoringToolAsync(Guid id, List<Guid> fieldsIdes)
+    {
+        var monitoringTool = await _monitoringToolRepository.GetMonitoringToolByIdAsync(id);
+
+        if (monitoringTool is null)
+            return Errors.MonitoringTool.NotFound;
+
+        var filedAdditionResult = await AssignFieldsAsync(monitoringTool, fieldsIdes);
+
+        if (filedAdditionResult.IsError)
+            return filedAdditionResult.Errors;
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new SuccessResponse( "Fields are added to monitoring tool successfully." );
     }
 }
