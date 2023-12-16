@@ -73,7 +73,7 @@ public class MonitoringToolsController : ApiController
     {
         var monitoringTool = _mapper.Map<MonitoringTool>(request);
         
-        var result = await _monitoringToolService.UpdateMonitoringToolAsync(id, monitoringTool, request.DepartmentsIdes, request.FieldsIdes);
+        var result = await _monitoringToolService.UpdateMonitoringToolAsync(id, monitoringTool);
 
         return result.Match(
             _ => Ok(_mapper.Map<GetMonitoringToolResponse>(result.Value)),
@@ -93,6 +93,80 @@ public class MonitoringToolsController : ApiController
 
         return result.Match(
             _ => Ok(_mapper.Map<GetMonitoringToolResponse>(result.Value)),
+            errors => Problem(errors)
+        );
+    }
+
+    // delete a field from a monitoring tool
+    [HttpDelete("{id:guid}/fields/{fieldId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> DeleteFieldFromMonitoringTool(Guid id, Guid fieldId)
+    {
+        var result = await _monitoringToolService.DeleteFieldFromMonitoringToolAsync(id, fieldId);
+
+        return result.Match(
+            _ => NoContent(),
+            errors => Problem(errors)
+        );
+    }
+
+    // unassign monitoring tool to department
+    [HttpDelete("{id:guid}/departments/{departmentId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> UnassignMonitoringToolToDepartment(Guid id, Guid departmentId)
+    {
+        var result = await _monitoringToolService.UnassignMonitoringToolToDepartmentAsync(id, departmentId);
+
+        return result.Match(
+            _ => NoContent(),
+            errors => Problem(errors)
+        );
+    }
+
+    // assign monitoring tool to departments
+    [HttpPost("{id:guid}/departments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> AssignMonitoringToolToDepartment(
+        Guid id, 
+        AssignMonitoringToolToDepartmentRequest request)
+    {
+        var result = await _monitoringToolService.AssignMonitoringToolToDepartmentsAsync(id, request.DepartmentsIdes);
+
+        return result.Match(
+            successResponse => Ok(successResponse),
+            errors => Problem(errors)
+        );
+    }
+
+    // add field to monitoring tool
+    [HttpPost("{id:guid}/fields")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize (Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> AddFieldToMonitoringTool(Guid id, AddFieldToMonitoringToolRequest request)
+    {
+        var result = await _monitoringToolService.AddFieldsToMonitoringToolAsync(id, request.FieldsIdes);
+
+        return result.Match(
+            successResponse => Ok(successResponse),
             errors => Problem(errors)
         );
     }

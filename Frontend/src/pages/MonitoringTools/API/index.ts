@@ -14,7 +14,7 @@ export const getMonitoringTools = () => {
 
 export const getFocalPointTasks = (departmentId: string) => {
   return axios
-    .get<FocalPointTask[]>(`/departments/${departmentId}/focal-point-task`)
+    .get<FocalPointTask[]>(`/focal-point-tasks/departments/${departmentId}`)
     .then((res) => res.data);
 };
 

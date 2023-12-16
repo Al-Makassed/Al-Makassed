@@ -6,6 +6,7 @@ public record VerifyBearerTokenResponse(
     string FullName,
     string UserName,
     string Email,
+    string DepartmentId,
     string PhoneNumber,
     string AvatarUrl,
     List<string> Roles,

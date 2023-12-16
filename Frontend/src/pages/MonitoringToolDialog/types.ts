@@ -1,7 +1,7 @@
-import { Department, Field } from "../MonitoringTools/API/types";
+import { Department, Field, MonitoringTool } from "./API/types";
 
 export interface DescriptionSectionProps {
-  description: string;
+  monitoringTool: MonitoringTool;
 }
 
 export interface FieldsSectionProps {
@@ -14,4 +14,23 @@ export interface DepartmentsSectionProps {
 
 export interface SectionHeaderProps {
   title: string;
+}
+
+export interface HeaderTextFieldProps {
+  monitoringTool: MonitoringTool;
+  isEditingMode: boolean;
+}
+
+export interface SubmitButtonProps {
+  monitoringTool: MonitoringTool;
+  isEditingMode: boolean;
+}
+
+export interface DialogBodyAndFooterProps {
+  monitoringTool: MonitoringTool;
+}
+
+export interface DatesChipsProps {
+  createdAt: string;
+  lastModified: string;
 }

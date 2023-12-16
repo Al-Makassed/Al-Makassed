@@ -4,6 +4,7 @@ import MonitoringToolViewDialog from "../../MonitoringToolDialog/MonitoringToolD
 import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
 import LoadingSkeleton from "./GridLoadingSkeleton";
 import MonitoringToolCard from "./MonitoringToolCard";
+import MonitoringToolDialogProvider from "../../MonitoringToolDialog/context/MonitoringToolDialogProvider";
 
 const AdminMonitoringToolsGrid: FC = () => {
   const { monitoringTools, isFetching } = useGetMonitoringTools();
@@ -30,8 +31,9 @@ const AdminMonitoringToolsGrid: FC = () => {
           </Grid>
         ))}
       </Grid>
-
-      <MonitoringToolViewDialog />
+      <MonitoringToolDialogProvider>
+        <MonitoringToolViewDialog />
+      </MonitoringToolDialogProvider>
     </>
   );
 };

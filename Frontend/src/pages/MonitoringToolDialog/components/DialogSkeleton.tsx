@@ -2,18 +2,25 @@ import React, { FC } from "react";
 import { Box, Skeleton, Stack } from "@mui/material";
 import SectionHeaderSkeleton from "./SectionHeaderSkeleton";
 
-const ViewerDialogSkeleton: FC = () => {
+const DialogSkeleton: FC = () => {
   return (
     <Stack gap={2}>
-      <Skeleton
-        variant="rounded"
-        sx={{ borderRadius: 10 }}
-        height={35}
-        width={"50%"}
-      />
+      <Stack direction={"row"} gap={1}>
+        <Skeleton
+          variant="rounded"
+          sx={{ borderRadius: 10 }}
+          height={32}
+          width={"50%"}
+        />
+        <Skeleton
+          variant="rounded"
+          sx={{ borderRadius: 10 }}
+          height={32}
+          width={"50%"}
+        />
+      </Stack>
 
       <SectionHeaderSkeleton />
-      {/* <Skeleton variant="rounded" height={90} width={"95%"} /> */}
       <Box sx={{ width: "100%" }}>
         <Skeleton />
         <Skeleton animation="wave" />
@@ -52,4 +59,4 @@ const ViewerDialogSkeleton: FC = () => {
   );
 };
 
-export default ViewerDialogSkeleton;
+export default DialogSkeleton;
