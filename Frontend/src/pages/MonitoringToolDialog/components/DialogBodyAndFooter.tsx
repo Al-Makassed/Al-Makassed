@@ -1,29 +1,29 @@
-import React, { FC } from "react";
-import DescriptionSection from "./DescriptionSection";
-import FieldsSection from "./FieldsSection";
-import DepartmentsSection from "./DepartmentsSection";
+import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline";
+import { LoadingButton } from "@mui/lab";
 import { Stack } from "@mui/material";
+import { FormikProvider } from "formik";
+import { FC } from "react";
+import TextField from "src/components/Fields/TextField";
+import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import MaqasidDialog from "../../../components/MaqasidDialog";
+import useUpdateMonitoringToolForm from "../hooks/useUpdateMonitoringToolForm";
 import { DialogBodyAndFooterProps } from "../types";
 import DatesChips from "./DatesChips";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
-import useUpdateMonitoringToolForm from "../hooks/useUpdateMonitoringToolForm";
-import { FormikProvider } from "formik";
+import DepartmentsSection from "./DepartmentsSection";
+import DescriptionSection from "./DescriptionSection";
+import FieldsSection from "./FieldsSection";
 import SectionHeader from "./SectionHeader";
-import TextField from "src/components/Fields/TextField";
-import { LoadingButton } from "@mui/lab";
-import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline";
-import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 
 const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   monitoringTool,
 }) => {
   const {
     state: { isEditingMode },
-    onSetIsEditingMode,
+    onToggleEditMode,
   } = useMonitoringToolDialogContext();
 
-  const { onCloseMTViewDialog } = useMonitoringToolsContext();
+  const { onCloseDialog } = useMonitoringToolsContext();
 
   const { formikProps, isPending } =
     useUpdateMonitoringToolForm(monitoringTool);
@@ -33,14 +33,14 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   const handleSubmitForm = () => submitForm();
 
   const handleDiscard = () => {
-    onCloseMTViewDialog();
-    onSetIsEditingMode(false);
+    onCloseDialog();
+    onToggleEditMode();
   };
 
   const handleSave = () => {
     submitForm();
-    onCloseMTViewDialog();
-    onSetIsEditingMode(false);
+    onCloseDialog();
+    onToggleEditMode();
   };
 
   return (

@@ -3,10 +3,10 @@ import { useAppDispatch } from "src/store/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { MONITORINGTOOL_QUERY_KEY } from "../constants";
+import { MONITORING_TOOL_QUERY_KEY } from "../constants";
 import { createMonitoringTool } from "../API";
 
-const useAddMonitorintoolAPI = () => {
+const useAddMonitoringToolAPI = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
@@ -15,11 +15,11 @@ const useAddMonitorintoolAPI = () => {
     mutationFn: createMonitoringTool,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: MONITORINGTOOL_QUERY_KEY,
+        queryKey: MONITORING_TOOL_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({
-          message: "MonitoringTool added successfully",
+          message: "Monitoring tool added successfully",
         }),
       );
     },
@@ -39,4 +39,4 @@ const useAddMonitorintoolAPI = () => {
   };
 };
 
-export default useAddMonitorintoolAPI;
+export default useAddMonitoringToolAPI;

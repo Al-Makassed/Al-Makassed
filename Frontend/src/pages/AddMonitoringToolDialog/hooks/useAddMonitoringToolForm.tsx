@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
 import validationSchema from "../schema";
 import { initialValues } from "../constants";
-import useAddMonitorintoolAPI from "./useAddMonitoringToolAPI";
+import useAddMonitoringToolAPI from "./useAddMonitoringToolAPI";
 import { AddMonitoringToolFormPayload } from "../types";
 
 const useAddMonitoringToolForm = () => {
-  const { addMonitoringTool, isAdding } = useAddMonitorintoolAPI();
+  const { addMonitoringTool, isAdding } = useAddMonitoringToolAPI();
 
   const submitForm = (values: AddMonitoringToolFormPayload) => {
     addMonitoringTool({

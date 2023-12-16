@@ -7,12 +7,18 @@ import { BaseAutoCompleteItem } from "./types";
 
 export interface AutocompleteFieldProps<T extends BaseAutoCompleteItem>
   extends Omit<
-    MuiAutocompleteProps<T, boolean, boolean, boolean>, "renderInput"> {
+    MuiAutocompleteProps<T, boolean, boolean, boolean>,
+    "renderInput"
+  > {
   name: string;
   label: string;
 }
 
-const AutocompleteField = <T extends BaseAutoCompleteItem>({ name, label, ...rest }: AutocompleteFieldProps<T>) => {
+const AutocompleteField = <T extends BaseAutoCompleteItem>({
+  name,
+  label,
+  ...rest
+}: AutocompleteFieldProps<T>) => {
   const [field, meta] = useField<string>(name);
 
   const config: Omit<AutocompleteFieldProps<T>, "renderInput" | "label"> = {
@@ -39,7 +45,7 @@ const AutocompleteField = <T extends BaseAutoCompleteItem>({ name, label, ...res
           helperText={helperText}
           InputProps={{
             ...params.InputProps,
-            error,
+            error: error,
           }}
         />
       )}

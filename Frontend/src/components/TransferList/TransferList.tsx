@@ -1,6 +1,6 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import { WithId } from "src/types";
@@ -8,6 +8,7 @@ import HalfList from "./HalfList";
 import LoadingSkeleton from "./LoadingSkeleton";
 import useTransferList from "./hooks/useTransferList";
 import { TransferListProps } from "./types";
+import { teal } from "@mui/material/colors";
 
 const TransferList = <T extends WithId<object>>({
   leftTitle = "Choices",
@@ -42,14 +43,8 @@ const TransferList = <T extends WithId<object>>({
   if (loading) return <LoadingSkeleton />;
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      gap={1}
-      sx={{ width: 700 }}
-    >
-      <Grid item xs={12} md={5}>
+    <Grid container justifyContent="space-between" alignItems="center">
+      <Grid item xs={12} md={5.65}>
         <HalfList
           title={leftTitle}
           items={leftList}
@@ -59,7 +54,7 @@ const TransferList = <T extends WithId<object>>({
         />
       </Grid>
 
-      <Grid item xs={12} md={1}>
+      <Grid item xs={12} md={0.7}>
         <Grid
           container
           direction={{ xs: "row", md: "column" }}
@@ -67,29 +62,43 @@ const TransferList = <T extends WithId<object>>({
           justifyContent="center"
         >
           <Stack gap={1}>
-            <Button
-              variant="outlined"
+            <IconButton
+              // variant="outlined"
               size="small"
+              color="primary"
               onClick={handleTransferToLeft}
               disabled={rightCheckedIds.length === 0}
               aria-label="move selected right"
+              sx={{
+                bgcolor: teal[50],
+                "&:hover": {
+                  bgcolor: teal[100],
+                },
+              }}
             >
               <ChevronLeftIcon />
-            </Button>
-            <Button
-              variant="outlined"
+            </IconButton>
+            <IconButton
+              // variant="outlined"
               size="small"
+              color="primary"
               onClick={handleTransferToRight}
               disabled={leftCheckedIds.length === 0}
               aria-label="move selected left"
+              sx={{
+                bgcolor: teal[50],
+                "&:hover": {
+                  bgcolor: teal[100],
+                },
+              }}
             >
               <ChevronRightIcon />
-            </Button>
+            </IconButton>
           </Stack>
         </Grid>
       </Grid>
 
-      <Grid item xs={12} md={5}>
+      <Grid item xs={12} md={5.65}>
         <HalfList
           title={rightTitle}
           items={rightList}

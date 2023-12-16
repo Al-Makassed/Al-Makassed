@@ -14,11 +14,13 @@ const MonitoringTools: FC = () => {
     <MonitoringToolsProvider>
       <Stack gap={2} sx={{ px: 4, py: 3 }}>
         <PageHeader />
+
         <Box>
-          {isFocalPointUser ? (
-            <FocalPointTasksGrid />
-          ) : (
-            <AdminMonitoringToolsGrid />
+          {isFocalPointUser && <FocalPointTasksGrid />}
+          {!isFocalPointUser && (
+            <>
+              <AdminMonitoringToolsGrid />
+            </>
           )}
         </Box>
       </Stack>

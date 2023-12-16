@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   FormControlLabel,
   IconButton,
@@ -6,29 +6,30 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import { FC, useState } from "react";
+import ConfirmDialog from "src/components/ConfirmDialog";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import useGetMonitoringTool from "./hooks/useGetMonitoringTool";
-import DialogSkeleton from "./components/DialogSkeleton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
+import { MonitoringToolsDialog } from "src/pages/MonitoringTools/constants";
 import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
 import DialogBodyAndFooter from "./components/DialogBodyAndFooter";
+import DialogSkeleton from "./components/DialogSkeleton";
 import useMonitoringToolDialogContext from "./context/useMonitoringToolDialogContext";
-import ConfirmDialog from "src/components/ConfirmDialog";
+import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
+import useGetMonitoringTool from "./hooks/useGetMonitoringTool";
 
 const MonitoringToolViewDialog: FC = () => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
     useState<boolean>(false);
 
   const {
-    state: { isEditingMode },
-    onSetIsEditingMode,
-  } = useMonitoringToolDialogContext();
+    state: { selectedMonitoringTool, openedDialog: openedMainDialog },
+    onCloseDialog,
+  } = useMonitoringToolsContext();
 
   const {
-    state: { selectedMonitoringTool, isMTViewDialogOpen },
-    onCloseMTViewDialog,
-  } = useMonitoringToolsContext();
+    state: { isEditingMode },
+    onToggleEditMode,
+  } = useMonitoringToolDialogContext();
 
   const monitoringToolId = selectedMonitoringTool?.id ?? "";
 
@@ -39,36 +40,34 @@ const MonitoringToolViewDialog: FC = () => {
   const closeConfirmDialog = () => setIsConfirmDialogOpen(false);
 
   const handleCloseDialog = () => {
-    onCloseMTViewDialog();
-    isEditingMode && onSetIsEditingMode(false);
-  };
-
-  const handleSwitchChange = () => {
-    onSetIsEditingMode(isEditingMode);
+    onCloseDialog();
   };
 
   const handleDeleteButtonClicked = () => setIsConfirmDialogOpen(true);
 
+  const toggleEditMode = () => onToggleEditMode();
+
+  const DialogHeader = isFetching ? (
+    <Typography variant="h3" width={"50%"}>
+      <Skeleton />
+    </Typography>
+  ) : (
+    <MaqasidDialog.Title flex={1} title={monitoringTool?.name} />
+  );
+
   return (
     <>
       <MaqasidDialog
-        isOpen={isMTViewDialogOpen}
+        isOpen={openedMainDialog === MonitoringToolsDialog.MonitoringTool}
         onClose={handleCloseDialog}
         variant="right"
       >
         <MaqasidDialog.Header>
-          {isFetching ? (
-            <Typography variant="h3" width={"50%"}>
-              <Skeleton />
-            </Typography>
-          ) : (
-            <MaqasidDialog.Title flex={1} title={monitoringTool?.name} />
-          )}
+          {DialogHeader}
           <MaqasidDialog.Actions>
-            {/* <Chip label="View" /> */}
             <FormControlLabel
               sx={{ mr: 0, p: 1 }}
-              control={<Switch onChange={handleSwitchChange} />}
+              control={<Switch onChange={toggleEditMode} />}
               label="Edit"
             />
             {isEditingMode && (
@@ -87,14 +86,14 @@ const MonitoringToolViewDialog: FC = () => {
           </MaqasidDialog.Actions>
         </MaqasidDialog.Header>
 
-        {isFetching ? (
+        {isFetching && (
           <MaqasidDialog.Body>
             <DialogSkeleton />
           </MaqasidDialog.Body>
-        ) : (
-          monitoringTool && (
-            <DialogBodyAndFooter monitoringTool={monitoringTool} />
-          )
+        )}
+
+        {!isFetching && monitoringTool && (
+          <DialogBodyAndFooter monitoringTool={monitoringTool} />
         )}
       </MaqasidDialog>
 

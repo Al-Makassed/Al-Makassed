@@ -3,13 +3,13 @@ import { DepartmentsSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
 import { Box, Chip } from "@mui/material";
 import BusinessIcon from "@mui/icons-material/Business";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 import useDeleteMonitoringToolDepartment from "../hooks/useDeleteMonitoringToolDepartmentRequest";
 import ConfirmDialog from "src/components/ConfirmDialog";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { teal } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/AddCircleOutline";
 import AssignDepartmentDialog from "./AssignDepartmentDialog";
+import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 
 const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =

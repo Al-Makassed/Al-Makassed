@@ -1,32 +1,18 @@
+import { DialogName } from "../constants";
+
 export interface MonitoringToolDialogContextValue {
   state: MonitoringToolDialogState;
-  onSetIsEditingMode: (isEditingMode: boolean) => void;
+  onToggleEditMode: () => void;
   onOpenAppendFieldsDialog: () => void;
-  onCloseAppendFieldsDialog: () => void;
   onOpenAssignDepartmentsDialog: () => void;
-  onCloseAssignDepartmentsDialog: () => void;
+  onCloseDialog: () => void;
 }
 
 export interface MonitoringToolDialogState {
   isEditingMode: boolean;
-  isAppendFieldDialogOpen: boolean;
-  isAssignDepartmentDialogOpen: boolean;
+  openedDialog: DialogName | null;
 }
 
-export type MonitoringToolsReducerAction = {
-  type: MonitoringToolsReducerActionType;
-};
-
-// TODO: extract enums to constants file
-export enum MonitoringToolsReducerActionType {
-  SetIsEditingMode,
-  OpenAppendFieldsDialog,
-  CloseAppendFieldsDialog,
-  OpenAssignDepartmentsDialog,
-  CloseAssignDepartmentsDialog,
-}
-
-export enum Dialog {
-  AppendFields = "AppendFields",
-  AssignDepartments = "AssignDepartments",
-}
+export type MonitoringToolsReducerAction =
+  | { type: "ToggleEditMode" }
+  | { type: "SetOpenDialog"; payload: DialogName | null };

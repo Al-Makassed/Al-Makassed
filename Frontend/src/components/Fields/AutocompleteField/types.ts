@@ -1,4 +1,1 @@
-export interface BaseAutoCompleteItem extends Record<string, any> {
-    // disabled?: boolean;
-    // disabledTooltip?: string;
-}
+export interface BaseAutoCompleteItem extends Record<string, any> {}

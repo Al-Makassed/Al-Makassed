@@ -7,7 +7,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types/axios";
 
-const useGetDepartment = () => {
+const useGetDepartments = () => {
   const dispatch = useAppDispatch();
 
   const {
@@ -31,9 +31,9 @@ const useGetDepartment = () => {
   }, [error]);
 
   return {
-    departments,
+    departments: departments ?? [],
     isFetching,
   };
 };
 
-export default useGetDepartment;
+export default useGetDepartments;

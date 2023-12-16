@@ -3,8 +3,7 @@ import { MonitoringToolsContextValue, MonitoringToolsState } from "./types";
 import { noop } from "src/utils/functionsUtils";
 
 export const initialState: MonitoringToolsState = {
-  isMTViewDialogOpen: false,
-  isAddFieldDialogOpen: false,
+  openedDialog: null,
   selectedMonitoringTool: null,
 };
 
@@ -12,10 +11,9 @@ export const MonitoringToolsContext =
   createContext<MonitoringToolsContextValue>({
     state: initialState,
     onOpenMTViewDialog: noop,
-    onCloseMTViewDialog: noop,
     onOpenAddFieldDialog: noop,
-    onCloseAddFieldDialog: noop,
-    onOpenAddMonitoringToolPage: noop,
+    onOpenAddMonitoringToolDialog: noop,
+    onCloseDialog: noop,
   });
 
 export default MonitoringToolsContext;

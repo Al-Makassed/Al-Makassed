@@ -5,20 +5,21 @@ import MaqasidDialog from "src/components/MaqasidDialog";
 import useAddFieldToMonitoringTool from "../hooks/useAddFieldToMonitoringTool";
 import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import { DialogName } from "../constants";
 
 const AppendFieldsDialog: FC = () => {
   const { appendFieldToMT, isPending } = useAddFieldToMonitoringTool();
 
   const {
-    state: { isAppendFieldDialogOpen },
-    onCloseAppendFieldsDialog: onCloseAppendFieldDialog,
+    state: { openedDialog },
+    onCloseDialog,
   } = useMonitoringToolDialogContext();
 
   const {
     state: { selectedMonitoringTool },
   } = useMonitoringToolsContext();
 
-  const handleCloseDialog = () => onCloseAppendFieldDialog();
+  const handleCloseDialog = () => onCloseDialog();
 
   const handleSubmit = (fieldsIdes: string[]) => {
     appendFieldToMT({
@@ -29,7 +30,7 @@ const AppendFieldsDialog: FC = () => {
 
   return (
     <MaqasidDialog
-      isOpen={isAppendFieldDialogOpen}
+      isOpen={openedDialog === DialogName.AppendField}
       onClose={handleCloseDialog}
       disableBackdropClick
       disableEscapeKeyDown

@@ -4,29 +4,22 @@ import {
   MonitoringToolDialogContextValue,
   MonitoringToolDialogState,
   MonitoringToolsReducerAction,
-  MonitoringToolsReducerActionType,
 } from "./types";
+import { DialogName } from "../constants";
 
 const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const onSetIsEditingMode = useCallback(
-    () => dispatch({ type: MonitoringToolsReducerActionType.SetIsEditingMode }),
+  const onToggleEditMode = useCallback(
+    () => dispatch({ type: "ToggleEditMode" }),
     [],
   );
 
   const onOpenAppendFieldsDialog = useCallback(
     () =>
       dispatch({
-        type: MonitoringToolsReducerActionType.OpenAppendFieldsDialog,
-      }),
-    [],
-  );
-
-  const onCloseAppendFieldsDialog = useCallback(
-    () =>
-      dispatch({
-        type: MonitoringToolsReducerActionType.CloseAppendFieldsDialog,
+        type: "SetOpenDialog",
+        payload: DialogName.AppendField,
       }),
     [],
   );
@@ -34,26 +27,27 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const onOpenAssignDepartmentsDialog = useCallback(
     () =>
       dispatch({
-        type: MonitoringToolsReducerActionType.OpenAssignDepartmentsDialog,
+        type: "SetOpenDialog",
+        payload: DialogName.AssignDepartment,
       }),
     [],
   );
 
-  const onCloseAssignDepartmentsDialog = useCallback(
+  const onCloseDialog = useCallback(
     () =>
       dispatch({
-        type: MonitoringToolsReducerActionType.CloseAssignDepartmentsDialog,
+        type: "SetOpenDialog",
+        payload: null,
       }),
     [],
   );
 
   const contextValue: MonitoringToolDialogContextValue = {
     state,
-    onSetIsEditingMode,
-    onOpenAppendFieldsDialog, // onOpenDialog(dialogName)
-    onCloseAppendFieldsDialog,
+    onToggleEditMode,
+    onOpenAppendFieldsDialog,
     onOpenAssignDepartmentsDialog,
-    onCloseAssignDepartmentsDialog,
+    onCloseDialog,
   };
 
   return (
@@ -63,40 +57,24 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export const reducer = (
+const reducer = (
   state: MonitoringToolDialogState,
   action: MonitoringToolsReducerAction,
 ): MonitoringToolDialogState => {
   switch (action.type) {
-    case MonitoringToolsReducerActionType.SetIsEditingMode:
+    case "ToggleEditMode":
       return {
         ...state,
         isEditingMode: !state.isEditingMode,
       };
 
-    case MonitoringToolsReducerActionType.OpenAppendFieldsDialog:
+    case "SetOpenDialog": {
+      const openedDialog = action.payload;
       return {
         ...state,
-        isAppendFieldDialogOpen: true,
+        openedDialog,
       };
-
-    case MonitoringToolsReducerActionType.CloseAppendFieldsDialog:
-      return {
-        ...state,
-        isAppendFieldDialogOpen: false,
-      };
-
-    case MonitoringToolsReducerActionType.OpenAssignDepartmentsDialog:
-      return {
-        ...state,
-        isAssignDepartmentDialogOpen: true,
-      };
-
-    case MonitoringToolsReducerActionType.CloseAssignDepartmentsDialog:
-      return {
-        ...state,
-        isAssignDepartmentDialogOpen: false,
-      };
+    }
 
     default:
       return state;

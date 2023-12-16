@@ -1,9 +1,10 @@
-import React, { FC } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
+import { FC } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import { DialogName } from "../constants";
+import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 import useAssignMonitoringToolToDepartment from "../hooks/useAssignMonitoringToolToDepartment";
 
 const AssignDepartmentDialog: FC = () => {
@@ -11,15 +12,15 @@ const AssignDepartmentDialog: FC = () => {
     useAssignMonitoringToolToDepartment();
 
   const {
-    state: { isAssignDepartmentDialogOpen },
-    onCloseAssignDepartmentsDialog: onCloseAssignDepartmentDialog,
+    state: { openedDialog },
+    onCloseDialog,
   } = useMonitoringToolDialogContext();
 
   const {
     state: { selectedMonitoringTool },
   } = useMonitoringToolsContext();
 
-  const handleCloseDialog = () => onCloseAssignDepartmentDialog();
+  const handleCloseDialog = () => onCloseDialog();
 
   const handleSubmit = (departmentsIdes: string[]) => {
     assignDepartments({
@@ -30,7 +31,7 @@ const AssignDepartmentDialog: FC = () => {
 
   return (
     <MaqasidDialog
-      isOpen={isAssignDepartmentDialogOpen}
+      isOpen={openedDialog === DialogName.AssignDepartment}
       onClose={handleCloseDialog}
       disableBackdropClick
       disableEscapeKeyDown

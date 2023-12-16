@@ -1,15 +1,15 @@
 import { useContext } from "react";
-import MonitoringToolsContext from "./MonitoringToolDialog";
+import MonitoringToolsDialogContext from "./MonitoringToolDialog";
 
-const useMonitoringTools = () => {
-  const context = useContext(MonitoringToolsContext);
+const useMonitoringToolsDialogContext = () => {
+  const context = useContext(MonitoringToolsDialogContext);
 
   if (!context)
     throw new Error(
-      "useMonitoringTools must be used within a MonitoringToolsProvider",
+      "useMonitoringToolsDialog must be used within a MonitoringToolsDialogProvider",
     );
 
   return context;
 };
 
-export default useMonitoringTools;
+export default useMonitoringToolsDialogContext;
