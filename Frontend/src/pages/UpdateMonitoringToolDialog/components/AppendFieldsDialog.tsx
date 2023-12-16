@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import useAddFieldToMonitoringTool from "../hooks/useAddFieldToMonitoringTool";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { DialogName } from "../constants";
 
@@ -13,7 +13,7 @@ const AppendFieldsDialog: FC = () => {
   const {
     state: { openedDialog },
     onCloseDialog,
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   const {
     state: { selectedMonitoringTool },

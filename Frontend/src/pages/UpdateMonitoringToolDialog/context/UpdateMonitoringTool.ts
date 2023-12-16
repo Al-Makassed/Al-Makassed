@@ -10,7 +10,7 @@ export const initialState: MonitoringToolDialogState = {
   openedDialog: null,
 };
 
-export const MonitoringToolsDialogContext =
+export const UpdateMonitoringToolContext =
   createContext<MonitoringToolDialogContextValue>({
     state: initialState,
     onToggleEditMode: noop,
@@ -19,4 +19,4 @@ export const MonitoringToolsDialogContext =
     onCloseDialog: noop,
   });
 
-export default MonitoringToolsDialogContext;
+export default UpdateMonitoringToolContext;

@@ -17,11 +17,7 @@ const MonitoringTools: FC = () => {
 
         <Box>
           {isFocalPointUser && <FocalPointTasksGrid />}
-          {!isFocalPointUser && (
-            <>
-              <AdminMonitoringToolsGrid />
-            </>
-          )}
+          {!isFocalPointUser && <AdminMonitoringToolsGrid />}
         </Box>
       </Stack>
     </MonitoringToolsProvider>

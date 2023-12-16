@@ -13,7 +13,7 @@ import DepartmentsSection from "./DepartmentsSection";
 import DescriptionSection from "./DescriptionSection";
 import FieldsSection from "./FieldsSection";
 import SectionHeader from "./SectionHeader";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 
 const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   monitoringTool,
@@ -21,7 +21,7 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   const {
     state: { isEditingMode },
     onToggleEditMode,
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   const { onCloseDialog } = useMonitoringToolsContext();
 

@@ -1,13 +1,15 @@
 import { FC, PropsWithChildren, useCallback, useReducer } from "react";
-import MonitoringToolsContext, { initialState } from "./MonitoringToolDialog";
+import { DialogName } from "../constants";
+import UpdateMonitoringToolContext, {
+  initialState,
+} from "./UpdateMonitoringTool";
 import {
   MonitoringToolDialogContextValue,
   MonitoringToolDialogState,
   MonitoringToolsReducerAction,
 } from "./types";
-import { DialogName } from "../constants";
 
-const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
+const UpdateMonitoringToolProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const onToggleEditMode = useCallback(
@@ -51,9 +53,9 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   return (
-    <MonitoringToolsContext.Provider value={contextValue}>
+    <UpdateMonitoringToolContext.Provider value={contextValue}>
       {children}
-    </MonitoringToolsContext.Provider>
+    </UpdateMonitoringToolContext.Provider>
   );
 };
 
@@ -81,4 +83,4 @@ const reducer = (
   }
 };
 
-export default MonitoringToolsProvider;
+export default UpdateMonitoringToolProvider;

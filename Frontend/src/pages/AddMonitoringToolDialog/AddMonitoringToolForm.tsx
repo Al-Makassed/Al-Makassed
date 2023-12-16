@@ -9,7 +9,7 @@ import useGetFields from "./hooks/useGetFields";
 import { AddMonitoringToolFormPayload } from "./types";
 import { Department } from "./API/types";
 
-const AddMonitoringToolsForm: FC = () => {
+const AddMonitoringToolForm: FC = () => {
   const { setFieldValue } = useFormikContext<AddMonitoringToolFormPayload>();
 
   const { fields } = useGetFields();
@@ -56,4 +56,4 @@ const AddMonitoringToolsForm: FC = () => {
   );
 };
 
-export default AddMonitoringToolsForm;
+export default AddMonitoringToolForm;

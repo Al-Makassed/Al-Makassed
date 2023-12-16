@@ -9,7 +9,7 @@ import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMoni
 import { teal } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/AddCircleOutline";
 import AssignDepartmentDialog from "./AssignDepartmentDialog";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 
 const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
@@ -22,7 +22,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   const {
     state: { isEditingMode },
     onOpenAssignDepartmentsDialog,
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   const {
     state: { selectedMonitoringTool },

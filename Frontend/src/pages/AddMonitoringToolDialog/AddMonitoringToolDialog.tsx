@@ -1,11 +1,11 @@
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
 import { FormikProvider } from "formik";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import { MonitoringToolsDialog } from "../MonitoringTools/constants";
 import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
-import AddMonitoringToolsForm from "./AddMonitoringToolsForm";
+import AddMonitoringToolForm from "./AddMonitoringToolForm";
 import useAddMonitoringToolForm from "./hooks/useAddMonitoringToolForm";
 
 const AddMonitoringToolDialog: FC = () => {
@@ -22,6 +22,12 @@ const AddMonitoringToolDialog: FC = () => {
     await submitForm();
     resetForm();
   };
+
+  useEffect(() => {
+    if (!isAdding) {
+      onCloseDialog();
+    }
+  }, [isAdding]);
 
   return (
     <MaqasidDialog
@@ -43,7 +49,7 @@ const AddMonitoringToolDialog: FC = () => {
 
       <FormikProvider value={formikProps}>
         <MaqasidDialog.Body>
-          <AddMonitoringToolsForm />
+          <AddMonitoringToolForm />
         </MaqasidDialog.Body>
 
         <MaqasidDialog.Footer>

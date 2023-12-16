@@ -11,7 +11,7 @@ import {
 import FieldIcon from "@mui/icons-material/QuizOutlined";
 import { FieldsSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useDeleteMonitoringToolField from "../hooks/useDeleteMonitoringToolField";
 import ConfirmDialog from "src/components/ConfirmDialog";
@@ -29,7 +29,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
   const {
     state: { isEditingMode },
     onOpenAppendFieldsDialog: onOpenAppendFieldDialog,
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   const {
     state: { selectedMonitoringTool },

@@ -13,7 +13,7 @@ import { MonitoringToolsDialog } from "src/pages/MonitoringTools/constants";
 import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
 import DialogBodyAndFooter from "./components/DialogBodyAndFooter";
 import DialogSkeleton from "./components/DialogSkeleton";
-import useMonitoringToolDialogContext from "./context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "./context/useUpdateMonitoringToolContext";
 import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useGetMonitoringTool from "./hooks/useGetMonitoringTool";
 
@@ -29,7 +29,7 @@ const MonitoringToolViewDialog: FC = () => {
   const {
     state: { isEditingMode },
     onToggleEditMode,
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   const monitoringToolId = selectedMonitoringTool?.id ?? "";
 

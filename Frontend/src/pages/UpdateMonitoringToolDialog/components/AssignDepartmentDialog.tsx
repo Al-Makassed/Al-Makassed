@@ -4,7 +4,7 @@ import { FC } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { DialogName } from "../constants";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import useAssignMonitoringToolToDepartment from "../hooks/useAssignMonitoringToolToDepartment";
 
 const AssignDepartmentDialog: FC = () => {
@@ -14,7 +14,7 @@ const AssignDepartmentDialog: FC = () => {
   const {
     state: { openedDialog },
     onCloseDialog,
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   const {
     state: { selectedMonitoringTool },
