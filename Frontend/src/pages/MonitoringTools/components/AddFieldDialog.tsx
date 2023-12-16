@@ -7,6 +7,7 @@ import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
 import useAddFieldForm from "../hooks/useAddFieldForm";
+import { MonitoringToolsDialog } from "../constants";
 
 const AddFieldDialog: FC = () => {
   const { formikProps, isPending, status } = useAddFieldForm();
@@ -14,11 +15,11 @@ const AddFieldDialog: FC = () => {
   const { dirty, isValid, resetForm, submitForm } = formikProps;
 
   const {
-    state: { isAddFieldDialogOpen },
-    onCloseAddFieldDialog,
+    state: { openedDialog },
+    onCloseDialog,
   } = useMonitoringToolsContext();
 
-  const handleCloseDialog = () => onCloseAddFieldDialog();
+  const handleCloseDialog = () => onCloseDialog();
 
   const handleSubmitForm = () => {
     submitForm();
@@ -34,7 +35,7 @@ const AddFieldDialog: FC = () => {
     <FormikProvider value={formikProps}>
       <Form>
         <MaqasidDialog
-          isOpen={isAddFieldDialogOpen}
+          isOpen={openedDialog === MonitoringToolsDialog.AddField}
           onClose={handleCloseDialog}
           onClosed={() => resetForm()}
           disableBackdropClick={dirty}

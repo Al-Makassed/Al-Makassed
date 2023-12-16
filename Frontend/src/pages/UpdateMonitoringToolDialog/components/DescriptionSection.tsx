@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { Typography } from "@mui/material";
 import { DescriptionSectionProps } from "../types";
 import SectionHeader from "./SectionHeader";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 
 const DescriptionSection: FC<DescriptionSectionProps> = ({
   monitoringTool,
 }) => {
   const {
     state: { isEditingMode },
-  } = useMonitoringToolDialogContext();
+  } = useUpdateMonitoringToolContext();
 
   return (
     <>

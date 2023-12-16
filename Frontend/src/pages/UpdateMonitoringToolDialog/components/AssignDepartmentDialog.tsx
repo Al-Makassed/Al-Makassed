@@ -1,48 +1,50 @@
-import React, { FC } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
+import { FC } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import useAddFieldToMonitoringTool from "../hooks/useAddFieldToMonitoringTool";
-import useMonitoringToolDialogContext from "../context/useMonitoringToolDialogContext";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import { DialogName } from "../constants";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
+import useAssignMonitoringToolToDepartment from "../hooks/useAssignMonitoringToolToDepartment";
 
-const AppendFieldsDialog: FC = () => {
-  const { appendFieldToMT, isPending } = useAddFieldToMonitoringTool();
+const AssignDepartmentDialog: FC = () => {
+  const { assignDepartments, isPending } =
+    useAssignMonitoringToolToDepartment();
 
   const {
-    state: { isAppendFieldDialogOpen },
-    onCloseAppendFieldsDialog: onCloseAppendFieldDialog,
-  } = useMonitoringToolDialogContext();
+    state: { openedDialog },
+    onCloseDialog,
+  } = useUpdateMonitoringToolContext();
 
   const {
     state: { selectedMonitoringTool },
   } = useMonitoringToolsContext();
 
-  const handleCloseDialog = () => onCloseAppendFieldDialog();
+  const handleCloseDialog = () => onCloseDialog();
 
-  const handleSubmit = (fieldsIdes: string[]) => {
-    appendFieldToMT({
+  const handleSubmit = (departmentsIdes: string[]) => {
+    assignDepartments({
       monitoringToolId: selectedMonitoringTool!.id,
-      fieldsIdes,
+      departmentsIdes,
     });
   };
 
   return (
     <MaqasidDialog
-      isOpen={isAppendFieldDialogOpen}
+      isOpen={openedDialog === DialogName.AssignDepartment}
       onClose={handleCloseDialog}
       disableBackdropClick
       disableEscapeKeyDown
     >
       <MaqasidDialog.Header>
-        <MaqasidDialog.Title title="Append Field" />
+        <MaqasidDialog.Title title="Assign Departments" />
         <MaqasidDialog.Actions>
           <MaqasidDialog.Fullscreen />
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
       <MaqasidDialog.Body>
-        {/* // TODO: here will go the transfer list after MAK-87 is merged */}
+        {/* //TODO: here will go the auto complete after MAK-87 is merged */}
       </MaqasidDialog.Body>
       <MaqasidDialog.Footer>
         <LoadingButton
@@ -53,7 +55,7 @@ const AppendFieldsDialog: FC = () => {
           variant="contained"
           color="primary"
           startIcon={<AddIcon />}
-          aria-label="Append Fields"
+          aria-label="Assign Departments"
           loading={isPending}
           loadingPosition="start"
         >
@@ -64,4 +66,4 @@ const AppendFieldsDialog: FC = () => {
   );
 };
 
-export default AppendFieldsDialog;
+export default AssignDepartmentDialog;

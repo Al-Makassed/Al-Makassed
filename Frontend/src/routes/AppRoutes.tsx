@@ -16,6 +16,9 @@ const PolicyDetails = lazy(() => import("src/pages/PolicyDetails"));
 const Unauthenticated = lazy(() => import("src/pages/Unauthenticated"));
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
+const AddMonitoringToolForm = lazy(
+  () => import("src/pages/AddMonitoringToolDialog"),
+);
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
@@ -58,6 +61,7 @@ const AppRoutes: FC = () => {
                 path="task/:focalPointTaskId"
                 element={<TaskSubmission />}
               />
+              <Route path="add" element={<AddMonitoringToolForm />} />
             </Route>
           </Route>
         </Route>
