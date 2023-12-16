@@ -3,6 +3,7 @@ export interface UserState {
   fullName: string;
   userName: string;
   email: string;
+  departmentId: string;
   phoneNumber: string;
   roles: string[];
   avatarUrl: string;

@@ -1,7 +1,10 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
-import MonitoringToolViewDialog from "../../MonitoringToolDialog/MonitoringToolDialog";
+import AddMonitoringToolDialog from "src/pages/AddMonitoringToolDialog";
+import UpdateMonitoringToolProvider from "src/pages/UpdateMonitoringToolDialog/context/UpdateMonitoringToolProvider";
+import UpdateMonitoringToolDialog from "../../UpdateMonitoringToolDialog";
 import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
+import AddFieldDialog from "./AddFieldDialog";
 import LoadingSkeleton from "./GridLoadingSkeleton";
 import MonitoringToolCard from "./MonitoringToolCard";
 
@@ -31,7 +34,13 @@ const AdminMonitoringToolsGrid: FC = () => {
         ))}
       </Grid>
 
-      <MonitoringToolViewDialog />
+      <UpdateMonitoringToolProvider>
+        <UpdateMonitoringToolDialog />
+      </UpdateMonitoringToolProvider>
+
+      <AddFieldDialog />
+
+      <AddMonitoringToolDialog />
     </>
   );
 };

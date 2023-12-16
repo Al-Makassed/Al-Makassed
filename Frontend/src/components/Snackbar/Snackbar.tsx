@@ -31,7 +31,7 @@ const MaqasidSnackbar = () => {
   };
 
   return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
+    <Stack gap={2} sx={{ width: "100%" }}>
       <Snackbar
         open={isOpen}
         autoHideDuration={autoHideDuration}

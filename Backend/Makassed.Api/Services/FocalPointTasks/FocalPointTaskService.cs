@@ -95,7 +95,7 @@ public class FocalPointTaskService : IFocalPointTaskService
             return Errors.User.Unauthorized;
 
         // Check if the focal point task is assigned to the department
-        var focalPointTask = department.FocalPointTasks.FirstOrDefault(fpt => fpt.DepartmentId == departmentId);
+        var focalPointTask = department.FocalPointTasks.FirstOrDefault(fpt => fpt.Id == taskId);
 
         if (focalPointTask is null)
             return Errors.FocalPointTask.NotAssignedToDepartment;

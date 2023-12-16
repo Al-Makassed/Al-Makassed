@@ -26,16 +26,25 @@ const useVerifyAccessToken = () => {
       return;
     }
 
-    const { id, roles, userName, fullName, email, phoneNumber, avatarUrl } =
-      data;
+    const {
+      id,
+      roles,
+      userName,
+      fullName,
+      email,
+      departmentId,
+      phoneNumber,
+      avatarUrl,
+    } = data;
 
     dispatch(
       login({
         userId: id,
         roles: Array.isArray(roles) ? roles : [roles],
         userName,
-        email,
         fullName,
+        email,
+        departmentId,
         phoneNumber,
         avatarUrl,
       }),
