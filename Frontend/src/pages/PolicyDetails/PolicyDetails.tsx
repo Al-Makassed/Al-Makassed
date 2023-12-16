@@ -18,8 +18,6 @@ const PolicyDetails: FC = () => {
     closeSidebar,
   } = useSidebarContext();
 
-  console.log("isSidebarOpen", isSidebarOpen);
-
   const chapterId = chapterIdParam ?? "";
 
   const policyId = policyIdParam ?? "";
