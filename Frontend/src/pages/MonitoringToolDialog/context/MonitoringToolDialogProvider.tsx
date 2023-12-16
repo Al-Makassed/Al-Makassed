@@ -10,8 +10,8 @@ import {
 const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const setIsEditingMode = useCallback(
-    () => dispatch({ type: MonitoringToolsReducerActionType.setIsEditingMode }),
+  const onSetIsEditingMode = useCallback(
+    () => dispatch({ type: MonitoringToolsReducerActionType.SetIsEditingMode }),
     [],
   );
 
@@ -49,8 +49,8 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const contextValue: MonitoringToolDialogContextValue = {
     state,
-    setIsEditingMode,
-    onOpenAppendFieldsDialog,
+    onSetIsEditingMode,
+    onOpenAppendFieldsDialog, // onOpenDialog(dialogName)
     onCloseAppendFieldsDialog,
     onOpenAssignDepartmentsDialog,
     onCloseAssignDepartmentsDialog,
@@ -68,11 +68,12 @@ export const reducer = (
   action: MonitoringToolsReducerAction,
 ): MonitoringToolDialogState => {
   switch (action.type) {
-    case MonitoringToolsReducerActionType.setIsEditingMode:
+    case MonitoringToolsReducerActionType.SetIsEditingMode:
       return {
         ...state,
         isEditingMode: !state.isEditingMode,
       };
+
     case MonitoringToolsReducerActionType.OpenAppendFieldsDialog:
       return {
         ...state,
@@ -84,6 +85,7 @@ export const reducer = (
         ...state,
         isAppendFieldDialogOpen: false,
       };
+
     case MonitoringToolsReducerActionType.OpenAssignDepartmentsDialog:
       return {
         ...state,
@@ -95,6 +97,7 @@ export const reducer = (
         ...state,
         isAssignDepartmentDialogOpen: false,
       };
+
     default:
       return state;
   }

@@ -20,7 +20,7 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
 }) => {
   const {
     state: { isEditingMode },
-    setIsEditingMode,
+    onSetIsEditingMode,
   } = useMonitoringToolDialogContext();
 
   const { onCloseMTViewDialog } = useMonitoringToolsContext();
@@ -34,13 +34,13 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
 
   const handleDiscard = () => {
     onCloseMTViewDialog();
-    setIsEditingMode(false);
+    onSetIsEditingMode(false);
   };
 
   const handleSave = () => {
     submitForm();
     onCloseMTViewDialog();
-    setIsEditingMode(false);
+    onSetIsEditingMode(false);
   };
 
   return (
@@ -91,11 +91,11 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
           </LoadingButton>
         </MaqasidDialog.Footer>
       )}
+
       <MaqasidDialog.SaveChangesConfirmationDialog
         isDirty={dirty}
         cancelProps={{
           label: "Cancel",
-          //onClick: () => void{},
         }}
         closeAndDiscardProps={{
           label: "Discard",

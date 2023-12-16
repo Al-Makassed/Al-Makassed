@@ -22,7 +22,7 @@ const MonitoringToolViewDialog: FC = () => {
 
   const {
     state: { isEditingMode },
-    setIsEditingMode,
+    onSetIsEditingMode,
   } = useMonitoringToolDialogContext();
 
   const {
@@ -40,12 +40,11 @@ const MonitoringToolViewDialog: FC = () => {
 
   const handleCloseDialog = () => {
     onCloseMTViewDialog();
-    isEditingMode && setIsEditingMode(false);
+    isEditingMode && onSetIsEditingMode(false);
   };
 
   const handleSwitchChange = () => {
-    setIsEditingMode(isEditingMode);
-    console.log("MonitoringToolViewDialog: isEditingMode:", isEditingMode);
+    onSetIsEditingMode(isEditingMode);
   };
 
   const handleDeleteButtonClicked = () => setIsConfirmDialogOpen(true);
