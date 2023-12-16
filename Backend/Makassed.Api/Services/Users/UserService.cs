@@ -1,15 +1,15 @@
-﻿using ErrorOr;
+﻿using AutoMapper;
+using ErrorOr;
 using Makassed.Api.Constants;
-using System.Security.Claims;
-using Makassed.Api.ServiceErrors;
 using Makassed.Api.Models.Domain;
-using Microsoft.AspNetCore.Identity;
 using Makassed.Api.Repositories.Interfaces;
+using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Storage;
 using Makassed.Contracts.User;
-using Microsoft.EntityFrameworkCore;
 using Makassed.Contracts.User.Department;
-using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Makassed.Api.Services.Users;
 
@@ -130,5 +130,35 @@ public class UserService : IUserService
         }
 
         return usersResponse;
+    }
+
+    public async Task<ErrorOr<GetUserResponse>> GetUserByIdAsync(string userId)
+    {
+        var authenticatedUserId = GetUserId();
+        var authenticatedUserRole = await GetUserRoleAsync();
+
+        // If the authenticated user is not the same as the requested user and is not an admin, return an "Unauthorized" error.
+        if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin"))
+            return Errors.User.Unauthorized;
+
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user is null)
+            return Errors.User.NotFound;
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var department = await _departmentRepository.GetDepartmentByIdAsync(user.DepartmentId);
+
+        return new GetUserResponse
+        {
+            Id = user.Id,
+            UserName = user.UserName!,
+            FullName = user.FullName,
+            Email = user.Email!,
+            Department = _mapper.Map<GetDepartmentResponse>(department),
+            PhoneNumber = user.PhoneNumber,
+            Roles = roles.ToList(),
+            AvatarUrl = user.AvatarUrl
+        };
     }
 }
