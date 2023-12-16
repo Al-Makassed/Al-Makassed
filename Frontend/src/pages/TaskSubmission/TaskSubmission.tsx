@@ -1,13 +1,13 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
+import { selectUser } from "src/features/user";
+import { useAppSelector } from "src/store/hooks";
 import FinishedSubmissions from "./components/FinishedSubmissions";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import SubmissionForm from "./components/SubmissionForm";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
-import { selectUser } from "src/features/user";
-import { useAppSelector } from "src/store/hooks";
 
 const TaskSubmission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -35,7 +35,10 @@ const TaskSubmission: FC = () => {
   return (
     <Grid
       container
-      sx={{ bgcolor: "grey.100", p: 3, height: "calc(100vh - 64px)" }}
+      sx={{
+        bgcolor: "grey.100",
+        p: 3,
+      }}
     >
       {isFinished && <FinishedSubmissions />}
       {!isFinished && (
@@ -43,21 +46,33 @@ const TaskSubmission: FC = () => {
           <Typography component="h1" variant="h4" gutterBottom>
             {name}
           </Typography>
-          <Grid container gap={2}>
+          <Grid container gap={2} sx={{ position: "relative" }}>
             <Grid
               item
               xs={8}
               sx={{
                 pr: 2,
-                height: "calc(100vh - 64px - 48px - 42px)",
                 overflowY: "auto",
                 ...theme.mixins.niceScroll(),
               }}
             >
               <SubmissionForm focalPointTask={focalPointTask} />
             </Grid>
-            <Grid item xs={3}>
-              Right
+            <Grid
+              item
+              xs={4}
+              sx={{
+                position: "absolute",
+                bgcolor: "antiquewhite",
+                right: 0,
+                top: 0,
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              <Stack sx={{ p: 2, position: "sticky", top: 0 }}>
+                Sticky content
+              </Stack>
             </Grid>
           </Grid>
         </>
