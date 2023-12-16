@@ -57,11 +57,11 @@ const AppRoutes: FC = () => {
 
             <Route path="monitoring-tools">
               <Route index element={<MonitoringTools />} />
-              <Route path="create" element={<AddMonitoringToolForm />} />
               <Route
                 path="task/:focalPointTaskId"
                 element={<TaskSubmission />}
               />
+              <Route path="create" element={<AddMonitoringToolForm />} />
             </Route>
           </Route>
         </Route>
