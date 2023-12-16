@@ -77,6 +77,23 @@ public class UsersController : ApiController
             Ok,
             Problem
         );
+    }
 
+    // update user's department
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateUserDepartment(string id, [FromBody] Guid departmentId)
+    {
+        var userResult = await _userService.UpdateUserDepartmentAsync(id, departmentId);
+
+        return userResult.Match(
+            Ok,
+            Problem
+        );
     }
 }

@@ -3,6 +3,7 @@ using ErrorOr;
 using Makassed.Api.Constants;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
+using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Storage;
 using Makassed.Api.Validators.Users;
 using Makassed.Contracts.User;
@@ -11,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using static Makassed.Api.ServiceErrors.Errors.User;
 
 namespace Makassed.Api.Services.Users;
 
@@ -87,13 +87,13 @@ public class UserService : IUserService
         var userId = GetUserId();
 
         if (userId is null)
-            return NotFound;
+            return Errors.User.NotFound;
 
         // Get the user by Id.
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
-            return NotFound;
+            return Errors.User.NotFound;
 
         // Remove the old avatar from the Avatars folder.
         if (user.AvatarUrl is not null)
@@ -133,12 +133,12 @@ public class UserService : IUserService
 
         // If the authenticated user is not the same as the requested user and is not an admin, return an "Unauthorized" error.
         if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin"))
-            return Unauthorized;
+            return Errors.User.Unauthorized;
 
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
-            return NotFound;
+            return Errors.User.NotFound;
 
         return await MapUserToGetUserResponse(user);
     }
@@ -149,12 +149,12 @@ public class UserService : IUserService
 
         // If the authenticated user is not the same as the requested user, return an "Unauthorized" error.
         if (!authenticatedUserId!.Equals(id))
-            return Unauthorized;
+            return Errors.User.Unauthorized;
 
         var existingUser = await _userManager.FindByIdAsync(id);
 
         if (existingUser is null)
-            return NotFound;
+            return Errors.User.NotFound;
 
         var userToPatch = _mapper.Map<UpdateUserRequest>(existingUser);
 
@@ -165,14 +165,14 @@ public class UserService : IUserService
         var validationResult = await _updateUserRequestValidator.ValidateAsync(userToPatch);
 
         if (!validationResult.IsValid)
-            return InvalidModel(validationResult.Errors);
+            return Errors.User.InvalidModel(validationResult.Errors);
 
         _mapper.Map(userToPatch, existingUser);
 
         var updateResult = await _userManager.UpdateAsync(existingUser);
 
         if (!updateResult.Succeeded)
-            return SomethingWentWrong(updateResult.Errors);
+            return Errors.User.SomethingWentWrong(updateResult.Errors);
 
         return await MapUserToGetUserResponse(existingUser);
     }
@@ -187,5 +187,27 @@ public class UserService : IUserService
         response.Department = _mapper.Map<GetDepartmentResponse>(department);
 
         return response;
+    }
+
+    public async Task<ErrorOr<GetUserResponse>> UpdateUserDepartmentAsync(string id, Guid departmentId)
+    {
+        var existingUser = await _userManager.FindByIdAsync(id);
+
+        if (existingUser is null)
+            return Errors.User.NotFound;
+
+        var department = await _departmentRepository.GetDepartmentByIdAsync(departmentId);
+
+        if (department is null)
+            return Errors.Department.NotFound;
+
+        existingUser.DepartmentId = departmentId;
+
+        var updateResult = await _userManager.UpdateAsync(existingUser);
+
+        if (!updateResult.Succeeded)
+            return Errors.User.SomethingWentWrong(updateResult.Errors);
+
+        return await MapUserToGetUserResponse(existingUser);
     }
 }
