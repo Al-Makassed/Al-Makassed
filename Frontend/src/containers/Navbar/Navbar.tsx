@@ -40,8 +40,6 @@ const Navbar = () => {
   return (
     <AppBar position="static" elevation={0} color="primary">
       <Toolbar sx={{ gap: 1 }}>
-        {/* <SidebarChevron /> */}
-
         <Avatar
           alt="logo"
           sx={{

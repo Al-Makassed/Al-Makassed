@@ -5,6 +5,9 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
+const DefaultView = lazy(
+  () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
+);
 const TaskSubmission = lazy(() => import("src/pages/TaskSubmission"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
@@ -44,13 +47,14 @@ const AppRoutes: FC = () => {
               path="policies-and-procedures"
               element={<PoliciesAndProcedures />}
             >
+              <Route path="" element={<DefaultView />} />
               <Route path=":chapterId" element={<EditChapterDialog />} />
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}
               />
               <Route
-                path="edit/:chapterId/policies/:policyId"
+                path=":chapterId/policies/edit/:policyId"
                 element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>

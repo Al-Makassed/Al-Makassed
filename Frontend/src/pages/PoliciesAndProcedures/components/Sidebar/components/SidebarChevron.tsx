@@ -1,32 +1,35 @@
 import React, { FC } from "react";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import { SIDEBAR_CHEVRON_ID } from "src/constants";
+import ListIcon from "@mui/icons-material/List";
 import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
+import { Button, Tooltip } from "@mui/material";
 
 const SidebarChevron: FC = () => {
-  const {
-    state: { isSidebarOpen },
-    openSidebar,
-  } = useSidebarContext();
+  const { openSidebar } = useSidebarContext();
 
   const handleDrawerOpen = () => {
-    openSidebar(); // Corrected: Add parentheses to invoke the function
+    openSidebar();
   };
 
   return (
-    <IconButton
-      size="large"
-      aria-label="open drawer"
-      onClick={handleDrawerOpen}
-    >
-      {isSidebarOpen ? (
-        <MenuOpenIcon id={SIDEBAR_CHEVRON_ID} />
-      ) : (
-        <MenuIcon id={SIDEBAR_CHEVRON_ID} />
-      )}
-    </IconButton>
+    <Tooltip title="Open Sidebar">
+      <Button
+        sx={{
+          left: -30,
+          padding: 2,
+          borderRadius: 10,
+          mt: 3,
+          bgcolor: "grey.300",
+          "&:hover": {
+            bgcolor: "grey.400",
+            left: -20,
+          },
+          position: "absolute",
+        }}
+        onClick={handleDrawerOpen}
+      >
+        <ListIcon color="action" sx={{ ml: 3 }} />
+      </Button>
+    </Tooltip>
   );
 };
 

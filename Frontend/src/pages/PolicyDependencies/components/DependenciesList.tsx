@@ -15,6 +15,8 @@ import useGetPolicy from "src/pages/EditPolicyAndDependenciesDialog/hooks/useGet
 import { POLICY_DEPENDENCIES_DISPLAY_NAMES } from "../constants";
 import { DependenciesListProps } from "../types";
 import AddPolicyDependencyDialog from "./AddPolicyDependencyDialog";
+import { useAppSelector } from "src/store/hooks";
+import { selectIsManagerUser } from "src/features/user";
 
 const DependenciesList: FC<DependenciesListProps> = ({
   chapterId,
@@ -33,6 +35,8 @@ const DependenciesList: FC<DependenciesListProps> = ({
     policy?.dependencies.filter((dependency) => dependency.type === type) ?? [];
 
   const dependencyName = POLICY_DEPENDENCIES_DISPLAY_NAMES.get(type) ?? "";
+
+  const isManager = useAppSelector(selectIsManagerUser);
 
   return (
     <Stack>
@@ -61,21 +65,23 @@ const DependenciesList: FC<DependenciesListProps> = ({
               ))}
             </Stack>
 
-            <Stack
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="center"
-              sx={{ mt: 1 }}
-            >
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                size="small"
-                onClick={handleOpenDialog}
+            {isManager && (
+              <Stack
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
+                sx={{ mt: 1 }}
               >
-                Add {dependencyName}
-              </Button>
-            </Stack>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  size="small"
+                  onClick={handleOpenDialog}
+                >
+                  Add {dependencyName}
+                </Button>
+              </Stack>
+            )}
           </Stack>
         </AccordionDetails>
       </Accordion>

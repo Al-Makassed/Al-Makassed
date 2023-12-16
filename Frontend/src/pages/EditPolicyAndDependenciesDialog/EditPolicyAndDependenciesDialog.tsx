@@ -28,7 +28,7 @@ const EditPolicyAndDependenciesDialog: FC = () => {
   const navigate = useNavigate();
 
   const navigateToPolicyDetails = () =>
-    navigate(`/me/chapters/${chapterId}/policies/${policyId}`);
+    navigate(`/me/policies-and-procedures/${chapterId}/policies/${policyId}`);
 
   const closeMainDialog = () => setIsOpen(false);
 

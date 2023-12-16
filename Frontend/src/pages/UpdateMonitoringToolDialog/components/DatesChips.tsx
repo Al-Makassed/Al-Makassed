@@ -1,15 +1,14 @@
-import React, { FC } from "react";
-import { Chip, Stack } from "@mui/material";
-import UpdateIcon from "@mui/icons-material/Update";
 import CreatedIcon from "@mui/icons-material/MoreTime";
-import { DatesChipsProps } from "../types";
+import UpdateIcon from "@mui/icons-material/Update";
+import { Chip, Stack } from "@mui/material";
+import { FC } from "react";
 import { formatDate } from "src/utils";
+import { DatesChipsProps } from "../types";
 
 const DatesChips: FC<DatesChipsProps> = ({ createdAt, lastModified }) => {
   const lastModifiedDate = lastModified && formatDate(lastModified);
 
   const createdAtDate = createdAt && formatDate(createdAt);
-  console.log("DatesChips: createdAtDate:", createdAt);
 
   return (
     <Stack direction={{ sx: "column", md: "row" }} gap={1}>
