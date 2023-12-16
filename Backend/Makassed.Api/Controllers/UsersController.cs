@@ -1,6 +1,7 @@
 ﻿using Makassed.Api.Services.Users;
 using Makassed.Contracts.User;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
@@ -25,13 +26,14 @@ public class UsersController : ApiController
         var userAvatarUrl = await _userService.UploadUserAvatarAsync(request.Image);
 
         return userAvatarUrl.Match(
-                  avatarUrl => Ok(new UploadUserAvatarResponse(avatarUrl)),
-                  Problem);
+            avatarUrl => Ok(new UploadUserAvatarResponse(avatarUrl)),
+            Problem
+        );
     }
 
     // get all users
     [HttpGet]
-    [ProducesResponseType(typeof(List<GetAllUsersBaseResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<GetUserResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = "Admin")]
@@ -54,8 +56,27 @@ public class UsersController : ApiController
         var userResult = await _userService.GetUserByIdAsync(id);
 
         return userResult.Match(
-            user => Ok(user),
-            errors => Problem(errors)
+            Ok,
+            Problem
         );
+    }
+
+    // partial update user's info
+    [HttpPatch("{id}")]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize]
+    public async Task<IActionResult> UpdateUserPassword(string id, JsonPatchDocument<UpdateUserRequest> patchDocument)
+    {
+        var userResult = await _userService.ApplyPatchAsync(id, patchDocument);
+
+        return userResult.Match(
+            Ok,
+            Problem
+        );
+
     }
 }

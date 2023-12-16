@@ -3,13 +3,15 @@ using ErrorOr;
 using Makassed.Api.Constants;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
-using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Storage;
+using Makassed.Api.Validators.Users;
 using Makassed.Contracts.User;
 using Makassed.Contracts.User.Department;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using static Makassed.Api.ServiceErrors.Errors.User;
 
 namespace Makassed.Api.Services.Users;
 
@@ -24,6 +26,7 @@ public class UserService : IUserService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly UpdateUserRequestValidator _updateUserRequestValidator;
 
     public UserService(
         IHttpContextAccessor httpContextAccessor,
@@ -31,7 +34,8 @@ public class UserService : IUserService
         ILocalFileStorageService localFileStorageService,
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IDepartmentRepository departmentRepository)
+        IDepartmentRepository departmentRepository,
+        UpdateUserRequestValidator updateUserRequestValidator)
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
@@ -39,6 +43,7 @@ public class UserService : IUserService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _departmentRepository = departmentRepository;
+        _updateUserRequestValidator = updateUserRequestValidator;
     }
 
     /// <summary>
@@ -82,13 +87,13 @@ public class UserService : IUserService
         var userId = GetUserId();
 
         if (userId is null)
-            return Errors.User.NotFound;
+            return NotFound;
 
         // Get the user by Id.
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
-            return Errors.User.NotFound;
+            return NotFound;
 
         // Remove the old avatar from the Avatars folder.
         if (user.AvatarUrl is not null)
@@ -105,29 +110,18 @@ public class UserService : IUserService
         return avatarUrl;
     }
 
-    public async Task<List<GetAllUsersBaseResponse>> GetAllUsersAsync()
+    public async Task<List<GetUserResponse>> GetAllUsersAsync()
     {
         var users = await _userManager.Users.ToListAsync();
 
-        var usersResponse = new List<GetAllUsersBaseResponse>();
+        var usersResponse = new List<GetUserResponse>();
 
-        foreach (var user in users)
+        async void Action(MakassedUser user)
         {
-            var roles = await _userManager.GetRolesAsync(user);
-            var department = await _departmentRepository.GetDepartmentByIdAsync(user.DepartmentId);
-
-            usersResponse.Add(new GetAllUsersBaseResponse
-            {
-                Id = user.Id,
-                UserName = user.UserName!,
-                FullName = user.FullName,
-                Email = user.Email!,
-                Department = _mapper.Map<GetDepartmentResponse>(department),
-                PhoneNumber = user.PhoneNumber,
-                Roles = roles.ToList(),
-                AvatarUrl = user.AvatarUrl
-            });
+            usersResponse.Add(await MapUserToGetUserResponse(user));
         }
+
+        users.ForEach(Action);
 
         return usersResponse;
     }
@@ -139,26 +133,59 @@ public class UserService : IUserService
 
         // If the authenticated user is not the same as the requested user and is not an admin, return an "Unauthorized" error.
         if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin"))
-            return Errors.User.Unauthorized;
+            return Unauthorized;
 
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
-            return Errors.User.NotFound;
+            return NotFound;
 
+        return await MapUserToGetUserResponse(user);
+    }
+
+    public async Task<ErrorOr<GetUserResponse>> ApplyPatchAsync(string id, JsonPatchDocument<UpdateUserRequest> patchDocument)
+    {
+        var authenticatedUserId = GetUserId();
+
+        // If the authenticated user is not the same as the requested user, return an "Unauthorized" error.
+        if (!authenticatedUserId!.Equals(id))
+            return Unauthorized;
+
+        var existingUser = await _userManager.FindByIdAsync(id);
+
+        if (existingUser is null)
+            return NotFound;
+
+        var userToPatch = _mapper.Map<UpdateUserRequest>(existingUser);
+
+        // Apply the patch to the user.
+        patchDocument.ApplyTo(userToPatch);
+
+        // Validate the patched user and return the errors if any.
+        var validationResult = await _updateUserRequestValidator.ValidateAsync(userToPatch);
+
+        if (!validationResult.IsValid)
+            return InvalidModel(validationResult.Errors);
+
+        _mapper.Map(userToPatch, existingUser);
+
+        var updateResult = await _userManager.UpdateAsync(existingUser);
+
+        if (!updateResult.Succeeded)
+            return SomethingWentWrong(updateResult.Errors);
+
+        return await MapUserToGetUserResponse(existingUser);
+    }
+
+    private async Task<GetUserResponse> MapUserToGetUserResponse(MakassedUser user)
+    {
         var roles = await _userManager.GetRolesAsync(user);
         var department = await _departmentRepository.GetDepartmentByIdAsync(user.DepartmentId);
 
-        return new GetUserResponse
-        {
-            Id = user.Id,
-            UserName = user.UserName!,
-            FullName = user.FullName,
-            Email = user.Email!,
-            Department = _mapper.Map<GetDepartmentResponse>(department),
-            PhoneNumber = user.PhoneNumber,
-            Roles = roles.ToList(),
-            AvatarUrl = user.AvatarUrl
-        };
+        var response = _mapper.Map<GetUserResponse>(user);
+        response.Roles = roles.ToList();
+        response.Department = _mapper.Map<GetDepartmentResponse>(department);
+
+        return response;
     }
 }
