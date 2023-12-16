@@ -4,9 +4,9 @@ import UpdateMonitoringToolContext, {
   initialState,
 } from "./UpdateMonitoringTool";
 import {
-  MonitoringToolDialogContextValue,
-  MonitoringToolDialogState,
-  MonitoringToolsReducerAction,
+  UpdateMonitoringToolContextValue,
+  UpdateMonitoringToolContextState,
+  UpdateMonitoringToolReducerAction,
 } from "./types";
 
 const UpdateMonitoringToolProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -44,7 +44,7 @@ const UpdateMonitoringToolProvider: FC<PropsWithChildren> = ({ children }) => {
     [],
   );
 
-  const contextValue: MonitoringToolDialogContextValue = {
+  const contextValue: UpdateMonitoringToolContextValue = {
     state,
     onToggleEditMode,
     onOpenAppendFieldsDialog,
@@ -60,9 +60,9 @@ const UpdateMonitoringToolProvider: FC<PropsWithChildren> = ({ children }) => {
 };
 
 const reducer = (
-  state: MonitoringToolDialogState,
-  action: MonitoringToolsReducerAction,
-): MonitoringToolDialogState => {
+  state: UpdateMonitoringToolContextState,
+  action: UpdateMonitoringToolReducerAction,
+): UpdateMonitoringToolContextState => {
   switch (action.type) {
     case "ToggleEditMode":
       return {

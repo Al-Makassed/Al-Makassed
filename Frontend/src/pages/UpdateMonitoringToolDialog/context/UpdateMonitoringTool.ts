@@ -1,17 +1,17 @@
 import { createContext } from "react";
 import {
-  MonitoringToolDialogContextValue,
-  MonitoringToolDialogState,
+  UpdateMonitoringToolContextValue,
+  UpdateMonitoringToolContextState,
 } from "./types";
 import { noop } from "src/utils/functionsUtils";
 
-export const initialState: MonitoringToolDialogState = {
+export const initialState: UpdateMonitoringToolContextState = {
   isEditingMode: false,
   openedDialog: null,
 };
 
 export const UpdateMonitoringToolContext =
-  createContext<MonitoringToolDialogContextValue>({
+  createContext<UpdateMonitoringToolContextValue>({
     state: initialState,
     onToggleEditMode: noop,
     onOpenAppendFieldsDialog: noop,
