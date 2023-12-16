@@ -40,12 +40,21 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
     [],
   );
 
+  const onOpenAddMonitoringToolPage = useCallback(
+    () =>
+      dispatch({
+        type: MonitoringToolsReducerActionType.OpenAddMonitoringToolPage,
+      }),
+    [],
+  );
+
   const contextValue: MonitoringToolsContextValue = {
     state,
     onOpenAddFieldDialog,
     onCloseAddFieldDialog,
     onOpenMTViewDialog,
     onCloseMTViewDialog,
+    onOpenAddMonitoringToolPage,
   };
 
   return (

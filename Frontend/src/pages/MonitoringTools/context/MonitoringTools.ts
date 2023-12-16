@@ -15,6 +15,7 @@ export const MonitoringToolsContext =
     onCloseMTViewDialog: noop,
     onOpenAddFieldDialog: noop,
     onCloseAddFieldDialog: noop,
+    onOpenAddMonitoringToolPage: noop,
   });
 
 export default MonitoringToolsContext;

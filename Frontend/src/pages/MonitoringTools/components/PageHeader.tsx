@@ -9,18 +9,14 @@ import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
 import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
 import AddFieldDialog from "./AddFieldDialog";
-// import { useNavigate } from "react-router-dom";
 
 const PageHeader: FC = () => {
-  const { onOpenAddFieldDialog } = useMonitoringToolsContext();
-  // const navigate= useNavigate();
+  const { onOpenAddFieldDialog, onOpenAddMonitoringToolPage } =
+    useMonitoringToolsContext();
 
   const { isTabletOrLess } = useMediaQuery();
 
   const isManager = useAppSelector(selectIsManagerUser);
-  // const handleClickAddMT = () => {
-  //   navigate("monitoring-tools/mt");
-  // };
 
   const OPTIONS: ActionsButtonGroupProps["options"] = [
     {
@@ -30,7 +26,8 @@ const PageHeader: FC = () => {
     },
     {
       label: "Add Monitoring Tool",
-      onClick: () => console.log("Add Monitoring Tool"),
+      onClick: onOpenAddMonitoringToolPage,
+      // onClick: () => navigate("/me/monitoring-tools/create"),
       icon: <MTAddIcon />,
     },
   ];

@@ -6,6 +6,7 @@ export interface MonitoringToolsContextValue {
   onCloseMTViewDialog: () => void;
   onOpenAddFieldDialog: () => void;
   onCloseAddFieldDialog: () => void;
+  onOpenAddMonitoringToolPage: () => void;
 }
 
 export interface MonitoringToolsState {
@@ -23,4 +24,5 @@ export enum MonitoringToolsReducerActionType {
   CloseMonitoringToolsViewDialog,
   OpenAddFieldDialog,
   CloseAddFieldDialog,
+  OpenAddMonitoringToolPage,
 }
