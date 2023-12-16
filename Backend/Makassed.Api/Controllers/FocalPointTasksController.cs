@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
-[Route("api/departments/{departmentId}/focal-point-task")]
+[Route("api/focal-point-tasks")]
 
 public class FocalPointTasksController : ApiController
 {
@@ -20,7 +20,7 @@ public class FocalPointTasksController : ApiController
         _focalPointTaskService = focalPointTaskService;
     }
     
-    [HttpGet]
+    [HttpGet("departments/{departmentId:Guid}")]
     [ProducesResponseType(typeof(GetAllFocalPointTasksBaseResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -38,7 +38,7 @@ public class FocalPointTasksController : ApiController
     }
 
     // Get focal point task by id
-    [HttpGet("{id:Guid}")]
+    [HttpGet("{id:Guid}/departments/{departmentId:Guid}")]
     [ProducesResponseType(typeof(GetFocalPointTaskResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -56,7 +56,7 @@ public class FocalPointTasksController : ApiController
     }
 
     // Submit focal point task
-    [HttpPost("{id:Guid}/submission")]
+    [HttpPost("{id:Guid}/departments/{departmentId:Guid}/submissions")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
