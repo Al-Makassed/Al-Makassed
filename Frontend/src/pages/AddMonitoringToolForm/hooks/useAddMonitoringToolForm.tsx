@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-// import validationSchema from "../schema";
+import validationSchema from "../schema";
 import { initialValues } from "../constants";
 import useAddMonitorintoolAPI from "./useAddMonitoringToolAPI";
 import { AddMonitoringToolFormPayload } from "../types";
@@ -12,12 +12,13 @@ const useAddMonitoringToolForm = () => {
       name: values.name,
       description: values.description,
       departmentsIdes: values.departmentsIdes,
+      fieldsIdes: values.fieldsIdes,
     });
   };
 
   const formikProps = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     onSubmit: submitForm,
   });
 

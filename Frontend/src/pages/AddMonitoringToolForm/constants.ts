@@ -6,6 +6,6 @@ import { MonitoringToolResponse } from "./API/types";
 export const initialValues: MonitoringToolResponse = {
   name: "",
   description: "",
-  // fieldsIdes: [],
+  fieldsIdes: [],
   departmentsIdes: [],
 };

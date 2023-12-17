@@ -42,7 +42,13 @@ const TransferList = <T extends WithId<object>>({
   if (loading) return <LoadingSkeleton />;
 
   return (
-    <Grid container justifyContent="center" alignItems="center" gap={1}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      gap={1}
+      sx={{ width: 700 }}
+    >
       <Grid item xs={12} md={5}>
         <HalfList
           title={leftTitle}

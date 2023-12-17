@@ -5,3 +5,5 @@ export interface AddMonitoringToolFormPayload extends MonitoringToolResponse {}
 export interface FieldItemProps {
   field: Field;
 }
+
+export interface AddMonitoringToolFormPayload extends MonitoringToolResponse {}

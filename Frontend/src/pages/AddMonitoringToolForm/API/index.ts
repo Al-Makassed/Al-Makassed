@@ -1,19 +1,18 @@
 import axios from "src/API/axios";
-
 import { Department, Field, MonitoringToolResponse } from "./types";
 
 export const createMonitoringTool = ({
   name,
   description,
   departmentsIdes,
-} // fieldsIdes
-: MonitoringToolResponse) => {
+  fieldsIdes,
+}: MonitoringToolResponse) => {
   return axios
     .post<MonitoringToolResponse>(`/monitoringtools`, {
       name,
       description,
       departmentsIdes,
-      // fieldsIdes
+      fieldsIdes,
     })
     .then((res) => res.data);
 };

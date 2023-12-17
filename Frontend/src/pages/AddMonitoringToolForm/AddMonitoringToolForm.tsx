@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
 import { Stack } from "@mui/material";
 import { Form, FormikProvider } from "formik";
-import { FC } from "react";
+import { FC, useState } from "react";
 import AutocompleteField from "src/components/Fields/AutocompleteField";
 import TextField from "src/components/Fields/TextField";
 import TransferList from "src/components/TransferList";
@@ -12,7 +12,12 @@ import useGetDepartment from "./hooks/useGetDepartment";
 import useGetFields from "./hooks/useGetFields";
 
 const AddMonitoringToolForm: FC = () => {
+  const [selectedDepartment, setSelectedDepartment] = useState<
+    Department[] | null
+  >([]);
+
   const { formikProps, isAdding } = useAddMonitoringToolForm();
+
   const { fields } = useGetFields();
   const { departments } = useGetDepartment();
 
@@ -21,6 +26,11 @@ const AddMonitoringToolForm: FC = () => {
   const { dirty, isValid, resetForm, submitForm, setFieldValue } = formikProps;
 
   const handleSubmitForm = async () => {
+    const departmentIds = selectedDepartment!.map(
+      (department) => department.id,
+    );
+    setFieldValue("departmentsIdes", departmentIds);
+
     await submitForm();
     resetForm();
   };
@@ -28,13 +38,14 @@ const AddMonitoringToolForm: FC = () => {
   return (
     <FormikProvider value={formikProps}>
       <Form>
-        <Stack p={3} gap={2.5} justifyContent="center" alignItems="center">
-          <TextField name="name" label="MT Name" />
+        <Stack p={3} gap={4}>
+          <TextField name="name" label="MT Name" sx={{ width: 660, ml: 2.7 }} />
 
           <TextField
             name="description"
             label="Summary"
             placeholder="e.g. Here goes the description"
+            sx={{ width: 660, ml: 2.7 }}
           />
 
           <AutocompleteField<Department>
@@ -45,10 +56,11 @@ const AddMonitoringToolForm: FC = () => {
             id="combo-box-demo1"
             options={departmentsOptions}
             getOptionLabel={(option) => (option as Department).name}
-            fullWidth
+            sx={{ width: 660, ml: 2.7 }}
             onChange={(event, value) => {
-              const values = value as Department[];
-              setFieldValue("departmentsIdes", values);
+              const selectedDepartment = value as Department[];
+              setSelectedDepartment(selectedDepartment);
+              setFieldValue("departmentsIdes", selectedDepartment);
             }}
           />
 
@@ -56,12 +68,9 @@ const AddMonitoringToolForm: FC = () => {
             left={fields}
             getOptionLabel={(option) => option.content}
             loading={!fields || fields.length === 0}
-            onTransfer={(left, right) => {
-              console.log({
-                left,
-                right,
-              });
-              setFieldValue("fields", right); // FIXME
+            onTransfer={(right) => {
+              const rightIds = right.map((item) => item.id);
+              setFieldValue("fieldsIdes", rightIds);
             }}
           />
         </Stack>
@@ -76,6 +85,7 @@ const AddMonitoringToolForm: FC = () => {
           aria-label="Add MT"
           loading={isAdding}
           loadingPosition="start"
+          sx={{ ml: 5.5 }}
         >
           Add
         </LoadingButton>
