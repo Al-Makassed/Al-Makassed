@@ -41,6 +41,7 @@ const MonitoringToolViewDialog: FC = () => {
 
   const handleCloseDialog = () => {
     onCloseDialog();
+    isEditingMode && onToggleEditMode();
   };
 
   const handleDeleteButtonClicked = () => setIsConfirmDialogOpen(true);
