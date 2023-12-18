@@ -1,19 +1,18 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline";
 import { LoadingButton } from "@mui/lab";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { FormikProvider } from "formik";
 import { FC } from "react";
 import TextField from "src/components/Fields/TextField";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import MaqasidDialog from "../../../components/MaqasidDialog";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import useUpdateMonitoringToolForm from "../hooks/useUpdateMonitoringToolForm";
 import { DialogBodyAndFooterProps } from "../types";
 import DatesChips from "./DatesChips";
 import DepartmentsSection from "./DepartmentsSection";
-import DescriptionSection from "./DescriptionSection";
 import FieldsSection from "./FieldsSection";
 import SectionHeader from "./SectionHeader";
-import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 
 const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   monitoringTool,
@@ -52,21 +51,24 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
             lastModified={monitoringTool.lastModified}
           />
 
-          {isEditingMode ? (
-            <Stack gap={3}>
-              <Stack gap={2}>
-                <SectionHeader title="Name" />
-                <TextField name="name" />
-              </Stack>
-
-              <Stack gap={2}>
-                <SectionHeader title="Description" />
-                <TextField name="description" multiline />
-              </Stack>
+          {/* Name Section */}
+          {isEditingMode && (
+            <Stack gap={2}>
+              <SectionHeader title="Name" />
+              <TextField name="name" />
             </Stack>
-          ) : (
-            <DescriptionSection monitoringTool={monitoringTool} />
           )}
+
+          {/* Description Section */}
+          <>
+            <SectionHeader title="Description" />
+            {isEditingMode && <TextField name="description" multiline />}
+            {!isEditingMode && (
+              <Typography variant="body1" paragraph>
+                {monitoringTool.description}
+              </Typography>
+            )}
+          </>
 
           <FieldsSection fields={monitoringTool.fields} />
 

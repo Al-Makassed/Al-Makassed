@@ -8,7 +8,7 @@ import ConfirmDialog from "src/components/ConfirmDialog";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { teal } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/AddCircleOutline";
-import AssignDepartmentDialog from "./AssignDepartmentDialog";
+import AssignDepartmentDialog from "./AssignDepartmentsDialog";
 import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 
 const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
@@ -47,7 +47,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
     <>
       <SectionHeader title="Departments" />
 
-      <Box flexDirection={"row"} width={"100 vw"} boxSizing={"border-box"}>
+      <Box flexDirection="row" width="100 vw" boxSizing="border-box">
         {departments &&
           departments.map((department) =>
             isEditingMode ? (
@@ -71,8 +71,8 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
           )}
         {isEditingMode && (
           <Chip
-            label={"Assign More Departments"}
-            icon={<AddIcon sx={{ fontSize: "1.2rem" }} />}
+            label="Assign More Departments"
+            icon={<AddIcon sx={{ fontSize: "1.2rem" }} color="primary" />}
             sx={{
               width: "fit-content",
               pl: 0.5,
