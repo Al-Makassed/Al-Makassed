@@ -1,13 +1,13 @@
-import { Grid, Stack, Typography } from "@mui/material";
+import { Grid, Paper, Stack, Typography } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { selectUser } from "src/features/user";
-import { useAppSelector } from "src/store/hooks";
 import FinishedSubmissions from "./components/FinishedSubmissions";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import SubmissionForm from "./components/SubmissionForm";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
+import { selectUser } from "src/features/user";
+import { useAppSelector } from "src/store/hooks";
 
 const TaskSubmission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -32,51 +32,74 @@ const TaskSubmission: FC = () => {
     monitoringTool: { name },
   } = focalPointTask;
 
+  if (isFinished) return <FinishedSubmissions />;
+
   return (
     <Grid
       container
       sx={{
         bgcolor: "grey.100",
-        p: 3,
+        p: { xs: 2, md: 3 },
+        height: "calc(100vh - 64px)",
       }}
     >
-      {isFinished && <FinishedSubmissions />}
-      {!isFinished && (
-        <>
-          <Typography component="h1" variant="h4" gutterBottom>
-            {name}
-          </Typography>
-          <Grid container gap={2} sx={{ position: "relative" }}>
-            <Grid
-              item
-              xs={8}
-              sx={{
-                pr: 2,
-                overflowY: "auto",
-                ...theme.mixins.niceScroll(),
-              }}
-            >
-              <SubmissionForm focalPointTask={focalPointTask} />
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{
-                position: "absolute",
-                bgcolor: "antiquewhite",
-                right: 0,
-                top: 0,
-                height: "100%",
-                width: "100%",
-              }}
-            >
-              <Stack sx={{ p: 2, position: "sticky", top: 0 }}>
-                Sticky content
-              </Stack>
-            </Grid>
-          </Grid>
-        </>
-      )}
+      <Typography component="h1" variant="h5" gutterBottom fontWeight="500">
+        {name}
+      </Typography>
+      <Grid
+        container
+        sx={{
+          height: "calc(100vh - 64px - 48px - 43px)",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: { xs: "column-reverse", md: "space-between" },
+        }}
+        justifyContent="space-between"
+      >
+        <Grid
+          item
+          xs={12}
+          md={8}
+          sx={{
+            pr: 1,
+            height: "100%",
+            overflowY: "auto",
+            ...theme.mixins.niceScroll(),
+          }}
+        >
+          <SubmissionForm focalPointTask={focalPointTask} />
+        </Grid>
+
+        <Grid
+          item
+          display={{ xs: "none", md: "block" }}
+          md={4}
+          sx={{
+            overflowY: "auto",
+            height: "100%",
+            ...theme.mixins.niceScroll(),
+            pl: 2,
+            pr: 1,
+          }}
+        >
+          <Stack gap={2}>
+            <Paper sx={{ p: 2 }} variant="outlined">
+              This is a paper
+            </Paper>
+            <Paper sx={{ p: 2 }} variant="outlined">
+              This is another paper
+            </Paper>
+            <Paper sx={{ p: 2 }} variant="outlined">
+              Here goes another paper
+            </Paper>
+            <Paper sx={{ p: 2, height: "240px" }} variant="outlined">
+              This is a long paper
+            </Paper>
+            <Paper sx={{ p: 2, height: "240px" }} variant="outlined">
+              This is a long paper
+            </Paper>
+          </Stack>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
