@@ -22,7 +22,8 @@ const FieldCard: FC<FieldCardProps> = ({ field, onAnswerChange }) => {
   return (
     <Paper
       sx={{
-        p: 3,
+        px: 2,
+        py: 1,
         // width: { md: 600 },
       }}
       variant="outlined"
@@ -40,8 +41,16 @@ const FieldCard: FC<FieldCardProps> = ({ field, onAnswerChange }) => {
           onChange={handleAnswerChange}
           sx={{ gap: 3 }}
         >
-          <FormControlLabel value="true" control={<Radio />} label="Yes" />
-          <FormControlLabel value="false" control={<Radio />} label="No" />
+          <FormControlLabel
+            value="true"
+            control={<Radio size="small" />}
+            label="Yes"
+          />
+          <FormControlLabel
+            value="false"
+            control={<Radio size="small" />}
+            label="No"
+          />
         </RadioGroup>
       </FormControl>
     </Paper>

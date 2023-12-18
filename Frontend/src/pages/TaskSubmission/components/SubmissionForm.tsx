@@ -12,7 +12,11 @@ const SubmissionForm: FC<SubmissionFormProps> = ({ focalPointTask }) => {
 
   const { addSubmission, isSubmitting } = useSubmitFocalPointTask();
 
-  const formFields = focalPointTask.monitoringTool.fields;
+  const {
+    id,
+    monitoringTool: { fields },
+    departmentId,
+  } = focalPointTask;
 
   const handleAnswerChange = (fieldId: string, answer: boolean) => {
     setAnswers((prevAnswers) => [...prevAnswers, { fieldId, answer }]);
@@ -20,22 +24,22 @@ const SubmissionForm: FC<SubmissionFormProps> = ({ focalPointTask }) => {
 
   const handleSubmit = () => {
     addSubmission({
-      departmentId: focalPointTask.departmentId,
-      focalPointTaskId: focalPointTask.id,
+      departmentId,
+      focalPointTaskId: id,
       answers,
     });
   };
 
   const checkAllFieldsAreAnswered = () => {
-    return focalPointTask.monitoringTool.fields.every((field) =>
+    return fields.every((field) =>
       answers.find((answer) => answer.fieldId === field.id),
     );
   };
 
   return (
-    <Stack gap={2} sx={{ height: "100%" }}>
+    <Stack gap={2}>
       <Stack gap={2} sx={{ width: "100%" }}>
-        {formFields.map((field) => (
+        {fields.map((field) => (
           <FieldCard
             key={field.id}
             field={field}
@@ -43,8 +47,8 @@ const SubmissionForm: FC<SubmissionFormProps> = ({ focalPointTask }) => {
           />
         ))}
       </Stack>
-      {/* <Box sx={{ flexGrow: 1 }} /> */}
-      <Stack sx={{ mt: "auto" }}>
+
+      <Stack sx={{ mt: "auto", mb: 1 }}>
         <LoadingButton
           type="submit"
           variant="contained"
