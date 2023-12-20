@@ -5,6 +5,9 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
+const ProvedChapterContent = lazy(
+  () => import("src/pages/ProvedChapterContent"),
+);
 const DefaultView = lazy(
   () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
 );
@@ -67,6 +70,10 @@ const AppRoutes: FC = () => {
               />
               <Route path="add" element={<AddMonitoringToolForm />} />
             </Route>
+            <Route
+              path="approvel-requests"
+              element={<ProvedChapterContent />}
+            />
           </Route>
         </Route>
 
