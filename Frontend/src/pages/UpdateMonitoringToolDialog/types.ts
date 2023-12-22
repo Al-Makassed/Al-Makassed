@@ -44,3 +44,11 @@ export interface MonitoringToolDialogState {
 export type MonitoringToolsReducerAction =
   | { type: "SetIsEditingMode" }
   | { type: "SetOpenDialog"; payload: DialogName };
+
+export interface AddFieldsToMTFormPayload {
+  fieldsIdes: string[];
+}
+
+export interface AppendFieldsDialogProps {
+  existedFields: Field[];
+}

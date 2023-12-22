@@ -128,7 +128,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
         ]}
       />
 
-      <AppendFieldsDialog />
+      <AppendFieldsDialog existedFields={fields} />
     </>
   );
 };

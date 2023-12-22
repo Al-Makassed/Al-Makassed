@@ -1,3 +1,5 @@
+import { AddFieldToMonitoringToolRequest } from "./API/types";
+
 export const MONITORING_TOOL_QUERY_KEY = ["MonitoringTool"];
 
 export enum DialogName {
@@ -5,3 +7,8 @@ export enum DialogName {
   AppendField = "AppendField",
   AssignDepartment = "AssignDepartment",
 }
+
+export const addFieldToMTInitialValues: AddFieldToMonitoringToolRequest = {
+  monitoringToolId: "",
+  fieldsIdes: [],
+};
