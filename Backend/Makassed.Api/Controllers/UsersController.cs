@@ -1,5 +1,7 @@
 ﻿using Makassed.Api.Services.Users;
+using Makassed.Contracts.General;
 using Makassed.Contracts.User;
+using Makassed.Contracts.User.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -80,18 +82,35 @@ public class UsersController : ApiController
     }
 
     // update user's department
-    [HttpPut("{id}")]
+    [HttpPut("{id}/update-user-department")]
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> UpdateUserDepartment(string id, [FromBody] Guid departmentId)
+    public async Task<IActionResult> UpdateUserDepartment(string id, UpdateUserDepartmentRequest request)
     {
-        var userResult = await _userService.UpdateUserDepartmentAsync(id, departmentId);
+        var userResult = await _userService.UpdateUserDepartmentAsync(id, request.DepartmentId);
 
         return userResult.Match(
+            Ok,
+            Problem
+        );
+    }
+
+    // update user's roles
+    [HttpPut("{id}/update-user-roles")]
+    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin, Sub-Admin")]
+    public async Task<IActionResult> UpdateUserRoles(string id, UpdateUserRolesRequest request)
+    {
+        var updateUserRolesResult = await _userService.UpdateUserRolesAsync(id, request);
+
+        return updateUserRolesResult.Match(
             Ok,
             Problem
         );
