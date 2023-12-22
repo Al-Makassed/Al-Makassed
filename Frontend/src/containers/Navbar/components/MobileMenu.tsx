@@ -1,12 +1,13 @@
-import React, { FC, MouseEvent, useState } from "react";
+import SegmentIcon from "@mui/icons-material/Segment";
+import { ListItemButton, ListItemText } from "@mui/material";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import { FC, MouseEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NAVBAR_PAGES } from "../constants";
-import SegmentIcon from "@mui/icons-material/Segment";
 
 const MobileMenu: FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -19,6 +20,9 @@ const MobileMenu: FC = () => {
     setAnchorElNav(null);
   };
 
+  const navigate = useNavigate();
+  const handleNavigate = (page: string) => () => navigate(page);
+
   return (
     <Box
       sx={{
@@ -28,7 +32,6 @@ const MobileMenu: FC = () => {
     >
       <Tooltip title="navigate to" enterDelay={1000} enterNextDelay={1000}>
         <IconButton
-          // size="large"
           aria-label="account of current user"
           aria-controls="menu-appbar"
           aria-haspopup="true"
@@ -47,13 +50,21 @@ const MobileMenu: FC = () => {
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         open={Boolean(anchorElNav)}
         onClose={handleCloseNavMenu}
-        sx={{
-          display: { xs: "block", md: "none" },
-        }}
+        sx={{ display: { xs: "block", md: "none" } }}
       >
         {NAVBAR_PAGES.map((page) => (
-          <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-            <Typography textAlign="center">{page.name}</Typography>
+          <MenuItem
+            key={page.name}
+            onClick={handleCloseNavMenu}
+            sx={{ color: (theme) => theme.palette.Black }}
+          >
+            <ListItemButton
+              key={page.name}
+              sx={{ textTransform: "none", p: 0 }}
+              onClick={handleNavigate(page.path)}
+            >
+              <ListItemText primary={page.name} />
+            </ListItemButton>
           </MenuItem>
         ))}
       </Menu>

@@ -43,7 +43,6 @@ const Navbar = () => {
         <Avatar
           alt="logo"
           sx={{
-            display: { xs: "none", md: "flex" },
             cursor: "pointer",
           }}
           src={maqasidLogo}
