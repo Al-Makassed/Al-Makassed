@@ -1,8 +1,7 @@
-import * as React from "react";
-import AddChapterDialog from "./Sidebar/components/AddChapterDialog";
-import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { Button, Stack } from "@mui/material";
 import { useState } from "react";
+import AddChapterDialog from "./Sidebar/components/AddChapterDialog";
 
 const AddChapterButton = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -12,7 +11,7 @@ const AddChapterButton = () => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   return (
-    <>
+    <Stack sx={{ alignItems: "flex-end", pr: 3 }}>
       <Button
         sx={{ padding: 2 }}
         variant="contained"
@@ -22,7 +21,7 @@ const AddChapterButton = () => {
         Add Chapter
       </Button>
       <AddChapterDialog open={isDialogOpen} onClose={handleCloseDialog} />
-    </>
+    </Stack>
   );
 };
 
