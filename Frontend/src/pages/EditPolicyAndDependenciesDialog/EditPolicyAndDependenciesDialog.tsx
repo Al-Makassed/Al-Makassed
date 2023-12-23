@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import FormsList from "./components/FormsList";

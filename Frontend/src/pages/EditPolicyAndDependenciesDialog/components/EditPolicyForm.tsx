@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import { Stack } from "@mui/material";
 import { FormikProvider } from "formik";
@@ -50,7 +50,8 @@ const EditPolicyForm: FC<EditPolicyFormProps> = ({
 
         <FileDropzoneField name="newMainFile" />
 
-        <TextField name="newSummary" label="Summary" />
+        <TextField name="newSummary" label="Summary" multiline />
+
         <LoadingButton
           fullWidth
           onClick={handleSubmitForm}
