@@ -13,11 +13,12 @@ const DepartmentDetails = () => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   return (
-    <Stack gap={2.5}>
+    <Stack gap={1.5}>
       <Button
         startIcon={<AddIcon />}
-        variant="outlined"
+        variant="contained"
         onClick={handleOpenDialog}
+        sx={{ width: "fit-content" }}
       >
         Department
       </Button>

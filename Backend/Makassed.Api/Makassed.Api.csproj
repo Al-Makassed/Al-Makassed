@@ -35,14 +35,5 @@
     <ProjectReference Include="..\Makassed.Contracts\Makassed.Contracts.csproj" />
     <ProjectReference Include="..\Makassed.Email.Service\Makassed.Email.Service.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Avatars\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Files\New Note 2023-02-25 23-00-17.pdf" />
-    <None Remove="Files\SQL2022-SSEI-Dev.exe" />
-  </ItemGroup>
   
 </Project>

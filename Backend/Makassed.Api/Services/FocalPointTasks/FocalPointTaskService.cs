@@ -95,7 +95,7 @@ public class FocalPointTaskService : IFocalPointTaskService
             return Errors.User.Unauthorized;
 
         // Check if the focal point task is assigned to the department
-        var focalPointTask = department.FocalPointTasks.FirstOrDefault(fpt => fpt.DepartmentId == departmentId);
+        var focalPointTask = department.FocalPointTasks.FirstOrDefault(fpt => fpt.Id == taskId);
 
         if (focalPointTask is null)
             return Errors.FocalPointTask.NotAssignedToDepartment;
@@ -128,7 +128,7 @@ public class FocalPointTaskService : IFocalPointTaskService
         };
 
         focalPointTask.TotalSubmissions++;
-        focalPointTask.IsFinished = focalPointTask.TotalSubmissions > 14;
+        focalPointTask.IsFinished = focalPointTask.TotalSubmissions >= 14;
 
         var addedSubmission = await _submissionRepository.AddSubmission(submission);
 

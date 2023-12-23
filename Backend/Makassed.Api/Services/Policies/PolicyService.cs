@@ -45,11 +45,19 @@ public class PolicyService : IPolicyService
     }
 
     // check if policy belongs to the chapter
-    private async Task<bool> CheckPolicyBelongsToChapter(Guid chapterId, Guid policyId)
+    private async Task<ErrorOr<bool>> CheckPolicyBelongsToChapter(Guid chapterId, Guid policyId)
     {
+        var chapter = await _chapterRepository.GetChapterByIdAsync(chapterId);
+
+        if (chapter is null)
+            return Errors.Chapter.NotFound;
+        
         var policy = await _policyRepository.GetPolicyByIdAsync(policyId);
 
-        return policy?.ChapterId == chapterId;
+        if (policy is null)
+            return Errors.Policy.NotFound;
+
+        return chapter.Policies.Contains<Policy>(policy);
     }
 
     public async Task<ErrorOr<List<Policy>>> GetPoliciesAsync(SieveModel sieveModel, Guid chapterId)
@@ -126,8 +134,10 @@ public class PolicyService : IPolicyService
 
     public async Task<ErrorOr<Updated>> UpdatePolicyAsync(Guid chapterId, Guid id, Policy policy)
     {
-        if (await CheckPolicyBelongsToChapter(chapterId, id))
-            return Errors.Policy.DoesNotBelongToChapter;
+        var checkBelongingResult = await CheckPolicyBelongsToChapter(chapterId, id);
+        
+        if (checkBelongingResult.IsError)
+            return checkBelongingResult.Errors;
 
         policy.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policy.MainFile);
         policy.PageCount = _localFileStorageService.GetPdfFilePageCount(policy.MainFile);

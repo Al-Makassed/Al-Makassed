@@ -16,6 +16,10 @@ const drawerWidth = 300;
 const SystemSidebar = () => {
   const navigate = useNavigate();
   const handleClickDepartment = () => {
+    navigate(`department`);
+  };
+
+  const handleClickField = () => {
     navigate(`dep`);
   };
   return (
@@ -49,6 +53,19 @@ const SystemSidebar = () => {
                 sx={{ color: (theme) => theme.palette.text.primary }}
               >
                 Departments
+              </Typography>
+            </ListItemButton>
+
+            <ListItemButton onClick={handleClickField}>
+              <ListItemIcon sx={{ mr: -2.5 }}>
+                <SendIcon />
+              </ListItemIcon>
+
+              <Typography
+                fontWeight={500}
+                sx={{ color: (theme) => theme.palette.text.primary }}
+              >
+                Fields
               </Typography>
             </ListItemButton>
 

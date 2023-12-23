@@ -7,6 +7,7 @@ const initialState: UserState = {
   userName: "",
   fullName: "",
   email: "",
+  departmentId: "",
   roles: [""],
   phoneNumber: "",
   avatarUrl: "",
@@ -23,6 +24,7 @@ export const userSlice = createSlice({
         userName,
         fullName,
         email,
+        departmentId,
         roles,
         phoneNumber,
         avatarUrl,
@@ -32,6 +34,7 @@ export const userSlice = createSlice({
       state.userName = userName;
       state.fullName = fullName;
       state.email = email;
+      state.departmentId = departmentId;
       state.roles = roles;
       state.phoneNumber = phoneNumber;
       state.avatarUrl = avatarUrl;

@@ -1,16 +1,16 @@
 import { MonitoringTool } from "../API/types";
+import { MonitoringToolsDialog } from "../constants";
 
 export interface MonitoringToolsContextValue {
   state: MonitoringToolsState;
   onOpenMTViewDialog: (monitoringTool: MonitoringTool) => void;
-  onCloseMTViewDialog: () => void;
   onOpenAddFieldDialog: () => void;
-  onCloseAddFieldDialog: () => void;
+  onOpenAddMonitoringToolDialog: () => void;
+  onCloseDialog: () => void;
 }
 
 export interface MonitoringToolsState {
-  isMTViewDialogOpen: boolean;
-  isAddFieldDialogOpen: boolean;
+  openedDialog: MonitoringToolsDialog | null;
   selectedMonitoringTool: MonitoringTool | null;
 }
 
@@ -20,7 +20,7 @@ export type MonitoringToolsReducerAction =
 
 export enum MonitoringToolsReducerActionType {
   OpenMonitoringToolsViewDialog,
-  CloseMonitoringToolsViewDialog,
   OpenAddFieldDialog,
-  CloseAddFieldDialog,
+  OpenAddMonitoringToolDialog,
+  CloseDialog,
 }

@@ -27,6 +27,7 @@ public class TokenService : ITokenService
             new Claim(MakassedClaimTypes.FullName, user.FullName), // The user's full name.
             new Claim(MakassedClaimTypes.UserName, user.UserName ?? String.Empty), // The user's given name, (e.g. username)
             new Claim(MakassedClaimTypes.Email, user.Email ?? String.Empty),
+            new Claim(MakassedClaimTypes.DepartmentId, user.DepartmentId.ToString()),
             new Claim(MakassedClaimTypes.PhoneNumber, user.PhoneNumber ?? String.Empty),
             new Claim(MakassedClaimTypes.AvatarUrl, user.AvatarUrl ?? String.Empty),
         };

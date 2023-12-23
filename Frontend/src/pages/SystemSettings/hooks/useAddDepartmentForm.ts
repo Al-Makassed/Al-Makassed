@@ -2,12 +2,12 @@ import { useFormik } from "formik";
 import validationSchema from "../schema";
 import { initialValues } from "../constants";
 import useAddDepartmentAPI from "./useAddDepartmentAPI";
-import { Department } from "../API/type";
+import { getDepartment } from "../API/type";
 
 const useAddDepartmentForm = () => {
   const { addNewDepartment, isPending } = useAddDepartmentAPI();
 
-  const submitForm = (values: Department) => {
+  const submitForm = (values: getDepartment) => {
     addNewDepartment(values.name);
   };
 

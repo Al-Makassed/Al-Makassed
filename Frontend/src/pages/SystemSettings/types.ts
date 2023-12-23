@@ -8,3 +8,9 @@ export interface AddDepartmentDialogProps {
 export interface DepartmentListItemProps {
   department: Department;
 }
+
+export interface EditDepartmentFormValues {
+  id: string;
+  name: string;
+  headId: string;
+}

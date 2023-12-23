@@ -5,6 +5,10 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
+const DefaultView = lazy(
+  () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
+);
+const TaskSubmission = lazy(() => import("src/pages/TaskSubmission"));
 const LoginPage = lazy(() => import("src/pages/Login"));
 const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
@@ -18,6 +22,9 @@ const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
 const DepartmentDetails = lazy(
   () => import("src/pages/SystemSettings/components/DepartmentDetails"),
+);
+const AddMonitoringToolForm = lazy(
+  () => import("src/pages/AddMonitoringToolDialog"),
 );
 const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
@@ -42,27 +49,32 @@ const AppRoutes: FC = () => {
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
             <Route path="settings" element={<SystemSettings />}>
-              <Route path="dep" element={<DepartmentDetails />} />
+              <Route path="department" element={<DepartmentDetails />} />
             </Route>
 
             <Route
               path="policies-and-procedures"
               element={<PoliciesAndProcedures />}
             >
+              <Route path="" element={<DefaultView />} />
               <Route path=":chapterId" element={<EditChapterDialog />} />
               <Route
                 path=":chapterId/policies/:policyId"
                 element={<PolicyDetails />}
               />
               <Route
-                path="edit/:chapterId/policies/:policyId"
+                path=":chapterId/policies/edit/:policyId"
                 element={<EditPolicyAndDependenciesDialog />}
               />
             </Route>
 
             <Route path="monitoring-tools">
-              <Route index path="" element={<MonitoringTools />} />
-              <Route path=":monitoringToolId" element={<h1>one MT</h1>} />
+              <Route index element={<MonitoringTools />} />
+              <Route
+                path="task/:focalPointTaskId"
+                element={<TaskSubmission />}
+              />
+              <Route path="add" element={<AddMonitoringToolForm />} />
             </Route>
           </Route>
         </Route>

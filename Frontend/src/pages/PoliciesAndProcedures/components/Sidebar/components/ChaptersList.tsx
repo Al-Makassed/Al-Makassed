@@ -5,22 +5,18 @@ import { Chapter } from "../API/types";
 import LoaderCell from "src/components/LoaderCell";
 import useFetchChapters from "../hooks/useGetChapters";
 import { useAppSelector } from "src/store/hooks";
-// import { selectIsSidebarOpen } from "src/features/appSettings";
-import { selectIsAdminUser, selectIsSubAdminUser } from "src/features/user";
+import { selectIsManagerUser } from "src/features/user";
 import useSidebarContext from "src/pages/PoliciesAndProcedures/context/useSidebar";
 
 const ChaptersList = () => {
-  // const isSidebarOpen = useAppSelector(selectIsSidebarOpen);
   const {
     state: { isSidebarOpen },
-    // openSidebar,
-    // closeSidebar,
   } = useSidebarContext();
 
   const { chapters, isFetching } = useFetchChapters(isSidebarOpen);
 
-  const isAdmin = useAppSelector(selectIsAdminUser);
-  const isSubAdmin = useAppSelector(selectIsSubAdminUser);
+  const isManager = useAppSelector(selectIsManagerUser);
+
   if (isFetching) return <LoaderCell size={38} />;
 
   return (
@@ -34,7 +30,7 @@ const ChaptersList = () => {
     >
       {chapters?.map(
         (chapter: Chapter) =>
-          (isAdmin || isSubAdmin || chapter.enableState) && (
+          (isManager || chapter.enableState) && (
             <ChapterListItem key={chapter.id} chapter={chapter} />
           ),
       )}

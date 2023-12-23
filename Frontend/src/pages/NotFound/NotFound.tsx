@@ -36,11 +36,7 @@ const NotFound: FC = () => {
         >
           Oops! Page not found
         </Typography>
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={2}
-          sx={{ mt: 4 }}
-        >
+        <Stack direction={{ xs: "column", md: "row" }} gap={2} sx={{ mt: 4 }}>
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={backToPreviousPage}

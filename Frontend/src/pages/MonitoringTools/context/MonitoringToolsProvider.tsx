@@ -7,19 +7,13 @@ import {
   MonitoringToolsReducerAction,
   MonitoringToolsReducerActionType,
 } from "./types";
+import { MonitoringToolsDialog } from "../constants";
 
 const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const onOpenAddFieldDialog = useCallback(
-    () =>
-      dispatch({ type: MonitoringToolsReducerActionType.OpenAddFieldDialog }),
-    [],
-  );
-
-  const onCloseAddFieldDialog = useCallback(
-    () =>
-      dispatch({ type: MonitoringToolsReducerActionType.CloseAddFieldDialog }),
+  const onCloseDialog = useCallback(
+    () => dispatch({ type: MonitoringToolsReducerActionType.CloseDialog }),
     [],
   );
 
@@ -32,10 +26,16 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
     [],
   );
 
-  const onCloseMTViewDialog = useCallback(
+  const onOpenAddFieldDialog = useCallback(
+    () =>
+      dispatch({ type: MonitoringToolsReducerActionType.OpenAddFieldDialog }),
+    [],
+  );
+
+  const onOpenAddMonitoringToolDialog = useCallback(
     () =>
       dispatch({
-        type: MonitoringToolsReducerActionType.CloseMonitoringToolsViewDialog,
+        type: MonitoringToolsReducerActionType.OpenAddMonitoringToolDialog,
       }),
     [],
   );
@@ -43,9 +43,9 @@ const MonitoringToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const contextValue: MonitoringToolsContextValue = {
     state,
     onOpenAddFieldDialog,
-    onCloseAddFieldDialog,
     onOpenMTViewDialog,
-    onCloseMTViewDialog,
+    onOpenAddMonitoringToolDialog,
+    onCloseDialog,
   };
 
   return (
@@ -63,27 +63,26 @@ export const reducer = (
     case MonitoringToolsReducerActionType.OpenAddFieldDialog:
       return {
         ...state,
-        isAddFieldDialogOpen: true,
-      };
-
-    case MonitoringToolsReducerActionType.CloseAddFieldDialog:
-      return {
-        ...state,
-        isAddFieldDialogOpen: false,
+        openedDialog: MonitoringToolsDialog.AddField,
       };
 
     case "OpenMonitoringToolsViewDialog":
       return {
         ...state,
-        isMTViewDialogOpen: true,
+        openedDialog: MonitoringToolsDialog.MonitoringTool,
         selectedMonitoringTool: action.payload,
       };
 
-    case MonitoringToolsReducerActionType.CloseMonitoringToolsViewDialog:
+    case MonitoringToolsReducerActionType.OpenAddMonitoringToolDialog:
       return {
         ...state,
-        isMTViewDialogOpen: false,
-        selectedMonitoringTool: null,
+        openedDialog: MonitoringToolsDialog.AddMonitoringTool,
+      };
+
+    case MonitoringToolsReducerActionType.CloseDialog:
+      return {
+        ...state,
+        openedDialog: null,
       };
 
     default:

@@ -37,8 +37,8 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
           isOpen={open}
           onClose={handleCloseDialog}
           onClosed={() => resetForm()}
-          disableBackdropClick
-          disableEscapeKeyDown
+          disableBackdropClick={dirty}
+          disableEscapeKeyDown={dirty}
           // variant="right"
         >
           <MaqasidDialog.Header>

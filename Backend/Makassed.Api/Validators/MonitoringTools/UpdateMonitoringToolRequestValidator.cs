@@ -14,13 +14,5 @@ public class UpdateMonitoringToolRequestValidator : AbstractValidator<UpdateMoni
         RuleFor(m => m.Description)
             .NotEmpty()
             .WithMessage("Description is required.");
-
-        RuleFor(m => m.FieldsIdes)
-            .NotEmpty()
-            .WithMessage("At least one field is required.");
-
-        RuleFor(m => m.DepartmentsIdes)
-            .NotEmpty()
-            .WithMessage("At least one department is required.");
     }
 }
