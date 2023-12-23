@@ -1,10 +1,11 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+// import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import {
   Button,
   IconButton,
   List,
-  ListItemButton,
+  ListItem,
   ListItemIcon,
   ListItemText,
   Stack,
@@ -71,6 +72,21 @@ const EditChapterDialog: FC = () => {
 
   const closeMainDialog = () => setIsOpen(false);
 
+  const DeleteChapterButton = () => {
+    return (
+      <Tooltip title="Delete Chapter">
+        <IconButton
+          aria-label="Delete Policy"
+          color="error"
+          onClick={openConfirmDeleteChapterDialog}
+          size="small"
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
   return (
     <>
       {!!chapter && (
@@ -78,13 +94,12 @@ const EditChapterDialog: FC = () => {
           isOpen={isOpen}
           onClose={closeMainDialog}
           onClosed={navigateToChapters}
-          // disableBackdropClick
-          // disableEscapeKeyDown
           variant="right"
         >
           <MaqasidDialog.Header>
-            <MaqasidDialog.Title title={`Chapter: ${chapter.name}`} />
+            <MaqasidDialog.Title title={chapter.name} />
             <MaqasidDialog.Actions>
+              <DeleteChapterButton />
               <MaqasidDialog.Fullscreen />
               <MaqasidDialog.Close />
             </MaqasidDialog.Actions>
@@ -92,16 +107,6 @@ const EditChapterDialog: FC = () => {
           <MaqasidDialog.Body niceScroll>
             <Stack gap={3}>
               <EditChapterForm chapter={chapter!} />
-
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<DeleteIcon />}
-                size="small"
-                onClick={openConfirmDeleteChapterDialog}
-              >
-                Delete Chapter
-              </Button>
 
               <Stack sx={{ mt: 1 }} gap={1}>
                 <Stack
@@ -113,15 +118,20 @@ const EditChapterDialog: FC = () => {
                   </Typography>
 
                   <Tooltip title="Delete All">
-                    <IconButton
+                    <Button
+                      variant="text"
+                      startIcon={<DeleteIcon />}
                       color="error"
                       aria-label="Delete All"
-                      onClick={openConfirmDeleteAllPoliciesDialog}
-                      sx={{ mr: 2 }}
                       disabled={chapter?.policies?.length === 0}
+                      onClick={openConfirmDeleteAllPoliciesDialog}
+                      sx={{
+                        textTransform: "none",
+                        flexDirection: { xs: "column", sm: "row" },
+                      }}
                     >
-                      <DeleteIcon />
-                    </IconButton>
+                      Delete All
+                    </Button>
                   </Tooltip>
                 </Stack>
 
@@ -134,22 +144,37 @@ const EditChapterDialog: FC = () => {
                   disablePadding
                 >
                   {chapter?.policies?.map((policy, index) => (
-                    <ListItemButton key={index} sx={{ pl: 4 }}>
+                    <ListItem
+                      key={index}
+                      sx={{ pl: 3, gap: { xs: 0, sm: 2.5 } }}
+                    >
                       <ListItemIcon
-                        sx={{ color: (theme) => theme.palette.error.main }}
+                        sx={{
+                          minWidth: "fit-content",
+                          display: { xs: "none", sm: "inline" },
+                        }}
                       >
-                        <PictureAsPdfIcon />
+                        {/* <PictureAsPdfIcon /> */}
+                        <AssuredWorkloadIcon />
                       </ListItemIcon>
-                      <ListItemText primary={policy.name} />
+
+                      <ListItemText
+                        primary={policy.name}
+                        sx={{ wordWrap: "break-word", hyphens: "auto" }}
+                      />
+
                       <Tooltip title="Delete">
                         <IconButton
                           aria-label="Delete Policy"
+                          size="small"
+                          color="error"
+                          sx={{ ml: "auto" }}
                           onClick={() => handleDeleteSetting(policy)}
                         >
-                          <DeleteIcon />
+                          <DeleteIcon sx={{ fontSize: "1.35rem" }} />
                         </IconButton>
                       </Tooltip>
-                    </ListItemButton>
+                    </ListItem>
                   ))}
                 </List>
               </Stack>
