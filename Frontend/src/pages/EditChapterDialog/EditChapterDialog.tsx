@@ -29,7 +29,6 @@ const EditChapterDialog: FC = () => {
 
   const navigate = useNavigate();
 
-  // Open the dialog if the route matches: /chapters/:chapterId
   const { chapterId: chapterIdParam } = useParams();
 
   const chapterId = chapterIdParam ?? "";
@@ -139,7 +138,6 @@ const EditChapterDialog: FC = () => {
                   sx={{
                     border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
                     borderRadius: (theme) => theme.shape.borderRadius,
-                    mt: 0,
                   }}
                   disablePadding
                 >
