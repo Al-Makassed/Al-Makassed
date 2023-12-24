@@ -1,13 +1,14 @@
-import { Grid, Paper, Stack, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
+import { selectUser } from "src/features/user";
+import { useAppSelector } from "src/store/hooks";
 import FinishedSubmissions from "./components/FinishedSubmissions";
+import InfoCard from "./components/InformationCard";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import SubmissionForm from "./components/SubmissionForm";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
-import { selectUser } from "src/features/user";
-import { useAppSelector } from "src/store/hooks";
 
 const TaskSubmission: FC = () => {
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
@@ -81,23 +82,7 @@ const TaskSubmission: FC = () => {
             pr: 1,
           }}
         >
-          <Stack gap={2}>
-            <Paper sx={{ p: 2 }} variant="outlined">
-              This is a paper
-            </Paper>
-            <Paper sx={{ p: 2 }} variant="outlined">
-              This is another paper
-            </Paper>
-            <Paper sx={{ p: 2 }} variant="outlined">
-              Here goes another paper
-            </Paper>
-            <Paper sx={{ p: 2, height: "240px" }} variant="outlined">
-              This is a long paper
-            </Paper>
-            <Paper sx={{ p: 2, height: "240px" }} variant="outlined">
-              This is a long paper
-            </Paper>
-          </Stack>
+          <InfoCard task={focalPointTask} />
         </Grid>
       </Grid>
     </Grid>

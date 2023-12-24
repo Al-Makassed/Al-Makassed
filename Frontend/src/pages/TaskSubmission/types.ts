@@ -12,3 +12,7 @@ export interface FieldCardProps {
   field: Field;
   onAnswerChange: (fieldId: string, answer: boolean) => void;
 }
+
+export interface InformationCardProps {
+  task: FocalPointTask;
+}
