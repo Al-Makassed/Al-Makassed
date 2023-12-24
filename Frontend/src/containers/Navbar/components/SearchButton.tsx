@@ -6,12 +6,13 @@ import useMediaQuery from "src/hooks/useMediaQuery";
 
 const Search = styled(Button)(({ theme }) => ({
   position: "relative",
-  borderRadius: 40,
+  borderRadius: 12,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  boxShadow: "0.125rem 0.150rem 0.25rem rgba(0,0,0,.075)",
+  boxShadow:
+    "rgba(0,0,0,0.165) 0px 1px 1px inset, rgba(0,0,0,0.165) 0px 1px 0.5px",
   color: "white",
   cursor: "pointer",
   padding: "0.35rem 1.2rem",
