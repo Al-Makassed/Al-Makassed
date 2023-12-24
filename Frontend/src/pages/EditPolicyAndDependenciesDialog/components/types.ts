@@ -3,7 +3,3 @@ export interface EditPolicyFormProps {
   policyId: string;
   closeMainDialog: () => void;
 }
-
-export interface EmptyDependencyProps {
-  type: string;
-}

@@ -2,9 +2,9 @@ import { Stack, Typography } from "@mui/material";
 import Lottie from "lottie-react";
 import { FC } from "react";
 import empty from "src/animation/empty.json";
-import { EmptyDependencyProps } from "./types";
+import { EmptyListProps } from "./types";
 
-const EmptyDependency: FC<EmptyDependencyProps> = ({ type }) => {
+const EmptyList: FC<EmptyListProps> = ({ type }) => {
   return (
     <Stack alignItems="center">
       <Lottie animationData={empty} style={{ width: "100px" }} />
@@ -13,4 +13,4 @@ const EmptyDependency: FC<EmptyDependencyProps> = ({ type }) => {
   );
 };
 
-export default EmptyDependency;
+export default EmptyList;

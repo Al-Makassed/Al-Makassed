@@ -19,7 +19,7 @@ import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependenc
 import useDeleteDependency from "../hooks/useDeleteDependency";
 import { DialogName, PolicyDependencyType } from "../constants";
 import ConfirmDialog from "src/components/ConfirmDialog";
-import EmptyDependency from "./EmptyDependency";
+import EmptyDependency from "../../../components/EmptyList/EmptyList";
 
 const ProtocolsList: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
