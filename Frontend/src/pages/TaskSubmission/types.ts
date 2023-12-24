@@ -16,3 +16,9 @@ export interface FieldCardProps {
 export interface InformationCardProps {
   task: FocalPointTask;
 }
+
+export interface DetailsPanelProps {
+  value: number;
+  totalSubmissions: number;
+  description: string;
+}

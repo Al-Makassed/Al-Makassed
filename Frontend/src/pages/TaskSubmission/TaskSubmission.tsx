@@ -47,6 +47,7 @@ const TaskSubmission: FC = () => {
       <Typography component="h1" variant="h5" gutterBottom fontWeight="500">
         {name}
       </Typography>
+
       <Grid
         container
         sx={{
@@ -55,6 +56,7 @@ const TaskSubmission: FC = () => {
           justifyContent: { xs: "column-reverse", md: "space-between" },
         }}
         justifyContent="space-between"
+        mt={1.5}
       >
         <Grid
           item
