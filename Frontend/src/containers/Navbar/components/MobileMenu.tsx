@@ -37,6 +37,7 @@ const MobileMenu: FC = () => {
           aria-haspopup="true"
           onClick={handleOpenNavMenu}
           color="inherit"
+          sx={{ transform: "scaleX(-1)" }}
         >
           <SegmentIcon />
         </IconButton>
