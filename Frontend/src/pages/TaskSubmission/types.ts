@@ -1,4 +1,4 @@
-import { Field, FocalPointTask } from "./API/types";
+import { Field, FocalPointTask, Submission } from "./API/types";
 
 export interface HeaderProps {
   focalPointTask: FocalPointTask;
@@ -27,4 +27,8 @@ export interface ActivityPanelProps {
   value: number;
   focalPointTaskId: string;
   departmentId: string;
+}
+
+export interface ActivitySegmentProps {
+  submission: Submission;
 }

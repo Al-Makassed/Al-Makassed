@@ -5,6 +5,7 @@ import { Submission } from "../API/types";
 import useGetTaskSubmissions from "../hooks/useGetTaskSubmissions";
 import { ActivityPanelProps } from "../types";
 import { findCurrentMonthSubmissions, findOlderSubmissions } from "../utils";
+import ActivitySegment from "./ActivitySegment";
 
 const ActivityPanel: FC<ActivityPanelProps> = ({
   value,
@@ -47,11 +48,12 @@ const ActivityPanel: FC<ActivityPanelProps> = ({
                     : "Older"}
                 </Typography>
 
-                <Stack>
+                <Stack gap={2}>
                   {submissionsArray.map((submission) => (
-                    <Typography key={submission.id}>
-                      {submission.number}
-                    </Typography>
+                    <ActivitySegment
+                      key={submission.id}
+                      submission={submission}
+                    />
                   ))}
                 </Stack>
               </Stack>
