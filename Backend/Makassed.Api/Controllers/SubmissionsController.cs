@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Makassed.Api.Services.Submissions;
 using Makassed.Contracts.Submission;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
@@ -22,7 +23,7 @@ public class SubmissionsController : ApiController
     [ProducesResponseType(typeof(List<GetAllSubmissionBaseResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[Authorize(Roles = "Admin, Sub-Admin")]
+    [Authorize(Roles = "Admin, Sub-Admin")]
     public async Task<IActionResult> GetAllUsers([FromQuery] SieveModel sieveModel)
     {
         var submissionsResult = await _submissionService.GetAllSubmissionsAsync(sieveModel);
@@ -36,7 +37,7 @@ public class SubmissionsController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
+    [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
     public async Task<IActionResult> GetSubmission(Guid id)
     {
         var submissionResult = await _submissionService.GetSubmissionByIdAsync(id);
