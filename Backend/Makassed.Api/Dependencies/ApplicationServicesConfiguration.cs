@@ -16,6 +16,7 @@ using Services.FocalPointTasks;
 using Services.Users;
 using Services.Storage;
 using Services.ApprovalRequests;
+using Services.Submissions;
 
 public static class ApplicationServicesConfiguration
 {
@@ -42,6 +43,7 @@ public static class ApplicationServicesConfiguration
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDepartmentRepository, SqlDepartmentRepository>();
 
+        services.AddScoped<ISubmissionService, SubmissionService>();
         services.AddScoped<ISubmissionRepository, SqlSubmissionRepository>();
 
         services.AddScoped<IFocalPointTaskService, FocalPointTaskService>();

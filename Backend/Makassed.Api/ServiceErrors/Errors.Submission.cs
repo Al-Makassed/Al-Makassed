@@ -10,5 +10,10 @@ public abstract partial class Errors
             code: "Submission.NotAllFieldsAnswered",
             description: "One or more fields are not answered."
         );
+
+        public static Error NotFound => Error.NotFound(
+            code: "Submission.NotFound",
+            description: "There is no submission with the given id."
+        );
     }
 }
