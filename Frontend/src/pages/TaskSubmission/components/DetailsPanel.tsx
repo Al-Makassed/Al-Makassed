@@ -11,18 +11,22 @@ const DetailsPanel: FC<DetailsPanelProps> = ({
 }) => {
   const timeLeft = totalTimeLeftInMonth();
 
+  const submissionsLeft = 14 - totalSubmissions;
+
   return (
     <TabPanel
       value={value}
       index={0}
-      sx={{ p: 3 }}
       gap={3}
+      p={3}
+      pb={0}
       display="flex"
       flexDirection={"column"}
     >
       {/* Total Submissions Section */}
       <Box>
         <Stack
+          pb={0.3}
           direction="row"
           borderBottom={1}
           borderColor={(theme) => theme.palette.grey[300]}
@@ -45,24 +49,26 @@ const DetailsPanel: FC<DetailsPanelProps> = ({
           variant="body2"
           sx={{ mt: 2 }}
           lineHeight={1.65}
-          textAlign="justify"
+          // textAlign="justify"
         >
-          You have {14 - totalSubmissions} submissions left; they should be
-          submitted in {timeLeft}.
+          You have {submissionsLeft} submissions left;{" "}
+          {submissionsLeft === 1 ? "it" : "they"} should be submitted in{" "}
+          {timeLeft}.
         </Typography>
       </Box>
 
       {/* Description Section */}
       <Box>
-        <Stack
-          direction="row"
+        <Typography
+          variant="body1"
+          pb={0.3}
           borderBottom={1}
           borderColor={(theme) => theme.palette.grey[300]}
         >
-          <Typography variant="body1">Description</Typography>
-        </Stack>
+          Description
+        </Typography>
 
-        <Typography variant="body2" sx={{ mt: 2 }} lineHeight={1.65}>
+        <Typography variant="body2" mt={2} lineHeight={1.65}>
           {description}
         </Typography>
       </Box>

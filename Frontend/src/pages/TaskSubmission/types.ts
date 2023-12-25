@@ -22,3 +22,9 @@ export interface DetailsPanelProps {
   totalSubmissions: number;
   description: string;
 }
+
+export interface ActivityPanelProps {
+  value: number;
+  focalPointTaskId: string;
+  departmentId: string;
+}

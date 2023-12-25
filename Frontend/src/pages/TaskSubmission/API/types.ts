@@ -29,3 +29,23 @@ export interface SubmissionRequest {
   focalPointTaskId: string;
   answers: AnsweredField[];
 }
+
+export interface SubmissionLogRequest {
+  departmentId: string;
+  focalPointTaskId: string;
+}
+
+export interface Submitter {
+  id: string;
+  userName: string;
+  fullName: string;
+  avatarUrl: string;
+}
+
+export interface Submission {
+  id: string;
+  focalPointTaskId: string;
+  number: number;
+  submittedAt: string;
+  submitter: Submitter;
+}

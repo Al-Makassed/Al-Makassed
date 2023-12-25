@@ -1,3 +1,5 @@
+import { Submission } from "./API/types";
+
 /**
  * Calculate the total time (days and hours) left in the current month.
  * @returns {string} A string representing the time left in the format "X days, Y hours".
@@ -21,17 +23,48 @@ export const totalTimeLeftInMonth = (): string => {
 
   // Calculate the number of hours left
   const hoursLeft = 24 - currentDate.getHours() - 1; // Subtract 1 to account for the current hour
-  console.log(`${hoursLeft}`);
 
   // Format the result
   const formattedResult =
     daysLeft > 0
-      ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} and ${hoursLeft} hour${
-          hoursLeft !== 1 ? "s" : ""
+      ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} ${
+          hoursLeft > 0
+            ? `and ${hoursLeft} hour${hoursLeft !== 1 ? "s" : ""}`
+            : ""
         }`
       : hoursLeft > 0
         ? `${hoursLeft} hour${hoursLeft !== 1 ? "s" : ""}`
         : "Less than an hour";
 
   return formattedResult;
+};
+
+/**
+ * Finds and returns submissions that belong to the current month.
+ *
+ * @param {Submission[]} submissions - The array of submissions to filter.
+ *
+ * @return {Submission[]} - An array containing submissions that belong to the current month.
+ */
+export const findCurrentMonthSubmissions = (submissions: Submission[]) => {
+  const currentMonth = new Date().getMonth();
+  return submissions.filter(
+    (submission) =>
+      new Date(submission.submittedAt).getMonth() === currentMonth,
+  );
+};
+
+// Find older submissions
+/**
+ * Finds and returns submissions that belong to the previous months.
+ *
+ * @param {Submission[]} submissions - The array of submissions to filter.
+ *
+ * @return {Submission[]} - An array containing submissions that belong to the previous months.
+ */
+export const findOlderSubmissions = (submissions: Submission[]) => {
+  const currentMonth = new Date().getMonth();
+  return submissions.filter(
+    (submission) => new Date(submission.submittedAt).getMonth() < currentMonth,
+  );
 };

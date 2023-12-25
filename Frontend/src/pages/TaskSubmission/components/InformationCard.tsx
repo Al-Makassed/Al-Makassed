@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Box, Card, CardContent, Tab, Tabs } from "@mui/material";
 import { FC, SyntheticEvent, useState } from "react";
 import { InformationCardProps } from "../types";
+import ActivityPanel from "./ActivityPanel";
 import DetailsPanel from "./DetailsPanel";
 
 const StyledTab = styled(Tab)(() => ({
@@ -13,14 +14,16 @@ const StyledTab = styled(Tab)(() => ({
 const InformationCard: FC<InformationCardProps> = ({ task }) => {
   const [value, setValue] = useState<number>(0);
 
-  const handleChange = (event: SyntheticEvent, value: number) => {
-    setValue(value);
-  };
-
   const {
+    id,
+    departmentId,
     totalSubmissions,
     monitoringTool: { description },
   } = task;
+
+  const handleChange = (event: SyntheticEvent, value: number) => {
+    setValue(value);
+  };
 
   return (
     <Card>
@@ -41,6 +44,12 @@ const InformationCard: FC<InformationCardProps> = ({ task }) => {
           value={value}
           totalSubmissions={totalSubmissions}
           description={description}
+        />
+
+        <ActivityPanel
+          value={value}
+          departmentId={departmentId}
+          focalPointTaskId={id}
         />
       </CardContent>
     </Card>
