@@ -15,6 +15,18 @@ const SubmissionDialog: FC<SubmissionDialogProps> = ({
 }) => {
   const { submission, isFetching } = useGetSubmission(submissionId);
 
+  if (isFetching)
+    return (
+      <MaqasidDialog isOpen={isOpen} onClose={onClose}>
+        <MaqasidDialog.Header>
+          <MaqasidDialog.Title title={`Submission`} />
+        </MaqasidDialog.Header>
+        <MaqasidDialog.Body niceScroll>
+          {isFetching && <SubmissionDialogSkeleton />}
+        </MaqasidDialog.Body>
+      </MaqasidDialog>
+    );
+
   const { number, submittedAt, answers } = submission!;
 
   const submittedAtDate = formatDate(submittedAt);
@@ -36,55 +48,44 @@ const SubmissionDialog: FC<SubmissionDialogProps> = ({
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
       <MaqasidDialog.Body niceScroll>
-        {isFetching && <SubmissionDialogSkeleton />}
-        {!isFetching && (
-          <Stack>
-            {answers.map((answeredField) => (
-              <ListItem
-                key={answeredField.fieldId}
+        <Stack>
+          {answers.map((answeredField) => (
+            <ListItem
+              key={answeredField.fieldId}
+              sx={{
+                border: 1.2,
+                mb: 1.5,
+                borderRadius: 2,
+                borderColor: (theme) => theme.palette.grey[300],
+                spacing: 0,
+              }}
+            >
+              <ListItemIcon
                 sx={{
-                  border: 1.2,
-                  mb: 1.5,
-                  borderRadius: 2,
-                  borderColor: (theme) => theme.palette.grey[300],
-                  spacing: 0,
-                  // bgcolor: (theme) => theme.palette.grey[100],
-                  // bgcolor: answeredField.answer ? green[50] : red[50],
+                  mr: 0,
+                  pr: 1.5,
+                  width: "fit-content",
+                  minWidth: "fit-content",
                 }}
               >
-                <ListItemIcon
+                <FieldIcon />
+              </ListItemIcon>
+              <Stack direction="row" gap={2} width={"100%"}>
+                <Typography>{`${answeredField.field.content}`}</Typography>
+
+                <Chip
+                  label={answeredField.answer ? "Yes" : "No"}
                   sx={{
-                    mr: 0,
-                    pr: 1.5,
-                    width: "fit-content",
-                    minWidth: "fit-content",
-                  }}
-                >
-                  <FieldIcon />
-                </ListItemIcon>
-                <Stack direction="row" gap={2} width={"100%"}>
-                  <Typography>{`${answeredField.field.content}`}</Typography>
-                  {/* <Typography
-                  sx={{
-                    // color: answeredField.answer ? "green" : "red",
-                    color: "grey.600",
+                    fontSize: "0.88rem",
+                    fontWeight: 500,
                     ml: "auto",
+                    bgcolor: answeredField.answer ? green[50] : red[50],
                   }}
-                >{answeredField.answer ? "Yes" : "No"}</Typography> */}
-                  <Chip
-                    label={answeredField.answer ? "Yes" : "No"}
-                    sx={{
-                      fontSize: "0.88rem",
-                      fontWeight: 500,
-                      ml: "auto",
-                      bgcolor: answeredField.answer ? green[50] : red[50],
-                    }}
-                  />
-                </Stack>
-              </ListItem>
-            ))}
-          </Stack>
-        )}
+                />
+              </Stack>
+            </ListItem>
+          ))}
+        </Stack>
       </MaqasidDialog.Body>
     </MaqasidDialog>
   );
