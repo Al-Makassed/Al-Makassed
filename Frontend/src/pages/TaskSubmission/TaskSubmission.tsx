@@ -33,7 +33,7 @@ const TaskSubmission: FC = () => {
     monitoringTool: { name },
   } = focalPointTask;
 
-  if (isFinished) return <FinishedSubmissions />;
+  // if (isFinished) return <FinishedSubmissions />;
 
   return (
     <Grid
@@ -69,7 +69,9 @@ const TaskSubmission: FC = () => {
             ...theme.mixins.niceScroll(),
           }}
         >
-          <SubmissionForm focalPointTask={focalPointTask} />
+          {isFinished && <FinishedSubmissions />}
+
+          {!isFinished && <SubmissionForm focalPointTask={focalPointTask} />}
         </Grid>
 
         <Grid

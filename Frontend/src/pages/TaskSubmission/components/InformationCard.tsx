@@ -26,7 +26,7 @@ const InformationCard: FC<InformationCardProps> = ({ task }) => {
   };
 
   return (
-    <Card>
+    <Card sx={{ minHeight: "calc(100vh - 64px - 91px)" }}>
       <CardContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs

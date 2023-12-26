@@ -10,16 +10,16 @@ const FinishedSubmissions: FC = () => {
   return (
     <Stack
       alignItems="center"
-      height="calc(100vh - 64px)"
+      height="calc(100vh - 64px - 180px)"
       justifyContent="center"
     >
       <Box width={{ xs: "150px", sm: "300px" }}>
         <Lottie animationData={finished} style={{ width: "100%" }} />
       </Box>
       <Typography
-        variant={isMobile ? "h6" : "h4"}
+        variant={isMobile ? "h6" : "h5"}
         justifyContent="center"
-        sx={{ textAlign: "center", textAlignLast: "center", width: "70%" }}
+        sx={{ textAlign: "center", textAlignLast: "center", width: "60%" }}
       >
         You've Finished Your Submissions for This Month
       </Typography>
