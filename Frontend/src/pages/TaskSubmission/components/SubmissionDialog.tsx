@@ -6,6 +6,7 @@ import MaqasidDialog from "src/components/MaqasidDialog";
 import { formatDate } from "src/utils";
 import useGetSubmission from "../hooks/useGetSubmission";
 import { SubmissionDialogProps } from "../types";
+import SubmissionDialogSkeleton from "./SubmissionDialogSkeleton";
 
 const SubmissionDialog: FC<SubmissionDialogProps> = ({
   submissionId,
@@ -13,8 +14,6 @@ const SubmissionDialog: FC<SubmissionDialogProps> = ({
   onClose,
 }) => {
   const { submission, isFetching } = useGetSubmission(submissionId);
-
-  if (isFetching) return <Typography>Loading...</Typography>;
 
   const { number, submittedAt, answers } = submission!;
 
@@ -36,53 +35,56 @@ const SubmissionDialog: FC<SubmissionDialogProps> = ({
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
-      <MaqasidDialog.Body>
-        <Stack>
-          {answers.map((answeredField) => (
-            <ListItem
-              key={answeredField.fieldId}
-              sx={{
-                border: 1.2,
-                mb: 1.5,
-                borderRadius: 2,
-                borderColor: (theme) => theme.palette.grey[300],
-                spacing: 0,
-                // bgcolor: (theme) => theme.palette.grey[100],
-                // bgcolor: answeredField.answer ? green[50] : red[50],
-              }}
-            >
-              <ListItemIcon
+      <MaqasidDialog.Body niceScroll>
+        {isFetching && <SubmissionDialogSkeleton />}
+        {!isFetching && (
+          <Stack>
+            {answers.map((answeredField) => (
+              <ListItem
+                key={answeredField.fieldId}
                 sx={{
-                  mr: 0,
-                  pr: 1.5,
-                  width: "fit-content",
-                  minWidth: "fit-content",
+                  border: 1.2,
+                  mb: 1.5,
+                  borderRadius: 2,
+                  borderColor: (theme) => theme.palette.grey[300],
+                  spacing: 0,
+                  // bgcolor: (theme) => theme.palette.grey[100],
+                  // bgcolor: answeredField.answer ? green[50] : red[50],
                 }}
               >
-                <FieldIcon />
-              </ListItemIcon>
-              <Stack direction="row" gap={2} width={"100%"}>
-                <Typography>{`${answeredField.field.content}`}</Typography>
-                {/* <Typography
+                <ListItemIcon
+                  sx={{
+                    mr: 0,
+                    pr: 1.5,
+                    width: "fit-content",
+                    minWidth: "fit-content",
+                  }}
+                >
+                  <FieldIcon />
+                </ListItemIcon>
+                <Stack direction="row" gap={2} width={"100%"}>
+                  <Typography>{`${answeredField.field.content}`}</Typography>
+                  {/* <Typography
                   sx={{
                     // color: answeredField.answer ? "green" : "red",
                     color: "grey.600",
                     ml: "auto",
                   }}
                 >{answeredField.answer ? "Yes" : "No"}</Typography> */}
-                <Chip
-                  label={answeredField.answer ? "Yes" : "No"}
-                  sx={{
-                    fontSize: "0.88rem",
-                    fontWeight: 500,
-                    ml: "auto",
-                    bgcolor: answeredField.answer ? green[50] : red[50],
-                  }}
-                />
-              </Stack>
-            </ListItem>
-          ))}
-        </Stack>
+                  <Chip
+                    label={answeredField.answer ? "Yes" : "No"}
+                    sx={{
+                      fontSize: "0.88rem",
+                      fontWeight: 500,
+                      ml: "auto",
+                      bgcolor: answeredField.answer ? green[50] : red[50],
+                    }}
+                  />
+                </Stack>
+              </ListItem>
+            ))}
+          </Stack>
+        )}
       </MaqasidDialog.Body>
     </MaqasidDialog>
   );
