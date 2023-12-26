@@ -31,4 +31,11 @@ export interface ActivityPanelProps {
 
 export interface ActivitySegmentProps {
   submission: Submission;
+  onSelectedSubmissionChange: (submissionId: string) => void;
+}
+
+export interface SubmissionDialogProps {
+  submissionId: string;
+  isOpen: boolean;
+  onClose: () => void;
 }

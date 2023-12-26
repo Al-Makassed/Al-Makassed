@@ -49,3 +49,19 @@ export interface Submission {
   submittedAt: string;
   submitter: Submitter;
 }
+
+export interface FieldAnswer {
+  fieldId: string;
+  submissionId: string;
+  answer: boolean;
+  field: Field;
+}
+
+export interface SubmissionDetails {
+  id: string;
+  focalPointTaskId: string;
+  submissionId: string;
+  number: number;
+  submittedAt: string;
+  answers: FieldAnswer[];
+}

@@ -1,13 +1,17 @@
 import ArrowIcon from "@mui/icons-material/SubdirectoryArrowRight";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Chip, Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import UserAvatar from "src/components/UserAvatar";
 import { formatDate } from "src/utils";
 import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
 import { ActivitySegmentProps } from "../types";
 
-const ActivitySegment: FC<ActivitySegmentProps> = ({ submission }) => {
+const ActivitySegment: FC<ActivitySegmentProps> = ({
+  submission,
+  onSelectedSubmissionChange,
+}) => {
   const {
+    id,
     submittedAt,
     submitter: { fullName, userName, avatarUrl },
   } = submission;
@@ -17,11 +21,26 @@ const ActivitySegment: FC<ActivitySegmentProps> = ({ submission }) => {
   const submittedAtDate = formatDate(submittedAt);
 
   const handleButtonClick = () => {
-    console.log("Clicked");
+    onSelectedSubmissionChange(id);
   };
 
   return (
     <Stack>
+      <Chip
+        classes={{ label: "custom-chip-label" }}
+        sx={{
+          width: "fit-content",
+          height: "fit-content",
+          pt: 0.15,
+          pb: 0.1,
+          color: "grey.600",
+          "& .custom-chip-label": {
+            px: 0.75,
+          },
+        }}
+        label={`#${submission.number}`}
+      />
+
       <Stack direction="row" gap={1} alignItems="center">
         <UserAvatar src={avatarUrl} initials={userInitial} />
 
