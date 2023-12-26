@@ -77,7 +77,6 @@ const TaskSubmission: FC = () => {
           flexDirection: { xs: "column", md: "row" },
           justifyContent: { xs: "column-reverse", md: "space-between" },
         }}
-        justifyContent="space-between"
         mt={1.5}
       >
         {(!isDetailsMode || isDesktopOrMore) && (

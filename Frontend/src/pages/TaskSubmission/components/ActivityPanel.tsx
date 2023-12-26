@@ -1,5 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import { FC, useState } from "react";
+import LoaderCell from "src/components/LoaderCell";
 import TabPanel from "src/components/TabPanel";
 import { Submission } from "../API/types";
 import useGetTaskSubmissions from "../hooks/useGetTaskSubmissions";
@@ -26,7 +27,12 @@ const ActivityPanel: FC<ActivityPanelProps> = ({
     focalPointTaskId,
   );
 
-  if (isFetching) return <Typography>Loading...</Typography>;
+  if (isFetching)
+    return (
+      <TabPanel value={value} index={1} height="calc(100vh - 250px)">
+        <LoaderCell size="2.5rem" />
+      </TabPanel>
+    );
 
   if (!submissions) return null;
 
