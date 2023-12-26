@@ -4,7 +4,6 @@ using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.FocalPointTasks;
 using Makassed.Api.Services.Users;
-using Microsoft.IdentityModel.Tokens;
 using Sieve.Models;
 
 namespace Makassed.Api.Services.Submissions;

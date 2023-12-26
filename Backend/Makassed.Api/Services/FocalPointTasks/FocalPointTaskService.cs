@@ -170,6 +170,6 @@ public class FocalPointTaskService : IFocalPointTaskService
         // get all submissions for the focal point task
         var submissions = await _submissionRepository.GetFocalPointTaskSubmissionsAsync(id);
 
-        return submissions.IsNullOrEmpty() ? Errors.Submission.NotFound : submissions.ToList();
+        return submissions;
     }
 }

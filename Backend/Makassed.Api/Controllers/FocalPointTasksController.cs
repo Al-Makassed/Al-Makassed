@@ -82,7 +82,7 @@ public class FocalPointTasksController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
+    [Authorize(Roles = "Admin, Sub-Admin, Focal Point")]
     public async Task<IActionResult> GetFocalPointTaskSubmissions(Guid departmentId, Guid id)
     {
         var focalPointTaskSubmissionsResult = await _focalPointTaskService.GetTaskSubmissionsLogAsync(departmentId, id);
