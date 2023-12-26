@@ -5,6 +5,7 @@ import UserAvatar from "src/components/UserAvatar";
 import { formatDate } from "src/utils";
 import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
 import { ActivitySegmentProps } from "../types";
+import { isCurrentMonthSubmission } from "../utils";
 
 const ActivitySegment: FC<ActivitySegmentProps> = ({
   submission,
@@ -26,29 +27,31 @@ const ActivitySegment: FC<ActivitySegmentProps> = ({
 
   return (
     <Stack>
-      <Chip
-        classes={{ label: "custom-chip-label" }}
-        sx={{
-          width: "fit-content",
-          height: "fit-content",
-          pt: 0.15,
-          pb: 0.1,
-          color: "grey.600",
-          "& .custom-chip-label": {
-            px: 0.75,
-          },
-        }}
-        label={`#${submission.number}`}
-      />
+      {isCurrentMonthSubmission(submittedAt) && (
+        <Chip
+          classes={{ label: "custom-chip-label" }}
+          sx={{
+            width: "fit-content",
+            height: "fit-content",
+            pt: 0.15,
+            pb: 0.1,
+            color: "grey.600",
+            "& .custom-chip-label": {
+              px: 0.75,
+            },
+          }}
+          label={`#${submission.number}`}
+        />
+      )}
 
       <Stack direction="row" gap={1} alignItems="center">
         <UserAvatar src={avatarUrl} initials={userInitial} />
 
         <Stack width={"100%"}>
           <Stack
-            direction={{ md: "column", lg: "row" }}
-            alignItems={{ lg: "center" }}
-            gap={{ lg: 0.5 }}
+            direction={{ xs: "row", md: "column", lg: "row" }}
+            alignItems={{ xs: "center", md: "flex-start", lg: "center" }}
+            gap={{ xs: 0.5, md: 0, lg: 0.5 }}
           >
             <Typography variant="body1" fontWeight={500}>
               {fullName}

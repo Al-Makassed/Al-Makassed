@@ -4,7 +4,11 @@ import TabPanel from "src/components/TabPanel";
 import { Submission } from "../API/types";
 import useGetTaskSubmissions from "../hooks/useGetTaskSubmissions";
 import { ActivityPanelProps } from "../types";
-import { findCurrentMonthSubmissions, findOlderSubmissions } from "../utils";
+import {
+  findCurrentMonthSubmissions,
+  findOlderSubmissions,
+  isCurrentMonthSubmission,
+} from "../utils";
 import ActivitySegment from "./ActivitySegment";
 import SubmissionDialog from "./SubmissionDialog";
 
@@ -60,8 +64,7 @@ const ActivityPanel: FC<ActivityPanelProps> = ({
                     pb={0.3}
                     borderColor={(theme) => theme.palette.grey[300]}
                   >
-                    {submissionsArray[0].submittedAt.split("-")[1] ===
-                    (new Date().getMonth() + 1).toString()
+                    {isCurrentMonthSubmission(submissionsArray[0].submittedAt)
                       ? "This Month"
                       : "Older"}
                   </Typography>

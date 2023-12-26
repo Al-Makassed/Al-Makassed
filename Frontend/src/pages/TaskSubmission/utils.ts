@@ -43,7 +43,6 @@ export const totalTimeLeftInMonth = (): string => {
  * Finds and returns submissions that belong to the current month.
  *
  * @param {Submission[]} submissions - The array of submissions to filter.
- *
  * @return {Submission[]} - An array containing submissions that belong to the current month.
  */
 export const findCurrentMonthSubmissions = (submissions: Submission[]) => {
@@ -54,12 +53,10 @@ export const findCurrentMonthSubmissions = (submissions: Submission[]) => {
   );
 };
 
-// Find older submissions
 /**
  * Finds and returns submissions that belong to the previous months.
  *
  * @param {Submission[]} submissions - The array of submissions to filter.
- *
  * @return {Submission[]} - An array containing submissions that belong to the previous months.
  */
 export const findOlderSubmissions = (submissions: Submission[]) => {
@@ -67,4 +64,15 @@ export const findOlderSubmissions = (submissions: Submission[]) => {
   return submissions.filter(
     (submission) => new Date(submission.submittedAt).getMonth() < currentMonth,
   );
+};
+
+// check if the submission is from the current month
+/**
+ *
+ * @param {string} submittedAt
+ * @returns {boolean} - A boolean value indicating whether the submission is from the current month.
+ */
+export const isCurrentMonthSubmission = (submittedAt: string) => {
+  const currentMonth = new Date().getMonth();
+  return new Date(submittedAt).getMonth() === currentMonth;
 };

@@ -1,8 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Chip, Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import TabPanel from "src/components/TabPanel";
 import { DetailsPanelProps } from "../types";
 import { totalTimeLeftInMonth } from "../utils";
+import FunctionsIcon from "@mui/icons-material/Functions";
 
 const DetailsPanel: FC<DetailsPanelProps> = ({
   value,
@@ -32,17 +33,17 @@ const DetailsPanel: FC<DetailsPanelProps> = ({
           borderColor={(theme) => theme.palette.grey[300]}
         >
           <Typography variant="body1">Total Submissions</Typography>
-          <Typography
-            variant="body2"
-            component={"div"}
-            sx={{ ml: "auto" }}
-            display={"flex"}
-            alignItems={"center"}
-            gap={0.5}
-          >
-            {totalSubmissions}
-            <Box color={"primary.main"}>/ 14</Box>
-          </Typography>
+          <Chip
+            label={`${totalSubmissions}/14`}
+            icon={<FunctionsIcon sx={{ fontSize: "1rem" }} />}
+            sx={{
+              height: "fit-content",
+              py: 0.1,
+              ml: "auto",
+              color: "primary.main",
+              fontSize: "0.88rem",
+            }}
+          />
         </Stack>
 
         <Typography

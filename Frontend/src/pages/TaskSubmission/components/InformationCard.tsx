@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
 import { Box, Card, CardContent, Tab, Tabs } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { FC, SyntheticEvent, useState } from "react";
 import { InformationCardProps } from "../types";
 import ActivityPanel from "./ActivityPanel";
