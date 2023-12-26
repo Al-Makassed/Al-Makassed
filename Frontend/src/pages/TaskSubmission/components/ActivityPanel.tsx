@@ -55,11 +55,15 @@ const ActivityPanel: FC<ActivityPanelProps> = ({
     setIsDialogOpen(true);
   };
 
-  console.log(selectedSubmissionId);
-
   return (
     <>
       <TabPanel value={value} index={1} p={3} pb={0}>
+        {submissions.length === 0 && (
+          <Stack height="calc(100vh - 316px)" justifyContent="center">
+            {/* //TODO: Uncomment when MAK-99 is merged ↓ */}
+            {/* <EmptyList type="submissions" /> */}
+          </Stack>
+        )}
         <Stack gap={2}>
           {submissionsArrays.map(
             (submissionsArray, index) =>
