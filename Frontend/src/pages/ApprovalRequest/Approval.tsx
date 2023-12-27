@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IconButton, Stack, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -13,9 +13,24 @@ import useApprovedPolicyDependency from "./hooks/useApprovedPolicyDependency";
 import useApprovedMonitoringTool from "./hooks/useApprovedMonitoringTool";
 import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useDeletePolicy from "./hooks/useDeletePolicy";
+import ViewPolicyDialog from "./components/ViewPolicyDialog";
+import ViewMonitoringToolDialog from "./components/ViewMonitoringToolDialog";
 
 const DataTable: FC = () => {
   const { requests } = useApprovedRequests();
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleOpenDialog = () => setIsDialogOpen(true);
+
+  const handleCloseDialog = () => setIsDialogOpen(false);
+  ///////////////////
+  const [isDialogOpenMT, setIsDialogOpenMT] = useState(false);
+
+  const handleOpenDialogMT = () => setIsDialogOpenMT(true);
+
+  const handleCloseDialogMT = () => setIsDialogOpenMT(false);
+  ////////////////
 
   const { approvePolicy } = useApprovedPolicy();
 
@@ -34,10 +49,6 @@ const DataTable: FC = () => {
     else if (row.entityType === 1) approvedPolicyDependency(row.entityId);
     else approvedMonitoringTool(row.entityId);
 
-    // console.log("Approve button clicked for row with ID:", row);
-  };
-
-  const handle = (row: ApprovalRequest) => {
     console.log("Approve button clicked for row with ID:", row);
   };
 
@@ -108,22 +119,57 @@ const DataTable: FC = () => {
       ),
     },
   ];
+  const [chapterId, setChapterId] = useState<string>("");
+  const [policyId, setPolicyId] = useState<string>("");
+  const [entityType, setEntityType] = useState<number>();
+  const [monitoringToolId, setMonitoringToolId] = useState<string>("");
 
+  const handle = (row: ApprovalRequest) => {
+    setEntityType(row.entityType);
+
+    if (entityType === 0) {
+      setChapterId(row.info.chapterId);
+      setPolicyId(row.info.id);
+      handleOpenDialog();
+    } else if (entityType === 2) {
+      setMonitoringToolId(row.entityId);
+      handleOpenDialogMT();
+    }
+  };
   return (
-    <Stack sx={{ alignItems: "center", pt: 1 }}>
-      <DataGrid
-        sx={{ pl: 1, pr: 1 }}
-        rows={requests}
-        columns={columns}
-        getRowId={(row) => row.info.id}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 8 },
-          },
-        }}
-        pageSizeOptions={[5, 8, 20]}
-      />
-    </Stack>
+    <>
+      <Stack sx={{ alignItems: "center", pt: 1 }}>
+        <DataGrid
+          sx={{ pl: 1, pr: 1 }}
+          rows={requests}
+          columns={columns}
+          getRowId={(row) => row.info.id}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 8 },
+            },
+          }}
+          pageSizeOptions={[5, 8, 20]}
+        />
+      </Stack>
+
+      {entityType === 0 && (
+        <ViewPolicyDialog
+          chapterId={chapterId}
+          policyId={policyId}
+          open={isDialogOpen}
+          onClose={handleCloseDialog}
+        />
+      )}
+
+      {entityType === 2 && (
+        <ViewMonitoringToolDialog
+          monitoringToolId={monitoringToolId}
+          open={isDialogOpenMT}
+          onClose={handleCloseDialogMT}
+        />
+      )}
+    </>
   );
 };
 

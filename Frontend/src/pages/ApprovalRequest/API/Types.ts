@@ -17,6 +17,7 @@ export interface PolicyApprovalRequest {
   info: PolicyInfo;
 }
 export interface Info {
+  chapterId: string;
   id: string;
 }
 export interface PolicyInfo extends Info {
@@ -46,4 +47,23 @@ export interface MonitoringTool {
 export interface DeletePolicy {
   chapterId: string;
   policyId: string;
+}
+
+export interface Policy {
+  id: string;
+  code: string;
+  name: string;
+  state: boolean;
+  pdfUrl: string;
+  chapterId: string;
+  dependencies: Dependency[];
+}
+
+export interface Dependency {
+  code: string;
+  pdfUrl: string;
+  estimatedTime: number;
+  pagesCount: number;
+  policyCode: string;
+  policyDependencyType: number;
 }
