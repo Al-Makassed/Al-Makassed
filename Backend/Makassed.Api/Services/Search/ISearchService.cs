@@ -1,5 +1,3 @@
-using ErrorOr;
-
 namespace Makassed.Api.Services.Search;
 
 public interface ISearchService

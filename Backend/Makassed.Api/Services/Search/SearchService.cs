@@ -2,10 +2,7 @@ using AutoMapper;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.Services.Users;
-using Makassed.Contracts.Chapter;
-using Makassed.Contracts.MonitoringTool;
-using Makassed.Contracts.Policy;
-using Makassed.Contracts.PolicyDependency;
+using Makassed.Contracts.Search;
 
 namespace Makassed.Api.Services.Search;
 
@@ -44,29 +41,46 @@ public class SearchService : ISearchService
         var userRole = await _userService.GetUserRoleAsync();
 
         // Check user role to include or exclude monitoring tools in the search.
-        IQueryable<object> monitoringTools = 
-            userRole == "Admin" || userRole == "Sub-Admin"
-            ? MapAndQuery<MonitoringTool, GetMonitoringToolResponse>(
+        IQueryable<object> monitoringTools =
+            userRole is "Admin" or "Sub-Admin"
+            ? MapAndQuery<MonitoringTool, MonitoringToolSearchResponse>(
                 await _searchRepository.SearchEntityAsync<MonitoringTool>(query)
             )
             : Enumerable.Empty<object>().AsQueryable();
 
+        IQueryable<object> tasks =
+            userRole == "Focal Point"
+            ? MapAndQuery<FocalPointTask, FpTaskSearchResponse>(
+                await SearchFpTasks(query)
+            )
+            : Enumerable.Empty<object>().AsQueryable();
+
         // Search for other entity types.
-        var chapters = MapAndQuery<Chapter, GetChapterResponse>(
+        var chapters = MapAndQuery<Chapter, ChapterSearchResponse>(
             await _searchRepository.SearchEntityAsync<Chapter>(query)
         );
 
-        var policies = MapAndQuery<Policy, GetPolicyResponse>(
+        var policies = MapAndQuery<Policy, PolicySearchResponse>(
             await _searchRepository.SearchEntityAsync<Policy>(query)
         );
 
-        var dependencies = MapAndQuery<Dependency, GetPolicyDependencyResponse>(
+        var dependencies = MapAndQuery<Dependency, DependencySearchResponse>(
             await _searchRepository.SearchEntityAsync<Dependency>(query)
         );
 
         // Combine the search results from different entity types.
-        var results = new[] { chapters, policies, dependencies, monitoringTools }.SelectMany(r => r);
+        var results = new[] { chapters, policies, dependencies, monitoringTools, tasks }.SelectMany(r => r);
 
         return results.ToList();
+    }
+    
+    // Perform a search for Focal Point Tasks based on the provided query and department.
+    private async Task<List<FocalPointTask>> SearchFpTasks(string query)
+    {
+        var userDepartmentId = await _userService.GetUserDepartmentIdAsync();
+
+        var result = await _searchRepository.SearchEntityAsync<FocalPointTask>(query);
+
+        return result.Where(f => f.Department.Id == userDepartmentId.Value).ToList();
     }
 }

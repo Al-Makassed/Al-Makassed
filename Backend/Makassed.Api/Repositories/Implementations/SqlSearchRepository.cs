@@ -1,4 +1,5 @@
 using Makassed.Api.Data;
+using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,24 +15,38 @@ public class SqlSearchRepository : ISearchRepository
     }
 
     /// <summary>
-    /// Searches for entities of type T in the database based on the provided query.
+    /// Asynchronously searches for entities of type <typeparamref name="T"/> in the database
+    /// based on the provided query, filtering by name and code.
     /// </summary>
     /// <typeparam name="T">The type of entities to search for.</typeparam>
-    /// <param name="query">The search query.</param>
-    /// <returns>An IQueryable of objects representing the search results.</returns>
+    /// <param name="query">The search query used to filter entities.</param>
+    /// <returns>
+    /// A list of entities of type <typeparamref name="T"/> matching the search criteria.
+    /// </returns>
     /// <remarks>
-    /// This method dynamically checks for the presence of "Code" property in the entity type.
-    /// The search is performed based on the "Name" property and, if applicable, the "Code" property.
-    /// </remarks>
+    /// This method performs a search on the "Name" property and,
+    /// if applicable, on the "Code" property of the entities.
+    /// For entities of type FocalPointTask, it filters based on the MonitoringTool's name.
+    /// </remarks> 
     public async Task<List<T>> SearchEntityAsync<T>(string query) where T : class
     {
         IQueryable<T> entities = _dbContext.Set<T>();
 
         bool hasCodeProperty = typeof(T).GetProperty("Code") != null;
 
-        entities = entities.Where(entity =>
-        EF.Property<string>(entity, "Name").Contains(query) ||
-        hasCodeProperty && EF.Property<string>(entity, "Code").Contains(query));
+        if (typeof(T) == typeof(FocalPointTask))
+            entities = entities
+                .Include(f => (f as FocalPointTask)!.MonitoringTool)
+                .Include(f => (f as FocalPointTask)!.Department)
+                .Where(entity =>
+                    EF.Property<MonitoringTool>(entity, "MonitoringTool").Name.Contains(query)
+                );
+
+        else
+            entities = entities.Where(entity =>
+                EF.Property<string>(entity, "Name").Contains(query) ||
+                hasCodeProperty && EF.Property<string>(entity, "Code").Contains(query)                
+            );
 
         return await entities.ToListAsync();
     }
