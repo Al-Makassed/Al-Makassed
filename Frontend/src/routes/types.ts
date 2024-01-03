@@ -9,7 +9,8 @@ export type PageAccessName =
   | "Dashboard"
   | "MonitoringTools"
   | "TaskSubmissionForm"
-  | "Page5";
+  | "PoliciesAndProceduresWithProvider"
+  | "Requests Approval";
 
 export interface RouteConfigs {
   title: string;

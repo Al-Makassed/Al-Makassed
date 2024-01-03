@@ -10,7 +10,6 @@ const ViewPolicyDialogSkeleton = () => {
         height={20}
         width={"50%"}
       />
-      <Skeleton variant="rectangular" height={40} width={"50%"} />
     </Stack>
   );
 };

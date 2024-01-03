@@ -1,20 +1,14 @@
 import React, { FC } from "react";
-
 import MaqasidDialog from "src/components/MaqasidDialog";
 import Chip from "@mui/material/Chip";
 import { Button, Skeleton, Stack, Typography } from "@mui/material";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import useGetPolicy from "../hooks/useGetPolicy";
 import ViewPolicyDialogSkeleton from "./ViewPolicyDialogSkeleton";
+import QrCodeIcon from "@mui/icons-material/QrCode";
+import { ViewPolicyDialogProps } from "./types";
 
-export interface ViewPolicyDialog {
-  chapterId: string;
-  policyId: string;
-  open: boolean;
-  onClose: () => void;
-}
-
-const ViewPolicyDialog: FC<ViewPolicyDialog> = ({
+const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
   chapterId,
   policyId,
   open,
@@ -28,6 +22,21 @@ const ViewPolicyDialog: FC<ViewPolicyDialog> = ({
     </Typography>
   ) : (
     <MaqasidDialog.Title flex={1} title={policy?.name} />
+  );
+
+  const DialogFooter = isFetching ? (
+    <Typography variant="button" width={"25%"}>
+      <Skeleton height={20} />
+    </Typography>
+  ) : (
+    <Button
+      startIcon={<FileOpenIcon />}
+      href={policy?.pdfUrl}
+      variant="contained"
+      sx={{ maxWidth: 400 }}
+    >
+      Open Policy File
+    </Button>
   );
 
   return (
@@ -48,19 +57,19 @@ const ViewPolicyDialog: FC<ViewPolicyDialog> = ({
       ) : (
         <MaqasidDialog.Body>
           <Stack gap={2.5} alignItems="center" justifyContent="center">
-            <Typography variant="body1">Policy Code: {policy?.code}</Typography>
-
-            <Button
-              startIcon={<FileOpenIcon />}
-              href={policy?.pdfUrl}
-              variant="contained"
-              sx={{ maxWidth: 400 }}
-            >
-              Open Policy File
-            </Button>
+            <Stack direction="row">
+              <QrCodeIcon
+                sx={{ mr: 2, color: (theme) => theme.palette.grey[800] }}
+              />
+              <Typography variant="h6">Code: </Typography>
+              <Typography variant="overline" sx={{ ml: 1 }}>
+                {policy?.code}
+              </Typography>
+            </Stack>
           </Stack>
         </MaqasidDialog.Body>
       )}
+      <MaqasidDialog.Footer>{DialogFooter}</MaqasidDialog.Footer>
     </MaqasidDialog>
   );
 };
