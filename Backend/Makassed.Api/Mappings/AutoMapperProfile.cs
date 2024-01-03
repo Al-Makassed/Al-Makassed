@@ -22,7 +22,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Chapter, CreateChapterResponse>().ReverseMap();
         CreateMap<Chapter, CreateChapterRequest>().ReverseMap();
         CreateMap<Chapter, UpdateChapterRequest>().ReverseMap();
-        
+
         CreateMap<Policy, GetPolicyResponse>().ReverseMap();
         CreateMap<Policy, CreatePolicyRequest>().ReverseMap();
         CreateMap<Policy, UpdatePolicyRequest>().ReverseMap();
