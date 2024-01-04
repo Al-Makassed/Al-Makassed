@@ -20,6 +20,7 @@ const EditDepartmentDialog: FC<EditDepartmentDialogProps> = ({
   onClose,
   open,
 }) => {
+  if (department == null) return null;
   const { formikProps, isRenaming } = useEditDepartmentForm(department);
 
   // const { focalPoints } = useGetFocalPoint();

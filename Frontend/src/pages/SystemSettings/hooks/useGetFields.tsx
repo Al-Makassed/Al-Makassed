@@ -7,12 +7,12 @@ import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types/axios";
 
-const useGetDepartments = () => {
+const useGetField = () => {
   const dispatch = useAppDispatch();
 
   const { data: departments, error } = useQuery({
     queryFn: () => getDepartments(),
-    queryKey: [DEPARTMENT_QUERY_KEY],
+    queryKey: DEPARTMENT_QUERY_KEY,
   });
 
   useEffect(() => {
@@ -31,4 +31,4 @@ const useGetDepartments = () => {
   };
 };
 
-export default useGetDepartments;
+export default useGetField;
