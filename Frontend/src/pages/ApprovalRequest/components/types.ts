@@ -10,3 +10,10 @@ export interface ViewPolicyDialogProps {
   open: boolean;
   onClose: () => void;
 }
+export interface ViewDependencyDialogProps {
+  chapterId: string;
+  policyId: string;
+  dependencyId: string;
+  open: boolean;
+  onClose: () => void;
+}

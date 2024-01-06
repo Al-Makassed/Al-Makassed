@@ -2,11 +2,12 @@ import React, { FC } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import Chip from "@mui/material/Chip";
 import { Button, Skeleton, Stack, Typography } from "@mui/material";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
 import useGetPolicy from "../hooks/useGetPolicy";
 import ViewPolicyDialogSkeleton from "./ViewPolicyDialogSkeleton";
-import QrCodeIcon from "@mui/icons-material/QrCode";
 import { ViewPolicyDialogProps } from "./types";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import SegmentIcon from "@mui/icons-material/Segment";
 
 const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
   chapterId,
@@ -22,21 +23,6 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
     </Typography>
   ) : (
     <MaqasidDialog.Title flex={1} title={policy?.name} />
-  );
-
-  const DialogFooter = isFetching ? (
-    <Typography variant="button" width={"25%"}>
-      <Skeleton height={20} />
-    </Typography>
-  ) : (
-    <Button
-      startIcon={<FileOpenIcon />}
-      href={policy?.pdfUrl}
-      variant="contained"
-      sx={{ maxWidth: 400 }}
-    >
-      Open Policy File
-    </Button>
   );
 
   return (
@@ -56,20 +42,41 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
         </MaqasidDialog.Body>
       ) : (
         <MaqasidDialog.Body>
-          <Stack gap={2.5} alignItems="center" justifyContent="center">
+          <Stack gap={2.5}>
             <Stack direction="row">
-              <QrCodeIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[800] }}
+              <VpnKeyIcon
+                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
               />
-              <Typography variant="h6">Code: </Typography>
-              <Typography variant="overline" sx={{ ml: 1 }}>
+
+              <Typography variant="h6" sx={{ ml: 1 }}>
                 {policy?.code}
               </Typography>
+            </Stack>
+
+            <Stack direction="row">
+              <SegmentIcon
+                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+              />
+              {/* <Typography>{policy.summary}</Typography>//To Do This Line Form BackEnd  */}
+              <Typography>This is summary </Typography>
+            </Stack>
+
+            <Stack direction="row">
+              <PictureAsPdfIcon
+                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+              />
+              <Button
+                href={policy?.pdfUrl || ""}
+                target="_blank"
+                variant="text"
+                sx={{ textTransform: "none", mt: -1 }}
+              >
+                Open Policy File
+              </Button>
             </Stack>
           </Stack>
         </MaqasidDialog.Body>
       )}
-      <MaqasidDialog.Footer>{DialogFooter}</MaqasidDialog.Footer>
     </MaqasidDialog>
   );
 };

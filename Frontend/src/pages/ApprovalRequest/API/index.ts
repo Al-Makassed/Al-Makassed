@@ -1,5 +1,11 @@
 import axios from "src/API/axios";
-import { ApprovalRequest, DeletePolicy, MonitoringTool, Policy } from "./Types";
+import {
+  ApprovalRequest,
+  DeletePolicy,
+  Dependency,
+  MonitoringTool,
+  Policy,
+} from "./Types";
 
 export const getApprovalRequests = () => {
   return axios.get<ApprovalRequest[]>(`requests`).then((res) => res.data);
@@ -46,6 +52,17 @@ export const getMonitoringTool = (monitoringToolId: string) => {
 export const getPolicy = (chapterId: string, id: string) => {
   return axios
     .get<Policy>(`/chapters/${chapterId}/policies/${id}`)
+    .then((res) => res.data);
+};
+export const getDependency = (
+  chapterId: string,
+  policyId: string,
+  id: string,
+) => {
+  return axios
+    .get<Dependency>(
+      `/chapters/${chapterId}/policies/${policyId}/policy-dependencies/${id}`,
+    )
     .then((res) => res.data);
 };
 // to do delete dependency

@@ -15,28 +15,23 @@ import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useDeletePolicy from "./hooks/useDeletePolicy";
 import ViewPolicyDialog from "./components/ViewPolicyDialog";
 import ViewMonitoringToolDialog from "./components/ViewMonitoringToolDialog";
+import { DialogName } from "./constants";
+import ViewDependencyDialog from "./components/ViewDependencyDialog";
 
 const DataTable: FC = () => {
   const { requests } = useApprovedRequests();
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [openedDialog, setOpenedDialog] = useState<DialogName | null>(null);
+  const closeConfirmDialog = () => setOpenedDialog(null);
 
-  const handleOpenDialog = () => setIsDialogOpen(true);
+  const openViewPolicyDialog = () => setOpenedDialog(DialogName.ViewPolicy);
 
-  const handleCloseDialog = () => setIsDialogOpen(false);
-  ///////////////////
-  const [isDialogOpenMT, setIsDialogOpenMT] = useState(false);
-
-  const handleOpenDialogMT = () => setIsDialogOpenMT(true);
-
-  const handleCloseDialogMT = () => setIsDialogOpenMT(false);
-  ////////////////
+  const openViewMonitoringToolDialog = () =>
+    setOpenedDialog(DialogName.ViewMonitoringTool);
 
   const { approvePolicy } = useApprovedPolicy();
 
   const { deletePolicy } = useDeletePolicy();
-
-  // const { deleteDependency } = useDeleteDependency();
 
   const { removeMonitoringTool } = useDeleteMonitoringTool();
 
@@ -48,19 +43,17 @@ const DataTable: FC = () => {
     if (row.entityType === 0) approvePolicy(row.entityId);
     else if (row.entityType === 1) approvedPolicyDependency(row.entityId);
     else approvedMonitoringTool(row.entityId);
-
-    console.log("Approve button clicked for row with ID:", row);
   };
 
   const handleDeleteRequest = (row: PolicyApprovalRequest) => {
     if (row.entityType === 0)
       deletePolicy({ chapterId: row.info.chapterId, policyId: row.entityId });
     // else if (row.entityType === 1)
-    //   deleteDependency({
-    //     chapterId: row.info.chapterId,
-    //     policyId: row.entityId,
-    //     dependencyId: row.entityId,
-    //   });
+    // deleteDependency({
+    //   chapterId: row.info.chapterId,
+    //   policyId: row.entityId,
+    //   dependencyId: row.entityId,
+    // });
     else removeMonitoringTool(row.entityId);
   };
 
@@ -123,6 +116,7 @@ const DataTable: FC = () => {
   const [policyId, setPolicyId] = useState<string>("");
   const [entityType, setEntityType] = useState<number>();
   const [monitoringToolId, setMonitoringToolId] = useState<string>("");
+  const [dependencyId, setDependencyId] = useState<string>("");
 
   const handle = (row: ApprovalRequest) => {
     setEntityType(row.entityType);
@@ -130,10 +124,15 @@ const DataTable: FC = () => {
     if (entityType === 0) {
       setChapterId(row.info.chapterId);
       setPolicyId(row.info.id);
-      handleOpenDialog();
+      openViewPolicyDialog();
     } else if (entityType === 2) {
       setMonitoringToolId(row.entityId);
-      handleOpenDialogMT();
+      openViewMonitoringToolDialog();
+    } else if (entityType === 1) {
+      setChapterId(row.info.chapterId);
+      setPolicyId(row.entityId);
+      setDependencyId(row.info.id);
+      console.log(row);
     }
   };
   return (
@@ -157,16 +156,25 @@ const DataTable: FC = () => {
         <ViewPolicyDialog
           chapterId={chapterId}
           policyId={policyId}
-          open={isDialogOpen}
-          onClose={handleCloseDialog}
+          open={openedDialog === DialogName.ViewPolicy}
+          onClose={closeConfirmDialog}
         />
       )}
-
+      {entityType === 1 && (
+        <ViewDependencyDialog
+          chapterId={chapterId}
+          // chapterId="402b9f32-64f2-41d9-762d-08dbd6f10490"
+          policyId={policyId}
+          dependencyId={dependencyId}
+          open={openedDialog === DialogName.ViewDependency}
+          onClose={closeConfirmDialog}
+        />
+      )}
       {entityType === 2 && (
         <ViewMonitoringToolDialog
           monitoringToolId={monitoringToolId}
-          open={isDialogOpenMT}
-          onClose={handleCloseDialogMT}
+          open={openedDialog === DialogName.ViewMonitoringTool}
+          onClose={closeConfirmDialog}
         />
       )}
     </>

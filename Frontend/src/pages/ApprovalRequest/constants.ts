@@ -4,6 +4,8 @@ export const MONITORING_TOOL_QUERY_KEY = ["MonitoringTool"];
 
 export const POLICY_QUERY_KEY = "POLICY_QUERY_KEY";
 
+export const Dependency_QUERY_KEY = "Dependency_QUERY_KEY";
+
 export const enum RequestEntityType {
   Policy = 0,
   Dependency = 1,
@@ -14,3 +16,9 @@ export const REQUEST_NAME = new Map([
   [RequestEntityType.Dependency, "Dependency"],
   [RequestEntityType.MonitoringTool, "Monitoring Tool"],
 ]);
+
+export enum DialogName {
+  ViewPolicy = "ViewPolicy",
+  ViewDependency = "ViewDependency",
+  ViewMonitoringTool = "ViewMonitoringTool",
+}

@@ -55,7 +55,7 @@ const ViewMonitoringToolDialog: FC<ViewMonitoringToolDialogProps> = ({
           <Stack gap={2.5}>
             <Stack direction="row">
               <DescriptionIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[800] }}
+                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
               />
               <Typography variant="body1">
                 {monitoringTool.description}
@@ -63,7 +63,7 @@ const ViewMonitoringToolDialog: FC<ViewMonitoringToolDialogProps> = ({
             </Stack>
             <Stack direction="row">
               <DateRangeIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[800] }}
+                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
               />
               <Typography>
                 {monitoringTool.createdAt
@@ -74,7 +74,7 @@ const ViewMonitoringToolDialog: FC<ViewMonitoringToolDialogProps> = ({
 
             <Stack direction="row">
               <HomeWorkIcon
-                sx={{ mr: 3, color: (theme) => theme.palette.grey[800] }}
+                sx={{ mr: 3, color: (theme) => theme.palette.grey[600] }}
               />
               {monitoringTool.departments &&
                 Array.isArray(monitoringTool.departments) &&
@@ -83,7 +83,7 @@ const ViewMonitoringToolDialog: FC<ViewMonitoringToolDialogProps> = ({
                 ))}
             </Stack>
             <Stack flexDirection={"row"} gap={1.5}>
-              <FieldIcon sx={{ color: (theme) => theme.palette.grey[800] }} />
+              <FieldIcon sx={{ color: (theme) => theme.palette.grey[600] }} />
 
               <Typography variant="h6">Fields</Typography>
               <Box

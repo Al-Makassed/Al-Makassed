@@ -60,6 +60,7 @@ export interface Policy {
 }
 
 export interface Dependency {
+  name: string;
   code: string;
   pdfUrl: string;
   estimatedTime: number;
