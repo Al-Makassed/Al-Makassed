@@ -76,11 +76,17 @@ const ViewMonitoringToolDialog: FC<ViewMonitoringToolDialogProps> = ({
               <HomeWorkIcon
                 sx={{ mr: 3, color: (theme) => theme.palette.grey[600] }}
               />
-              {monitoringTool.departments &&
-                Array.isArray(monitoringTool.departments) &&
-                monitoringTool.departments.map((department, index) => (
-                  <Chip key={index} label={department.name} sx={{ mr: 1 }} />
-                ))}
+              <Box flexDirection="row" width="100 vw">
+                {monitoringTool.departments &&
+                  Array.isArray(monitoringTool.departments) &&
+                  monitoringTool.departments.map((department, index) => (
+                    <Chip
+                      key={index}
+                      label={department.name}
+                      sx={{ mr: 1, mt: 0.5 }}
+                    />
+                  ))}
+              </Box>
             </Stack>
             <Stack flexDirection={"row"} gap={1.5}>
               <FieldIcon sx={{ color: (theme) => theme.palette.grey[600] }} />

@@ -3,7 +3,7 @@ import { Skeleton, Stack } from "@mui/material";
 
 const ViewMonitoringToolDialogSkeleton = () => {
   return (
-    <Stack display="flex" alignItems="center" gap={2.5}>
+    <Stack gap={2.5}>
       <Skeleton
         variant="rounded"
         sx={{ borderRadius: 10 }}

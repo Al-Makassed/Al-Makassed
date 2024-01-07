@@ -132,7 +132,7 @@ const DataTable: FC = () => {
       setChapterId(row.info.chapterId);
       setPolicyId(row.entityId);
       setDependencyId(row.info.id);
-      console.log(row);
+      // console.log(row);
     }
   };
   return (
