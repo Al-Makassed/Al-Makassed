@@ -20,6 +20,7 @@ public class SqlSearchRepository : ISearchRepository
     /// </summary>
     /// <typeparam name="T">The type of entities to search for.</typeparam>
     /// <param name="query">The search query used to filter entities.</param>
+    /// <param name="isManager">A boolean indicating whether the user is a manager or not.</param>
     /// <returns>
     /// A list of entities of type <typeparamref name="T"/> matching the search criteria.
     /// </returns>
@@ -54,7 +55,6 @@ public class SqlSearchRepository : ISearchRepository
         return !isManager && hasApprovedProperty ? await NonManagerFilter(entities) : await entities.ToListAsync();
     }
 
-    // normal user search (non managers)
     public async Task<List<T>> NonManagerFilter<T>(IQueryable<T> entities)
     {
         entities = entities.Where(entity =>
