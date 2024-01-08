@@ -28,18 +28,21 @@ public class SqlSearchRepository : ISearchRepository
     /// if applicable, on the "Code" property of the entities.
     /// For entities of type FocalPointTask, it filters based on the MonitoringTool's name.
     /// </remarks> 
-    public async Task<List<T>> SearchEntityAsync<T>(string query) where T : class
+    public async Task<List<T>> SearchEntityAsync<T>(string query, bool isManager) where T : class
     {
         IQueryable<T> entities = _dbContext.Set<T>();
 
         bool hasCodeProperty = typeof(T).GetProperty("Code") != null;
+        bool hasApprovedProperty = typeof(T).GetProperty("IsApproved") != null;
+
 
         if (typeof(T) == typeof(FocalPointTask))
             entities = entities
                 .Include(f => (f as FocalPointTask)!.MonitoringTool)
                 .Include(f => (f as FocalPointTask)!.Department)
                 .Where(entity =>
-                    EF.Property<MonitoringTool>(entity, "MonitoringTool").Name.Contains(query)
+                    EF.Property<MonitoringTool>(entity, "MonitoringTool").Name.Contains(query) &&
+                    EF.Property<MonitoringTool>(entity, "MonitoringTool").IsApproved
                 );
 
         else
@@ -47,6 +50,16 @@ public class SqlSearchRepository : ISearchRepository
                 EF.Property<string>(entity, "Name").Contains(query) ||
                 hasCodeProperty && EF.Property<string>(entity, "Code").Contains(query)                
             );
+
+        return !isManager && hasApprovedProperty ? await NonManagerFilter(entities) : await entities.ToListAsync();
+    }
+
+    // normal user search (non managers)
+    public async Task<List<T>> NonManagerFilter<T>(IQueryable<T> entities)
+    {
+        entities = entities.Where(entity =>
+            EF.Property<bool>(entity!, "IsApproved")
+        );
 
         return await entities.ToListAsync();
     }

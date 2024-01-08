@@ -40,14 +40,17 @@ public class SearchService : ISearchService
     {
         var userRole = await _userService.GetUserRoleAsync();
 
+        bool isManager = userRole is "Admin" or "Sub-Admin";
+
         // Check user role to include or exclude monitoring tools in the search.
         IQueryable<object> monitoringTools =
             userRole is "Admin" or "Sub-Admin"
             ? MapAndQuery<MonitoringTool, MonitoringToolSearchResponse>(
-                await _searchRepository.SearchEntityAsync<MonitoringTool>(query)
+                await _searchRepository.SearchEntityAsync<MonitoringTool>(query, isManager)
             )
             : Enumerable.Empty<object>().AsQueryable();
 
+        // Check user role to include or exclude focal point tasks in the search.
         IQueryable<object> tasks =
             userRole == "Focal Point"
             ? MapAndQuery<FocalPointTask, FpTaskSearchResponse>(
@@ -57,15 +60,15 @@ public class SearchService : ISearchService
 
         // Search for other entity types.
         var chapters = MapAndQuery<Chapter, ChapterSearchResponse>(
-            await _searchRepository.SearchEntityAsync<Chapter>(query)
+            await _searchRepository.SearchEntityAsync<Chapter>(query, isManager)
         );
 
         var policies = MapAndQuery<Policy, PolicySearchResponse>(
-            await _searchRepository.SearchEntityAsync<Policy>(query)
+            await _searchRepository.SearchEntityAsync<Policy>(query, isManager)
         );
 
         var dependencies = MapAndQuery<Dependency, DependencySearchResponse>(
-            await _searchRepository.SearchEntityAsync<Dependency>(query)
+            await _searchRepository.SearchEntityAsync<Dependency>(query, isManager)
         );
 
         // Combine the search results from different entity types.
@@ -79,7 +82,7 @@ public class SearchService : ISearchService
     {
         var userDepartmentId = await _userService.GetUserDepartmentIdAsync();
 
-        var result = await _searchRepository.SearchEntityAsync<FocalPointTask>(query);
+        var result = await _searchRepository.SearchEntityAsync<FocalPointTask>(query, false);
 
         return result.Where(f => f.Department.Id == userDepartmentId.Value).ToList();
     }
