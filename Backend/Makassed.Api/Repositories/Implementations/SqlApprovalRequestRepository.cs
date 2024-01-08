@@ -26,13 +26,6 @@ public class SqlApprovalRequestRepository : IApprovalRequestRepository
             CreatedAt = mt.CreatedAt,
             EntityId = mt.Id,
             EntityType = RequestEntityType.MonitoringTool,
-            Info = new
-            {
-                mt.Id,
-                mt.Name,
-                mt.Description,
-                Fields = mt.Fields.Select(f => new { f.Id, f.Content })
-            }
         })
         .ToListAsync();
 
@@ -47,13 +40,6 @@ public class SqlApprovalRequestRepository : IApprovalRequestRepository
                 EntityType = RequestEntityType.Policy,
                 Info = new 
                 {
-                    p.Id,
-                    p.Code,
-                    p.Name,
-                    p.PdfUrl,
-                    p.Summary,
-                    p.PageCount,
-                    p.EstimatedTimeInMin,
                     p.ChapterId
                 }
             })
@@ -70,14 +56,8 @@ public class SqlApprovalRequestRepository : IApprovalRequestRepository
                 EntityType = RequestEntityType.Dependency,
                 Info = new
                 {
-                    d.Id,
-                    d.Code,
-                    d.Name,
-                    d.Type,
-                    d.PdfUrl,
-                    d.PagesCount,
-                    d.EstimatedTimeInMin,
-                    d.PolicyId
+                    d.PolicyId,
+                    d.Policy.ChapterId
                 }
             })
             .ToListAsync();
