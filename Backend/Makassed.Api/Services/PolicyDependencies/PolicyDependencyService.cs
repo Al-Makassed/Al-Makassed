@@ -50,8 +50,8 @@ public class PolicyDependencyService : IPolicyDependencyService
 
     public async Task<ErrorOr<Dependency>> GetPolicyDependencyByIdAsync(Guid policyId, Guid id)
     {
-        if (!await CheckDependencyBelongsToPolicy(policyId, id))
-            return Errors.PolicyDependency.DoesNotBelongToPolicy;
+        //if (!await CheckDependencyBelongsToPolicy(policyId, id))
+           // return Errors.PolicyDependency.DoesNotBelongToPolicy;
 
         var policyDependency = await _policyDependencyRepository.GetPolicyDependencyByIdAsync(id);
 
