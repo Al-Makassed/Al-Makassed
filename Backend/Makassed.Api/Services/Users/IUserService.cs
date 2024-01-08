@@ -18,6 +18,8 @@ public interface IUserService
 
     Task<string?> GetUserRoleAsync();
 
+    Task<ErrorOr<Guid>> GetUserDepartmentIdAsync();
+
     Task<ErrorOr<string>> UploadUserAvatarAsync(IFormFile file);
 
     Task<ErrorOr<GetUserResponse>> UpdateUserDepartmentAsync(string id, Guid departmentId);

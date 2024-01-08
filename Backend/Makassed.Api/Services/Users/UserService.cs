@@ -87,6 +87,22 @@ public class UserService : IUserService
         return _cachedUserRole;
     }
 
+    // get authenticated user department id
+    public async Task<ErrorOr<Guid>> GetUserDepartmentIdAsync()
+    {
+        var userId = GetUserId();
+
+        if (userId is null)
+            return Errors.User.NotFound;
+
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user is null)
+            return Errors.User.NotFound;
+
+        return user.DepartmentId;
+    }
+
     public async Task<ErrorOr<string>> UploadUserAvatarAsync(IFormFile image)
     {
         var userId = GetUserId();
