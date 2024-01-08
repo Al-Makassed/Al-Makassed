@@ -1,9 +1,8 @@
-﻿using Makassed.Api.Repositories.Implementations;
-using Makassed.Api.Repositories.Interfaces;
-
-namespace Makassed.Api.Dependencies;
+﻿namespace Makassed.Api.Dependencies;
 
 using Microsoft.Extensions.DependencyInjection;
+using Repositories.Implementations;
+using Repositories.Interfaces;
 using Services.Authentication;
 using Services.Chapters;
 using Services.Policies;
@@ -16,6 +15,7 @@ using Services.FocalPointTasks;
 using Services.Users;
 using Services.Storage;
 using Services.ApprovalRequests;
+using Services.Search;
 using Services.Submissions;
 
 public static class ApplicationServicesConfiguration
@@ -57,6 +57,9 @@ public static class ApplicationServicesConfiguration
 
         services.AddScoped<IApprovalRequestService, ApprovalRequestService>();
         services.AddScoped<IApprovalRequestRepository, SqlApprovalRequestRepository>();
+
+        services.AddScoped<ISearchService, SearchService>();
+        services.AddScoped<ISearchRepository, SqlSearchRepository>();
 
         return services;
     }

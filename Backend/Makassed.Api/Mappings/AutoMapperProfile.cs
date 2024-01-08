@@ -11,6 +11,7 @@ using Makassed.Contracts.MonitoringTool.FocalPointTasks;
 using Makassed.Contracts.MonitoringTool.FocalPointTasks.Submissions;
 using Makassed.Contracts.User;
 using Makassed.Contracts.Submission;
+using Makassed.Contracts.Search;
 
 namespace Makassed.Api.Mappings;
 
@@ -22,14 +23,18 @@ public class AutoMapperProfile : Profile
         CreateMap<Chapter, CreateChapterResponse>().ReverseMap();
         CreateMap<Chapter, CreateChapterRequest>().ReverseMap();
         CreateMap<Chapter, UpdateChapterRequest>().ReverseMap();
-        
+        CreateMap<Chapter, ChapterSearchResponse>().ReverseMap();
+
+
         CreateMap<Policy, GetPolicyResponse>().ReverseMap();
         CreateMap<Policy, CreatePolicyRequest>().ReverseMap();
         CreateMap<Policy, UpdatePolicyRequest>().ReverseMap();
+        CreateMap<Policy, PolicySearchResponse>().ReverseMap();
         
         CreateMap<Dependency, GetPolicyDependencyResponse>().ReverseMap();
         CreateMap<Dependency, CreatePolicyDependencyRequest>().ReverseMap();
         CreateMap<Dependency, UpdatePolicyDependencyRequest>().ReverseMap();
+        CreateMap<Dependency, DependencySearchResponse>().ReverseMap();
 
         CreateMap<MonitoringTool, GetMonitoringToolResponse>().ReverseMap();
         CreateMap<MonitoringTool, GetAllMonitoringToolBaseResponse>().ReverseMap();
@@ -38,6 +43,7 @@ public class AutoMapperProfile : Profile
         CreateMap<MonitoringTool, GetMonitoringToolForFocalPointResponse>().ReverseMap();
         CreateMap<MonitoringTool, MonitoringToolDto>().ReverseMap();
         CreateMap<MonitoringToolDto, GetMonitoringToolResponse>().ReverseMap();
+        CreateMap<MonitoringTool, MonitoringToolSearchResponse>().ReverseMap();
 
         CreateMap<Submission, SubmitMonitoringToolRequest>().ReverseMap();
         CreateMap<Submission, SubmitFocalPointTaskRequest>().ReverseMap();
@@ -57,6 +63,7 @@ public class AutoMapperProfile : Profile
 
         CreateMap<FocalPointTask, GetAllFocalPointTasksBaseResponse>().ReverseMap();
         CreateMap<FocalPointTask, GetFocalPointTaskResponse>().ReverseMap();
+        CreateMap<FocalPointTask, FpTaskSearchResponse>().ReverseMap();
         
         CreateMap<MakassedUser, UpdateUserRequest>().ReverseMap();
         CreateMap<MakassedUser, GetUserResponse>().ReverseMap();
