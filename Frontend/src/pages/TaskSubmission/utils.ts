@@ -62,7 +62,7 @@ export const findCurrentMonthSubmissions = (submissions: Submission[]) => {
 export const findOlderSubmissions = (submissions: Submission[]) => {
   const currentMonth = new Date().getMonth();
   return submissions.filter(
-    (submission) => new Date(submission.submittedAt).getMonth() < currentMonth,
+    (submission) => new Date(submission.submittedAt).getMonth() != currentMonth,
   );
 };
 
