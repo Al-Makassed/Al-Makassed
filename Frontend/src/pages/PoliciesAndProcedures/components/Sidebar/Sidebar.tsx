@@ -21,10 +21,10 @@ const Sidebar: FC = () => {
           sx={{
             position: "relative",
             backgroundColor: "black",
-            width: drawerWidth,
+            width: { xs: "100vw", sm: drawerWidth },
             flexShrink: 0,
             "& .MuiDrawer-paper": {
-              width: drawerWidth,
+              width: { xs: "100vw", sm: drawerWidth },
               boxSizing: "border-box",
             },
             "& .MuiPaper-root": {
