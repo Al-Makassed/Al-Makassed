@@ -3,6 +3,7 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.Services.Users;
 using Makassed.Contracts.Search;
+using Microsoft.EntityFrameworkCore;
 
 namespace Makassed.Api.Services.Search;
 
@@ -53,9 +54,7 @@ public class SearchService : ISearchService
         // Check user role to include or exclude focal point tasks in the search.
         IQueryable<object> tasks =
             userRole == "Focal Point"
-            ? MapAndQuery<FocalPointTask, FpTaskSearchResponse>(
-                await SearchFpTasks(query)
-            )
+            ? await SearchFpTasks(query)            
             : Enumerable.Empty<object>().AsQueryable();
 
         // Search for other entity types.
@@ -74,16 +73,26 @@ public class SearchService : ISearchService
         // Combine the search results from different entity types.
         var results = new[] { chapters, policies, dependencies, monitoringTools, tasks }.SelectMany(r => r);
 
+        // order results by creation date
+        results = results.OrderByDescending(r => r.GetType().GetProperty("CreatedAt")?.GetValue(r, null));
+
         return results.ToList();
     }
-    
+
     // Perform a search for Focal Point Tasks based on the provided query and department.
-    private async Task<List<FocalPointTask>> SearchFpTasks(string query)
+    private async Task<IQueryable<object>> SearchFpTasks(string query)
     {
         var userDepartmentId = await _userService.GetUserDepartmentIdAsync();
 
         var result = await _searchRepository.SearchEntityAsync<FocalPointTask>(query, false);
 
-        return result.Where(f => f.Department.Id == userDepartmentId.Value).ToList();
+        var filteredResult = result.Where(f => f.Department.Id == userDepartmentId.Value);
+
+        var mappedResult = MapAndQuery<FocalPointTask, FpTaskSearchResponse>(filteredResult.ToList());
+
+        foreach (var fpTask in mappedResult)
+            ((FpTaskSearchResponse)fpTask).Name = ((FpTaskSearchResponse)fpTask).MonitoringTool.Name;
+
+        return mappedResult.AsQueryable();
     }
 }

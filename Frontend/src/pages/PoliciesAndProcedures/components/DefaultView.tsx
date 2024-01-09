@@ -26,7 +26,7 @@ const DefaultView = () => {
 
         <Stack
           sx={{ justifyContent: "center", alignItems: "center" }}
-          height={"calc(100vh - 250px)"}
+          height={"calc(100vh - 64px - 32px - 90px)"}
         >
           {isSidebarOpen && (
             <Lottie
