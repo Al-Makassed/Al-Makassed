@@ -1,135 +1,150 @@
-// import {
-//     Button,
-//    IconButton,
-//    Stack,
-//    Tooltip,
-//    Typography,
-//  } from "@mui/material";
-//  import React, { FC, useState } from "react";
-//  import AddDepartmentDialog from "./AddDepartmentDialog";
-//  import AddIcon from "@mui/icons-material/Add";
-//  import useGetDepartments from "../hooks/useGetDepartments";
-//  import DeleteIcon from "@mui/icons-material/Delete";
-//  import EditIcon from "@mui/icons-material/Edit";
-// //  import { Department } from "../API/type";
-//  import { DataGrid, GridColDef} from "@mui/x-data-grid";
-// //  import EditDepartmentDialog from "./EditDepartmentDialog";
+import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
+// import AddDepartmentDialog from "./AddDepartmentDialog";
+import AddIcon from "@mui/icons-material/Add";
+import useGetDepartments from "../hooks/useGetDepartments";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { Department } from "../API/type";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import EditDepartmentDialog from "./EditDepartmentDialog";
+import ConfirmDialog from "src/components/ConfirmDialog";
+import useDeleteDepartment from "../hooks/useDeleteDepartment";
+import { grey } from "@mui/material/colors";
+import AddFieldDialog from "./AddFieldDialog";
 
-//  import ConfirmDialog from "src/components/ConfirmDialog";
-// //  import useDeleteDepartment from "../hooks/useDeleteDepartment";
+const FieldDetails: FC = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [selectedDepartment, setSelectedDepartment] = useState<Department>();
 
-//  const FieldDetails: FC= () => {
-//    const [isDialogOpen, setIsDialogOpen] = useState(false);
-//    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-//    const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
-//      useState<boolean>(false);
-//    const { departments } = useGetDepartments();
-//    const handleOpenDialog = () => setIsDialogOpen(true);
-//    const handleCloseDialog = () => setIsDialogOpen(false);
+  const { departments } = useGetDepartments();
 
-//    const handleOpenEditDialog = () => setIsEditDialogOpen(true);
-// //    const handleCloseEditDialog = () => setIsEditDialogOpen(false);
+  const { removeDepartment } = useDeleteDepartment();
 
-// //    const { removeDepartment } = useDeleteDepartment();
+  const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
 
-//    const closeConfirmDialog = () => setIsConfirmDialogOpen(false);
+  const handleOpenAddDialog = () => setIsDialogOpen(true);
 
-//    const handleDeleteButtonClicked = () => setIsConfirmDialogOpen(true);
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
-//    const columns: GridColDef[] = [
-//      { field: "name", headerName: "Name", width: 450 },
-//      {
-//        field: "actions",
-//        headerName: "Actions",
-//        width: 200,
-//        renderCell: () => (
-//          <>
-//            <Tooltip title="Edit department">
-//              <IconButton
-//                onClick={handleOpenEditDialog}
-//                aria-label="Edit department"
-//                sx={{ mr: 0.5 }}
-//              >
-//                <EditIcon />
-//              </IconButton>
-//            </Tooltip>
+  const handleOpenEditDialog = () => setIsEditDialogOpen(true);
 
-//            <Tooltip title="Delete department">
-//              <IconButton
-//                aria-label="Delete department"
-//                sx={{ mr: 0.5 }}
-//                color="error"
-//                onClick={handleDeleteButtonClicked}
-//              >
-//                <DeleteIcon />
-//              </IconButton>
-//            </Tooltip>
-//          </>
-//        ),
-//      },
-//    ];
+  const handleCloseEditDialog = () => setIsEditDialogOpen(false);
 
-//    return (
-//      <>
-//      <Stack gap={1.5} width="73%" pt={3}>
-//        <Button
-//          startIcon={<AddIcon />}
-//          variant="contained"
-//          onClick={handleOpenDialog}
-//          sx={{ width: "fit-content" }}
-//        >
-//         Field
-//        </Button>
-//        <AddDepartmentDialog open={isDialogOpen} onClose={handleCloseDialog} />
-//        <Typography variant="h6" fontWeight={500}>
-//          All Fields
-//        </Typography>
+  const handleDeleteButtonClicked = (department: Department) => {
+    setSelectedDepartment(department);
+    setIsConfirmDialogOpen(true);
+  };
 
-//        <div style={{ height: 400, width: "100%" }}>
-//          <DataGrid
-//            rows={departments}
-//            columns={columns}
-//            initialState={{
-//              pagination: {
-//                paginationModel: { page: 0, pageSize: 5 },
-//              },
-//            }}
-//            pageSizeOptions={[5, 10]}
-//            checkboxSelection
-//          />
-//        </div>
+  const handleEditButtonClick = (department: Department) => {
+    setSelectedDepartment(department);
+    handleOpenEditDialog();
+  };
 
-//        {/* <EditDepartmentDialog
-//          open={isEditDialogOpen}
-//          onClose={handleCloseEditDialog}
-//          department={department}
-//        /> */}
+  const columns: GridColDef[] = [
+    { field: "name", headerName: "Name", width: 450 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 200,
+      renderCell: (params) => (
+        <>
+          <Tooltip title="Edit department">
+            <IconButton
+              onClick={() => handleEditButtonClick(params.row)}
+              aria-label="Edit department"
+              sx={{ mr: 0.5 }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
 
-//        <ConfirmDialog
-//          isOpen={isConfirmDialogOpen}
-//          title="Remove Department"
-//          body="Are you sure you want to permanently remove department?"
-//          onClose={closeConfirmDialog}
-//          actions={[
-//            {
-//              text: "Cancel",
-//              onClick: closeConfirmDialog,
-//              sx: { color: "grey.700" },
-//            },
-//            {
-//              text: "Delete",
-//              onClick: () => {
-//                closeConfirmDialog();
-//             //    removeDepartment(department.id);
-//                handleCloseDialog();
-//              },
-//              color: "error",
-//            },
-//          ]}
-//        />
-//      </Stack>
-//      </>
-//    );
-//  };
+          <Tooltip title="Delete department">
+            <IconButton
+              aria-label="Delete department"
+              sx={{ mr: 0.5 }}
+              color="error"
+              onClick={() => handleDeleteButtonClicked(params.row)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+  ];
+  console.log(isEditDialogOpen);
 
-//  export default FieldDetails;
+  return (
+    <>
+      <Stack gap={1.5} width="73%" pt={3} sx={{ ml: { xs: 2, md: 0 } }}>
+        <Button
+          startIcon={<AddIcon />}
+          variant="contained"
+          onClick={handleOpenAddDialog}
+          sx={{ width: "fit-content" }}
+        >
+          Field
+        </Button>
+
+        <Typography variant="h6" fontWeight={500}>
+          All fields
+        </Typography>
+
+        <Stack sx={{ height: "100%", width: "100%" }}>
+          <DataGrid
+            rows={departments}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10, 20]}
+            getRowSpacing={(params) => ({
+              top: params.isFirstVisible ? 0 : 5,
+              bottom: params.isLastVisible ? 0 : 5,
+            })}
+            sx={{ width: { xs: 320, md: 650, lg: 1100 }, bgcolor: grey[100] }}
+          />
+        </Stack>
+      </Stack>
+
+      <AddFieldDialog open={isDialogOpen} onClose={handleCloseDialog} />
+
+      <EditDepartmentDialog
+        open={isEditDialogOpen}
+        onClose={handleCloseEditDialog}
+        department={selectedDepartment!}
+      />
+
+      <ConfirmDialog
+        isOpen={isConfirmDialogOpen}
+        title="Remove Field"
+        body="Are you sure you want to permanently remove this field?"
+        onClose={handleCloseConfirmDialog}
+        actions={[
+          {
+            text: "Cancel",
+            onClick: handleCloseConfirmDialog,
+            sx: { color: "grey.700" },
+          },
+          {
+            text: "Delete",
+            onClick: () => {
+              handleCloseConfirmDialog();
+              removeDepartment(selectedDepartment!.id);
+              handleCloseDialog();
+            },
+            color: "error",
+          },
+        ]}
+      />
+    </>
+  );
+};
+
+export default FieldDetails;

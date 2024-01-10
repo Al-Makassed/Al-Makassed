@@ -10,6 +10,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import EditDepartmentDialog from "./EditDepartmentDialog";
 import ConfirmDialog from "src/components/ConfirmDialog";
 import useDeleteDepartment from "../hooks/useDeleteDepartment";
+import { grey } from "@mui/material/colors";
 
 const DepartmentDetails: FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -78,7 +79,7 @@ const DepartmentDetails: FC = () => {
 
   return (
     <>
-      <Stack gap={1.5} sx={{ border: "1px solid red" }} width="73%" pt={3}>
+      <Stack gap={1.5} width="73%" pt={3} sx={{ ml: { xs: 2, md: 0 } }}>
         <Button
           startIcon={<AddIcon />}
           variant="contained"
@@ -98,7 +99,7 @@ const DepartmentDetails: FC = () => {
             columns={columns}
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
+                paginationModel: { page: 0, pageSize: 5 },
               },
             }}
             pageSizeOptions={[5, 10, 20]}
@@ -106,6 +107,7 @@ const DepartmentDetails: FC = () => {
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
+            sx={{ width: { xs: 320, md: 650, lg: 1100 }, bgcolor: grey[100] }}
           />
         </Stack>
       </Stack>

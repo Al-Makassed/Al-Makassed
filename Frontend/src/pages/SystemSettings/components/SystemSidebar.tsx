@@ -7,8 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import SendIcon from "@mui/icons-material/Send";
+import GroupIcon from "@mui/icons-material/Group";
 import { useNavigate } from "react-router-dom";
+import BusinessIcon from "@mui/icons-material/Business";
+import FieldIcon from "@mui/icons-material/QuizOutlined";
 
 const drawerWidth = 300;
 
@@ -36,6 +38,8 @@ const SystemSidebar = () => {
           backgroundColor: (theme) => theme.palette.grey[200],
           mt: 8,
         },
+
+        display: { xs: "none", md: "block" },
       }}
       variant="permanent"
       anchor="left"
@@ -44,7 +48,7 @@ const SystemSidebar = () => {
         <List>
           <ListItemButton onClick={handleClickDepartment}>
             <ListItemIcon sx={{ mr: -2.5 }}>
-              <SendIcon />
+              <BusinessIcon />
             </ListItemIcon>
 
             <Typography
@@ -57,7 +61,7 @@ const SystemSidebar = () => {
 
           <ListItemButton onClick={handleClickField}>
             <ListItemIcon sx={{ mr: -2.5 }}>
-              <SendIcon />
+              <FieldIcon />
             </ListItemIcon>
 
             <Typography
@@ -70,7 +74,7 @@ const SystemSidebar = () => {
 
           <ListItemButton>
             <ListItemIcon sx={{ mr: -2.5 }}>
-              <SendIcon />
+              <GroupIcon />
             </ListItemIcon>
 
             <Typography

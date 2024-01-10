@@ -7,7 +7,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types/axios";
 
-const useGetFields = () => {
+const useGetUsers = () => {
   const dispatch = useAppDispatch();
 
   const { data: departments, error } = useQuery({
@@ -31,4 +31,4 @@ const useGetFields = () => {
   };
 };
 
-export default useGetFields;
+export default useGetUsers;

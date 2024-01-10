@@ -24,9 +24,9 @@ const DepartmentDetails = lazy(
   () => import("src/pages/SystemSettings/components/DepartmentDetails"),
 );
 
-// const FieldDetails = lazy(
-//   () => import("src/pages/SystemSettings/components/FieldDetails"),
-// );
+const FieldDetails = lazy(
+  () => import("src/pages/SystemSettings/components/FieldDetails"),
+);
 const AddMonitoringToolForm = lazy(
   () => import("src/pages/AddMonitoringToolDialog"),
 );
@@ -54,7 +54,7 @@ const AppRoutes: FC = () => {
             <Route path="counter-with-provider" element={<Counter2 />} />
             <Route path="settings" element={<SystemSettings />}>
               <Route path="department" element={<DepartmentDetails />} />
-              {/* <Route path="field" element={<FieldDetails />} /> */}
+              <Route path="field" element={<FieldDetails />} />
             </Route>
 
             <Route
