@@ -4,7 +4,7 @@ import { IconButton, Stack, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { formatDate } from "src/utils";
 import useApprovedRequests from "./hooks/useGetApprovalRequests";
-import { ApprovalRequest, PolicyApprovalRequest } from "./API/Types";
+import { ApprovalRequest } from "./API/Types";
 import { REQUEST_NAME } from "./constants";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
@@ -29,6 +29,9 @@ const DataTable: FC = () => {
   const openViewMonitoringToolDialog = () =>
     setOpenedDialog(DialogName.ViewMonitoringTool);
 
+  const openViewDependencyDialog = () =>
+    setOpenedDialog(DialogName.ViewDependency);
+
   const { approvePolicy } = useApprovedPolicy();
 
   const { deletePolicy } = useDeletePolicy();
@@ -45,7 +48,7 @@ const DataTable: FC = () => {
     else approvedMonitoringTool(row.entityId);
   };
 
-  const handleDeleteRequest = (row: PolicyApprovalRequest) => {
+  const handleDeleteRequest = (row: ApprovalRequest) => {
     if (row.entityType === 0)
       deletePolicy({ chapterId: row.info.chapterId, policyId: row.entityId });
     // else if (row.entityType === 1)
@@ -122,17 +125,21 @@ const DataTable: FC = () => {
     setEntityType(row.entityType);
 
     if (entityType === 0) {
+      console.log(row);
+
       setChapterId(row.info.chapterId);
-      setPolicyId(row.info.id);
+      setPolicyId(row.entityId);
       openViewPolicyDialog();
     } else if (entityType === 2) {
       setMonitoringToolId(row.entityId);
       openViewMonitoringToolDialog();
     } else if (entityType === 1) {
+      console.log(row);
+
       setChapterId(row.info.chapterId);
-      setPolicyId(row.entityId);
-      setDependencyId(row.info.id);
-      // console.log(row);
+      setPolicyId(row.info.policyId);
+      setDependencyId(row.entityId);
+      openViewDependencyDialog();
     }
   };
   return (
@@ -142,7 +149,7 @@ const DataTable: FC = () => {
           sx={{ pl: 1, pr: 1 }}
           rows={requests}
           columns={columns}
-          getRowId={(row) => row.info.id}
+          getRowId={(row) => row.entityId}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 8 },
@@ -163,7 +170,6 @@ const DataTable: FC = () => {
       {entityType === 1 && (
         <ViewDependencyDialog
           chapterId={chapterId}
-          // chapterId="402b9f32-64f2-41d9-762d-08dbd6f10490"
           policyId={policyId}
           dependencyId={dependencyId}
           open={openedDialog === DialogName.ViewDependency}

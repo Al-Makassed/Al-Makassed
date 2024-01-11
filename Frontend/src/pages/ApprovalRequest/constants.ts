@@ -22,3 +22,8 @@ export enum DialogName {
   ViewDependency = "ViewDependency",
   ViewMonitoringTool = "ViewMonitoringTool",
 }
+export enum PolicyDependencyType {
+  Form = 0,
+  Poster = 1,
+  Protocol = 2,
+}

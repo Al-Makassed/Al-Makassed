@@ -3,6 +3,7 @@ import {
   ApprovalRequest,
   DeletePolicy,
   Dependency,
+  GetDependency,
   MonitoringTool,
   Policy,
 } from "./Types";
@@ -54,11 +55,7 @@ export const getPolicy = (chapterId: string, id: string) => {
     .get<Policy>(`/chapters/${chapterId}/policies/${id}`)
     .then((res) => res.data);
 };
-export const getDependency = (
-  chapterId: string,
-  policyId: string,
-  id: string,
-) => {
+export const getDependency = ({ chapterId, policyId, id }: GetDependency) => {
   return axios
     .get<Dependency>(
       `/chapters/${chapterId}/policies/${policyId}/policy-dependencies/${id}`,

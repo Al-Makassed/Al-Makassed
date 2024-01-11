@@ -8,21 +8,21 @@ export interface ApprovalRequest {
   entityId: string;
   info: Info;
 }
-export interface PolicyApprovalRequest {
-  title: string;
-  createdAt: string;
-  requesterId: string;
-  entityType: RequestEntityType;
-  entityId: string;
-  info: PolicyInfo;
-}
+// export interface PolicyApprovalRequest {
+//   title: string;
+//   createdAt: string;
+//   requesterId: string;
+//   entityType: RequestEntityType;
+//   entityId: string;
+//   info: PolicyInfo;
+// }
 export interface Info {
   chapterId: string;
-  id: string;
+  policyId: string;
 }
-export interface PolicyInfo extends Info {
-  chapterId: string; ////To Edit this
-}
+// export interface PolicyInfo extends Info {
+//   chapterId: string; ////To Edit this
+// }
 export interface Field {
   id: string;
   content: string;
@@ -60,11 +60,19 @@ export interface Policy {
 }
 
 export interface Dependency {
+  id: string;
   name: string;
   code: string;
   pdfUrl: string;
+  type: number;
   estimatedTime: number;
   pagesCount: number;
-  policyCode: string;
-  policyDependencyType: number;
+  createdAt: string;
+  isApproved: boolean;
+  creatorId: string;
+}
+export interface GetDependency {
+  chapterId: string;
+  policyId: string;
+  id: string;
 }

@@ -6,12 +6,9 @@ import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types";
 import { getDependency } from "../API";
+import { GetDependency } from "../API/Types";
 
-const useGetDependency = (
-  chapterId: string,
-  policyId: string,
-  dependencyId: string,
-) => {
+const useGetDependency = ({ chapterId, policyId, id }: GetDependency) => {
   const dispatch = useAppDispatch();
   const {
     data: dependency,
@@ -19,8 +16,8 @@ const useGetDependency = (
     isError,
     error,
   } = useQuery({
-    queryFn: () => getDependency(chapterId, policyId, dependencyId),
-    queryKey: [Dependency_QUERY_KEY, chapterId, policyId, dependencyId],
+    queryFn: () => getDependency({ chapterId, policyId, id }),
+    queryKey: [Dependency_QUERY_KEY, chapterId, policyId, id],
   });
 
   useEffect(() => {
