@@ -1,5 +1,6 @@
 ﻿using Makassed.Api.Dependencies;
 using Makassed.Api.Mappings;
+using Makassed.Api.Validators.Users;
 
 namespace Makassed.Api;
 
@@ -26,6 +27,8 @@ public static class DependencyInjection
         SieveConfiguration.AddSieve(services, configuration);
 
         services.AddAutoMapper(typeof(AutoMapperProfile));
+
+        services.AddScoped<UpdateUserRequestValidator>();
 
         // Convert the URLs, including controller and action names, to lowercase
         services.AddRouting(options =>

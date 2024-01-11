@@ -9,7 +9,7 @@ import {
   ListItemText,
   Button,
 } from "@mui/material";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Dependency } from "src/API/types";
 import useGetPolicy from "../hooks/useGetPolicy";
 import { useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependenc
 import useDeleteDependency from "../hooks/useDeleteDependency";
 import { DialogName, PolicyDependencyType } from "../constants";
 import ConfirmDialog from "src/components/ConfirmDialog";
+import EmptyDependency from "../../../components/EmptyList/EmptyList";
 
 const PostersList: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -61,49 +62,60 @@ const PostersList: FC = () => {
   return (
     <>
       <Stack gap={3}>
-        <Typography variant="subtitle1" fontWeight={500}>
-          Posters information
-        </Typography>
-        <Tooltip title="Delete All">
-          <Button
-            size="small"
-            variant="outlined"
-            color="error"
-            aria-label="Delete All"
-            onClick={openConfirmDeleteAllPostersDialog}
-            startIcon={<DeleteIcon />}
-            disabled={policyPosters?.length === 0}
-          >
-            Delete
-          </Button>
-        </Tooltip>
-        <List
-          sx={{
-            border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
-            borderRadius: (theme) => theme.shape.borderRadius,
-            mt: 0,
-          }}
-          disablePadding
-        >
-          {policyPosters.map((policyPoster: Dependency, index) => (
-            <ListItem sx={{ pl: 4 }} key={index}>
-              <ListItemIcon sx={{ color: (theme) => theme.palette.error.main }}>
-                <PictureAsPdfIcon />
-              </ListItemIcon>
-              <ListItemText primary={policyPoster.name} sx={{ ml: -2 }} />
+        <Stack direction={"row"}>
+          <Typography variant="subtitle1" fontWeight={500}>
+            Posters information
+          </Typography>
+          <Tooltip title="Delete All">
+            <Button
+              size="small"
+              variant="outlined"
+              color="error"
+              aria-label="Delete All"
+              onClick={openConfirmDeleteAllPostersDialog}
+              startIcon={<DeleteIcon />}
+              disabled={policyPosters?.length === 0}
+              sx={{ ml: "auto", textTransform: "none" }}
+            >
+              Delete All
+            </Button>
+          </Tooltip>
+        </Stack>
 
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete Poster"
-                  onClick={() => handleDeleteSetting(policyPoster)}
+        {policyPosters.length === 0 && <EmptyDependency type="poster" />}
+
+        {policyPosters.length > 0 && (
+          <List
+            sx={{
+              border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
+              borderRadius: (theme) => theme.shape.borderRadius,
+              mt: 0,
+            }}
+            disablePadding
+          >
+            {policyPosters.map((policyPoster: Dependency, index) => (
+              <ListItem sx={{ pl: 4 }} key={index}>
+                <ListItemIcon
+                  sx={{ color: (theme) => theme.palette.error.main }}
                 >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </ListItem>
-          ))}
-        </List>
+                  <PictureAsPdfIcon />
+                </ListItemIcon>
+                <ListItemText primary={policyPoster.name} sx={{ ml: -2 }} />
+
+                <Tooltip title="Delete">
+                  <IconButton
+                    aria-label="Delete Poster"
+                    onClick={() => handleDeleteSetting(policyPoster)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </ListItem>
+            ))}
+          </List>
+        )}
       </Stack>
+
       <ConfirmDialog
         isOpen={openedDialog === DialogName.DeleteForms}
         title="Delete All Posters"
@@ -125,6 +137,7 @@ const PostersList: FC = () => {
           },
         ]}
       />
+
       <ConfirmDialog
         isOpen={openedDialog === DialogName.DeletePoster}
         title="Delete Poster"

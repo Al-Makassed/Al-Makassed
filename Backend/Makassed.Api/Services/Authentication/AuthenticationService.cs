@@ -3,7 +3,6 @@ using Makassed.Api.Models.Domain;
 using Makassed.Api.ServiceErrors;
 using Makassed.Contracts.Authentication;
 using Makassed.Contracts.General;
-using Makassed.Contracts.User.Roles;
 using Microsoft.AspNetCore.Identity;
 
 namespace Makassed.Api.Services.Authentication;
@@ -182,47 +181,6 @@ public class AuthenticationService : IAuthenticationService
 
         // Return a success message.
         return new SuccessResponse( Message : "Password changed successfully." );
-    }
-
-    public async Task<ErrorOr<SuccessResponse>> UpdateUserRolesAsync(string userId, UpdateUserRolesRequest request)
-    {
-        // Attempt to find the user by ID and if the user is not found, return a "User Not Found" error.
-        var user = await _userManager.FindByIdAsync(userId);
-
-        if (user is null)
-            return Errors.User.NotFound;
-
-        // Get the roles associated with the user.
-        var oldUserRoles = await _userManager.GetRolesAsync(user);
-
-        // Check if the roles are valid, if no valid role, keep the original roles.
-        var validRoles = new List<string>();
-
-        foreach (var role in request.Roles)
-        {
-            if (await _roleManager.RoleExistsAsync(role))
-                validRoles.Add(role);
-        }
-
-        if (!validRoles.Any())
-            return Errors.User.Role.NoValidRoles;
-
-        // Remove the all roles from user.
-        var removeUserFromRolesResult = await _userManager.RemoveFromRolesAsync(user, oldUserRoles);
-
-        // If removing the user from all roles failed, return a "Something Went Wrong" error with the errors provided by Identity.
-        if (!removeUserFromRolesResult.Succeeded)
-            return Errors.User.SomethingWentWrong(removeUserFromRolesResult.Errors);
-
-        // Add the valid role/s to the user.
-        var identityResult = await _userManager.AddToRolesAsync(user, validRoles);
-
-        // If adding the role to the user failed, return an "Add To Role Failed" error.
-        if (!identityResult.Succeeded)
-            return Errors.User.SomethingWentWrong(removeUserFromRolesResult.Errors);
-
-        // Return a success message.
-        return new SuccessResponse(Message: "User roles updated successfully.");    
     }
 
     public async Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request)
