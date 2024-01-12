@@ -39,14 +39,16 @@ const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
     <ListItemButton
       sx={{
         border: "0.1rem solid",
-        borderColor: "primary.main",
+        borderColor: (theme) => theme.palette.grey[300],
         borderRadius: 4,
         minHeight: 70,
         ":hover": {
           backgroundColor: teal[50],
+          borderColor: "primary.main",
           color: "primary.main",
         },
         alignItems: "center",
+        transition: "all 0.3s ease",
       }}
       onClick={() => handleClick(result)}
     >

@@ -18,7 +18,7 @@ export function typeToString(entityType: SearchEntityType): string {
     case SearchEntityType.MonitoringTool:
       return "Monitoring Tool";
     case SearchEntityType.FocalPointTask:
-      return "Focal-Point Task";
+      return "Task";
     default:
       throw new Error(`Unhandled SearchEntityType: ${entityType}`);
   }
