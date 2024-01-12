@@ -48,8 +48,8 @@ const AccountMenu: FC = () => {
     navigate("/login");
   };
   const handleResetPassword = () => {
-    navigate("/me/reset-password");
     handleClose();
+    navigate("/me/reset-password");
   };
   return (
     <>
