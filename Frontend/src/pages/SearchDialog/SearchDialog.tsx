@@ -1,14 +1,17 @@
 import SearchIcon from "@mui/icons-material/Search";
 // import ArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeftRounded";
 import { InputBase, List, Stack, Typography } from "@mui/material";
+import LoaderCell from "@mui/material/CircularProgress";
 import Lottie from "lottie-react";
 import { ChangeEvent, FC, useState } from "react";
-import search from "src/animation/search.json";
+import noMatches from "src/animation/noMatches.json";
 import MaqasidDialog from "src/components/MaqasidDialog";
+import useMediaQuery from "src/hooks/useMediaQuery";
 import ResultsListItemButton from "./components/ResultsListItemButton";
+import SearchLottie from "./components/SearchLottie";
+import SearchingSkeleton from "./components/SearchingSkeleton";
 import useGetSearchResults from "./hooks/useGetSearchResults";
 import { SearchDialogProps } from "./types";
-import useMediaQuery from "src/hooks/useMediaQuery";
 
 const SearchDialog: FC<SearchDialogProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState<string>("");
@@ -24,17 +27,20 @@ const SearchDialog: FC<SearchDialogProps> = ({ isOpen, onClose }) => {
   return (
     <MaqasidDialog
       isOpen={isOpen}
-      // isOpen={true}
       onClose={onClose}
       variant="center"
       fullWidthOnSmallScreen={isMobile}
     >
       <MaqasidDialog.Header>
         <Stack direction="row" alignItems="center" width="100%">
-          <SearchIcon
-            color="primary"
-            sx={{ fontSize: { xs: "1.5rem", md: "1.8rem" } }}
-          />
+          {!isSearching && (
+            <SearchIcon
+              color="primary"
+              sx={{ fontSize: { xs: "1.5rem", md: "1.8rem" } }}
+            />
+          )}
+
+          {isSearching && <LoaderCell color="primary" size={20} />}
 
           <InputBase
             sx={{
@@ -56,25 +62,40 @@ const SearchDialog: FC<SearchDialogProps> = ({ isOpen, onClose }) => {
       </MaqasidDialog.Header>
 
       <MaqasidDialog.Body niceScroll>
+        {isSearching && <SearchingSkeleton />}
+
         {!isSearching && (
-          <Stack alignItems="center" width="100%">
-            <Lottie animationData={search} style={{ width: "250px" }} />
-          </Stack>
-        )}
-        {isSearching ? (
-          <Typography variant="body1">Searching...</Typography>
-        ) : (
-          <List>
-            <Stack gap={2}>
-              {results &&
-                results.map((result) => (
+          <List disablePadding>
+            {results && (
+              <Stack gap={2}>
+                {results.map((result) => (
                   <ResultsListItemButton
                     key={result.id}
                     result={result}
                     handleClose={onClose}
                   />
                 ))}
-            </Stack>
+              </Stack>
+            )}
+
+            {results?.length === 0 && (
+              <Stack alignItems="center" width="100%">
+                {query.trim() === "" ? (
+                  <SearchLottie />
+                ) : (
+                  <>
+                    <Lottie
+                      animationData={noMatches}
+                      style={{ width: "150px", marginTop: "-3em" }}
+                    />
+
+                    <Typography variant="body1" textAlign={"center"}>
+                      No matches found for "<strong>{query}</strong>"
+                    </Typography>
+                  </>
+                )}
+              </Stack>
+            )}
           </List>
         )}
       </MaqasidDialog.Body>

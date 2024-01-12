@@ -38,6 +38,7 @@ export interface DependencySearchResponse extends SearchResponse {
   type: PolicyDependencyType;
   isApproved: boolean;
   policyId: string;
+  pdfUrl: string;
 }
 
 export interface MonitoringToolSearchResponse extends SearchResponse {
@@ -45,4 +46,27 @@ export interface MonitoringToolSearchResponse extends SearchResponse {
   description: string;
   lastModified: string;
   isApproved: boolean;
+}
+
+export interface Field {
+  id: string;
+  content: string;
+}
+
+export interface Department {
+  id: string;
+  name: string;
+  headId: string;
+}
+
+export interface MonitoringTool {
+  id: string;
+  name: string;
+  description: string;
+  lastModified: string;
+  createdAt: string;
+  isApproved: boolean;
+  creatorId: string;
+  fields: Field[];
+  departments: Department[];
 }

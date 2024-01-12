@@ -7,16 +7,26 @@ import {
 import { teal } from "@mui/material/colors";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { PolicySearchResponse, SearchResponse } from "../API/types";
+import {
+  DependencySearchResponse,
+  PolicySearchResponse,
+  SearchResponse,
+} from "../API/types";
 import { ResultsListItemButtonProps } from "../types";
 import { typeToString } from "../utils";
 import EntityIcon from "./EntityIcon";
+// import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+// import useGetMonitoringTool from "src/pages/UpdateMonitoringToolDialog/hooks/useGetMonitoringTool";
 
-const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
+export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
   result,
   handleClose,
 }) => {
   const navigate = useNavigate();
+
+  // const { monitoringTool } = useGetMonitoringTool(result.id);
+
+  // const { onOpenMTViewDialog } = useMonitoringToolsContext();
 
   const handleClick = (result: SearchResponse) => {
     switch (result.searchEntityType) {
@@ -28,6 +38,15 @@ const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
         );
         break;
 
+      case 2:
+        window.open((result as DependencySearchResponse).pdfUrl, "_blank");
+        break;
+
+      case 3:
+        navigate(`/me/monitoring-tools`);
+        // monitoringTool && onOpenMTViewDialog(monitoringTool);
+        break;
+
       case 4:
         navigate(`/me/monitoring-tools/task/${result.id}`);
         break;
@@ -35,6 +54,7 @@ const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
 
     handleClose();
   };
+
   return (
     <ListItemButton
       sx={{
@@ -59,13 +79,13 @@ const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
       <ListItemText primary={result.name} />
 
       {/* <ArrowLeftIcon
-        sx={{
-          mr: 1,
-          color: "primary.main",
-          opacity: 0,
-          transition: "opacity 0.3s ease",
-        }}
-      /> */}
+              sx={{
+                mr: 1,
+                color: "primary.main",
+                opacity: 0,
+                transition: "opacity 0.3s ease",
+              }}
+            /> */}
 
       <Chip
         label={typeToString(result.searchEntityType)}
