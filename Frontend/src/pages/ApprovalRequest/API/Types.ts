@@ -53,6 +53,7 @@ export interface Policy {
   id: string;
   code: string;
   name: string;
+  summary: string;
   state: boolean;
   pdfUrl: string;
   chapterId: string;
@@ -76,3 +77,4 @@ export interface GetDependency {
   policyId: string;
   id: string;
 }
+export interface DeleteDependency extends GetDependency {}

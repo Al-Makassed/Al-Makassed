@@ -17,6 +17,7 @@ import ViewPolicyDialog from "./components/ViewPolicyDialog";
 import ViewMonitoringToolDialog from "./components/ViewMonitoringToolDialog";
 import { DialogName } from "./constants";
 import ViewDependencyDialog from "./components/ViewDependencyDialog";
+import useDeleteDependency from "./hooks/useDeleteDependency";
 
 const DataTable: FC = () => {
   const { requests } = useApprovedRequests();
@@ -42,6 +43,8 @@ const DataTable: FC = () => {
 
   const { approvedMonitoringTool } = useApprovedMonitoringTool();
 
+  const { deleteDependency } = useDeleteDependency();
+
   const handleApproval = (row: ApprovalRequest) => {
     if (row.entityType === 0) approvePolicy(row.entityId);
     else if (row.entityType === 1) approvedPolicyDependency(row.entityId);
@@ -51,12 +54,12 @@ const DataTable: FC = () => {
   const handleDeleteRequest = (row: ApprovalRequest) => {
     if (row.entityType === 0)
       deletePolicy({ chapterId: row.info.chapterId, policyId: row.entityId });
-    // else if (row.entityType === 1)
-    // deleteDependency({
-    //   chapterId: row.info.chapterId,
-    //   policyId: row.entityId,
-    //   dependencyId: row.entityId,
-    // });
+    else if (row.entityType === 1)
+      deleteDependency({
+        chapterId: row.info.chapterId,
+        policyId: row.info.policyId,
+        id: row.entityId,
+      });
     else removeMonitoringTool(row.entityId);
   };
 

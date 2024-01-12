@@ -57,8 +57,7 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
               <SegmentIcon
                 sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
               />
-              {/* <Typography>{policy.summary}</Typography>//To Do This Line Form BackEnd  */}
-              <Typography>This is summary </Typography>
+              <Typography>{policy?.summary}</Typography>
             </Stack>
 
             <Stack direction="row">

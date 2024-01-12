@@ -1,6 +1,7 @@
 import axios from "src/API/axios";
 import {
   ApprovalRequest,
+  DeleteDependency,
   DeletePolicy,
   Dependency,
   GetDependency,
@@ -62,4 +63,14 @@ export const getDependency = ({ chapterId, policyId, id }: GetDependency) => {
     )
     .then((res) => res.data);
 };
-// to do delete dependency
+export const deleteDependencyAPI = ({
+  chapterId,
+  policyId,
+  id,
+}: DeleteDependency) => {
+  return axios
+    .delete<void>(
+      `/chapters/${chapterId}/policies/${policyId}/policy-dependencies/${id}`,
+    )
+    .then((res) => res.data);
+};
