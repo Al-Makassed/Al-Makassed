@@ -22,9 +22,9 @@ const FieldCard: FC<FieldCardProps> = ({ field, onAnswerChange }) => {
   return (
     <Paper
       sx={{
-        px: 2,
-        py: 1,
-        // width: { md: 600 },
+        px: 3,
+        py: 1.75,
+        borderRadius: 1.5,
       }}
       variant="outlined"
     >

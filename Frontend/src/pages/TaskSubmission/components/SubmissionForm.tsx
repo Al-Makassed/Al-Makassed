@@ -14,8 +14,8 @@ const SubmissionForm: FC<SubmissionFormProps> = ({ focalPointTask }) => {
 
   const {
     id,
-    monitoringTool: { fields },
     departmentId,
+    monitoringTool: { fields },
   } = focalPointTask;
 
   const handleAnswerChange = (fieldId: string, answer: boolean) => {

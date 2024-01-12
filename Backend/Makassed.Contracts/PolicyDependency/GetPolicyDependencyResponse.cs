@@ -23,6 +23,4 @@ public record  GetPolicyDependencyResponse
     public bool IsApproved { get; set; }
 
     public required string CreatorId { get; set; }
-    
-    public required string PolicyCode { get; set; }
 }

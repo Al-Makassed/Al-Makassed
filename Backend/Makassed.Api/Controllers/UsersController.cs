@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
 
-[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 public class UsersController : ApiController
 {
     private readonly IUserService _userService;

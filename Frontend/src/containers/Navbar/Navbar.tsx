@@ -2,34 +2,29 @@ import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AccountMenu from "src/components/AccountMenu";
-import { SETTINGS, NAVBAR_PAGES } from "./constants";
 import { selectIsNavbarVisible } from "src/features/appSettings/selectors";
-import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
 import maqasidLogo from "../../images/logo.jpg";
 import LanguageSelector from "./components/LanguageSelector";
 import MobileMenu from "./components/MobileMenu";
-import SearchBar from "./components/SearchBar";
-// import SidebarChevron from "./components/SidebarChevron";
-import { useNavigate } from "react-router-dom";
+import SearchButton from "./components/SearchButton";
+import { NAVBAR_PAGES } from "./constants";
+// import SearchBar from "./components/SearchBar";
 
 const Navbar = () => {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  // const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const { isMobile } = useMediaQuery();
+  // const { isMobile } = useMediaQuery();
+
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   const isNavbarVisible = useAppSelector(selectIsNavbarVisible);
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   const navigate = useNavigate();
 
@@ -39,16 +34,17 @@ const Navbar = () => {
 
   return (
     <AppBar position="static" elevation={0} color="primary">
-      <Toolbar sx={{ gap: 1 }}>
+      <Toolbar sx={{ gap: { xs: 0.5, sm: 1 } }}>
         <Avatar
           alt="logo"
           sx={{
-            display: { xs: "none", md: "flex" },
             cursor: "pointer",
           }}
           src={maqasidLogo}
           onClick={handleNavigate("/me")}
         />
+
+        <MobileMenu />
 
         <Stack
           direction="row"
@@ -73,14 +69,14 @@ const Navbar = () => {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {!isMobile && <SearchBar />}
-
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             alignItems: "center",
             gap: 2,
             color: (theme) => theme.palette.grey[50],
+            bgcolor:"red",
+            width: "100px",
           }}
         >
           <Menu
@@ -99,10 +95,11 @@ const Navbar = () => {
               </MenuItem>
             ))}
           </Menu>
-        </Box>
+        </Box> */}
 
-        <Stack direction="row" gap={1}>
-          <MobileMenu />
+        <Stack direction="row" gap={1} alignItems={"center"}>
+          {/* {!isMobile && <SearchBar />} */}
+          <SearchButton />
           <LanguageSelector />
           <AccountMenu />
         </Stack>

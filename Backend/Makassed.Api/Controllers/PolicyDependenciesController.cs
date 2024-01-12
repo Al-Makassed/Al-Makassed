@@ -51,9 +51,12 @@ public class PolicyDependenciesController : ApiController
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPolicyDependency(Guid policyId, Guid id)
     {
-        var policyDependency =  await _policyDependencyService.GetPolicyDependencyByIdAsync(policyId, id);
+        var policyDependencyResult =  await _policyDependencyService.GetPolicyDependencyByIdAsync(policyId, id);
 
-        return Ok(_mapper.Map<GetPolicyDependencyResponse>(policyDependency));
+        return policyDependencyResult.Match(
+            policyDependency => Ok(_mapper.Map<GetPolicyDependencyResponse>(policyDependency)),
+            errors => Problem(errors)
+        );
     }
 
 

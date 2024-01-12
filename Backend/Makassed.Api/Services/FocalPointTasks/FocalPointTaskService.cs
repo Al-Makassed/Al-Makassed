@@ -1,6 +1,5 @@
 using ErrorOr;
 using Makassed.Api.Models.Domain;
-using Makassed.Api.Repositories;
 using Makassed.Api.Repositories.Interfaces;
 using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Users;
@@ -137,5 +136,40 @@ public class FocalPointTaskService : IFocalPointTaskService
         await _unitOfWork.SaveChangesAsync();
 
         return addedSubmission;
+    }
+
+    // get all submissions for a focal point task
+    public async Task<ErrorOr<List<Submission>>> GetTaskSubmissionsLogAsync(Guid departmentId, Guid id)
+    {        
+        // check if department exists
+        var department = await _departmentRepository.GetDepartmentAsync(departmentId);
+
+        if (department is null)
+            return Errors.Department.NotFound;
+
+        // Check if the focal point task is assigned to the department
+        var focalPointTask = department.FocalPointTasks.FirstOrDefault(fpt => fpt.Id == id);
+
+        if (focalPointTask is null)
+            return Errors.FocalPointTask.NotAssignedToDepartment;
+
+        // if the authenticated user role is focal point, check if the given department id is the same as the user's department id
+        var authenticatedUserRole = await _userService.GetUserRoleAsync();
+
+        if (authenticatedUserRole!.Equals("Focal Point", StringComparison.OrdinalIgnoreCase))
+        {
+            var userDepartmentIdResult = await _userService.GetUserDepartmentIdAsync();
+
+            if (userDepartmentIdResult.IsError)
+                return userDepartmentIdResult.Errors;
+
+            if (userDepartmentIdResult.Value != departmentId)
+                return Errors.User.Unauthorized;
+        }
+
+        // get all submissions for the focal point task
+        var submissions = await _submissionRepository.GetFocalPointTaskSubmissionsAsync(id);
+
+        return submissions;
     }
 }
