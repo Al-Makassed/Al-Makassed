@@ -2,10 +2,10 @@ import { useFormik } from "formik";
 import { INITIAL_VALUES } from "../constants";
 import validationSchema from "../schema";
 import { SignupFormPayload } from "../types";
-import useSignupAPI from "./useSignupAPI";
+import useSignUpAPI from "./useSignUpAPI";
 
 const useSignupForm = () => {
-  const { signupUser } = useSignupAPI();
+  const { signupUser } = useSignUpAPI();
 
   const submitForm = (values: SignupFormPayload) => {
     const { userId, userName, fullName, email, roles, departmentId, password } =

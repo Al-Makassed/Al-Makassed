@@ -1,14 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import { SignUpApi } from "../API";
-// import { useNavigate } from "react-router-dom";
+import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
+import { useAppDispatch } from "src/store/hooks";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { useAppDispatch } from "src/store/hooks";
-import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
+import { SignUpApi } from "../API";
 
-const useSignupAPI = () => {
+const useSignUpAPI = () => {
   const dispatch = useAppDispatch();
-  //   const navigate = useNavigate();
 
   const { mutateAsync: signupUser, isPending: isLoggingIn } = useMutation({
     mutationFn: SignUpApi,
@@ -37,4 +35,4 @@ const useSignupAPI = () => {
   };
 };
 
-export default useSignupAPI;
+export default useSignUpAPI;

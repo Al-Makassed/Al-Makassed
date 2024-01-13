@@ -9,7 +9,7 @@ import useSignUpForm from "./hooks/useSignUpForm";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import ArrayTextField from "src/components/Fields/ArrayTextField";
 
-const SignUp: FC = () => {
+const SignUpDialog: FC = () => {
   const formikProps = useSignUpForm();
 
   const { submitForm, isSubmitting, dirty, isValid } = formikProps;
@@ -23,12 +23,7 @@ const SignUp: FC = () => {
   return (
     <MaqasidDialog isOpen={isOpen} onClose={handleClose} variant="right">
       <MaqasidDialog.Header>
-        <MaqasidDialog.Title
-          flex={1}
-          title="SignUp"
-          subtitle="🩺 Al-Maqasid Platform, Your Gateway to Effortless Hospital
-            Management 🚀"
-        />
+        <MaqasidDialog.Title flex={1} title="Register User" />
         <MaqasidDialog.Actions>
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
@@ -73,7 +68,7 @@ const SignUp: FC = () => {
                 <TextField
                   name="email"
                   label="Email"
-                  placeholder="e.g. Israad@gmail.com"
+                  placeholder="e.g. israa@gmail.com"
                   fullWidth
                 />
               </Box>
@@ -116,4 +111,4 @@ const SignUp: FC = () => {
   );
 };
 
-export default SignUp;
+export default SignUpDialog;
