@@ -50,7 +50,7 @@ public class UsersController : ApiController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetUser(string id)
     {
         var userResult = await _userService.GetUserByIdAsync(id);
