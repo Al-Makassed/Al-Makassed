@@ -16,7 +16,8 @@ const useGetSearchResults = (query: string) => {
     error,
   } = useQuery({
     queryKey: [SEARCH_QUERY_KEY, query],
-    queryFn: () => (query ? getSearchResults(query) : Promise.resolve([])),
+    queryFn: () =>
+      query.trim() !== "" ? getSearchResults(query) : Promise.resolve([]),
   });
 
   useEffect(() => {

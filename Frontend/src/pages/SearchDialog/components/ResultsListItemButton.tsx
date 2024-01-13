@@ -1,19 +1,12 @@
-import {
-  Chip,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { teal } from "@mui/material/colors";
-import { FC } from "react";
+import ArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeftRounded";
+import { Chip, ListItemIcon, ListItemText } from "@mui/material";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  DependencySearchResponse,
-  PolicySearchResponse,
-  SearchResponse,
-} from "../API/types";
+import { SearchResponse } from "../API/types";
+import { StyledListItemButton } from "../styled";
 import { ResultsListItemButtonProps } from "../types";
-import { typeToString } from "../utils";
+import { handleEntityClick } from "../utils/searchEntityHandlers";
+import { typeToString } from "../utils/utils";
 import EntityIcon from "./EntityIcon";
 // import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 // import useGetMonitoringTool from "src/pages/UpdateMonitoringToolDialog/hooks/useGetMonitoringTool";
@@ -22,6 +15,8 @@ export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
   result,
   handleClose,
 }) => {
+  const [isHovered, setHovered] = useState(false);
+
   const navigate = useNavigate();
 
   // const { monitoringTool } = useGetMonitoringTool(result.id);
@@ -29,48 +24,15 @@ export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
   // const { onOpenMTViewDialog } = useMonitoringToolsContext();
 
   const handleClick = (result: SearchResponse) => {
-    switch (result.searchEntityType) {
-      case 1:
-        navigate(
-          `/me/policies-and-procedures/${
-            (result as PolicySearchResponse).chapterId
-          }/policies/${result.id}`,
-        );
-        break;
-
-      case 2:
-        window.open((result as DependencySearchResponse).pdfUrl, "_blank");
-        break;
-
-      case 3:
-        navigate(`/me/monitoring-tools`);
-        // monitoringTool && onOpenMTViewDialog(monitoringTool);
-        break;
-
-      case 4:
-        navigate(`/me/monitoring-tools/task/${result.id}`);
-        break;
-    }
-
+    handleEntityClick(result, navigate, window.open);
     handleClose();
   };
 
   return (
-    <ListItemButton
-      sx={{
-        border: "0.1rem solid",
-        borderColor: (theme) => theme.palette.grey[300],
-        borderRadius: 4,
-        minHeight: 70,
-        ":hover": {
-          backgroundColor: teal[50],
-          borderColor: "primary.main",
-          color: "primary.main",
-        },
-        alignItems: "center",
-        transition: "all 0.3s ease",
-      }}
+    <StyledListItemButton
       onClick={() => handleClick(result)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <ListItemIcon sx={{ minWidth: "fit-content", mr: 1.5 }}>
         <EntityIcon entityType={result.searchEntityType} />
@@ -78,14 +40,14 @@ export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
 
       <ListItemText primary={result.name} />
 
-      {/* <ArrowLeftIcon
-              sx={{
-                mr: 1,
-                color: "primary.main",
-                opacity: 0,
-                transition: "opacity 0.3s ease",
-              }}
-            /> */}
+      <ArrowLeftIcon
+        sx={{
+          mr: 1,
+          color: "primary.main",
+          opacity: isHovered ? 1 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      />
 
       <Chip
         label={typeToString(result.searchEntityType)}
@@ -96,7 +58,7 @@ export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
           fontWeight: "600",
         }}
       />
-    </ListItemButton>
+    </StyledListItemButton>
   );
 };
 

@@ -1,4 +1,4 @@
-import { SearchEntityType } from "./API/types";
+import { SearchEntityType } from "../API/types";
 
 /**
  * Converts a SearchEntityType to its string representation.

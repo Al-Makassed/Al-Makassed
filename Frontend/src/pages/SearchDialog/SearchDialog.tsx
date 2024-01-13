@@ -1,6 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search";
-// import ArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeftRounded";
-import { InputBase, List, Stack, Typography } from "@mui/material";
+import { Box, InputBase, List, Stack, Typography } from "@mui/material";
 import LoaderCell from "@mui/material/CircularProgress";
 import Lottie from "lottie-react";
 import { ChangeEvent, FC, useState } from "react";
@@ -81,18 +80,20 @@ const SearchDialog: FC<SearchDialogProps> = ({ isOpen, onClose }) => {
             {results?.length === 0 && (
               <Stack alignItems="center" width="100%">
                 {query.trim() === "" ? (
+                  // if the search input is empty or only contains space/s
                   <SearchLottie />
                 ) : (
-                  <>
+                  // if the search input is not empty, but no matches found
+                  <Box mt={-3.7} mb={1.5}>
                     <Lottie
                       animationData={noMatches}
-                      style={{ width: "150px", marginTop: "-3em" }}
+                      style={{ width: "150px" }}
                     />
 
                     <Typography variant="body1" textAlign={"center"}>
                       No matches found for "<strong>{query}</strong>"
                     </Typography>
-                  </>
+                  </Box>
                 )}
               </Stack>
             )}
