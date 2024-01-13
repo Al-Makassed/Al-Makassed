@@ -1,9 +1,5 @@
-import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline";
-import { LoadingButton } from "@mui/lab";
-import { Stack, Typography } from "@mui/material";
-import { FormikProvider } from "formik";
+import { Stack } from "@mui/material";
 import { FC } from "react";
-import TextField from "src/components/Fields/TextField";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import MaqasidDialog from "../../../components/MaqasidDialog";
 import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
@@ -12,24 +8,18 @@ import { DialogBodyAndFooterProps } from "../types";
 import DatesChips from "./DatesChips";
 import DepartmentsSection from "./DepartmentsSection";
 import FieldsSection from "./FieldsSection";
-import SectionHeader from "./SectionHeader";
+import NameAndDescriptionSections from "./NameAndDescriptionSections";
 
 const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   monitoringTool,
 }) => {
-  const {
-    state: { isEditingMode },
-    onToggleEditMode,
-  } = useUpdateMonitoringToolContext();
+  const { onToggleEditMode } = useUpdateMonitoringToolContext();
 
   const { onCloseDialog } = useMonitoringToolsContext();
 
-  const { formikProps, isPending } =
-    useUpdateMonitoringToolForm(monitoringTool);
+  const { formikProps } = useUpdateMonitoringToolForm(monitoringTool);
 
-  const { submitForm, dirty, isValid } = formikProps;
-
-  const handleSubmitForm = () => submitForm();
+  const { submitForm, dirty } = formikProps;
 
   const handleDiscard = () => {
     onCloseDialog();
@@ -43,7 +33,7 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
   };
 
   return (
-    <FormikProvider value={formikProps}>
+    <>
       <MaqasidDialog.Body>
         <Stack gap={2}>
           <DatesChips
@@ -51,48 +41,13 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
             lastModified={monitoringTool.lastModified}
           />
 
-          {/* Name Section */}
-          {isEditingMode && (
-            <Stack gap={2}>
-              <SectionHeader title="Name" />
-              <TextField name="name" />
-            </Stack>
-          )}
-
-          {/* Description Section */}
-          <>
-            <SectionHeader title="Description" />
-            {isEditingMode && <TextField name="description" multiline />}
-            {!isEditingMode && (
-              <Typography variant="body1" paragraph>
-                {monitoringTool.description}
-              </Typography>
-            )}
-          </>
+          <NameAndDescriptionSections monitoringTool={monitoringTool} />
 
           <FieldsSection fields={monitoringTool.fields} />
 
           <DepartmentsSection departments={monitoringTool.departments} />
         </Stack>
       </MaqasidDialog.Body>
-
-      {isEditingMode && (
-        <MaqasidDialog.Footer>
-          <LoadingButton
-            onClick={handleSubmitForm}
-            type="submit"
-            disabled={!dirty || !isValid}
-            variant="contained"
-            color="primary"
-            startIcon={<CheckCircleIcon />}
-            aria-label="Add Field"
-            loading={isPending}
-            loadingPosition="start"
-          >
-            Submit
-          </LoadingButton>
-        </MaqasidDialog.Footer>
-      )}
 
       <MaqasidDialog.SaveChangesConfirmationDialog
         isDirty={dirty}
@@ -108,7 +63,7 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
           onClick: handleSave,
         }}
       />
-    </FormikProvider>
+    </>
   );
 };
 

@@ -52,3 +52,9 @@ export interface AddFieldsToMTFormPayload {
 export interface AppendFieldsDialogProps {
   existedFields: Field[];
 }
+
+export interface FieldsCheckboxListProps {
+  fields: Field[];
+  selectedItems: string[];
+  onToggle: (fieldId: string) => void;
+}

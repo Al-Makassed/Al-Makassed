@@ -1,18 +1,17 @@
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
-import { Form, FormikProvider, useFormikContext } from "formik";
-import { FC } from "react";
+import { FC, useState } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import TransferList from "src/components/TransferList";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { DialogName } from "../constants";
 import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
-import useAddFieldToMonitoringToolForm from "../hooks/useAddFieldToMonitoringToolForm";
+import useAddFieldToMonitoringTool from "../hooks/useAddFieldToMonitoringTool";
 import useGetFields from "../hooks/useGetFields";
-import { AddFieldsToMTFormPayload, AppendFieldsDialogProps } from "../types";
+import { AppendFieldsDialogProps } from "../types";
+import FieldsCheckboxList from "./FieldsCheckboxList";
 
 const AppendFieldsDialog: FC<AppendFieldsDialogProps> = ({ existedFields }) => {
-  const { setFieldValue } = useFormikContext<AddFieldsToMTFormPayload>();
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const {
     state: { openedDialog },
@@ -23,15 +22,9 @@ const AppendFieldsDialog: FC<AppendFieldsDialogProps> = ({ existedFields }) => {
     state: { selectedMonitoringTool },
   } = useMonitoringToolsContext();
 
-  const { formikProps, isAdding } = useAddFieldToMonitoringToolForm(
-    selectedMonitoringTool!.id,
-  );
-
-  const { submitForm, dirty, isValid, errors } = formikProps;
-
-  console.log(errors);
-
   const { fields: allFields } = useGetFields();
+
+  const { appendFieldToMT, isAdding } = useAddFieldToMonitoringTool();
 
   // get the fields that are not already added to the monitoring tool.
   const selectableFields = allFields?.filter(
@@ -40,8 +33,19 @@ const AppendFieldsDialog: FC<AppendFieldsDialogProps> = ({ existedFields }) => {
 
   const handleCloseDialog = () => onCloseDialog();
 
+  const handleToggle = (fieldId: string) => {
+    const newSelectedItems = selectedItems.includes(fieldId)
+      ? selectedItems.filter((id) => id !== fieldId)
+      : [...selectedItems, fieldId];
+
+    setSelectedItems(newSelectedItems);
+  };
+
   const handleSubmit = () => {
-    submitForm();
+    appendFieldToMT({
+      monitoringToolId: selectedMonitoringTool!.id,
+      fieldsIdes: selectedItems,
+    });
     onCloseDialog();
   };
 
@@ -61,37 +65,29 @@ const AppendFieldsDialog: FC<AppendFieldsDialogProps> = ({ existedFields }) => {
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
 
-      <FormikProvider value={formikProps}>
-        <MaqasidDialog.Body>
-          <Form>
-            <TransferList
-              // left={allFields}
-              left={selectableFields}
-              getOptionLabel={(option) => option.content}
-              loading={!allFields || allFields.length === 0}
-              onTransfer={(left, right) => {
-                const rightIds = right.map((item) => item.id);
-                setFieldValue("fieldsIdes", rightIds);
-              }}
-            />
-          </Form>
-        </MaqasidDialog.Body>
-        <MaqasidDialog.Footer>
-          <LoadingButton
-            onClick={handleSubmit}
-            type="submit"
-            disabled={!dirty || !isValid}
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-            aria-label="Append Fields"
-            loading={isAdding}
-            loadingPosition="start"
-          >
-            Add
-          </LoadingButton>
-        </MaqasidDialog.Footer>
-      </FormikProvider>
+      <MaqasidDialog.Body>
+        <FieldsCheckboxList
+          fields={selectableFields}
+          selectedItems={selectedItems}
+          onToggle={handleToggle}
+        />
+      </MaqasidDialog.Body>
+
+      <MaqasidDialog.Footer>
+        <LoadingButton
+          onClick={handleSubmit}
+          type="submit"
+          disabled={selectedItems.length === 0}
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          aria-label="Append Fields"
+          loading={isAdding}
+          loadingPosition="start"
+        >
+          Add
+        </LoadingButton>
+      </MaqasidDialog.Footer>
     </MaqasidDialog>
   );
 };
