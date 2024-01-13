@@ -21,4 +21,7 @@ public record GetUserResponse
     public string? AvatarUrl { get; set; }
 
     public List<string> Roles { get; set; } = new();
+
+    public DateTime CreatedOn { get; set; }
+
 }

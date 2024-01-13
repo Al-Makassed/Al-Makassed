@@ -113,4 +113,21 @@ public class UsersController : ApiController
             Problem
         );
     }
+
+    // delete a user
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var deleteResult = await _userService.DeleteUserAsync(id);
+
+        return deleteResult.Match(
+            Ok,
+            Problem
+        );
+    }
 }

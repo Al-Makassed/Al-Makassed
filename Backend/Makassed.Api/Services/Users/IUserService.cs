@@ -25,4 +25,5 @@ public interface IUserService
     Task<ErrorOr<GetUserResponse>> UpdateUserDepartmentAsync(string id, Guid departmentId);
 
     Task<ErrorOr<SuccessResponse>> UpdateUserRolesAsync(string userId, UpdateUserRolesRequest request);
+    Task<ErrorOr<GetUserResponse>> DeleteUserAsync(string id);
 }
