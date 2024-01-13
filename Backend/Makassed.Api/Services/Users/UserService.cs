@@ -14,8 +14,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using static Makassed.Api.ServiceErrors.Errors;
-
 namespace Makassed.Api.Services.Users;
 
 public class UserService : IUserService
