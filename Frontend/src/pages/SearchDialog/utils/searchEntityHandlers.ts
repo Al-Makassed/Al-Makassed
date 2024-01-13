@@ -1,4 +1,5 @@
 import {
+  ChapterSearchResponse,
   DependencySearchResponse,
   PolicySearchResponse,
   SearchResponse,
@@ -8,6 +9,20 @@ import { NavigateFunction } from "react-router-dom";
 /**
  * Section 1: Functions for handling specific entity types
  */
+
+/**
+ * Handles click on a chapter search result.
+ * Navigates to the chapter details page.
+ *
+ * @param result - The chapter search result.
+ * @param navigate - The function for navigating.
+ */
+export const handleChapterClick = (
+  result: ChapterSearchResponse,
+  navigate: NavigateFunction,
+) => {
+  navigate(`/me/policies-and-procedures`);
+};
 
 /**
  * Handles click on a policy search result.
@@ -80,6 +95,10 @@ export const handleEntityClick = (
   openWindow: (url: string, target: string) => void,
 ) => {
   switch (result.searchEntityType) {
+    case 0:
+      handleChapterClick(result as ChapterSearchResponse, navigate);
+      break;
+
     case 1:
       handlePolicyClick(result as PolicySearchResponse, navigate);
       break;
