@@ -17,7 +17,7 @@ const DefaultView = () => {
     <Stack sx={{ alignItems: "flex-end" }}>
       <Stack
         height={"calc(100vh - 96px)"}
-        width={isSidebarOpen ? "calc(100vw - 400px)" : "100vw"}
+        width={isSidebarOpen ? "calc(100vw - 400px + 60px)" : "100vw"}
         sx={{
           transition: "width 200ms ease-in-out",
         }}
@@ -26,7 +26,7 @@ const DefaultView = () => {
 
         <Stack
           sx={{ justifyContent: "center", alignItems: "center" }}
-          height={"calc(100vh - 64px - 32px - 90px)"}
+          height={`calc(100vh - 64px - 32px - ${isManager ? "154px" : "90px"})`}
         >
           {isSidebarOpen && (
             <Lottie
