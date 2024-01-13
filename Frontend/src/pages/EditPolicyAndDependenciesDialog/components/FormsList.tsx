@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import {
   Button,
   IconButton,
@@ -19,6 +19,7 @@ import useDeleteAllPolicyDependencies from "../hooks/useDeleteAllPolicyDependenc
 import useDeleteDependency from "../hooks/useDeleteDependency";
 import { DialogName, PolicyDependencyType } from "../constants";
 import ConfirmDialog from "src/components/ConfirmDialog";
+import EmptyDependency from "../../../components/EmptyList/EmptyList";
 
 const FormsList: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -62,49 +63,60 @@ const FormsList: FC = () => {
   return (
     <>
       <Stack gap={3}>
-        <Typography variant="subtitle1" fontWeight={500}>
-          Forms information
-        </Typography>
-        <Tooltip title="Delete All">
-          <Button
-            size="small"
-            variant="outlined"
-            color="error"
-            aria-label="Delete All"
-            onClick={openConfirmDeleteAllFormsDialog}
-            startIcon={<DeleteIcon />}
-            disabled={policyForms?.length === 0}
-          >
-            Delete
-          </Button>
-        </Tooltip>
-        <List
-          sx={{
-            border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
-            borderRadius: (theme) => theme.shape.borderRadius,
-            mt: 0,
-          }}
-          disablePadding
-        >
-          {policyForms.map((policyForm: Dependency, index) => (
-            <ListItem sx={{ pl: 4 }} key={index}>
-              <ListItemIcon sx={{ color: (theme) => theme.palette.error.main }}>
-                <PictureAsPdfIcon />
-              </ListItemIcon>
-              <ListItemText primary={policyForm.name} sx={{ ml: -2 }} />
+        <Stack direction={"row"}>
+          <Typography variant="subtitle1" fontWeight={500}>
+            Forms information
+          </Typography>
+          <Tooltip title="Delete All">
+            <Button
+              size="small"
+              variant="outlined"
+              color="error"
+              aria-label="Delete All"
+              onClick={openConfirmDeleteAllFormsDialog}
+              startIcon={<DeleteIcon />}
+              disabled={policyForms?.length === 0}
+              sx={{ ml: "auto", textTransform: "none" }}
+            >
+              Delete All
+            </Button>
+          </Tooltip>
+        </Stack>
 
-              <Tooltip title="Delete">
-                <IconButton
-                  aria-label="Delete Policy"
-                  onClick={() => handleDeleteSetting(policyForm)}
+        {policyForms.length === 0 && <EmptyDependency type="form" />}
+
+        {policyForms.length > 0 && (
+          <List
+            sx={{
+              border: (theme) => `2px dashed ${theme.palette.grey[500]}`,
+              borderRadius: (theme) => theme.shape.borderRadius,
+              mt: 0,
+            }}
+            disablePadding
+          >
+            {policyForms.map((policyForm: Dependency, index) => (
+              <ListItem sx={{ pl: 4 }} key={index}>
+                <ListItemIcon
+                  sx={{ color: (theme) => theme.palette.error.main }}
                 >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </ListItem>
-          ))}
-        </List>
+                  <PictureAsPdfIcon />
+                </ListItemIcon>
+                <ListItemText primary={policyForm.name} sx={{ ml: -2 }} />
+
+                <Tooltip title="Delete">
+                  <IconButton
+                    aria-label="Delete Policy"
+                    onClick={() => handleDeleteSetting(policyForm)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </ListItem>
+            ))}
+          </List>
+        )}
       </Stack>
+
       <ConfirmDialog
         isOpen={openedDialog === DialogName.DeleteForms}
         title="Delete All Forms"
@@ -126,6 +138,7 @@ const FormsList: FC = () => {
           },
         ]}
       />
+
       <ConfirmDialog
         isOpen={openedDialog === DialogName.DeleteForm}
         title="Delete Form"

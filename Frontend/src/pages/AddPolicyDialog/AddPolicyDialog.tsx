@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
 import { Stack } from "@mui/material";
 import { Form, FormikProvider } from "formik";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import FileDropzoneField from "src/components/Fields/FileDropzoneField";
 import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
@@ -19,15 +19,9 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
   const { dirty, isValid, resetForm, submitForm } = formikProps;
 
   const handleSubmitForm = async () => {
-    await submitForm();
-    resetForm();
+    submitForm();
   };
 
-  useEffect(() => {
-    if (!isPending) {
-      handleCloseDialog();
-    }
-  }, [isPending]);
   const handleCloseDialog = () => onClose();
 
   return (
@@ -39,7 +33,6 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
           onClosed={() => resetForm()}
           disableBackdropClick={dirty}
           disableEscapeKeyDown={dirty}
-          // variant="right"
         >
           <MaqasidDialog.Header>
             <MaqasidDialog.Title title="Add Policy" />
@@ -60,7 +53,7 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
                 <TextField
                   name="Code"
                   label="Policy Code"
-                  placeholder="e.g. P120"
+                  placeholder="e.g. IPSG. PCI -8"
                 />
 
                 <TextField
@@ -77,6 +70,7 @@ const AddPolicyDialog: FC<AddPolicyDialogProps> = ({
                   name="Summary"
                   label="Summary"
                   placeholder="e.g. Here goes the description"
+                  multiline
                 />
               </Stack>
             </FormikProvider>

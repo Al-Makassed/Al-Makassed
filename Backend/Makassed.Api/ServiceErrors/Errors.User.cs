@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 
 namespace Makassed.Api.ServiceErrors;
@@ -17,6 +18,24 @@ public abstract partial class Errors
                     Error.Validation(
                         code: identityError.Code,
                         description: identityError.Description
+                    )
+                );
+            }
+
+            return errors;
+        }
+
+
+        public static List<Error> InvalidModel(List<ValidationFailure> validationResults)
+        {
+            var errors = new List<Error>();
+
+            foreach (var validationResult in validationResults)
+            {
+                errors.Add(
+                    Error.Validation(
+                        code: validationResult.ErrorCode,
+                        description: validationResult.ErrorMessage
                     )
                 );
             }
