@@ -162,15 +162,14 @@ public class UserService : IUserService
         return await MapUserToGetUserResponse(user);
     }
 
-    public async Task<ErrorOr<GetUserResponse>> ApplyPatchAsync(string id, JsonPatchDocument<UpdateUserRequest> patchDocument)
+    public async Task<ErrorOr<GetUserResponse>> ApplyPatchAsync(JsonPatchDocument<UpdateUserRequest> patchDocument)
     {
         var authenticatedUserId = GetUserId();
 
-        // If the authenticated user is not the same as the requested user, return an "Unauthorized" error.
-        if (!authenticatedUserId!.Equals(id))
+        if (authenticatedUserId is null)
             return Errors.User.Unauthorized;
 
-        var existingUser = await _userManager.FindByIdAsync(id);
+        var existingUser = await _userManager.FindByIdAsync(authenticatedUserId);
 
         if (existingUser is null)
             return Errors.User.NotFound;

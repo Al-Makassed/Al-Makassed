@@ -12,7 +12,7 @@ public interface IUserService
 
     Task<ErrorOr<GetUserResponse>> GetUserByIdAsync(string id);
 
-    Task<ErrorOr<GetUserResponse>> ApplyPatchAsync(string id, JsonPatchDocument<UpdateUserRequest> patchDocument);
+    Task<ErrorOr<GetUserResponse>> ApplyPatchAsync(JsonPatchDocument<UpdateUserRequest> patchDocument);
 
     string? GetUserId();
 
