@@ -45,16 +45,20 @@ export type MonitoringToolsReducerAction =
   | { type: "SetIsEditingMode" }
   | { type: "SetOpenDialog"; payload: DialogName };
 
-export interface AddFieldsToMTFormPayload {
-  fieldsIdes: string[];
-}
-
 export interface AppendFieldsDialogProps {
   existedFields: Field[];
+}
+
+export interface AssignDepartmentDialogProps {
+  assignedDepartments: Department[];
 }
 
 export interface FieldsCheckboxListProps {
   fields: Field[];
   selectedItems: string[];
   onToggle: (fieldId: string) => void;
+}
+
+export interface AssignDepartmentsPayload {
+  departmentsIdes: string[];
 }

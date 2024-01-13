@@ -1,6 +1,7 @@
-import { AddFieldToMonitoringToolRequest } from "./API/types";
+import { AssignDepartmentsPayload } from "./types";
 
 export const MONITORING_TOOL_QUERY_KEY = ["MonitoringTool"];
+export const DEPARTMENT_QUERY_KEY = ["Departments"];
 
 export enum DialogName {
   RemoveField = "RemoveField",
@@ -8,7 +9,6 @@ export enum DialogName {
   AssignDepartment = "AssignDepartment",
 }
 
-export const addFieldToMTInitialValues: AddFieldToMonitoringToolRequest = {
-  monitoringToolId: "",
-  fieldsIdes: [],
+export const initialValues: AssignDepartmentsPayload = {
+  departmentsIdes: [],
 };

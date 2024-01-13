@@ -10,6 +10,8 @@ import useDeleteMonitoringToolDepartment from "../hooks/useDeleteMonitoringToolD
 import { DepartmentsSectionProps } from "../types";
 import AssignDepartmentDialog from "./AssignDepartmentsDialog";
 import SectionHeader from "./SectionHeader";
+import { FormikProvider } from "formik";
+import useAssignMonitoringToolToDepartmentForm from "../hooks/useAssignMonitoringToolToDepartmentForm";
 
 const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
@@ -29,6 +31,10 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   } = useMonitoringToolsContext();
 
   const { unassignDepartment } = useDeleteMonitoringToolDepartment();
+
+  const { formikProps } = useAssignMonitoringToolToDepartmentForm(
+    selectedMonitoringTool!.id,
+  );
 
   const closeConfirmDialog = () => setIsConfirmDialogOpen(false);
 
@@ -108,7 +114,9 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
         ]}
       />
 
-      <AssignDepartmentDialog />
+      <FormikProvider value={formikProps}>
+        <AssignDepartmentDialog assignedDepartments={departments} />
+      </FormikProvider>
     </>
   );
 };
