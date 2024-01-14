@@ -4,7 +4,7 @@ using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 {
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddNewtonsoftJson();
 
     builder.Services.RegisterMakassedDependencies(builder.Configuration);
 

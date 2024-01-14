@@ -1,18 +1,25 @@
-import { Grid, Paper, Stack, Typography } from "@mui/material";
+import { Button, Fade, Grid, Stack, Typography } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
+import { selectUser } from "src/features/user";
+import useMediaQuery from "src/hooks/useMediaQuery";
+import { useAppSelector } from "src/store/hooks";
 import FinishedSubmissions from "./components/FinishedSubmissions";
+import InfoCard from "./components/InformationCard";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import SubmissionForm from "./components/SubmissionForm";
 import useGetFocalPointTask from "./hooks/useGetFocalPointTask";
-import { selectUser } from "src/features/user";
-import { useAppSelector } from "src/store/hooks";
+// import InfoIcon from "@mui/icons-material/Info";
 
 const TaskSubmission: FC = () => {
+  const [isDetailsMode, setIsDetailsMode] = useState<boolean>(false);
+
   const { focalPointTaskId: focalPointTaskIdParam } = useParams();
 
   const theme = useTheme<Theme>();
+
+  const { isDesktopOrMore } = useMediaQuery();
 
   const focalPointTaskId = focalPointTaskIdParam ?? "";
 
@@ -32,7 +39,7 @@ const TaskSubmission: FC = () => {
     monitoringTool: { name },
   } = focalPointTask;
 
-  if (isFinished) return <FinishedSubmissions />;
+  const handleButtonClick = () => setIsDetailsMode((prev) => !prev);
 
   return (
     <Grid
@@ -43,9 +50,26 @@ const TaskSubmission: FC = () => {
         height: "calc(100vh - 64px)",
       }}
     >
-      <Typography component="h1" variant="h5" gutterBottom fontWeight="500">
-        {name}
-      </Typography>
+      <Stack>
+        <Typography component="h1" variant="h5" mb={{ md: 1 }} fontWeight="500">
+          {name}
+        </Typography>
+
+        <Button
+          sx={{
+            width: "fit-content",
+            textTransform: "none",
+            display: { md: "none" },
+            p: 0,
+            textAlign: "left",
+          }}
+          // startIcon={<InfoIcon />}
+          onClick={handleButtonClick}
+        >
+          {isDetailsMode ? "Hide details" : "See details"}
+        </Button>
+      </Stack>
+
       <Grid
         container
         sx={{
@@ -53,52 +77,46 @@ const TaskSubmission: FC = () => {
           flexDirection: { xs: "column", md: "row" },
           justifyContent: { xs: "column-reverse", md: "space-between" },
         }}
-        justifyContent="space-between"
+        mt={1.5}
       >
-        <Grid
-          item
-          xs={12}
-          md={8}
-          sx={{
-            pr: 1,
-            height: "100%",
-            overflowY: "auto",
-            ...theme.mixins.niceScroll(),
-          }}
-        >
-          <SubmissionForm focalPointTask={focalPointTask} />
-        </Grid>
+        {(!isDetailsMode || isDesktopOrMore) && (
+          <Fade in={!isDetailsMode || isDesktopOrMore} timeout={400}>
+            <Grid
+              item
+              xs={12}
+              md={8}
+              sx={{
+                pr: 1,
+                height: "100%",
+                overflowY: "auto",
+                ...theme.mixins.niceScroll(),
+              }}
+            >
+              {isFinished && <FinishedSubmissions />}
 
-        <Grid
-          item
-          display={{ xs: "none", md: "block" }}
-          md={4}
-          sx={{
-            overflowY: "auto",
-            height: "100%",
-            ...theme.mixins.niceScroll(),
-            pl: 2,
-            pr: 1,
-          }}
-        >
-          <Stack gap={2}>
-            <Paper sx={{ p: 2 }} variant="outlined">
-              This is a paper
-            </Paper>
-            <Paper sx={{ p: 2 }} variant="outlined">
-              This is another paper
-            </Paper>
-            <Paper sx={{ p: 2 }} variant="outlined">
-              Here goes another paper
-            </Paper>
-            <Paper sx={{ p: 2, height: "240px" }} variant="outlined">
-              This is a long paper
-            </Paper>
-            <Paper sx={{ p: 2, height: "240px" }} variant="outlined">
-              This is a long paper
-            </Paper>
-          </Stack>
-        </Grid>
+              {!isFinished && (
+                <SubmissionForm focalPointTask={focalPointTask} />
+              )}
+            </Grid>
+          </Fade>
+        )}
+
+        <Fade in={isDetailsMode || isDesktopOrMore} timeout={400}>
+          <Grid
+            item
+            display={{ xs: isDetailsMode ? "block" : "none", md: "block" }}
+            md={4}
+            sx={{
+              overflowY: "auto",
+              height: "100%",
+              ...theme.mixins.niceScroll(),
+              pl: 2,
+              pr: 1,
+            }}
+          >
+            <InfoCard task={focalPointTask} />
+          </Grid>
+        </Fade>
       </Grid>
     </Grid>
   );

@@ -7,7 +7,9 @@ const PoliciesAndProcedures = () => {
   return (
     <>
       <SidebarChevron />
+
       <Sidebar />
+
       <Box pt={4}>
         <Outlet />
       </Box>

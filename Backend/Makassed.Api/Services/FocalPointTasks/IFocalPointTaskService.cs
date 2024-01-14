@@ -10,4 +10,6 @@ public interface IFocalPointTaskService
     Task<ErrorOr<FocalPointTask>> GetFocalPointTaskByIdAsync(Guid departmentId, Guid id);
 
     Task<ErrorOr<Submission>> SubmitFocalPointTaskAsync(Guid departmentId, Guid taskId, List<FieldAnswer> answers);
+
+    Task<ErrorOr<List<Submission>>> GetTaskSubmissionsLogAsync(Guid departmentId, Guid id);
 }

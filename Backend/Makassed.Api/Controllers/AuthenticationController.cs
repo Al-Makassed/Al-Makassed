@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Makassed.Contracts.Authentication;
 using Makassed.Email.Service.Services;
 using Makassed.Contracts.General;
-using Makassed.Contracts.User.Roles;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Makassed.Api.Controllers;
@@ -124,23 +123,6 @@ public class AuthenticationController : ApiController
         var resetPasswordResult = await _authenticationService.ResetPassword(request);
 
         return resetPasswordResult.Match(
-            Ok,
-            Problem
-        );
-    }
-
-    // update user roles
-    [ProducesResponseType(typeof(SuccessResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize(Roles = "Admin, Sub-Admin")]
-    [HttpPost("update-user-roles")]
-    public async Task<IActionResult> UpdateUserRoles(string userId, UpdateUserRolesRequest request)
-    {
-        var updateUserRolesResult = await _authenticationService.UpdateUserRolesAsync(userId, request);
-
-        return updateUserRolesResult.Match(
             Ok,
             Problem
         );
