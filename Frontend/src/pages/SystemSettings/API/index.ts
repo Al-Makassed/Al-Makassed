@@ -1,11 +1,21 @@
 import axios from "src/API/axios";
 import {
   Department,
+  Field,
+  User,
   //  FocalPoint
 } from "./type";
 
 export const getDepartments = () => {
   return axios.get<Department[]>("/departments").then((res) => res.data);
+};
+
+export const getFields = () => {
+  return axios.get<Field[]>("/fields").then((res) => res.data);
+};
+
+export const getUsers = () => {
+  return axios.get<User[]>("/users").then((res) => res.data);
 };
 
 // export const getFocalPoints = () => {
@@ -27,3 +37,27 @@ export const renameDepartmentAPI = ({ id, name, headId }: Department) => {
 export const deleteDepartment = (id: string) => {
   return axios.delete<Department>(`/departments/${id}`).then((res) => res.data);
 };
+
+export const createField = (content: string) => {
+  return axios.post<Field>("/fields", { content }).then((res) => res.data);
+};
+
+export const deleteField = (id: string) => {
+  return axios.delete<Field>(`/fields/${id}`).then((res) => res.data);
+};
+
+export const renameFieldAPI = ({ id, content }: Field) => {
+  return axios.put<Field>(`/fields/${id}`, { content }).then((res) => res.data);
+};
+
+//
+
+export const createUser = (content: string) => {
+  return axios
+    .post<Field>("/users/upload-avatar", { content })
+    .then((res) => res.data);
+};
+
+// export const deleteUser = (id: string) => {
+//   return axios.delete<User>(`/users/${id}`).then((res) => res.data);
+// };

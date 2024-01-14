@@ -1,25 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser } from "../API";
-import { USER_QUERY_KEY } from "../constants";
+import { renameFieldAPI } from "../API";
 import { useAppDispatch } from "src/store/hooks";
-import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
+import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
+import { FIELD_QUERY_KEY } from "../constants";
 
-const useAddUserAPI = () => {
+const useEditFieldAPI = (FieldId: string) => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: addNewUser, isPending } = useMutation({
-    mutationFn: createUser,
+  const { mutate: editField, isPending: isRenaming } = useMutation({
+    mutationFn: renameFieldAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [USER_QUERY_KEY],
+        queryKey: [...FIELD_QUERY_KEY, FieldId],
       });
       dispatch(
         showSuccessSnackbar({
-          message: "User added successfully",
+          message: "Field Edited Successfully!",
         }),
       );
     },
@@ -34,9 +34,9 @@ const useAddUserAPI = () => {
   });
 
   return {
-    addNewUser,
-    isPending,
+    editField,
+    isRenaming,
   };
 };
 
-export default useAddUserAPI;
+export default useEditFieldAPI;

@@ -23,6 +23,10 @@ const SystemSidebar = () => {
   const handleClickField = () => {
     navigate(`field`);
   };
+
+  const handleClickUser = () => {
+    navigate(`user`);
+  };
   return (
     // <Stack direction="row" gap={3} pt={3}>
     <Drawer
@@ -72,7 +76,7 @@ const SystemSidebar = () => {
             </Typography>
           </ListItemButton>
 
-          <ListItemButton>
+          <ListItemButton onClick={handleClickUser}>
             <ListItemIcon sx={{ mr: -2.5 }}>
               <GroupIcon />
             </ListItemIcon>

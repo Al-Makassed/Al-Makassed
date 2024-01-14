@@ -20,6 +20,7 @@ const DepartmentDetails: FC = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<Department>();
 
   const { departments } = useGetDepartments();
+  console.log(departments);
 
   const { removeDepartment } = useDeleteDepartment();
 

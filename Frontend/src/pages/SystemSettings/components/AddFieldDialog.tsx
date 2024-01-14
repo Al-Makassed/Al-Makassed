@@ -7,10 +7,10 @@ import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
 
 import { AddDepartmentDialogProps } from "../types";
-import useAddDepartmentForm from "../hooks/useAddDepartmentForm";
+import useAddFieldForm from "../hooks/useAddFieldForm";
 
 const AddFieldDialog: FC<AddDepartmentDialogProps> = ({ onClose, open }) => {
-  const { formikProps, isPending } = useAddDepartmentForm();
+  const { formikProps, isPending } = useAddFieldForm();
 
   const { dirty, isValid, resetForm, submitForm } = formikProps;
 
@@ -45,15 +45,15 @@ const AddFieldDialog: FC<AddDepartmentDialogProps> = ({ onClose, open }) => {
             </MaqasidDialog.Actions>
           </MaqasidDialog.Header>
           <MaqasidDialog.Body niceScroll>
-            <FormikProvider value={formikProps}>
-              <Stack p={3} gap={2.5} justifyContent="center">
-                <TextField
-                  name="name"
-                  label="Field Content (Question)"
-                  //   placeholder="e.g. Hand Hygiene Policy"
-                />
-              </Stack>
-            </FormikProvider>
+            {/* <FormikProvider value={formikProps}> */}
+            <Stack p={3} gap={2.5} justifyContent="center">
+              <TextField
+                name="content"
+                label="Field Content (Question)"
+                //   placeholder="e.g. Hand Hygiene Policy"
+              />
+            </Stack>
+            {/* </FormikProvider> */}
           </MaqasidDialog.Body>
           <MaqasidDialog.Footer>
             <LoadingButton

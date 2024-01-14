@@ -1,28 +1,30 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser } from "../API";
-import { USER_QUERY_KEY } from "../constants";
+import { deleteField } from "../API";
 import { useAppDispatch } from "src/store/hooks";
-import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
+import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
+import { FIELD_QUERY_KEY } from "../constants";
 
-const useAddUserAPI = () => {
+const useDeleteField = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: addNewUser, isPending } = useMutation({
-    mutationFn: createUser,
+  const { mutate: removeField, isPending } = useMutation({
+    mutationFn: deleteField,
+
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [USER_QUERY_KEY],
+        queryKey: [FIELD_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({
-          message: "User added successfully",
+          message: "Field Deleted Successfully!",
         }),
       );
     },
+
     onError: (error: AxiosBaseError) => {
       const errorMessage = extractErrorMessage(error);
       dispatch(
@@ -34,9 +36,9 @@ const useAddUserAPI = () => {
   });
 
   return {
-    addNewUser,
+    removeField,
     isPending,
   };
 };
 
-export default useAddUserAPI;
+export default useDeleteField;

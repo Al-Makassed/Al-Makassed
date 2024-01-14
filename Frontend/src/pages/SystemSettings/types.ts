@@ -8,3 +8,8 @@ export interface EditDepartmentFormValues {
   name: string;
   headId: string;
 }
+
+export interface EditFieldFormValues {
+  id: string;
+  content: string;
+}

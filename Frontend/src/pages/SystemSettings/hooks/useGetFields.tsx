@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getDepartments } from "../API";
-import { DEPARTMENT_QUERY_KEY } from "../constants";
+import { getFields } from "../API";
+import { FIELD_QUERY_KEY } from "../constants";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
@@ -10,9 +10,9 @@ import { AxiosBaseError } from "src/types/axios";
 const useGetFields = () => {
   const dispatch = useAppDispatch();
 
-  const { data: departments, error } = useQuery({
-    queryFn: () => getDepartments(),
-    queryKey: DEPARTMENT_QUERY_KEY,
+  const { data: fields, error } = useQuery({
+    queryFn: () => getFields(),
+    queryKey: [FIELD_QUERY_KEY],
   });
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const useGetFields = () => {
   }, [error]);
 
   return {
-    departments: departments ?? [],
+    fields: fields ?? [],
   };
 };
 
