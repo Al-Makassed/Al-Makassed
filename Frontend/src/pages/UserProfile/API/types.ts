@@ -15,3 +15,9 @@ export interface Department {
   name: string;
   headId: string;
 }
+
+export interface PatchDocument {
+  op: string;
+  path: string;
+  value: string;
+}

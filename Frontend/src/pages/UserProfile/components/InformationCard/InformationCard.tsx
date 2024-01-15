@@ -4,16 +4,16 @@ import { selectUser } from "src/features/user";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
 import { formatDate } from "src/utils";
-import useGetUser from "../../hooks/useGetUser";
+import { User } from "../../API/types";
 import DetailsSection from "./DetailsSection";
 import NamesSection from "./NamesSection";
 
-const InformationCard: FC = () => {
+interface InformationCardProps {
+  user: User;
+}
+
+const InformationCard: FC<InformationCardProps> = ({ user }) => {
   const { userId, avatarUrl, fullName, userName } = useAppSelector(selectUser);
-
-  const { user } = useGetUser(userId);
-
-  if (user === undefined) return null;
 
   const {
     department: { name: departmentName },

@@ -1,9 +1,25 @@
-import { Grid } from "@mui/material";
-import { FC } from "react";
+import { Card, Grid, Stack } from "@mui/material";
+import { FC, useState } from "react";
+import { selectUser } from "src/features/user";
+import { useAppSelector } from "src/store/hooks";
+import HomeCard from "./components/HomeCard";
 import InformationCard from "./components/InformationCard/InformationCard";
-import SideCard from "./components/SideCard";
+import SettingsCard from "./components/SettingsCard/SettingsCard";
+import SideCard from "./components/SideCard/SideCard";
+import { ChoiceName } from "./constants";
+import useGetUser from "./hooks/useGetUser";
 
 const UserProfile: FC = () => {
+  const [choice, setChoice] = useState<ChoiceName>(ChoiceName.Home);
+
+  const { userId } = useAppSelector(selectUser);
+
+  const { user } = useGetUser(userId);
+
+  if (!user) return null;
+
+  console.log(choice);
+
   return (
     <Grid
       container
@@ -14,13 +30,21 @@ const UserProfile: FC = () => {
       }}
     >
       <Grid item xs={0} md={4} pr={1} display={{ xs: "none", md: "block" }}>
-        <SideCard />
+        <SideCard choice={choice} setChoice={setChoice} />
       </Grid>
 
       <Grid item xs={12} md={8} pl={{ xs: 0, sm: 2 }}>
-        <Grid item>
-          <InformationCard />
-        </Grid>
+        <Stack gap={3}>
+          <Grid item>
+            <InformationCard user={user!} />
+          </Grid>
+          <Grid item>
+            <Card sx={{ p: 3 }}>
+              {choice === ChoiceName.Home && <HomeCard />}
+              {choice === ChoiceName.Settings && <SettingsCard />}
+            </Card>
+          </Grid>
+        </Stack>
       </Grid>
     </Grid>
   );
