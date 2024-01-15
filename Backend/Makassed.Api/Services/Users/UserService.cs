@@ -151,7 +151,7 @@ public class UserService : IUserService
         var authenticatedUserRole = await GetUserRoleAsync();
 
         // If the authenticated user is not the same as the requested user and is not an admin, return an "Unauthorized" error.
-        if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin"))
+        if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin", StringComparison.Ordinal))
             return Errors.User.Unauthorized;
 
         var user = await _userManager.FindByIdAsync(userId);
