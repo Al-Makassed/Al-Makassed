@@ -4,10 +4,10 @@ import { selectUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
 import HomeCard from "./components/HomeCard";
 import InformationCard from "./components/InformationCard/InformationCard";
-import SettingsCard from "./components/SettingsCard/SettingsCard";
 import SideCard from "./components/SideCard/SideCard";
 import { ChoiceName } from "./constants";
 import useGetUser from "./hooks/useGetUser";
+import DetailsSection from "./components/DetailsCard/DetailsSection";
 
 const UserProfile: FC = () => {
   const [choice, setChoice] = useState<ChoiceName>(ChoiceName.Home);
@@ -17,6 +17,10 @@ const UserProfile: FC = () => {
   const { user } = useGetUser(userId);
 
   if (!user) return null;
+
+  const {
+    department: { head },
+  } = user;
 
   console.log(choice);
 
@@ -41,7 +45,7 @@ const UserProfile: FC = () => {
           <Grid item>
             <Card sx={{ p: 3 }}>
               {choice === ChoiceName.Home && <HomeCard />}
-              {choice === ChoiceName.Settings && <SettingsCard />}
+              {choice === ChoiceName.Details && <DetailsSection head={head} />}
             </Card>
           </Grid>
         </Stack>

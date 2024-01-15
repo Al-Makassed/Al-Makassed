@@ -11,11 +11,7 @@ import { FC } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { ChoiceName } from "../../constants";
-
-interface SideCardProps {
-  choice: ChoiceName;
-  setChoice: (choice: ChoiceName) => void;
-}
+import { SideCardProps } from "../../types";
 
 const choices = [
   {
@@ -23,7 +19,7 @@ const choices = [
     icon: <HomeIcon />,
   },
   {
-    name: ChoiceName.Settings,
+    name: ChoiceName.Details,
     icon: <SettingsIcon />,
   },
 ];

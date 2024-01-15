@@ -14,6 +14,14 @@ export interface Department {
   id: string;
   name: string;
   headId: string;
+  head: Head;
+}
+
+export interface Head extends Partial<User> {
+  fullName: string;
+  userName: string;
+  email: string;
+  avatarUrl: string;
 }
 
 export interface PatchDocument {
