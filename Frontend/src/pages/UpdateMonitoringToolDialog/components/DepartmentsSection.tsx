@@ -1,15 +1,15 @@
-import React, { FC, useState } from "react";
-import { DepartmentsSectionProps } from "../types";
-import SectionHeader from "./SectionHeader";
-import { Box, Chip } from "@mui/material";
+import AddIcon from "@mui/icons-material/AddCircleOutline";
 import BusinessIcon from "@mui/icons-material/Business";
-import useDeleteMonitoringToolDepartment from "../hooks/useDeleteMonitoringToolDepartmentRequest";
+import { Box, Chip } from "@mui/material";
+import { teal } from "@mui/material/colors";
+import { FC, useState } from "react";
 import ConfirmDialog from "src/components/ConfirmDialog";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
-import { teal } from "@mui/material/colors";
-import AddIcon from "@mui/icons-material/AddCircleOutline";
-import AssignDepartmentDialog from "./AssignDepartmentDialog";
 import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
+import useDeleteMonitoringToolDepartment from "../hooks/useDeleteMonitoringToolDepartment";
+import { DepartmentsSectionProps } from "../types";
+import AssignDepartmentDialog from "./AssignDepartmentsDialog";
+import SectionHeader from "./SectionHeader";
 
 const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
@@ -47,7 +47,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
     <>
       <SectionHeader title="Departments" />
 
-      <Box flexDirection={"row"} width={"100 vw"} boxSizing={"border-box"}>
+      <Box flexDirection="row" width="100 vw" boxSizing="border-box">
         {departments &&
           departments.map((department) =>
             isEditingMode ? (
@@ -71,8 +71,8 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
           )}
         {isEditingMode && (
           <Chip
-            label={"Assign More Departments"}
-            icon={<AddIcon sx={{ fontSize: "1.2rem" }} />}
+            label="Assign More Departments"
+            icon={<AddIcon sx={{ fontSize: "1.2rem" }} color="primary" />}
             sx={{
               width: "fit-content",
               pl: 0.5,
@@ -89,7 +89,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
         title="Unassign Monitoring Tool to Department"
-        body="Are you sure you want to unassign this monitoring tool to this department?"
+        body="⚠️ Are you sure you want to unassign this monitoring tool to this department?"
         onClose={closeConfirmDialog}
         actions={[
           {
@@ -108,7 +108,7 @@ const DepartmentsSection: FC<DepartmentsSectionProps> = ({ departments }) => {
         ]}
       />
 
-      <AssignDepartmentDialog />
+      <AssignDepartmentDialog assignedDepartments={departments} />
     </>
   );
 };
