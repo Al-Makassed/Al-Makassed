@@ -13,3 +13,8 @@ export interface DetailsSectionProps {
 export interface DepartmentPartProps {
   head: Head;
 }
+
+export interface EditFormValues {
+  phoneNumber: string;
+  email: string;
+}

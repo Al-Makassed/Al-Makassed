@@ -1,24 +1,31 @@
 import { useFormik } from "formik";
-import { PatchDocument } from "../API/types";
 import usePatchUser from "./usePatchUser ";
+import { validationSchema } from "../schema";
+import { EditFormValues } from "../types";
 
-const usePatchUserForm = () => {
+const usePatchUserForm = (email: string, phoneNumber: string) => {
   const { partialEditUser, isUpdating } = usePatchUser();
 
-  const submitForm = (values: Partial<PatchDocument>) => {
-    partialEditUser({
-      op: "replace",
-      path: `/${values.path}`,
-      value: `${values.value}`,
-    });
+  const submitForm = (values: EditFormValues) => {
+    partialEditUser([
+      {
+        op: "replace",
+        path: `/${
+          values.phoneNumber !== phoneNumber ? "phoneNumber" : "email"
+        }`,
+        value: `${
+          values.phoneNumber !== phoneNumber ? values.phoneNumber : values.email
+        }`,
+      },
+    ]);
   };
 
   const formikProps = useFormik({
     initialValues: {
-      op: "replace",
-      path: "",
-      value: "",
+      phoneNumber,
+      email,
     },
+    validationSchema,
     onSubmit: submitForm,
   });
 
