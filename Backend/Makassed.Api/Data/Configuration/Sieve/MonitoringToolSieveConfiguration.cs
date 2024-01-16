@@ -9,5 +9,6 @@ public class MonitoringToolSieveConfiguration : ISieveConfiguration
     {
         mapper.Property<MonitoringTool>(mt => mt.Name).CanFilter().CanSort();
         mapper.Property<MonitoringTool>(mt => mt.LastModified).CanFilter().CanSort();
+        mapper.Property<MonitoringTool>(mt => mt.CreatedAt).CanFilter().CanSort();
     }
 }
