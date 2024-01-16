@@ -109,7 +109,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
         title="Remove Field From Monitoring Tool"
-        body="Are you sure you want to remove this field from this monitoring tool?"
+        body="⚠️ Are you sure you want to remove this field from this monitoring tool?"
         onClose={closeConfirmDialog}
         actions={[
           {

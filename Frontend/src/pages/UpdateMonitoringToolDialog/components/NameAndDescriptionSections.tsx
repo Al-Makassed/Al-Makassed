@@ -4,14 +4,10 @@ import { Stack, Typography } from "@mui/material";
 import { FormikProvider } from "formik";
 import { FC } from "react";
 import TextField from "src/components/Fields/TextField";
-import { MonitoringTool } from "../API/types";
 import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import useUpdateMonitoringToolForm from "../hooks/useUpdateMonitoringToolForm";
+import { NameAndDescriptionSectionsProps } from "../types";
 import SectionHeader from "./SectionHeader";
-
-interface NameAndDescriptionSectionsProps {
-  monitoringTool: MonitoringTool;
-}
 
 const NameAndDescriptionSections: FC<NameAndDescriptionSectionsProps> = ({
   monitoringTool,

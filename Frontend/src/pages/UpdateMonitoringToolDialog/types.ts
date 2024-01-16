@@ -62,3 +62,7 @@ export interface FieldsCheckboxListProps {
 export interface AssignDepartmentsPayload {
   departmentsIdes: string[];
 }
+
+export interface NameAndDescriptionSectionsProps {
+  monitoringTool: MonitoringTool;
+}

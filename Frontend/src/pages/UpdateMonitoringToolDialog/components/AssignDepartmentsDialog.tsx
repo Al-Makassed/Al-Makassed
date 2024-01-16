@@ -1,19 +1,16 @@
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
-import { FormikProvider, useFormikContext } from "formik";
+import { FormikProvider } from "formik";
 import { FC } from "react";
+import AutocompleteField from "src/components/Fields/AutocompleteField";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { Department } from "../API/types";
 import { DialogName } from "../constants";
 import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import useAssignMonitoringToolToDepartmentForm from "../hooks/useAssignMonitoringToolToDepartmentForm";
-import {
-  AssignDepartmentDialogProps,
-  AssignDepartmentsPayload,
-} from "../types";
-import AutocompleteField from "src/components/Fields/AutocompleteField";
 import useGetDepartments from "../hooks/useGetDepartments";
+import { AssignDepartmentDialogProps } from "../types";
 
 const AssignDepartmentDialog: FC<AssignDepartmentDialogProps> = ({
   assignedDepartments,
@@ -31,9 +28,7 @@ const AssignDepartmentDialog: FC<AssignDepartmentDialogProps> = ({
     selectedMonitoringTool!.id,
   );
 
-  const { submitForm, dirty, isValid } = formikProps;
-
-  const { setFieldValue } = useFormikContext<AssignDepartmentsPayload>();
+  const { submitForm, dirty, isValid, setFieldValue } = formikProps;
 
   const { departments } = useGetDepartments();
 
@@ -48,6 +43,7 @@ const AssignDepartmentDialog: FC<AssignDepartmentDialogProps> = ({
 
   const handleSubmit = () => {
     submitForm();
+    handleCloseDialog();
   };
 
   return (
@@ -66,12 +62,10 @@ const AssignDepartmentDialog: FC<AssignDepartmentDialogProps> = ({
       </MaqasidDialog.Header>
       <FormikProvider value={formikProps}>
         <MaqasidDialog.Body>
-          {/* //TODO: here will go the auto complete after MAK-87 is merged */}
           <AutocompleteField
             name="departments"
             label="Departments"
             multiple
-            disablePortal
             id="departments-autocomplete"
             options={assignableDepartments}
             getOptionLabel={(option) => (option as Department).name}
@@ -84,7 +78,7 @@ const AssignDepartmentDialog: FC<AssignDepartmentDialogProps> = ({
         </MaqasidDialog.Body>
         <MaqasidDialog.Footer>
           <LoadingButton
-            onClick={() => handleSubmit}
+            onClick={handleSubmit}
             type="submit"
             disabled={!dirty || !isValid}
             variant="contained"

@@ -1,5 +1,5 @@
-import React, { FC } from "react";
 import { Box, Skeleton, Stack } from "@mui/material";
+import { FC } from "react";
 import SectionHeaderSkeleton from "./SectionHeaderSkeleton";
 
 const DialogSkeleton: FC = () => {
