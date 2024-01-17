@@ -25,6 +25,23 @@ export interface User {
   id: string;
   fullName: string;
   userName: string;
+  roles: string[];
 }
 
-export interface getUser {}
+export interface getUser {
+  Image?: File;
+}
+
+export interface UserRequest {
+  formData: FormData;
+}
+
+export interface UserRoles {
+  id: string;
+  roles: string[];
+}
+
+export interface UserDepartment {
+  id: string;
+  departmentId: string;
+}

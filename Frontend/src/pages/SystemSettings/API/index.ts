@@ -3,6 +3,9 @@ import {
   Department,
   Field,
   User,
+  UserDepartment,
+  UserRequest,
+  UserRoles,
   //  FocalPoint
 } from "./type";
 
@@ -52,12 +55,27 @@ export const renameFieldAPI = ({ id, content }: Field) => {
 
 //
 
-export const createUser = (content: string) => {
+export const createUser = ({ formData }: UserRequest) => {
   return axios
-    .post<Field>("/users/upload-avatar", { content })
+    .post<Field>("/users/upload-avatar", { formData })
     .then((res) => res.data);
 };
 
-// export const deleteUser = (id: string) => {
-//   return axios.delete<User>(`/users/${id}`).then((res) => res.data);
-// };
+export const deleteUser = (id: string) => {
+  return axios.delete<User>(`/users/${id}`).then((res) => res.data);
+};
+
+export const renameUserRoleAPI = ({ id, roles }: UserRoles) => {
+  return axios
+    .put<User>(`/users/${id}/update-user-roles`, { roles })
+    .then((res) => res.data);
+};
+
+export const renameUserDepartmentAPI = ({
+  id,
+  departmentId,
+}: UserDepartment) => {
+  return axios
+    .put<User>(`/users/${id}/update-user-department`, { departmentId })
+    .then((res) => res.data);
+};

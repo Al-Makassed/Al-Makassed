@@ -1,4 +1,4 @@
-import { getDepartment, getField } from "./API/type";
+import { getDepartment, getField, getUser } from "./API/type";
 
 export const DEPARTMENT_QUERY_KEY = ["Department"];
 
@@ -14,4 +14,8 @@ export const initialValues: getDepartment = {
 
 export const FieldInitialValues: getField = {
   content: "",
+};
+
+export const UserInitialValues: getUser = {
+  Image: undefined,
 };
