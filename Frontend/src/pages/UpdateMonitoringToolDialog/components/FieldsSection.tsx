@@ -1,4 +1,6 @@
-import React, { FC, useState } from "react";
+import AddIcon from "@mui/icons-material/AddCircleOutline";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FieldIcon from "@mui/icons-material/QuizOutlined";
 import {
   Grid,
   IconButton,
@@ -8,17 +10,15 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import FieldIcon from "@mui/icons-material/QuizOutlined";
-import { FieldsSectionProps } from "../types";
-import SectionHeader from "./SectionHeader";
-import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
-import DeleteIcon from "@mui/icons-material/Delete";
-import useDeleteMonitoringToolField from "../hooks/useDeleteMonitoringToolField";
-import ConfirmDialog from "src/components/ConfirmDialog";
-import AddIcon from "@mui/icons-material/AddCircleOutline";
 import { teal } from "@mui/material/colors";
+import { FC, useState } from "react";
+import ConfirmDialog from "src/components/ConfirmDialog";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
+import useDeleteMonitoringToolField from "../hooks/useDeleteMonitoringToolField";
+import { FieldsSectionProps } from "../types";
 import AppendFieldsDialog from "./AppendFieldsDialog";
+import SectionHeader from "./SectionHeader";
 
 const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
@@ -100,7 +100,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
               <ListItemIcon>
                 <AddIcon sx={{ color: "primary.main" }} />
               </ListItemIcon>
-              <ListItemText primary={"Add More Fields"} />
+              <ListItemText primary="Add More Fields" />
             </ListItemButton>
           )}
         </List>
@@ -109,7 +109,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
         title="Remove Field From Monitoring Tool"
-        body="Are you sure you want to remove this field from this monitoring tool?"
+        body="⚠️ Are you sure you want to remove this field from this monitoring tool?"
         onClose={closeConfirmDialog}
         actions={[
           {
@@ -128,7 +128,7 @@ const FieldsSection: FC<FieldsSectionProps> = ({ fields }) => {
         ]}
       />
 
-      <AppendFieldsDialog />
+      <AppendFieldsDialog existedFields={fields} />
     </>
   );
 };

@@ -20,7 +20,7 @@ const useAddFieldToMonitoringTool = () => {
       });
       dispatch(
         showSuccessSnackbar({
-          message: "Field added to Monitoring Tool successfully!",
+          message: "Fields added to Monitoring Tool successfully!",
         }),
       );
     },
@@ -37,7 +37,7 @@ const useAddFieldToMonitoringTool = () => {
 
   return {
     appendFieldToMT,
-    isPending,
+    isAdding: isPending,
   };
 };
 
