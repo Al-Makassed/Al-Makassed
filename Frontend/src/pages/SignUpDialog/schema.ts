@@ -6,12 +6,7 @@ const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full Name is required"),
   departmentId: yup.string().required("Department is required"),
   email: yup.string().required("Email is required").email("Email is invalid"),
-  roles: yup
-    .array()
-    .of(yup.string())
-    .min(1, "Roles are required")
-    .required("Roles are required"),
-  password: yup.string().required("Password is required"),
+  roles: yup.object().required("Role is required"),
 });
 
 export default validationSchema;

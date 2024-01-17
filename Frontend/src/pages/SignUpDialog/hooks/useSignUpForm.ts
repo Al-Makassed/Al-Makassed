@@ -15,7 +15,7 @@ const useSignupForm = () => {
       userName,
       fullName,
       email,
-      roles,
+      roles: roles ? [roles.name] : [],
       departmentId,
       password,
     });

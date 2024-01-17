@@ -5,7 +5,7 @@ export interface SignupFormPayload {
   departmentId: string;
   email: string;
   password: string;
-  roles: string[];
+  roles: Role | null;
 }
 
 export interface Role {

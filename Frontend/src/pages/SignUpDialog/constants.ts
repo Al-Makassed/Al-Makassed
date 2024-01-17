@@ -7,20 +7,27 @@ export const INITIAL_VALUES: SignupFormPayload = {
   departmentId: "",
   email: "",
   password: "",
-  roles: [""],
+  roles: null,
 };
 
-export const role: Role[] = [
+export enum RoleEnum {
+  Admin = "Admin",
+  SubAdmin = "Sub-Admin",
+  FocalPoint = "Focal Point",
+  Staff = "Staff",
+}
+
+export const roles: Role[] = [
   {
-    name: "Admin",
+    name: RoleEnum.Admin,
   },
   {
-    name: "Sub-Admin",
+    name: RoleEnum.SubAdmin,
   },
   {
-    name: "Focal Point",
+    name: RoleEnum.FocalPoint,
   },
   {
-    name: "Staff",
+    name: RoleEnum.Staff,
   },
 ];

@@ -3,14 +3,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Grid, Stack } from "@mui/material";
 import { FormikProvider } from "formik";
 import { FC, useState } from "react";
+import AutocompleteField from "src/components/Fields/AutocompleteField";
 import PasswordField from "src/components/Fields/PasswordField";
 import TextField from "src/components/Fields/TextField";
-import useSignUpForm from "./hooks/useSignUpForm";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import AutocompleteField from "src/components/Fields/AutocompleteField";
-import useGetDepartments from "../AddMonitoringToolDialog/hooks/useGetDepartments";
 import { Department } from "../AddMonitoringToolDialog/API/types";
-import { role } from "./constants";
+import useGetDepartments from "../AddMonitoringToolDialog/hooks/useGetDepartments";
+import { roles } from "./constants";
+import useSignUpForm from "./hooks/useSignUpForm";
 import { Role } from "./types";
 
 const SignUpDialog: FC = () => {
@@ -69,7 +69,7 @@ const SignUpDialog: FC = () => {
               <Box sx={{ minHeight: "80px" }}>
                 <AutocompleteField
                   name="departments"
-                  label="Department Name"
+                  label="Department"
                   disablePortal
                   id="departments-autocomplete"
                   options={departments}
@@ -81,25 +81,26 @@ const SignUpDialog: FC = () => {
               </Box>
 
               <Box sx={{ minHeight: "80px" }}>
+                <AutocompleteField
+                  name="roles"
+                  label="ٌRoles"
+                  disablePortal
+                  id="roles-autocomplete"
+                  defaultValue={null}
+                  options={roles}
+                  getOptionLabel={(option) => (option as Role).name}
+                  onChange={(event, value) => {
+                    setFieldValue("roles", value);
+                  }}
+                />
+              </Box>
+
+              <Box sx={{ minHeight: "80px" }}>
                 <TextField
                   name="email"
                   label="Email"
                   placeholder="e.g. israa@gmail.com"
                   fullWidth
-                />
-              </Box>
-
-              <Box sx={{ minHeight: "80px" }}>
-                <AutocompleteField
-                  name="roles"
-                  label="roles"
-                  disablePortal
-                  id="role-autocomplete"
-                  options={role}
-                  getOptionLabel={(option) => (option as Role).name}
-                  onChange={(event, value) => {
-                    setFieldValue("roles", [(value as Role).name]);
-                  }}
                 />
               </Box>
 
