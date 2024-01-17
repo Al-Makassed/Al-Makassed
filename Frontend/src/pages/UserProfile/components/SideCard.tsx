@@ -1,3 +1,7 @@
+import PolicyIcon from "@mui/icons-material/AssuredWorkload";
+import HomeIcon from "@mui/icons-material/Home";
+import SettingsIcon from "@mui/icons-material/Settings";
+import DependencyIcon from "@mui/icons-material/TextSnippetOutlined";
 import {
   Box,
   Card,
@@ -8,15 +12,22 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FC } from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { ChoiceName } from "../../constants";
-import { SideCardProps } from "../../types";
+import { ChoiceName } from "../constants";
+import { Choice, SideCardProps } from "../types";
 
-const choices = [
+const choices: Choice[] = [
   {
     name: ChoiceName.Home,
     icon: <HomeIcon />,
+  },
+
+  {
+    name: ChoiceName.PoliciesProgress,
+    icon: <PolicyIcon />,
+  },
+  {
+    name: ChoiceName.DependenciesProgress,
+    icon: <DependencyIcon />,
   },
   {
     name: ChoiceName.Details,

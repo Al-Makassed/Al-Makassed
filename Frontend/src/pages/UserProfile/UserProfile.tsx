@@ -5,7 +5,7 @@ import { useAppSelector } from "src/store/hooks";
 import DetailsSection from "./components/DetailsCard/DetailsSection";
 import HomeCard from "./components/HomeCard";
 import InformationCard from "./components/InformationCard/InformationCard";
-import SideCard from "./components/SideCard/SideCard";
+import SideCard from "./components/SideCard";
 import { ChoiceName } from "./constants";
 import useGetUser from "./hooks/useGetUser";
 

@@ -7,6 +7,8 @@ export const DEPENDENCY_READING_QUERY_KEY = ["depReading"];
 export enum ChoiceName {
   Home = "Home",
   Details = "Details",
+  PoliciesProgress = "Policies Progress",
+  DependenciesProgress = "Dependencies Progress",
 }
 
 export enum EditType {

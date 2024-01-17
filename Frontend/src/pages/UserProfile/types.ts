@@ -10,6 +10,11 @@ export interface DetailsSectionProps {
   head: Head;
 }
 
+export interface Choice {
+  name: ChoiceName;
+  icon: JSX.Element;
+}
+
 export interface DepartmentPartProps {
   head: Head;
 }
