@@ -1,19 +1,26 @@
-import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { FC, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import { User } from "../API/type";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import ConfirmDialog from "src/components/ConfirmDialog";
 import { grey } from "@mui/material/colors";
-// import AddUserDialog from "./AddUserDialog";
 import useGetUsers from "../hooks/useGetUsers";
 import useDeleteUser from "../hooks/useDeleteUser";
-// import AddUserDialog from "./AddUserDialog";
 import EditUserRoleDialog from "./EditUserRoleDialog";
 import EditUserDepartmentDialog from "./EditUserDepartmentDialog";
-// import EditUserDialog from "./EditUserDialog";
 
 const UserDetails: FC = () => {
   //   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -48,47 +55,62 @@ const UserDetails: FC = () => {
     handleOpenEditDialog();
   };
 
+  const actions = [
+    { name: "Edit User Department", icon: <EditIcon /> },
+    { name: "Edit User Role", icon: <EditNoteIcon /> },
+  ];
+
   const columns: GridColDef[] = [
-    { field: "fullName", headerName: "Name", width: 250 },
-    // { field: "userName", headerName: "userName", width: 450 },
-    { field: "roles", headerName: "Role", width: 200 },
-    { field: "departmentId", headerName: "Department", width: 350 },
+    { field: "fullName", headerName: "Name", width: 175 },
+    { field: "createdOn", headerName: "Member Since", width: 270 },
+    { field: "roles", headerName: "Role", width: 110 },
+    {
+      field: "department",
+      headerName: "Department",
+      width: 220,
+      renderCell: (params) => <span>{params.row.department.name}</span>,
+    },
     {
       field: "actions",
       headerName: "Actions",
-      width: 200,
+      width: 220,
       renderCell: (params) => (
         <>
-          <Tooltip title="Edit userRole">
-            <IconButton
-              onClick={() => handleEditButtonClick(params.row)}
-              aria-label="Edit userRole"
-              sx={{ mr: 0.5 }}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-
           <Tooltip title="Delete user">
             <IconButton
               aria-label="Delete user"
               sx={{ mr: 0.5 }}
               color="error"
               onClick={() => handleDeleteButtonClicked(params.row)}
+              // size="small"
             >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Edit userDepartment">
-            <IconButton
-              onClick={() => handleEditButtonClick(params.row)}
-              aria-label="Edit userDepartment"
-              sx={{ mr: 0.5 }}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
+          <SpeedDial
+            ariaLabel="SpeedDial"
+            sx={{
+              "& .MuiFab-root": {
+                height: "36px",
+              },
+              "& .MuiSvgIcon-root": {
+                fontSize: "1.3rem",
+              },
+              width: "160px",
+            }}
+            direction="right"
+            icon={<SpeedDialIcon />}
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+                onClick={() => handleEditButtonClick(params.row)}
+              />
+            ))}
+          </SpeedDial>
         </>
       ),
     },
