@@ -7,16 +7,12 @@ import { extractErrorMessage } from "src/utils";
 import {
   DEPENDENCY_READING_QUERY_KEY,
   POLICY_READING_QUERY_KEY,
+  ReadingEntityType,
 } from "../constants";
 import {
   userDependencyReadingsPercentage,
   userPolicyReadingsPercentage,
 } from "../API";
-
-export enum ReadingEntityType {
-  POLICY,
-  DEPENDENCY,
-}
 
 const useGetReadingsPercentage = (type: ReadingEntityType) => {
   const dispatch = useAppDispatch();
@@ -26,12 +22,10 @@ const useGetReadingsPercentage = (type: ReadingEntityType) => {
     isFetching,
     error,
   } = useQuery({
-    queryFn: () => {
-      console.log("type:", type); // Add this line
-      return type === ReadingEntityType.POLICY
+    queryFn: () =>
+      type === ReadingEntityType.POLICY
         ? userPolicyReadingsPercentage()
-        : userDependencyReadingsPercentage();
-    },
+        : userDependencyReadingsPercentage(),
     queryKey: [
       type === ReadingEntityType.POLICY
         ? POLICY_READING_QUERY_KEY

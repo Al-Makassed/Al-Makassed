@@ -13,3 +13,8 @@ export enum EditType {
   Email = "email",
   PhoneNumber = "phoneNumber",
 }
+
+export enum ReadingEntityType {
+  POLICY,
+  DEPENDENCY,
+}

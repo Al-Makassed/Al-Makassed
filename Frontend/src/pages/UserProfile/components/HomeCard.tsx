@@ -1,9 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import ProgressBar from "src/components/ProgressBar";
-import useGetReadingsPercentage, {
-  ReadingEntityType,
-} from "../hooks/useGetReadingsPercentage";
+import useGetReadingsPercentage from "../hooks/useGetReadingsPercentage";
+import { ReadingEntityType } from "../constants";
 
 const HomeCard: FC = () => {
   const { readingsPercentage: policyResult } = useGetReadingsPercentage(
