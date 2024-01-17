@@ -29,3 +29,7 @@ export interface PatchDocument {
   path: string;
   value: string;
 }
+
+export interface ReadingsPercentage {
+  result: number;
+}

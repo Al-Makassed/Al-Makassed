@@ -46,7 +46,7 @@ const ContactingPart: FC = () => {
       </Box>
 
       <FormikProvider value={formikProps}>
-        <Stack gap={2} p={{ sm: 2 }}>
+        <Stack gap={2} py={2} px={{ sm: 2 }}>
           {/* Email Section */}
           <Stack direction="row" alignItems="center" gap={1}>
             <EmailIcon sx={{ color: "grey" }} />:

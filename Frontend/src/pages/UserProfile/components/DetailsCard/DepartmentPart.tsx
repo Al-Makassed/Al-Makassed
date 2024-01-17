@@ -17,7 +17,7 @@ const DepartmentPart: FC<DepartmentPartProps> = ({ head }) => {
         <Typography variant="h6">Department Details</Typography>
       </Box>
 
-      <Stack gap={2} p={2}>
+      <Stack gap={2} p={2} pb={0}>
         <Stack direction="row" gap={1} alignItems="center">
           <Stack direction="row" gap={0.3}>
             <RoleIcon sx={{ color: "grey" }} />
