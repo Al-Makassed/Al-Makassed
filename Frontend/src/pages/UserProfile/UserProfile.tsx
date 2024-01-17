@@ -8,6 +8,7 @@ import InformationCard from "./components/InformationCard/InformationCard";
 import SideCard from "./components/SideCard";
 import { ChoiceName } from "./constants";
 import useGetUser from "./hooks/useGetUser";
+import PoliciesProgressCard from "./components/PoliciesProgressCard/PoliciesProgressCard";
 
 const UserProfile: FC = () => {
   const [choice, setChoice] = useState<ChoiceName>(ChoiceName.Home);
@@ -44,6 +45,9 @@ const UserProfile: FC = () => {
             <Card sx={{ p: 3 }}>
               {choice === ChoiceName.Home && <HomeCard />}
               {choice === ChoiceName.Details && <DetailsSection head={head} />}
+              {choice === ChoiceName.PoliciesProgress && (
+                <PoliciesProgressCard />
+              )}
             </Card>
           </Grid>
         </Stack>
