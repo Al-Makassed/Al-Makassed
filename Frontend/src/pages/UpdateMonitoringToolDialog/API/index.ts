@@ -4,6 +4,8 @@ import {
   AssignMonitoringToolToDepartmentRequest,
   DeleteMonitoringToolDepartmentRequest,
   DeleteMonitoringToolFieldRequest,
+  Department,
+  Field,
   MonitoringTool,
   UpdateMonitoringToolRequest,
 } from "./types";
@@ -69,4 +71,12 @@ export const assignMonitoringToolToDepartment = ({
       departmentsIdes,
     })
     .then((res) => res.data);
+};
+
+export const getFields = () => {
+  return axios.get<Field[]>("/fields").then((res) => res.data);
+};
+
+export const getDepartments = () => {
+  return axios.get<Department[]>("/departments").then((res) => res.data);
 };
