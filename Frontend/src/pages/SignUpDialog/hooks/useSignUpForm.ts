@@ -8,12 +8,20 @@ const useSignupForm = () => {
   const { signupUser } = useSignUpAPI();
 
   const submitForm = (values: SignupFormPayload) => {
-    const { userId, userName, fullName, email, roles, departmentId, password } =
-      values;
+    const {
+      userId,
+      userName,
+      firstName,
+      lastName,
+      email,
+      roles,
+      departmentId,
+      password,
+    } = values;
     return signupUser({
       userId,
       userName,
-      fullName,
+      fullName: `${firstName} ${lastName}`,
       email,
       roles: roles ? [roles.name] : [],
       departmentId,

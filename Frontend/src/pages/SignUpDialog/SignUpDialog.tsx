@@ -1,6 +1,6 @@
 import KeyIcon from "@mui/icons-material/Key";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Grid, Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { FormikProvider } from "formik";
 import { FC, useState } from "react";
 import AutocompleteField from "src/components/Fields/AutocompleteField";
@@ -32,83 +32,79 @@ const SignUpDialog: FC = () => {
       <MaqasidDialog.Header>
         <MaqasidDialog.Title flex={1} title="Register User" />
         <MaqasidDialog.Actions>
+          <MaqasidDialog.Fullscreen />
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
       <Grid>
         <FormikProvider value={formikProps}>
-          <MaqasidDialog.Body>
-            <Stack gap={1} sx={{ width: "min(560px, 100%)" }}>
-              <Box sx={{ minHeight: "80px" }}>
-                <TextField
-                  name="userId"
-                  label="User Id"
-                  placeholder="e.g. 202310408"
-                  fullWidth
-                />
-              </Box>
+          <MaqasidDialog.Body niceScroll>
+            <Stack gap={3} sx={{ width: "min(600px, 100%)" }}>
+              <TextField
+                name="userId"
+                label="User Id"
+                placeholder="e.g. 202310408"
+                fullWidth
+              />
 
-              <Box sx={{ minHeight: "80px" }}>
+              <TextField
+                name="userName"
+                label="User Name"
+                placeholder="e.g. Israa"
+                fullWidth
+              />
+
+              <Stack direction={"row"} justifyContent="space-between">
                 <TextField
-                  name="userName"
-                  label="User Name"
+                  name="firstName"
+                  label="First Name"
                   placeholder="e.g. Israa"
-                  fullWidth
+                  sx={{ width: "49%" }}
                 />
-              </Box>
-
-              <Box sx={{ minHeight: "80px" }}>
                 <TextField
-                  name="fullName"
-                  label="Full Name"
-                  placeholder="e.g. Israa Zaher Yahya"
-                  fullWidth
+                  name="lastName"
+                  label="Last Name"
+                  placeholder="e.g. Yahya"
+                  sx={{ width: "49%" }}
                 />
-              </Box>
+              </Stack>
 
-              <Box sx={{ minHeight: "80px" }}>
-                <AutocompleteField
-                  name="departments"
-                  label="Department"
-                  disablePortal
-                  id="departments-autocomplete"
-                  options={departments}
-                  getOptionLabel={(option) => (option as Department).name}
-                  onChange={(event, value) => {
-                    setFieldValue("departmentId", (value as Department).id);
-                  }}
-                />
-              </Box>
+              <AutocompleteField
+                name="departments"
+                label="Department"
+                disablePortal
+                id="departments-autocomplete"
+                options={departments}
+                getOptionLabel={(option) => (option as Department).name}
+                onChange={(event, value) => {
+                  setFieldValue("departmentId", (value as Department).id);
+                }}
+              />
 
-              <Box sx={{ minHeight: "80px" }}>
-                <AutocompleteField
-                  name="roles"
-                  label="ٌRoles"
-                  disablePortal
-                  id="roles-autocomplete"
-                  defaultValue={null}
-                  options={roles}
-                  getOptionLabel={(option) => (option as Role).name}
-                  onChange={(event, value) => {
-                    setFieldValue("roles", value);
-                  }}
-                />
-              </Box>
+              <AutocompleteField
+                name="roles"
+                label="ٌRoles"
+                disablePortal
+                id="roles-autocomplete"
+                defaultValue={null}
+                options={roles}
+                getOptionLabel={(option) => (option as Role).name}
+                onChange={(event, value) => {
+                  setFieldValue("roles", value);
+                }}
+              />
 
-              <Box sx={{ minHeight: "80px" }}>
-                <TextField
-                  name="email"
-                  label="Email"
-                  placeholder="e.g. israa@gmail.com"
-                  fullWidth
-                />
-              </Box>
+              <TextField
+                name="email"
+                label="Email"
+                placeholder="e.g. israa@gmail.com"
+                fullWidth
+              />
 
-              <Box sx={{ minHeight: "80px" }}>
-                <PasswordField label="Password" name="password" />
-              </Box>
+              <PasswordField label="Password" name="password" />
             </Stack>
           </MaqasidDialog.Body>
+
           <MaqasidDialog.Footer>
             <LoadingButton
               sx={{ mt: 1, mb: 1 }}

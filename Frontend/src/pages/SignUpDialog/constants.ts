@@ -3,7 +3,8 @@ import { Role, SignupFormPayload } from "./types";
 export const INITIAL_VALUES: SignupFormPayload = {
   userId: "",
   userName: "",
-  fullName: "",
+  firstName: "",
+  lastName: "",
   departmentId: "",
   email: "",
   password: "",
