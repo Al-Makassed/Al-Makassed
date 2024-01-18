@@ -7,14 +7,21 @@ import PasswordField from "src/components/Fields/PasswordField";
 import TextField from "src/components/Fields/TextField";
 import useSignUpForm from "./hooks/useSignUpForm";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import ArrayTextField from "src/components/Fields/ArrayTextField";
+import AutocompleteField from "src/components/Fields/AutocompleteField";
+import useGetDepartments from "../AddMonitoringToolDialog/hooks/useGetDepartments";
+import { Department } from "../AddMonitoringToolDialog/API/types";
+import { role } from "./constants";
+import { Role } from "./types";
 
 const SignUpDialog: FC = () => {
   const formikProps = useSignUpForm();
 
-  const { submitForm, isSubmitting, dirty, isValid } = formikProps;
+  const { submitForm, isSubmitting, dirty, isValid, setFieldValue } =
+    formikProps;
 
   const [isOpen, setIsOpen] = useState(true);
+
+  const { departments } = useGetDepartments();
 
   const handleClose = () => {
     setIsOpen(false);
@@ -40,6 +47,7 @@ const SignUpDialog: FC = () => {
                   fullWidth
                 />
               </Box>
+
               <Box sx={{ minHeight: "80px" }}>
                 <TextField
                   name="userName"
@@ -48,6 +56,7 @@ const SignUpDialog: FC = () => {
                   fullWidth
                 />
               </Box>
+
               <Box sx={{ minHeight: "80px" }}>
                 <TextField
                   name="fullName"
@@ -56,14 +65,21 @@ const SignUpDialog: FC = () => {
                   fullWidth
                 />
               </Box>
+
               <Box sx={{ minHeight: "80px" }}>
-                <TextField
-                  name="departmentId"
-                  label="Department Id"
-                  placeholder="e.g. 3232a08d-0327-4495-9a49-dfd03148ced6"
-                  fullWidth
+                <AutocompleteField
+                  name="departments"
+                  label="Department Name"
+                  disablePortal
+                  id="departments-autocomplete"
+                  options={departments}
+                  getOptionLabel={(option) => (option as Department).name}
+                  onChange={(event, value) => {
+                    setFieldValue("departmentId", (value as Department).id);
+                  }}
                 />
               </Box>
+
               <Box sx={{ minHeight: "80px" }}>
                 <TextField
                   name="email"
@@ -74,13 +90,16 @@ const SignUpDialog: FC = () => {
               </Box>
 
               <Box sx={{ minHeight: "80px" }}>
-                <ArrayTextField
+                <AutocompleteField
                   name="roles"
-                  label="Roles"
-                  placeholder="e.g. staff,admin"
-                  fullWidth
-                  parse={(value) => (value ? value.split(",") : [])}
-                  format={(value) => (value ? value.join(",") : "")}
+                  label="roles"
+                  disablePortal
+                  id="role-autocomplete"
+                  options={role}
+                  getOptionLabel={(option) => (option as Role).name}
+                  onChange={(event, value) => {
+                    setFieldValue("roles", [(value as Role).name]);
+                  }}
                 />
               </Box>
 

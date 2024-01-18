@@ -7,3 +7,7 @@ export interface SignupFormPayload {
   password: string;
   roles: string[];
 }
+
+export interface Role {
+  name: string;
+}
