@@ -5,6 +5,7 @@ import { HomeContainer } from "./styled";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import Chip from "@mui/material/Chip";
 import { Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Home: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,11 +38,15 @@ const Home: FC = () => {
     console.log("save");
     setIsDirty(false);
   };
-
+  const navigate = useNavigate();
+  const handleSignUp = () => {
+    navigate("/me/sign-up");
+  };
   return (
     <HomeContainer>
       <Typography variant="h4">Welcome to Al-Maqasid</Typography>
       <Button onClick={handleClick}>Test Dialog</Button>
+      <Button onClick={handleSignUp}>SignUp Dialog</Button>
       <MaqasidDialog
         isOpen={isOpen}
         onClose={handleClose}
