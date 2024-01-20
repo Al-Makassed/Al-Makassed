@@ -9,6 +9,7 @@ import AddPolicyDependencyDialog from "src/pages/PolicyDependencies/components/A
 import { useAppSelector } from "src/store/hooks";
 import { POLICY_DEPENDENCIES_DISPLAY_NAMES } from "../constants";
 import { DependenciesListProps } from "../types";
+import EmptyList from "src/components/EmptyList";
 
 const DependenciesList: FC<DependenciesListProps> = ({
   chapterId,
@@ -51,6 +52,11 @@ const DependenciesList: FC<DependenciesListProps> = ({
               </Button>
             </Stack>
           ))}
+          {policyDependencies.length === 0 && (
+            <Stack maxWidth={530}>
+              <EmptyList type={dependencyName} />
+            </Stack>
+          )}
         </Stack>
 
         {isManager && (
