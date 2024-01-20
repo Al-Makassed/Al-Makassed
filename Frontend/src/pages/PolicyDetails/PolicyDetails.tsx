@@ -1,14 +1,12 @@
-import React, { FC } from "react";
-import useGetPolicy from "./hooks/useGetPolicy";
-import { Stack, Typography, Tooltip, IconButton, Button } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import PolicyDependencies from "src/pages/PolicyDependencies";
-import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
-import EditIcon from "@mui/icons-material/Edit";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
-import { useAppSelector } from "src/store/hooks";
-import { selectIsAdminUser } from "src/features/user";
+import { Stack } from "@mui/material";
+import { FC } from "react";
+import { useParams } from "react-router-dom";
+import useMediaQuery from "src/hooks/useMediaQuery";
 import useSidebarContext from "../PoliciesAndProcedures/context/useSidebar";
+import DetailsTabs from "./components/DetailsTabs";
+import Header from "./components/Header";
+import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
+import useGetPolicy from "./hooks/useGetPolicy";
 
 const PolicyDetails: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -24,62 +22,35 @@ const PolicyDetails: FC = () => {
 
   const { policy, isFetching } = useGetPolicy(chapterId, policyId);
 
-  const navigate = useNavigate();
-
-  const handleEditPolicy = () => {
-    navigate(
-      `/me/policies-and-procedures/${policy?.chapterId}/policies/edit/${policy?.id}`,
-    );
-  };
+  const { isTabletOrLess } = useMediaQuery();
 
   const handleCloseSideBar = () => closeSidebar();
 
-  const isAdmin = useAppSelector(selectIsAdminUser);
-
   if (isFetching) {
-    isSidebarOpen && handleCloseSideBar();
+    isSidebarOpen && isTabletOrLess && handleCloseSideBar();
     return <PolicyDetailsLoadingSkeleton />;
   }
 
   if (!policy) return null;
 
   return (
-    <Stack alignItems="center" textAlign="center" gap={3}>
-      <Typography
-        variant="subtitle1"
-        sx={{ color: (theme) => theme.palette.text.primary }}
+    <Stack alignItems={isSidebarOpen ? "flex-end" : "flex-start"}>
+      <Stack
+        gap={3}
+        pr={5}
+        pl={{ xs: 5, sm: 9 }}
+        py={9}
+        width={isSidebarOpen ? "calc(100vw - 400px)" : "100vw"}
+        sx={{
+          transition: "width 350ms ease-in-out",
+        }}
       >
-        {policy.code}
-      </Typography>
+        <Header policy={policy} />
 
-      <Stack direction="row" justifyContent="center">
-        <Typography fontWeight={600} variant="h5">
-          {policy.name}
-        </Typography>
+        <DetailsTabs policy={policy} />
 
-        {isAdmin && (
-          <Tooltip title="Edit Policy">
-            <IconButton
-              aria-label="Edit Policy"
-              sx={{ mr: 1 }}
-              onClick={handleEditPolicy}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        {/* <PolicyDependencies chapterId={chapterId} policyId={policyId} /> */}
       </Stack>
-
-      <Button
-        startIcon={<FileOpenIcon />}
-        href={policy.pdfUrl}
-        target="_blank"
-        variant="contained"
-      >
-        Open Policy File
-      </Button>
-
-      <PolicyDependencies chapterId={chapterId} policyId={policyId} />
     </Stack>
   );
 };
