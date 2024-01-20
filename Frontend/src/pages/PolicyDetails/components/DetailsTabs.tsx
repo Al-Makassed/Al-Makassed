@@ -1,6 +1,9 @@
 import { Stack, Tab, Tabs } from "@mui/material";
 import { FC, useState } from "react";
+import TabPanel from "src/components/TabPanel";
+import { PolicyDependencyType } from "src/pages/PolicyDependencies/constants";
 import { Policy } from "../API/types";
+import DependenciesList from "./DependenciesList";
 import DetailsPanel from "./DetailsPanel";
 
 export interface DetailsTabsProps {
@@ -9,13 +12,6 @@ export interface DetailsTabsProps {
 
 const DetailsTabs: FC<DetailsTabsProps> = ({ policy }) => {
   const [value, setValue] = useState(0);
-
-  // const policyDependencies =
-  //   policy?.dependencies.filter(
-  //     (dependency) => dependency.type === PolicyDependencyType.Form
-  //   ) ?? [];
-
-  // const isManager = useAppSelector(selectIsManagerUser);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -28,8 +24,8 @@ const DetailsTabs: FC<DetailsTabsProps> = ({ policy }) => {
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"
-        aria-label="scrollable auto tabs example"
-        sx={{ gap: 3 }}
+        aria-label="policy details tabs"
+        sx={{ borderBottom: 1, borderColor: "divider" }}
       >
         <Tab sx={{ mr: 1 }} label="Details" />
         <Tab sx={{ mr: 1 }} label="Forms" />
@@ -39,6 +35,30 @@ const DetailsTabs: FC<DetailsTabsProps> = ({ policy }) => {
       </Tabs>
 
       <DetailsPanel value={value} policy={policy} />
+
+      <TabPanel index={1} value={value}>
+        <DependenciesList
+          chapterId={policy.chapterId}
+          policyId={policy.id}
+          type={PolicyDependencyType.Form}
+        />
+      </TabPanel>
+
+      <TabPanel index={2} value={value}>
+        <DependenciesList
+          chapterId={policy.chapterId}
+          policyId={policy.id}
+          type={PolicyDependencyType.Poster}
+        />
+      </TabPanel>
+
+      <TabPanel index={3} value={value}>
+        <DependenciesList
+          chapterId={policy.chapterId}
+          policyId={policy.id}
+          type={PolicyDependencyType.Protocol}
+        />
+      </TabPanel>
     </Stack>
   );
 };
