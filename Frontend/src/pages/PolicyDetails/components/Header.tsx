@@ -21,7 +21,7 @@ const Header: FC<HeaderProps> = ({ policy }) => {
     );
   };
   return (
-    <Stack direction="row">
+    <Stack direction="row" alignItems="center">
       <Typography fontWeight={600} variant="h5">
         {policy.name}
       </Typography>
