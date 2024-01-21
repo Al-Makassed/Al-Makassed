@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240116052449_Fix PolicyUser")]
+    partial class FixPolicyUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,9 +137,6 @@ namespace Makassed.Api.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ReadingState")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -146,7 +146,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DependencyUsers");
+                    b.ToTable("DependencyUser");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Field", b =>
@@ -383,9 +383,6 @@ namespace Makassed.Api.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ReadingState")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -395,7 +392,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PolicyUsers");
+                    b.ToTable("PolicyUser");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>

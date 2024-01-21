@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240116062943_.")]
+    partial class _
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,9 +136,6 @@ namespace Makassed.Api.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ReadingState")
                         .ValueGeneratedOnAdd()
@@ -382,9 +382,6 @@ namespace Makassed.Api.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ReadingState")
                         .ValueGeneratedOnAdd()

@@ -4,6 +4,7 @@ using Makassed.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Makassed.Api.Migrations
 {
     [DbContext(typeof(MakassedDbContext))]
-    partial class MakassedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240116044237_Fix DependencyUser")]
+    partial class FixDependencyUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,9 +137,6 @@ namespace Makassed.Api.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ReadingState")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -146,7 +146,7 @@ namespace Makassed.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DependencyUsers");
+                    b.ToTable("DependencyUser");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Field", b =>
@@ -380,22 +380,17 @@ namespace Makassed.Api.Migrations
                     b.Property<Guid>("PolicyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ReadingState")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
-                    b.HasKey("PolicyId", "UserId");
+                    b.HasKey("PolicyId", "UsersId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersId");
 
-                    b.ToTable("PolicyUsers");
+                    b.ToTable("PolicyUser");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
@@ -733,21 +728,17 @@ namespace Makassed.Api.Migrations
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.PolicyUser", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Domain.Policy", "Policy")
+                    b.HasOne("Makassed.Api.Models.Domain.Policy", null)
                         .WithMany()
                         .HasForeignKey("PolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "User")
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Policy");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
