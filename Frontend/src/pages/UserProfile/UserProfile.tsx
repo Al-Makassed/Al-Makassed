@@ -2,13 +2,13 @@ import { Card, Grid, Stack } from "@mui/material";
 import { FC, useState } from "react";
 import { selectUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
+import ActivityCard from "./components/ActivityCard/ActivityCard";
 import DetailsSection from "./components/DetailsCard/DetailsSection";
 import HomeCard from "./components/HomeCard";
 import InformationCard from "./components/InformationCard/InformationCard";
 import SideCard from "./components/SideCard";
 import { ChoiceName } from "./constants";
 import useGetUser from "./hooks/useGetUser";
-import PoliciesProgressCard from "./components/PoliciesProgressCard/PoliciesProgressCard";
 
 const UserProfile: FC = () => {
   const [choice, setChoice] = useState<ChoiceName>(ChoiceName.Home);
@@ -28,7 +28,7 @@ const UserProfile: FC = () => {
       container
       sx={{
         bgcolor: "grey.100",
-        p: { xs: 2, md: 3 },
+        p: { xs: 2, md: 2.5 },
         height: "calc(100vh - 64px)",
       }}
     >
@@ -45,9 +45,7 @@ const UserProfile: FC = () => {
             <Card sx={{ p: 3 }}>
               {choice === ChoiceName.Home && <HomeCard />}
               {choice === ChoiceName.Details && <DetailsSection head={head} />}
-              {choice === ChoiceName.PoliciesProgress && (
-                <PoliciesProgressCard />
-              )}
+              {choice === ChoiceName.Activity && <ActivityCard />}
             </Card>
           </Grid>
         </Stack>

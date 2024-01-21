@@ -1,7 +1,7 @@
 import PolicyIcon from "@mui/icons-material/AssuredWorkload";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
-import DependencyIcon from "@mui/icons-material/TextSnippetOutlined";
+// import DependencyIcon from "@mui/icons-material/TextSnippetOutlined";
 import {
   Box,
   Card,
@@ -22,13 +22,13 @@ const choices: Choice[] = [
   },
 
   {
-    name: ChoiceName.PoliciesProgress,
+    name: ChoiceName.Activity,
     icon: <PolicyIcon />,
   },
-  {
-    name: ChoiceName.DependenciesProgress,
-    icon: <DependencyIcon />,
-  },
+  // {
+  //   name: ChoiceName.DependenciesProgress,
+  //   icon: <DependencyIcon />,
+  // },
   {
     name: ChoiceName.Details,
     icon: <SettingsIcon />,
@@ -41,7 +41,7 @@ const SideCard: FC<SideCardProps> = ({ choice, setChoice }) => {
   };
 
   return (
-    <Card sx={{ py: 1 }}>
+    <Card sx={{ py: 1, height: "calc(100vh - 64px - 20px - 20px)" }}>
       <Box sx={{ width: "100%" }}>
         <List>
           {choices.map(({ name, icon }) => (

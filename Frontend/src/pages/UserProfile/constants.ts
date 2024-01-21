@@ -9,6 +9,7 @@ export enum ChoiceName {
   Details = "Details",
   PoliciesProgress = "Policies Progress",
   DependenciesProgress = "Dependencies Progress",
+  Activity = "Reading Activity",
 }
 
 export enum EditType {

@@ -13,3 +13,11 @@ export const StyledIconButton = styled(IconButton)(({ theme }) => ({
     bgcolor: theme.palette.grey[500],
   },
 }));
+
+export const StyledSubTitle = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  marginRight: theme.spacing(1),
+  borderBottom: "1px solid",
+  borderColor: theme.palette.grey[300],
+  variant: "h6",
+}));
