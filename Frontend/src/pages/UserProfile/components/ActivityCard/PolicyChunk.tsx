@@ -11,17 +11,27 @@ import {
 import { FC } from "react";
 import formatDate from "src/utils/formatDate";
 import { FinishedPolicy } from "../../API/types";
+import { useNavigate } from "react-router-dom";
 
-export interface PolicyProgressChunkProps {
+export interface PolicyChunkProps {
   policy: FinishedPolicy;
 }
 
-const PolicyProgressChunk: FC<PolicyProgressChunkProps> = ({ policy }) => {
-  const chapterName = policy.policy.chapter.name;
+const PolicyChunk: FC<PolicyChunkProps> = ({ policy }) => {
+  const chapter = policy.policy.chapter;
+  const { id: chapterId, name: chapterName } = chapter;
 
   const policyName = policy.policy.name;
 
   const lastAccessedDate = formatDate(policy.lastAccessed);
+
+  const navigate = useNavigate();
+
+  const handlePolicyClick = () => {
+    navigate(
+      `/me/policies-and-procedures/${chapterId}/policies/${policy.policyId}`,
+    );
+  };
 
   return (
     <ListItemButton
@@ -33,6 +43,7 @@ const PolicyProgressChunk: FC<PolicyProgressChunkProps> = ({ policy }) => {
           borderColor: "primary.main",
         },
       }}
+      onClick={handlePolicyClick}
     >
       <Stack width={"100%"}>
         <Stack direction="row" ml={0.5} alignItems="center">
@@ -59,4 +70,4 @@ const PolicyProgressChunk: FC<PolicyProgressChunkProps> = ({ policy }) => {
   );
 };
 
-export default PolicyProgressChunk;
+export default PolicyChunk;

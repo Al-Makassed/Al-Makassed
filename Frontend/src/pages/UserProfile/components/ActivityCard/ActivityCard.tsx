@@ -6,7 +6,7 @@ import {
   getFinishedListInMonthExceptWeek,
   getFinishedListInWeek,
 } from "../../utils";
-import PolicyProgressChunk from "./PolicyProgressChunk";
+import PolicyChunk from "./PolicyChunk";
 
 const ActivityCard: FC = () => {
   const { policies, isFetching } = useGetFinishedPolicies("");
@@ -33,7 +33,7 @@ const ActivityCard: FC = () => {
         <StyledSubTitle variant="h6">This Week</StyledSubTitle>
         <Stack gap={1.5}>
           {thisWeekPolicies.map((policy) => (
-            <PolicyProgressChunk key={policy.policyId} policy={policy} />
+            <PolicyChunk key={policy.policyId} policy={policy} />
           ))}
         </Stack>
 
@@ -44,7 +44,7 @@ const ActivityCard: FC = () => {
             </Typography>
             <Stack gap={1.5}>
               {thisMonthPolicies.map((policy) => (
-                <PolicyProgressChunk key={policy.policyId} policy={policy} />
+                <PolicyChunk key={policy.policyId} policy={policy} />
               ))}
             </Stack>
           </>
