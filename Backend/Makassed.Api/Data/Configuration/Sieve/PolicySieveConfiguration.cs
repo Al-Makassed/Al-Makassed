@@ -9,6 +9,7 @@ public class PolicySieveConfiguration : ISieveConfiguration
     {
         mapper.Property<Policy>(p => p.Name).CanFilter().CanSort();
         mapper.Property<Policy>(p => p.Code).CanFilter().CanSort();
-        mapper.Property<Policy>(p => p.ChapterId).CanFilter();
+        mapper.Property<Policy>(p => p.CreatedAt).CanFilter().CanSort();
+        mapper.Property<Policy>(p => p.Chapter.EnableState).CanFilter().CanSort();
     }
 }

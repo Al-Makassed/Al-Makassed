@@ -14,11 +14,11 @@ public record  GetPolicyDependencyResponse
     
     public string? PdfUrl { get; set; }
     
-    public int EstimatedTime { get; set; }
+    public int EstimatedTimeInMin { get; set; }
     
     public int PagesCount { get; set; }
     
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; }
 
     public bool IsApproved { get; set; }
 

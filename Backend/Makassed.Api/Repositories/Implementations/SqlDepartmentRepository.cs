@@ -15,7 +15,7 @@ public class SqlDepartmentRepository : IDepartmentRepository
 
     public async Task<List<Department>> GetDepartmentsAsync()
     {
-        return await _dbContext.Departments.ToListAsync();
+        return await _dbContext.Departments.Include(d => d.Head).ToListAsync();
     }
 
     public async Task<Department?> GetDepartmentAsync(Guid id)
