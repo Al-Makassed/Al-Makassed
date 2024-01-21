@@ -1,14 +1,13 @@
-import React, { FC } from "react";
-import useGetPolicy from "./hooks/useGetPolicy";
-import { Stack, Typography, Tooltip, IconButton, Button } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import PolicyDependencies from "src/pages/PolicyDependencies";
-import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
-import EditIcon from "@mui/icons-material/Edit";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
-import { useAppSelector } from "src/store/hooks";
-import { selectIsAdminUser } from "src/features/user";
+import { Breadcrumbs, Link, Stack, Typography } from "@mui/material";
+import { FC } from "react";
+import { useParams } from "react-router-dom";
+import useMediaQuery from "src/hooks/useMediaQuery";
 import useSidebarContext from "../PoliciesAndProcedures/context/useSidebar";
+import DetailsTabs from "./components/DetailsTabs";
+import Header from "./components/Header";
+import PolicyDetailsLoadingSkeleton from "./components/PolicyDetailsLoadingSkeleton";
+import useGetPolicy from "./hooks/useGetPolicy";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const PolicyDetails: FC = () => {
   const { chapterId: chapterIdParam, policyId: policyIdParam } = useParams();
@@ -24,62 +23,55 @@ const PolicyDetails: FC = () => {
 
   const { policy, isFetching } = useGetPolicy(chapterId, policyId);
 
-  const navigate = useNavigate();
-
-  const handleEditPolicy = () => {
-    navigate(
-      `/me/policies-and-procedures/${policy?.chapterId}/policies/edit/${policy?.id}`,
-    );
-  };
+  const { isTabletOrLess, isLargeDesktop } = useMediaQuery();
 
   const handleCloseSideBar = () => closeSidebar();
 
-  const isAdmin = useAppSelector(selectIsAdminUser);
-
   if (isFetching) {
-    isSidebarOpen && handleCloseSideBar();
+    isSidebarOpen && isTabletOrLess && handleCloseSideBar();
     return <PolicyDetailsLoadingSkeleton />;
   }
 
   if (!policy) return null;
 
   return (
-    <Stack alignItems="center" textAlign="center" gap={3}>
-      <Typography
-        variant="subtitle1"
-        sx={{ color: (theme) => theme.palette.text.primary }}
+    <Stack alignItems={isSidebarOpen ? "flex-end" : "flex-start"}>
+      <Stack
+        gap={3}
+        pr={5}
+        pl={{ xs: 5, sm: isSidebarOpen ? 5 : 9 }}
+        py={{ xs: 5, sm: 1.75 }}
+        width={isSidebarOpen ? "calc(100vw - 400px)" : "100vw"}
+        sx={{
+          transition: "width 350ms ease-in-out",
+        }}
       >
-        {policy.code}
-      </Typography>
+        <Breadcrumbs
+          aria-label="policy breadcrumb"
+          maxItems={isLargeDesktop ? 4 : 2}
+          separator={<NavigateNextIcon fontSize="small" />}
+        >
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/me/policies-and-procedures"
+          >
+            Chapters
+          </Link>
+          {/* //TODO: when chapter dialog is implemented and the href */}
+          <Link underline="hover" color="inherit">
+            {chapterId}
+          </Link>
+          <Link underline="none" color="inherit">
+            Policies
+          </Link>
+          <Typography color="text.primary">{policy.name}</Typography>
+        </Breadcrumbs>
 
-      <Stack direction="row" justifyContent="center">
-        <Typography fontWeight={600} variant="h5">
-          {policy.name}
-        </Typography>
+        <Header policy={policy} />
 
-        {isAdmin && (
-          <Tooltip title="Edit Policy">
-            <IconButton
-              aria-label="Edit Policy"
-              sx={{ mr: 1 }}
-              onClick={handleEditPolicy}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        <DetailsTabs policy={policy} />
       </Stack>
-
-      <Button
-        startIcon={<FileOpenIcon />}
-        href={policy.pdfUrl}
-        target="_blank"
-        variant="contained"
-      >
-        Open Policy File
-      </Button>
-
-      <PolicyDependencies chapterId={chapterId} policyId={policyId} />
     </Stack>
   );
 };

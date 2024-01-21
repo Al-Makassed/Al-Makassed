@@ -49,7 +49,13 @@ const EditPolicyAndDependenciesDialog: FC = () => {
 
       <MaqasidDialog.Body niceScroll noPadding>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs value={value} onChange={handleChange} aria-label="Policy Tabs">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="Policy Tabs"
+          >
             <Tab label="Policy" />
             <Tab label="Forms" />
             <Tab label="Posters" />
