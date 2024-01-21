@@ -8,7 +8,6 @@ const validationSchema = Yup.object<EditPolicy>().shape({
     .max(60, "Too long estimated time")
     .positive("must be a positive number")
     .integer("must be an integer"),
-  newMainFile: Yup.mixed().required("Policy file is required"),
 });
 
 export default validationSchema;
