@@ -1,3 +1,1 @@
-import SearchDialog from "./SearchDialog";
-
-export default SearchDialog;
+export { default } from "./SearchDialog";

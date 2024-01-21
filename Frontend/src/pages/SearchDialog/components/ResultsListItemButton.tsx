@@ -8,8 +8,6 @@ import { ResultsListItemButtonProps } from "../types";
 import { handleEntityClick } from "../utils/searchEntityHandlers";
 import { typeToString } from "../utils/utils";
 import EntityIcon from "./EntityIcon";
-// import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
-// import useGetMonitoringTool from "src/pages/UpdateMonitoringToolDialog/hooks/useGetMonitoringTool";
 
 export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
   result,
@@ -18,10 +16,6 @@ export const ResultsListItemButton: FC<ResultsListItemButtonProps> = ({
   const [isHovered, setHovered] = useState(false);
 
   const navigate = useNavigate();
-
-  // const { monitoringTool } = useGetMonitoringTool(result.id);
-
-  // const { onOpenMTViewDialog } = useMonitoringToolsContext();
 
   const handleClick = (result: SearchResponse) => {
     handleEntityClick(result, navigate, window.open);

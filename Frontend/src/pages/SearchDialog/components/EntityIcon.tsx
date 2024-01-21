@@ -11,17 +11,22 @@ const EntityIcon: FC<EntityIconProps> = ({ entityType }) => {
   switch (entityType) {
     case SearchEntityType.Chapter:
       return <ChapterIcon sx={{ fontSize: "1.2rem" }} />;
+
     case SearchEntityType.Policy:
       return <PolicyIcon sx={{ fontSize: "1.2rem" }} />;
+
     case SearchEntityType.Dependency:
       return <DependencyIcon sx={{ fontSize: "1.2rem" }} />;
+
     case SearchEntityType.MonitoringTool:
       return <MtIcon sx={{ fontSize: "1.2rem" }} />;
+
     case SearchEntityType.FocalPointTask:
       return <TaskIcon sx={{ fontSize: "1.2rem" }} />;
+
     default:
-      // You can provide a default icon or handle the unknown type accordingly
       return null;
   }
 };
+
 export default EntityIcon;
