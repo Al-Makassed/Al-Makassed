@@ -151,7 +151,7 @@ public class UserService : IUserService
         var authenticatedUserRole = await GetUserRoleAsync();
 
         // If the authenticated user is not the same as the requested user and is not an admin, return an "Unauthorized" error.
-        if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin"))
+        if (!authenticatedUserId!.Equals(userId) && !authenticatedUserRole!.Equals("Admin", StringComparison.Ordinal))
             return Errors.User.Unauthorized;
 
         var user = await _userManager.FindByIdAsync(userId);
@@ -268,5 +268,20 @@ public class UserService : IUserService
 
         // Return a success message.
         return new SuccessResponse(Message: "User roles updated successfully.");
+    }
+
+    public async Task<ErrorOr<GetUserResponse>> DeleteUserAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user is null)
+            return Errors.User.NotFound;
+
+        var deleteResult = await _userManager.DeleteAsync(user);
+
+        if (!deleteResult.Succeeded)
+            return Errors.User.SomethingWentWrong(deleteResult.Errors);
+
+        return await MapUserToGetUserResponse(user);
     }
 }

@@ -73,5 +73,6 @@ public class AutoMapperProfile : Profile
         CreateMap<Submission, GetFpTaskSubmissionResponse>().ReverseMap();
 
         CreateMap<MakassedUser, Submitter>().ReverseMap();
+        CreateMap<MakassedUser, HeadDto>().ReverseMap();
     }
 }
