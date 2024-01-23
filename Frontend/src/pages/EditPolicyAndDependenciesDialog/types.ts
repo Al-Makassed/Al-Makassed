@@ -10,5 +10,5 @@ export interface EditPolicy {
 
 export interface UpdatePolicyProps {
   chapterId: string;
-  policy?: Policy;
+  policy: Policy;
 }
