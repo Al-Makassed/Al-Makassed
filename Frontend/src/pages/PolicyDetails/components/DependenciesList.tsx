@@ -10,6 +10,7 @@ import { useAppSelector } from "src/store/hooks";
 import { POLICY_DEPENDENCIES_DISPLAY_NAMES } from "../constants";
 import { DependenciesListProps } from "../types";
 import EmptyList from "src/components/EmptyList";
+import useFinishReadingDependency from "../hooks/useFinishReadingDependency";
 
 const DependenciesList: FC<DependenciesListProps> = ({
   chapterId,
@@ -31,6 +32,12 @@ const DependenciesList: FC<DependenciesListProps> = ({
 
   const isManager = useAppSelector(selectIsManagerUser);
 
+  const { finishDependency } = useFinishReadingDependency();
+
+  const handleFinishReadingDependency = (dependencyId: string) => {
+    finishDependency(dependencyId);
+  };
+
   return (
     <>
       <Stack gap={3} py={3} px={2}>
@@ -39,6 +46,7 @@ const DependenciesList: FC<DependenciesListProps> = ({
             <Stack direction="row" key={index} alignItems="center">
               <PictureAsPdfIcon color="error" />
               <Button
+                onClick={() => handleFinishReadingDependency(dependency.id)}
                 href={dependency.pdfUrl}
                 target="_blank"
                 sx={{

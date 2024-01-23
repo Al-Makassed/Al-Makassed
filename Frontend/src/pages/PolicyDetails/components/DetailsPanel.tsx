@@ -5,6 +5,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import KeyIcon from "@mui/icons-material/VpnKey";
 import SubjectIcon from "@mui/icons-material/Subject";
+import useFinishReadingPolicy from "../hooks/useFinishReadingPolicy";
 
 export interface DetailsPanelProps {
   value: number;
@@ -13,6 +14,12 @@ export interface DetailsPanelProps {
 
 const DetailsPanel: FC<DetailsPanelProps> = ({ value, policy }) => {
   const { code, summary, pdfUrl } = policy;
+
+  const { finishPolicy } = useFinishReadingPolicy();
+
+  const handleFinishReadingPolicy = () => {
+    finishPolicy(policy.id);
+  };
 
   return (
     <TabPanel value={value} index={0} py={3}>
@@ -69,12 +76,11 @@ const DetailsPanel: FC<DetailsPanelProps> = ({ value, policy }) => {
         </Stack>
 
         <Stack>
-          {/* <Typography variant="subtitle1">File:</Typography> */}
           <Button
+            onClick={handleFinishReadingPolicy}
             startIcon={<PictureAsPdfIcon />}
             href={pdfUrl}
             target="_blank"
-            // variant="contained"
             sx={{ width: "fit-content", textTransform: "none" }}
           >
             Open Policy File
