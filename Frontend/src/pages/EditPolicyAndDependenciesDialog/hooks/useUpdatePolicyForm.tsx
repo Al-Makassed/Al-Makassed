@@ -6,14 +6,6 @@ import useUpdatePolicy from "./useUpdatePolicy";
 const useUpdatePolicyForm = ({ chapterId, policy }: UpdatePolicyProps) => {
   const { updatePolicy, isUpdating, status } = useUpdatePolicy();
 
-  // const initialValues: EditPolicy = {
-  //   newName: policy ? policy.name : "", // Provide a default value if policy is undefined
-  //   newCode: policy ? policy.code : "",
-  //   newEstimatedTimeInMin: policy ? parseInt(policy.estimatedTimeInMin, 10) : 0,
-  //   newMainFile: undefined,
-  //   newSummary: policy ? policy.summary : "",
-  // };
-
   const submitForm = (values: EditPolicy) => {
     const formData = new FormData();
     formData.set("Name", values.newName);

@@ -18,7 +18,7 @@ const EditPolicyForm: FC<EditPolicyFormProps> = ({
   const [isFileRemoved, setIsFileRemoved] = useState(false);
 
   const { policy } = useGetPolicy({ chapterId, policyId });
-  // if (!policy) return null;
+
   const { formikProps, isUpdating, status } = useUpdatePolicyForm({
     chapterId,
     policy,
