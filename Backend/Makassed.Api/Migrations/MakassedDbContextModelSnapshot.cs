@@ -131,21 +131,22 @@ namespace Makassed.Api.Migrations
                     b.Property<Guid>("DependencyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("LastAccessed")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ReadingState")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("DependencyId", "UserId");
 
-                    b.HasKey("DependencyId", "UsersId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("DependencyUser");
+                    b.ToTable("DependencyUsers");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Field", b =>
@@ -379,21 +380,22 @@ namespace Makassed.Api.Migrations
                     b.Property<Guid>("PolicyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("LastAccessed")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ReadingState")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("PolicyId", "UserId");
 
-                    b.HasKey("PolicyId", "UsersId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("PolicyUser");
+                    b.ToTable("PolicyUsers");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>
@@ -633,17 +635,21 @@ namespace Makassed.Api.Migrations
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.DependencyUser", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Domain.Dependency", null)
+                    b.HasOne("Makassed.Api.Models.Domain.Dependency", "Dependency")
                         .WithMany()
                         .HasForeignKey("DependencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", null)
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "User")
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dependency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.FieldAnswer", b =>
@@ -727,17 +733,21 @@ namespace Makassed.Api.Migrations
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.PolicyUser", b =>
                 {
-                    b.HasOne("Makassed.Api.Models.Domain.Policy", null)
+                    b.HasOne("Makassed.Api.Models.Domain.Policy", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", null)
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "User")
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Policy");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Submission", b =>

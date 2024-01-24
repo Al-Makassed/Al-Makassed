@@ -1,4 +1,5 @@
 ﻿using Makassed.Api.Services.Search;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Makassed.Api.Controllers;
@@ -13,7 +14,9 @@ public class SearchController : ApiController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize]
     public async Task<ActionResult<List<object>>> Search([FromQuery] string query)
     {
         var results = await _searchService.Search(query);

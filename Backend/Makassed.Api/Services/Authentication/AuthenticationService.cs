@@ -105,7 +105,7 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.Role.AddToRolesFailed;
         
         // Return a success message.
-        return new SuccessResponse(Message: "User created successfully.");
+        return new SuccessResponse("User created successfully.");
     }
 
     public async Task<ErrorOr<LoginResponse>> LogUserIn(LoginRequest request)
@@ -180,7 +180,7 @@ public class AuthenticationService : IAuthenticationService
             return Errors.User.SomethingWentWrong(resetPasswordResult.Errors);
 
         // Return a success message.
-        return new SuccessResponse( Message : "Password changed successfully." );
+        return new SuccessResponse( "Password changed successfully." );
     }
 
     public async Task<ErrorOr<SuccessResponse>> ResetPassword(ResetPasswordRequest request)

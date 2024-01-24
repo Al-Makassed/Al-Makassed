@@ -62,16 +62,16 @@ public class UsersController : ApiController
     }
 
     // partial update user's info
-    [HttpPatch("{id}")]
+    [HttpPatch]
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize]
-    public async Task<IActionResult> UpdateUserPassword(string id, JsonPatchDocument<UpdateUserRequest> patchDocument)
+    public async Task<IActionResult> UpdateUserPassword(JsonPatchDocument<UpdateUserRequest> patchDocument)
     {
-        var userResult = await _userService.ApplyPatchAsync(id, patchDocument);
+        var userResult = await _userService.ApplyPatchAsync(patchDocument);
 
         return userResult.Match(
             Ok,
@@ -109,6 +109,23 @@ public class UsersController : ApiController
         var updateUserRolesResult = await _userService.UpdateUserRolesAsync(id, request);
 
         return updateUserRolesResult.Match(
+            Ok,
+            Problem
+        );
+    }
+
+    // delete a user
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var deleteResult = await _userService.DeleteUserAsync(id);
+
+        return deleteResult.Match(
             Ok,
             Problem
         );

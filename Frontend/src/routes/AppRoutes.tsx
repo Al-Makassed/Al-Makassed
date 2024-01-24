@@ -43,6 +43,7 @@ const PoliciesAndProcedures = lazy(
 
 import SystemSettings from "src/pages/SystemSettings";
 const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
+const UserProfile = lazy(() => import("src/pages/UserProfile"));
 
 const AppRoutes: FC = () => {
   return (
@@ -56,6 +57,8 @@ const AppRoutes: FC = () => {
             <Route index path="" element={<Home />} />
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
+
+            <Route path="profile" element={<UserProfile />} />
             <Route path="settings" element={<SystemSettings />}>
               <Route path="department" element={<DepartmentDetails />} />
               <Route path="field" element={<FieldDetails />} />

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Makassed.Api.Models.Domain;
+using Makassed.Api.Services.FilesReading;
 using Makassed.Api.Services.Policies;
 using Makassed.Contracts.Policy;
 using Microsoft.AspNetCore.Authorization;
@@ -12,12 +13,14 @@ namespace Makassed.Api.Controllers;
 public class PoliciesController : ApiController
 {
     private readonly IPolicyService _policyService;
+    private readonly IFilesReadingService _filesReadingService;
     private readonly IMapper _mapper;
 
-    public PoliciesController(IPolicyService policyService, IMapper mapper)
+    public PoliciesController(IPolicyService policyService, IFilesReadingService filesReadingService, IMapper mapper)
     {
         _policyService = policyService;
-        this._mapper = mapper;
+        _filesReadingService = filesReadingService;
+        _mapper = mapper;
     }
 
 

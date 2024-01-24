@@ -13,4 +13,6 @@ public record DependencySearchResponse : Searchable
     public bool IsApproved { get; set; }
 
     public Guid PolicyId { get; set; }
+
+    public required string PdfUrl { get; set; }
 }

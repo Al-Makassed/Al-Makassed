@@ -22,6 +22,8 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
     public DbSet<Submission> Submissions { get; set; } = null!;
     public DbSet<FieldAnswer> FieldAnswers { get; set; } = null!;
     public DbSet<FocalPointTask> FocalPointTasks { get; set; } = null!;
+    public DbSet<PolicyUser> PolicyUsers { get; set; } = null!;
+    public DbSet<DependencyUser> DependencyUsers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
