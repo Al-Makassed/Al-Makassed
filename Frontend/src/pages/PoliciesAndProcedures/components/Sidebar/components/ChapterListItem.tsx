@@ -74,20 +74,26 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
           </Tooltip>
         )}
       </Box>
+
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {chapter.policies.map((policy, index) => (
-            <ListItemButton
-              onClick={handleClickPolicy(policy)}
-              key={index}
-              sx={{ pl: 4 }}
-            >
-              <ListItemIcon sx={{ mr: -2.5 }}>
-                <AssuredWorkloadIcon />
-              </ListItemIcon>
-              <ListItemText primary={policy.name} />
-            </ListItemButton>
-          ))}
+          {chapter.policies.map(
+            (policy, index) =>
+              (policy.isApproved || isAdmin) && (
+                <ListItemButton
+                  onClick={handleClickPolicy(policy)}
+                  key={index}
+                  sx={{ pl: 4 }}
+                >
+                  <ListItemIcon sx={{ mr: -2.5 }}>
+                    <AssuredWorkloadIcon
+                      color={policy.isApproved ? "action" : "disabled"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={policy.name} />
+                </ListItemButton>
+              ),
+          )}
           {isManager && (
             <ListItemButton onClick={handleOpenDialog} sx={{ pl: 4 }}>
               <ListItemIcon
@@ -102,13 +108,13 @@ const ChapterListItem: FC<ChapterListItemProps> = ({ chapter }) => {
               <Typography fontWeight={590}>Add Policy</Typography>
             </ListItemButton>
           )}
-          <AddPolicyDialog
-            chapterId={chapter.id}
-            open={isDialogOpen}
-            onClose={handleCloseDialog}
-          />
         </List>
       </Collapse>
+      <AddPolicyDialog
+        chapterId={chapter.id}
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+      />
     </>
   );
 };
