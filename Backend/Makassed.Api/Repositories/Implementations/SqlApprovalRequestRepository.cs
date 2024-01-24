@@ -18,11 +18,15 @@ public class SqlApprovalRequestRepository : IApprovalRequestRepository
     public async Task<List<RequestDto>> GetApprovalRequestsAsync()
     {
         var monitoringToolRequests = await _dbContext.MonitoringTools
+        .Include(mt => mt.Creator)
         .Where(mt => mt.IsApproved == false)
         .Select(mt => new RequestDto
         {
             Title = mt.Name,
             RequesterId = mt.CreatorId,
+            RequesterUserName = mt.Creator.UserName!,
+            RequesterFullName = mt.Creator.FullName,
+            RequesterAvatarUrl = mt.Creator.AvatarUrl,
             CreatedAt = mt.CreatedAt,
             EntityId = mt.Id,
             EntityType = RequestEntityType.MonitoringTool,
@@ -35,10 +39,13 @@ public class SqlApprovalRequestRepository : IApprovalRequestRepository
             {
                 Title = p.Name,
                 RequesterId = p.CreatorId,
+                RequesterUserName = p.Creator.UserName!,
+                RequesterFullName = p.Creator.FullName,
+                RequesterAvatarUrl = p.Creator.AvatarUrl,
                 CreatedAt = p.CreatedAt,
                 EntityId = p.Id,
                 EntityType = RequestEntityType.Policy,
-                Info = new 
+                Info = new
                 {
                     p.ChapterId
                 }
@@ -46,11 +53,15 @@ public class SqlApprovalRequestRepository : IApprovalRequestRepository
             .ToListAsync();
 
         var dependencyRequests = await _dbContext.Dependencies
+            .Include(d => d.Creator)
             .Where(d => d.IsApproved == false)
             .Select(d => new RequestDto
             {
                 Title = d.Name,
                 RequesterId = d.CreatorId,
+                RequesterUserName = d.Creator.UserName!,
+                RequesterFullName = d.Creator.FullName,
+                RequesterAvatarUrl = d.Creator.AvatarUrl,
                 CreatedAt = d.CreatedAt,
                 EntityId = d.Id,
                 EntityType = RequestEntityType.Dependency,
