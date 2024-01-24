@@ -34,8 +34,17 @@ const UserProfile: FC = () => {
         p: { xs: 2, md: 2.5 },
         height: "calc(100vh - 64px)",
       }}
+      display={{ xs: "block", md: "flex" }}
+      justifyContent={{ xs: "flex-start", md: "center" }}
     >
-      <Grid item xs={0} md={4} pr={1} display={{ xs: "none", md: "block" }}>
+      <Grid
+        item
+        xs={0}
+        md={4}
+        lg={3}
+        pr={1}
+        display={{ xs: "none", md: "block" }}
+      >
         <SideCard choice={choice} setChoice={setChoice} />
       </Grid>
 
