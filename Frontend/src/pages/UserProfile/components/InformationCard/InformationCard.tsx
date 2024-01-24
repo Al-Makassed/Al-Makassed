@@ -4,7 +4,7 @@ import { selectUser } from "src/features/user";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
 import { formatDate } from "src/utils";
-import DetailsSection from "./DetailsSection";
+import DetailsSection from "./PersonalInfoSection";
 import NamesSection from "./NamesSection";
 import { InformationCardProps } from "../../types";
 

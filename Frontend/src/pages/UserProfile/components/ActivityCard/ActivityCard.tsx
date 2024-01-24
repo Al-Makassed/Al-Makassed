@@ -33,7 +33,6 @@ const ActivityCard: FC = () => {
   return (
     <List
       sx={{
-        height: "calc(100vh - 64px - 40px - 211px - 16px - 48px)",
         overflowY: "auto",
         ...theme.mixins.niceScroll(),
       }}

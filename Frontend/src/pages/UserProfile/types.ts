@@ -40,3 +40,9 @@ export interface NamesSectionProps {
   fullName: string;
   userName: string;
 }
+
+export interface PersonalInfoSectionProps {
+  userId: string;
+  departmentName: string;
+  createdAtDate: string;
+}

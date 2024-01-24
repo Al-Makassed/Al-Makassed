@@ -3,9 +3,9 @@ import DepartmentIcon from "@mui/icons-material/BusinessRounded";
 import HistoryIcon from "@mui/icons-material/History";
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
-import { DetailsSectionProps } from "../../types";
+import { PersonalInfoSectionProps } from "../../types";
 
-const DetailsSection: FC<DetailsSectionProps> = ({
+const PersonalInfoSection: FC<PersonalInfoSectionProps> = ({
   userId,
   departmentName,
   createdAtDate,
@@ -53,4 +53,4 @@ const DetailsSection: FC<DetailsSectionProps> = ({
   );
 };
 
-export default DetailsSection;
+export default PersonalInfoSection;
