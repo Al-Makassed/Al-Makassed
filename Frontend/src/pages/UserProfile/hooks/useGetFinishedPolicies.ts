@@ -5,6 +5,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { getFinishedPolicies } from "../API";
+import { FINISHED_POLICIES_QUERY_KEY } from "../constants";
 
 const useGetFinishedPolicies = (filterValue: string) => {
   const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ const useGetFinishedPolicies = (filterValue: string) => {
     error,
   } = useQuery({
     queryFn: () => getFinishedPolicies(query),
-    queryKey: ["whatever"],
+    queryKey: [FINISHED_POLICIES_QUERY_KEY],
   });
 
   useEffect(() => {

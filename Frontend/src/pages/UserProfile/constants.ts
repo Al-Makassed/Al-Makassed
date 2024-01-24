@@ -4,6 +4,10 @@ export const POLICY_READING_QUERY_KEY = ["policyReading"];
 
 export const DEPENDENCY_READING_QUERY_KEY = ["depReading"];
 
+export const FINISHED_POLICIES_QUERY_KEY = ["finishedPolicies"];
+
+export const FINISHED_DEPENDENCIES_QUERY_KEY = ["finishedDependencies"];
+
 export enum ChoiceName {
   Home = "Home",
   Details = "Details",

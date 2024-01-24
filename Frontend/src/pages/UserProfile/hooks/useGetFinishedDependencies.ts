@@ -5,6 +5,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { getFinishedDependencies } from "../API";
+import { FINISHED_DEPENDENCIES_QUERY_KEY } from "../constants";
 
 const useGetFinishedDependencies = (filterValue: string) => {
   const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ const useGetFinishedDependencies = (filterValue: string) => {
     error,
   } = useQuery({
     queryFn: () => getFinishedDependencies(query),
-    queryKey: ["whenever"],
+    queryKey: [FINISHED_DEPENDENCIES_QUERY_KEY],
   });
 
   useEffect(() => {
