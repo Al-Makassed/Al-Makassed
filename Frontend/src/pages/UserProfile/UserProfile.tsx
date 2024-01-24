@@ -3,19 +3,22 @@ import { FC, useState } from "react";
 import { selectUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
 import ActivityCard from "./components/ActivityCard/ActivityCard";
-import DetailsSection from "./components/DetailsCard/DetailsSection";
+import DetailsCard from "./components/DetailsCard/DetailsCard";
 import HomeCard from "./components/HomeCard";
 import InformationCard from "./components/InformationCard/InformationCard";
 import SideCard from "./components/SideCard";
 import { ChoiceName } from "./constants";
 import useGetUser from "./hooks/useGetUser";
+import UserProfileLoadingSkeleton from "./components/UserProfileLoadingSkeleton";
 
 const UserProfile: FC = () => {
   const [choice, setChoice] = useState<ChoiceName>(ChoiceName.Home);
 
   const { userId } = useAppSelector(selectUser);
 
-  const { user } = useGetUser(userId);
+  const { user, isFetching } = useGetUser(userId);
+
+  if (isFetching) return <UserProfileLoadingSkeleton />;
 
   if (!user) return null;
 
@@ -49,7 +52,7 @@ const UserProfile: FC = () => {
               }}
             >
               {choice === ChoiceName.Home && <HomeCard />}
-              {choice === ChoiceName.Details && <DetailsSection head={head} />}
+              {choice === ChoiceName.Details && <DetailsCard head={head} />}
               {choice === ChoiceName.Activity && <ActivityCard />}
             </Card>
           </Grid>

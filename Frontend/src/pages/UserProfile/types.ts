@@ -6,7 +6,7 @@ export interface SideCardProps {
   setChoice: (choice: ChoiceName) => void;
 }
 
-export interface DetailsSectionProps {
+export interface DetailsCardProps {
   head: Head;
 }
 

@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material";
 import { FC } from "react";
-import { DetailsSectionProps } from "../../types";
+import { DetailsCardProps } from "../../types";
 import ContactingPart from "./ContactingPart";
 import DepartmentPart from "./DepartmentPart";
 
-const DetailsSection: FC<DetailsSectionProps> = ({ head }) => {
+const DetailsCard: FC<DetailsCardProps> = ({ head }) => {
   return (
     <Stack gap={2} sx={{ transition: "all 0.3s ease" }}>
       <ContactingPart />
@@ -13,4 +13,4 @@ const DetailsSection: FC<DetailsSectionProps> = ({ head }) => {
   );
 };
 
-export default DetailsSection;
+export default DetailsCard;
