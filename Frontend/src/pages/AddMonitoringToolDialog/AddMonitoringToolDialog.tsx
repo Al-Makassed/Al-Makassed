@@ -48,7 +48,7 @@ const AddMonitoringToolDialog: FC = () => {
       </MaqasidDialog.Header>
 
       <FormikProvider value={formikProps}>
-        <MaqasidDialog.Body>
+        <MaqasidDialog.Body niceScroll>
           <AddMonitoringToolForm />
         </MaqasidDialog.Body>
 

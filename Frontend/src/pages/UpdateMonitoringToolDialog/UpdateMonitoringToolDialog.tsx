@@ -88,7 +88,7 @@ const MonitoringToolViewDialog: FC = () => {
         </MaqasidDialog.Header>
 
         {isFetching && (
-          <MaqasidDialog.Body>
+          <MaqasidDialog.Body niceScroll>
             <DialogSkeleton />
           </MaqasidDialog.Body>
         )}

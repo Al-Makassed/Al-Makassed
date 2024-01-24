@@ -34,7 +34,7 @@ const DialogBodyAndFooter: FC<DialogBodyAndFooterProps> = ({
 
   return (
     <>
-      <MaqasidDialog.Body>
+      <MaqasidDialog.Body niceScroll>
         <Stack gap={2}>
           <DatesChips
             createdAt={monitoringTool.createdAt}
