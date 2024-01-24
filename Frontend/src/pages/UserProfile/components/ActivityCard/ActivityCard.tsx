@@ -10,6 +10,7 @@ import {
 } from "../../utils";
 import DependencyChunk from "./DependencyChunk";
 import PolicyChunk from "./PolicyChunk";
+import ActivityCardLoadingSkeleton from "./ActivityCardLoadingSkeleton";
 
 const ActivityCard: FC = () => {
   const { policies, isFetching: policiesIsFetching } =
@@ -20,7 +21,8 @@ const ActivityCard: FC = () => {
 
   const theme = useTheme<Theme>();
 
-  if (policiesIsFetching || dependenciesIsFetching) return <h2>Loading...</h2>;
+  if (policiesIsFetching || dependenciesIsFetching)
+    return <ActivityCardLoadingSkeleton />;
 
   if (!policies || !dependencies) return null;
 
