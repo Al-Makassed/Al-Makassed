@@ -1,23 +1,29 @@
-import { FC, useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { IconButton, Stack, Tooltip } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { formatDate } from "src/utils";
-import useApprovedRequests from "./hooks/useGetApprovalRequests";
-import { ApprovalRequest } from "./API/Types";
-import { REQUEST_NAME } from "./constants";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import {
+  Grid,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { FC, useState } from "react";
+import { formatDate } from "src/utils";
+import { ApprovalRequest } from "./API/Types";
+import ViewDependencyDialog from "./components/ViewDependencyDialog";
+import ViewMonitoringToolDialog from "./components/ViewMonitoringToolDialog";
+import ViewPolicyDialog from "./components/ViewPolicyDialog";
+import { DialogName, REQUEST_NAME } from "./constants";
+import useApprovedMonitoringTool from "./hooks/useApprovedMonitoringTool";
 import useApprovedPolicy from "./hooks/useApprovedPolicy";
 import useApprovedPolicyDependency from "./hooks/useApprovedPolicyDependency";
-import useApprovedMonitoringTool from "./hooks/useApprovedMonitoringTool";
+import useDeleteDependency from "./hooks/useDeleteDependency";
 import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useDeletePolicy from "./hooks/useDeletePolicy";
-import ViewPolicyDialog from "./components/ViewPolicyDialog";
-import ViewMonitoringToolDialog from "./components/ViewMonitoringToolDialog";
-import { DialogName } from "./constants";
-import ViewDependencyDialog from "./components/ViewDependencyDialog";
-import useDeleteDependency from "./hooks/useDeleteDependency";
+import useApprovedRequests from "./hooks/useGetApprovalRequests";
 
 const DataTable: FC = () => {
   const { requests } = useApprovedRequests();
@@ -44,6 +50,8 @@ const DataTable: FC = () => {
   const { approvedMonitoringTool } = useApprovedMonitoringTool();
 
   const { deleteDependency } = useDeleteDependency();
+
+  const theme = useTheme();
 
   const handleApproval = (row: ApprovalRequest) => {
     if (row.entityType === 0) approvePolicy(row.entityId);
@@ -75,18 +83,18 @@ const DataTable: FC = () => {
     {
       field: "createdAt",
       headerName: "Date Created",
-      width: 300,
+      width: 220,
       valueFormatter: (params) => formatDate(params.value),
     },
     {
       field: "approved",
-      headerName: "Approved",
-      width: 200,
+      headerName: "Approve?",
+      width: 140,
       renderCell: (params) => (
         <>
-          <Tooltip title="Approved">
+          <Tooltip title="Approve">
             <IconButton
-              aria-label="Approved"
+              aria-label="Approve"
               onClick={() => handleApproval(params.row)}
             >
               <CheckBoxIcon color="primary" />
@@ -106,7 +114,7 @@ const DataTable: FC = () => {
     {
       field: "actions",
       headerName: "Actions",
-      width: 100,
+      width: 130,
       renderCell: (params) => (
         <>
           <Tooltip title="View">
@@ -118,6 +126,7 @@ const DataTable: FC = () => {
       ),
     },
   ];
+
   const [chapterId, setChapterId] = useState<string>("");
   const [policyId, setPolicyId] = useState<string>("");
   const [entityType, setEntityType] = useState<number>();
@@ -128,8 +137,6 @@ const DataTable: FC = () => {
     setEntityType(row.entityType);
 
     if (entityType === 0) {
-      console.log(row);
-
       setChapterId(row.info.chapterId);
       setPolicyId(row.entityId);
       openViewPolicyDialog();
@@ -137,29 +144,42 @@ const DataTable: FC = () => {
       setMonitoringToolId(row.entityId);
       openViewMonitoringToolDialog();
     } else if (entityType === 1) {
-      console.log(row);
-
       setChapterId(row.info.chapterId);
       setPolicyId(row.info.policyId);
       setDependencyId(row.entityId);
       openViewDependencyDialog();
     }
   };
+
   return (
     <>
-      <Stack sx={{ alignItems: "center", pt: 1 }}>
-        <DataGrid
-          sx={{ pl: 1, pr: 1 }}
-          rows={requests}
-          columns={columns}
-          getRowId={(row) => row.entityId}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 8 },
-            },
+      <Stack p={4} gap={3}>
+        <Typography variant="h4" pl={1.15}>
+          Approval Requests
+        </Typography>
+
+        <Grid
+          container
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          pageSizeOptions={[5, 8, 20]}
-        />
+          // maxWidth="1300px"
+          height={`calc(100vh - 42px - 64px - 24px - ${theme.mixins.toolbar.height}px)`}
+        >
+          <DataGrid
+            sx={{ pl: 1, pr: 1 }}
+            rows={requests}
+            columns={columns}
+            getRowId={(row) => row.entityId}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 8 },
+              },
+            }}
+            pageSizeOptions={[5, 8, 20]}
+          />
+        </Grid>
       </Stack>
 
       {entityType === 0 && (
@@ -170,6 +190,7 @@ const DataTable: FC = () => {
           onClose={closeConfirmDialog}
         />
       )}
+
       {entityType === 1 && (
         <ViewDependencyDialog
           chapterId={chapterId}
@@ -179,6 +200,7 @@ const DataTable: FC = () => {
           onClose={closeConfirmDialog}
         />
       )}
+
       {entityType === 2 && (
         <ViewMonitoringToolDialog
           monitoringToolId={monitoringToolId}
