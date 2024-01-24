@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-// import validationSchema from "../schema";
+// import fieldValidationSchema from "../schema";
 import { FieldInitialValues } from "../constants";
 import { getField } from "../API/type";
 import useAddFieldAPI from "./useAddFieldAPI";
@@ -13,7 +13,7 @@ const useAddFieldForm = () => {
 
   const formikProps = useFormik({
     initialValues: FieldInitialValues,
-    // validationSchema,
+    // validationSchema : fieldValidationSchema,
     onSubmit: submitForm,
   });
 

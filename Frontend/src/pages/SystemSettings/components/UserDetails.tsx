@@ -1,5 +1,6 @@
 import {
   Button,
+  Grid,
   IconButton,
   SpeedDial,
   SpeedDialAction,
@@ -21,9 +22,10 @@ import useGetUsers from "../hooks/useGetUsers";
 import useDeleteUser from "../hooks/useDeleteUser";
 import EditUserRoleDialog from "./EditUserRoleDialog";
 import EditUserDepartmentDialog from "./EditUserDepartmentDialog";
+import SignUpDialog from "src/pages/SignUpDialog";
 
 const UserDetails: FC = () => {
-  //   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
     useState<boolean>(false);
@@ -37,9 +39,9 @@ const UserDetails: FC = () => {
 
   const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
 
-  //   const handleOpenAddDialog = () => setIsDialogOpen(true);
+  const handleOpenAddDialog = () => setIsDialogOpen(true);
 
-  //   const handleCloseDialog = () => setIsDialogOpen(false);
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
   const handleOpenEditDialog = () => setIsEditDialogOpen(true);
 
@@ -122,7 +124,7 @@ const UserDetails: FC = () => {
         <Button
           startIcon={<AddIcon />}
           variant="contained"
-          //   onClick={handleOpenAddDialog}
+          onClick={handleOpenAddDialog}
           sx={{ width: "fit-content" }}
         >
           User
@@ -131,27 +133,28 @@ const UserDetails: FC = () => {
         <Typography variant="h6" fontWeight={500}>
           All Users
         </Typography>
-
-        <Stack sx={{ height: "100%", width: "100%" }}>
-          <DataGrid
-            rows={users}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10, 20]}
-            getRowSpacing={(params) => ({
-              top: params.isFirstVisible ? 0 : 5,
-              bottom: params.isLastVisible ? 0 : 5,
-            })}
-            sx={{ width: { xs: 320, md: 650, lg: 1000 }, bgcolor: grey[100] }}
-          />
-        </Stack>
+        <Grid container>
+          <Stack sx={{ height: "100%", width: "100%" }}>
+            <DataGrid
+              rows={users}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10, 20]}
+              getRowSpacing={(params) => ({
+                top: params.isFirstVisible ? 0 : 5,
+                bottom: params.isLastVisible ? 0 : 5,
+              })}
+              sx={{ width: { xs: 320, md: 650, lg: 1000 }, bgcolor: grey[100] }}
+            />
+          </Stack>
+        </Grid>
       </Stack>
 
-      {/* <AddUserDialog open={isDialogOpen} onClose={handleCloseDialog} /> */}
+      <SignUpDialog open={isDialogOpen} onClose={handleCloseDialog} />
 
       <EditUserRoleDialog
         open={isEditDialogOpen}
