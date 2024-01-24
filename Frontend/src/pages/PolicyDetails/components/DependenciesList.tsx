@@ -43,22 +43,22 @@ const DependenciesList: FC<DependenciesListProps> = ({
       <Stack gap={3} py={3} px={2}>
         <Stack>
           {policyDependencies.map((dependency: Dependency, index) => (
-            <Stack direction="row" key={index} alignItems="center">
-              <PictureAsPdfIcon color="error" />
-              <Button
-                onClick={() => handleFinishReadingDependency(dependency.id)}
-                href={dependency.pdfUrl}
-                target="_blank"
-                sx={{
-                  color: "black",
-                  textTransform: "none",
-                  fontSize: "1.1rem",
-                  fontWeight: 400,
-                }}
-              >
-                {dependency.name}
-              </Button>
-            </Stack>
+            <Button
+              key={index}
+              onClick={() => handleFinishReadingDependency(dependency.id)}
+              href={dependency.pdfUrl}
+              target="_blank"
+              startIcon={<PictureAsPdfIcon color="error" />}
+              sx={{
+                color: "black",
+                textTransform: "none",
+                fontSize: "1.1rem",
+                fontWeight: 400,
+                width: "fit-content",
+              }}
+            >
+              {dependency.name}
+            </Button>
           ))}
           {policyDependencies.length === 0 && (
             <Stack maxWidth={530}>
