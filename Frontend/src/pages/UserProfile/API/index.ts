@@ -1,5 +1,6 @@
 import axios from "src/API/axios";
 import {
+  FinishedDependency,
   FinishedPolicy,
   PatchDocument,
   ReadingsPercentage,
@@ -29,5 +30,11 @@ export const userDependencyReadingsPercentage = () => {
 export const getFinishedPolicies = (query: string) => {
   return axios
     .get<FinishedPolicy[]>(`/readings/policies/finished${query}`)
+    .then((res) => res.data);
+};
+
+export const getFinishedDependencies = (query: string) => {
+  return axios
+    .get<FinishedDependency[]>(`/readings/dependencies/finished${query}`)
     .then((res) => res.data);
 };

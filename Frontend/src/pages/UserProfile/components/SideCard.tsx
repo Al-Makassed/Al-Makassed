@@ -1,7 +1,6 @@
-import PolicyIcon from "@mui/icons-material/AssuredWorkload";
+import HistoryIcon from "@mui/icons-material/History";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
-// import DependencyIcon from "@mui/icons-material/TextSnippetOutlined";
 import {
   Box,
   Card,
@@ -23,12 +22,8 @@ const choices: Choice[] = [
 
   {
     name: ChoiceName.Activity,
-    icon: <PolicyIcon />,
+    icon: <HistoryIcon />,
   },
-  // {
-  //   name: ChoiceName.DependenciesProgress,
-  //   icon: <DependencyIcon />,
-  // },
   {
     name: ChoiceName.Details,
     icon: <SettingsIcon />,

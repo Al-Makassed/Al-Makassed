@@ -3,12 +3,7 @@ import DepartmentIcon from "@mui/icons-material/BusinessRounded";
 import HistoryIcon from "@mui/icons-material/History";
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
-
-interface DetailsSectionProps {
-  userId: string;
-  departmentName: string;
-  createdAtDate: string;
-}
+import { DetailsSectionProps } from "../../types";
 
 const DetailsSection: FC<DetailsSectionProps> = ({
   userId,

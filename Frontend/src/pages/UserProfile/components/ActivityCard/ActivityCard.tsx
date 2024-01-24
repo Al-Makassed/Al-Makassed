@@ -1,25 +1,34 @@
 import { List, Stack, Theme, Typography, useTheme } from "@mui/material";
 import { FC } from "react";
+import { FinishedDependency, FinishedPolicy } from "../../API/types";
+import useGetFinishedDependencies from "../../hooks/useGetFinishedDependencies";
 import useGetFinishedPolicies from "../../hooks/useGetFinishedPolicies";
 import { StyledSubTitle } from "../../styled";
 import {
   getFinishedListInMonthExceptWeek,
   getFinishedListInWeek,
 } from "../../utils";
+import DependencyChunk from "./DependencyChunk";
 import PolicyChunk from "./PolicyChunk";
 
 const ActivityCard: FC = () => {
-  const { policies, isFetching } = useGetFinishedPolicies("");
+  const { policies, isFetching: policiesIsFetching } =
+    useGetFinishedPolicies("");
+
+  const { dependencies, isFetching: dependenciesIsFetching } =
+    useGetFinishedDependencies("");
 
   const theme = useTheme<Theme>();
 
-  if (isFetching) return <h2>Loading...</h2>;
+  if (policiesIsFetching || dependenciesIsFetching) return <h2>Loading...</h2>;
 
-  if (!policies) return null;
+  if (!policies || !dependencies) return null;
 
-  const thisWeekPolicies = getFinishedListInWeek(policies);
+  const allFinishedFiles = [...policies, ...dependencies];
 
-  const thisMonthPolicies = getFinishedListInMonthExceptWeek(policies);
+  const thisWeekFiles = getFinishedListInWeek(allFinishedFiles);
+
+  const thisMonthFiles = getFinishedListInMonthExceptWeek(allFinishedFiles);
 
   return (
     <List
@@ -31,21 +40,41 @@ const ActivityCard: FC = () => {
     >
       <Stack gap={2}>
         <StyledSubTitle variant="h6">This Week</StyledSubTitle>
-        <Stack gap={1.5}>
-          {thisWeekPolicies.map((policy) => (
-            <PolicyChunk key={policy.policyId} policy={policy} />
-          ))}
+
+        <Stack gap={1.75}>
+          {thisWeekFiles.map((file) =>
+            file.type === "policy" ? (
+              <PolicyChunk
+                key={(file as FinishedPolicy).policyId}
+                policy={file as FinishedPolicy}
+              />
+            ) : (
+              <DependencyChunk
+                key={(file as FinishedDependency).dependencyId}
+                finishedFile={file as FinishedDependency}
+              />
+            ),
+          )}
         </Stack>
 
-        {thisMonthPolicies.length > 0 && (
+        {thisMonthFiles.length > 0 && (
           <>
             <Typography variant="h6" ml={1.5}>
               This Month
             </Typography>
             <Stack gap={1.5}>
-              {thisMonthPolicies.map((policy) => (
-                <PolicyChunk key={policy.policyId} policy={policy} />
-              ))}
+              {thisMonthFiles.map((file) =>
+                file.type === "policy" ? (
+                  <PolicyChunk
+                    key={(file as FinishedPolicy).policyId}
+                    policy={file as FinishedPolicy}
+                  />
+                ) : (
+                  <Typography key={file.type} ml={1.5}>
+                    {file.name}
+                  </Typography>
+                ),
+              )}
             </Stack>
           </>
         )}

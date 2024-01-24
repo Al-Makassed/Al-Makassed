@@ -1,10 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
-
-interface NamesSectionProps {
-  fullName: string;
-  userName: string;
-}
+import { NamesSectionProps } from "../../types";
 
 const NamesSection: FC<NamesSectionProps> = ({ fullName, userName }) => {
   return (

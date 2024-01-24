@@ -1,4 +1,4 @@
-import { Head } from "./API/types";
+import { FinishedDependency, FinishedPolicy, Head, User } from "./API/types";
 import { ChoiceName } from "./constants";
 
 export interface SideCardProps {
@@ -22,4 +22,21 @@ export interface DepartmentPartProps {
 export interface EditFormValues {
   phoneNumber: string;
   email: string;
+}
+
+export interface DependencyChunkProps {
+  finishedFile: FinishedDependency;
+}
+
+export interface PolicyChunkProps {
+  policy: FinishedPolicy;
+}
+
+export interface InformationCardProps {
+  user: User;
+}
+
+export interface NamesSectionProps {
+  fullName: string;
+  userName: string;
 }

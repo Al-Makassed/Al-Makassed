@@ -34,13 +34,20 @@ export interface ReadingsPercentage {
   result: number;
 }
 
-export interface FinishedPolicy {
+export interface FinishedFile {
   userId: string;
-  policyId: string;
   name: string;
   readingState: number;
   lastAccessed: string;
+  policy?: Policy;
+  dependency?: Dependency;
+  type: "policy" | "dependency";
+}
+
+export interface FinishedPolicy extends FinishedFile {
+  policyId: string;
   policy: Policy;
+  type: "policy";
 }
 
 export interface Policy {
@@ -57,4 +64,18 @@ export interface Chapter {
   id: string;
   name: string;
   enableState: boolean;
+}
+
+export interface FinishedDependency extends FinishedFile {
+  dependencyId: string;
+  dependency: Dependency;
+  type: "dependency";
+}
+
+export interface Dependency {
+  id: string;
+  name: string;
+  pdfUrl: string;
+  isApproved: boolean;
+  policy: Policy;
 }

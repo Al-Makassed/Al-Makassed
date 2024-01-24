@@ -4,13 +4,9 @@ import { selectUser } from "src/features/user";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { useAppSelector } from "src/store/hooks";
 import { formatDate } from "src/utils";
-import { User } from "../../API/types";
 import DetailsSection from "./DetailsSection";
 import NamesSection from "./NamesSection";
-
-interface InformationCardProps {
-  user: User;
-}
+import { InformationCardProps } from "../../types";
 
 const InformationCard: FC<InformationCardProps> = ({ user }) => {
   const { userId, avatarUrl, fullName, userName } = useAppSelector(selectUser);

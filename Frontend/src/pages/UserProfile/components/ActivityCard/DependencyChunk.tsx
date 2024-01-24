@@ -1,6 +1,7 @@
 import PolicyIcon from "@mui/icons-material/AssuredWorkload";
 import HistoryIcon from "@mui/icons-material/History";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import RightArrowIcon from "@mui/icons-material/SubdirectoryArrowRightRounded";
 import {
   Chip,
   ListItemButton,
@@ -9,25 +10,26 @@ import {
   Stack,
 } from "@mui/material";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
-import formatDate from "src/utils/formatDate";
-import { PolicyChunkProps } from "../../types";
+import { formatDate } from "src/utils";
+import { DependencyChunkProps } from "../../types";
 
-const PolicyChunk: FC<PolicyChunkProps> = ({ policy }) => {
-  const chapter = policy.policy.chapter;
+const DependencyChunk: FC<DependencyChunkProps> = ({ finishedFile }) => {
+  const {
+    lastAccessed,
+    dependency: {
+      pdfUrl,
+      name,
+      policy: {
+        name: policyName,
+        chapter: { name: chapterName },
+      },
+    },
+  } = finishedFile;
 
-  const { id: chapterId, name: chapterName } = chapter;
+  const lastAccessedDate = formatDate(lastAccessed);
 
-  const policyName = policy.policy.name;
-
-  const lastAccessedDate = formatDate(policy.lastAccessed);
-
-  const navigate = useNavigate();
-
-  const handlePolicyClick = () => {
-    navigate(
-      `/me/policies-and-procedures/${chapterId}/policies/${policy.policyId}`,
-    );
+  const handleClick = () => {
+    window.open(pdfUrl, "_blank");
   };
 
   return (
@@ -40,7 +42,7 @@ const PolicyChunk: FC<PolicyChunkProps> = ({ policy }) => {
           borderColor: "primary.main",
         },
       }}
-      onClick={handlePolicyClick}
+      onClick={handleClick}
     >
       <Stack width={"100%"}>
         <Stack direction="row" ml={0.5} alignItems="center">
@@ -51,10 +53,19 @@ const PolicyChunk: FC<PolicyChunkProps> = ({ policy }) => {
         </Stack>
 
         <Stack direction="row" alignItems="center">
+          <ListItemIcon sx={{ minWidth: "fit-content", mr: 1, ml: 0.75 }}>
+            <Stack direction="row" alignItems="center">
+              <RightArrowIcon /> <PolicyIcon sx={{ fontSize: "1rem" }} />
+            </Stack>
+          </ListItemIcon>
+          <ListItemText secondary={policyName} />
+        </Stack>
+
+        <Stack direction="row" alignItems="center" my={0.75}>
           <ListItemIcon sx={{ minWidth: "fit-content", mr: 1 }}>
             <PolicyIcon sx={{ fontSize: "1.44rem" }} />
           </ListItemIcon>
-          <ListItemText primary={policyName} />
+          <ListItemText primary={name} />
         </Stack>
 
         <Chip
@@ -67,4 +78,4 @@ const PolicyChunk: FC<PolicyChunkProps> = ({ policy }) => {
   );
 };
 
-export default PolicyChunk;
+export default DependencyChunk;

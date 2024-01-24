@@ -42,7 +42,12 @@ const UserProfile: FC = () => {
             <InformationCard user={user!} />
           </Grid>
           <Grid item>
-            <Card sx={{ p: 3 }}>
+            <Card
+              sx={{
+                p: 3,
+                height: "calc(100vh - 64px - 40px - 211px - 16px)",
+              }}
+            >
               {choice === ChoiceName.Home && <HomeCard />}
               {choice === ChoiceName.Details && <DetailsSection head={head} />}
               {choice === ChoiceName.Activity && <ActivityCard />}
