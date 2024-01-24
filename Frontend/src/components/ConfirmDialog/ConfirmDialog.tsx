@@ -13,7 +13,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
   ...rest
 }) => {
   return (
-    <MaqasidDialog isOpen={isOpen} onClose={onClose} {...rest}>
+    <MaqasidDialog isOpen={isOpen} onClose={onClose} {...rest} maxWidth="xs">
       <MaqasidDialog.Header>
         <MaqasidDialog.Title flex={1} title={title} subtitle={subtitle} />
         <MaqasidDialog.Actions>
