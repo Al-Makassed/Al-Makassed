@@ -13,21 +13,22 @@ import { useNavigate } from "react-router-dom";
 import formatDate from "src/utils/formatDate";
 import { PolicyChunkProps } from "../../types";
 
-const PolicyChunk: FC<PolicyChunkProps> = ({ policy }) => {
-  const chapter = policy.policy.chapter;
+const PolicyChunk: FC<PolicyChunkProps> = ({ finishedFile }) => {
+  const {
+    lastAccessed,
+    policy: {
+      id,
+      name: policyName,
+      chapter: { id: chapterId, name: chapterName },
+    },
+  } = finishedFile;
 
-  const { id: chapterId, name: chapterName } = chapter;
-
-  const policyName = policy.policy.name;
-
-  const lastAccessedDate = formatDate(policy.lastAccessed);
+  const lastAccessedDate = formatDate(lastAccessed);
 
   const navigate = useNavigate();
 
   const handlePolicyClick = () => {
-    navigate(
-      `/me/policies-and-procedures/${chapterId}/policies/${policy.policyId}`,
-    );
+    navigate(`/me/policies-and-procedures/${chapterId}/policies/${id}`);
   };
 
   return (

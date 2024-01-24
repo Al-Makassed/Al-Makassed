@@ -1,1 +1,1 @@
-// export { defualt } from "./PoliciesProgressCard";
+export { default } from "./ActivityCard";

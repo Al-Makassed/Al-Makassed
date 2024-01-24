@@ -8,9 +8,9 @@ import {
   getFinishedListInMonthExceptWeek,
   getFinishedListInWeek,
 } from "../../utils";
+import ActivityCardLoadingSkeleton from "./ActivityCardLoadingSkeleton";
 import DependencyChunk from "./DependencyChunk";
 import PolicyChunk from "./PolicyChunk";
-import ActivityCardLoadingSkeleton from "./ActivityCardLoadingSkeleton";
 
 const ActivityCard: FC = () => {
   const { policies, isFetching: policiesIsFetching } =
@@ -48,7 +48,7 @@ const ActivityCard: FC = () => {
             file.type === "policy" ? (
               <PolicyChunk
                 key={(file as FinishedPolicy).policyId}
-                policy={file as FinishedPolicy}
+                finishedFile={file as FinishedPolicy}
               />
             ) : (
               <DependencyChunk
@@ -64,17 +64,19 @@ const ActivityCard: FC = () => {
             <Typography variant="h6" ml={1.5}>
               This Month
             </Typography>
+
             <Stack gap={1.5}>
               {thisMonthFiles.map((file) =>
                 file.type === "policy" ? (
                   <PolicyChunk
                     key={(file as FinishedPolicy).policyId}
-                    policy={file as FinishedPolicy}
+                    finishedFile={file as FinishedPolicy}
                   />
                 ) : (
-                  <Typography key={file.type} ml={1.5}>
-                    {file.name}
-                  </Typography>
+                  <DependencyChunk
+                    key={(file as FinishedDependency).dependencyId}
+                    finishedFile={file as FinishedDependency}
+                  />
                 ),
               )}
             </Stack>

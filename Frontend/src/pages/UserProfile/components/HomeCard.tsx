@@ -13,7 +13,8 @@ const HomeCard: FC = () => {
     ReadingEntityType.DEPENDENCY,
   );
 
-  if (!policyResult || !dependencyResult) return <h2>loading...</h2>;
+  if (!policyResult || !dependencyResult)
+    return <Typography variant="h6">Loading...</Typography>;
 
   const policyPercentage = policyResult.result;
 
@@ -32,12 +33,15 @@ const HomeCard: FC = () => {
       >
         <Stack alignItems="center" gap={2}>
           <ProgressBar percentage={policyPercentage} type="Policies" />
+
           <Typography variant="body2" px={2} textAlign="center" maxWidth="85%">
             This is your progress in reading assigned policies files.
           </Typography>
         </Stack>
+
         <Stack alignItems="center" gap={2}>
           <ProgressBar percentage={dependencyPercentage} type="Dependencies" />
+
           <Typography variant="body2" px={2} textAlign="center" maxWidth="85%">
             This is your progress in reading assigned policies' dependencies
             files.

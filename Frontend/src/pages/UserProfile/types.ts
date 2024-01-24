@@ -29,7 +29,7 @@ export interface DependencyChunkProps {
 }
 
 export interface PolicyChunkProps {
-  policy: FinishedPolicy;
+  finishedFile: FinishedPolicy;
 }
 
 export interface InformationCardProps {
