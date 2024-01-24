@@ -30,6 +30,7 @@ const PoliciesAndProcedures = lazy(
   () => import("src/pages/PoliciesAndProcedures"),
 );
 const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
+const UserProfile = lazy(() => import("src/pages/UserProfile"));
 
 const AppRoutes: FC = () => {
   return (
@@ -44,6 +45,8 @@ const AppRoutes: FC = () => {
             <Route path="sign-up" element={<SignUpDialog />} />
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
+
+            <Route path="profile" element={<UserProfile />} />
 
             <Route
               path="policies-and-procedures"
