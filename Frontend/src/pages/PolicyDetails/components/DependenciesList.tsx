@@ -10,6 +10,7 @@ import { useAppSelector } from "src/store/hooks";
 import { POLICY_DEPENDENCIES_DISPLAY_NAMES } from "../constants";
 import { DependenciesListProps } from "../types";
 import EmptyList from "src/components/EmptyList";
+import useFinishReadingDependency from "../hooks/useFinishReadingDependency";
 
 const DependenciesList: FC<DependenciesListProps> = ({
   chapterId,
@@ -31,26 +32,33 @@ const DependenciesList: FC<DependenciesListProps> = ({
 
   const isManager = useAppSelector(selectIsManagerUser);
 
+  const { finishDependency } = useFinishReadingDependency();
+
+  const handleFinishReadingDependency = (dependencyId: string) => {
+    finishDependency(dependencyId);
+  };
+
   return (
     <>
       <Stack gap={3} py={3} px={2}>
         <Stack>
           {policyDependencies.map((dependency: Dependency, index) => (
-            <Stack direction="row" key={index} alignItems="center">
-              <PictureAsPdfIcon color="error" />
-              <Button
-                href={dependency.pdfUrl}
-                target="_blank"
-                sx={{
-                  color: "black",
-                  textTransform: "none",
-                  fontSize: "1.1rem",
-                  fontWeight: 400,
-                }}
-              >
-                {dependency.name}
-              </Button>
-            </Stack>
+            <Button
+              key={index}
+              onClick={() => handleFinishReadingDependency(dependency.id)}
+              href={dependency.pdfUrl}
+              target="_blank"
+              startIcon={<PictureAsPdfIcon color="error" />}
+              sx={{
+                color: "black",
+                textTransform: "none",
+                fontSize: "1.1rem",
+                fontWeight: 400,
+                width: "fit-content",
+              }}
+            >
+              {dependency.name}
+            </Button>
           ))}
           {policyDependencies.length === 0 && (
             <Stack maxWidth={530}>
