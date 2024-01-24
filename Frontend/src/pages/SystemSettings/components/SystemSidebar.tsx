@@ -1,34 +1,56 @@
+import BusinessIcon from "@mui/icons-material/Business";
+import GroupIcon from "@mui/icons-material/Group";
+import FieldIcon from "@mui/icons-material/QuizOutlined";
 import {
   Box,
+  Divider,
   Drawer,
   List,
   ListItemButton,
   ListItemIcon,
+  Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
-import GroupIcon from "@mui/icons-material/Group";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BusinessIcon from "@mui/icons-material/Business";
-import FieldIcon from "@mui/icons-material/QuizOutlined";
+import { Category } from "../constants";
 
 const drawerWidth = 300;
 
-const SystemSidebar = () => {
+const drawerItems = [
+  {
+    name: "Departments",
+    icon: <BusinessIcon />,
+    path: "department",
+    type: Category.Departments,
+  },
+  {
+    name: "Fields",
+    icon: <FieldIcon />,
+    path: "field",
+    type: Category.Fields,
+  },
+  {
+    name: "Users",
+    icon: <GroupIcon />,
+    path: "user",
+    type: Category.Users,
+  },
+];
+
+const SystemSidebar: FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null,
+  );
+
   const navigate = useNavigate();
-  const handleClickDepartment = () => {
-    navigate(`department`);
+
+  const handleClick = (category: Category) => {
+    setSelectedCategory(category);
+    navigate(category.toLowerCase());
   };
 
-  const handleClickField = () => {
-    navigate(`field`);
-  };
-
-  const handleClickUser = () => {
-    navigate(`user`);
-  };
   return (
-    // <Stack direction="row" gap={3} pt={3}>
     <Drawer
       sx={{
         position: "relative",
@@ -48,51 +70,49 @@ const SystemSidebar = () => {
       variant="permanent"
       anchor="left"
     >
-      <Box sx={{ display: "flex" }}>
-        <List>
-          <ListItemButton onClick={handleClickDepartment}>
-            <ListItemIcon sx={{ mr: -2.5 }}>
-              <BusinessIcon />
-            </ListItemIcon>
-
-            <Typography
-              fontWeight={500}
-              sx={{ color: (theme) => theme.palette.text.primary }}
-            >
-              Departments
-            </Typography>
-          </ListItemButton>
-
-          <ListItemButton onClick={handleClickField}>
-            <ListItemIcon sx={{ mr: -2.5 }}>
-              <FieldIcon />
-            </ListItemIcon>
-
-            <Typography
-              fontWeight={500}
-              sx={{ color: (theme) => theme.palette.text.primary }}
-            >
-              Fields
-            </Typography>
-          </ListItemButton>
-
-          <ListItemButton onClick={handleClickUser}>
-            <ListItemIcon sx={{ mr: -2.5 }}>
-              <GroupIcon />
-            </ListItemIcon>
-
-            <Typography
-              fontWeight={500}
-              sx={{ color: (theme) => theme.palette.text.primary }}
-            >
-              Users
-            </Typography>
-          </ListItemButton>
-        </List>
+      <Box>
+        <Typography
+          variant="h6"
+          sx={{
+            py: 1,
+            px: 2,
+            fontWeight: 500,
+            color: (theme) => theme.palette.text.primary,
+          }}
+        >
+          System Settings
+        </Typography>
+        <Divider />
       </Box>
-    </Drawer>
+      <Stack>
+        <List>
+          {drawerItems.map((item) => (
+            <ListItemButton
+              key={item.name}
+              onClick={() => handleClick(item.type)}
+              sx={{
+                bgcolor:
+                  selectedCategory === item.type
+                    ? (theme) => theme.palette.grey[300]
+                    : "transparent",
+                height: 50,
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: "fit-content", pr: 1.5 }}>
+                {item.icon}
+              </ListItemIcon>
 
-    // </Stack>
+              <Typography
+                fontWeight={500}
+                sx={{ color: (theme) => theme.palette.text.primary }}
+              >
+                {item.name}
+              </Typography>
+            </ListItemButton>
+          ))}
+        </List>
+      </Stack>
+    </Drawer>
   );
 };
 

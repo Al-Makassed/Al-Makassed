@@ -19,3 +19,9 @@ export const FieldInitialValues: getField = {
 export const UserInitialValues: getUser = {
   Image: undefined,
 };
+
+export enum Category {
+  Departments = "Departments",
+  Fields = "Fields",
+  Users = "Users",
+}

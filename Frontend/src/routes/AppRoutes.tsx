@@ -59,10 +59,11 @@ const AppRoutes: FC = () => {
             <Route path="counter-with-provider" element={<Counter2 />} />
 
             <Route path="profile" element={<UserProfile />} />
+
             <Route path="settings" element={<SystemSettings />}>
-              <Route path="department" element={<DepartmentDetails />} />
-              <Route path="field" element={<FieldDetails />} />
-              <Route path="user" element={<UserDetails />} />
+              <Route path="departments" element={<DepartmentDetails />} />
+              <Route path="fields" element={<FieldDetails />} />
+              <Route path="users" element={<UserDetails />} />
             </Route>
 
             <Route
