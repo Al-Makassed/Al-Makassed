@@ -1,5 +1,5 @@
 import routeHOC from "src/routes/routeHOC";
-import Approval from "./Approval";
+import Approval from "./RequestsApproval";
 
 const withRouteHoC = routeHOC({
   title: "Requests Approval",

@@ -56,31 +56,48 @@ const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
       ) : (
         <MaqasidDialog.Body>
           <Stack gap={2.5}>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <VpnKeyIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
-
+              <Typography variant="body2"> Code: </Typography>
               <Typography>{dependency?.code}</Typography>
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <AccessAlarmsIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
-              <Typography>{dependency?.estimatedTime}</Typography>
+              <Typography variant="body2">EstimatedTime: </Typography>
+              <Typography>{dependency?.estimatedTimeInMin}</Typography>
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <PersonIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
+              <Typography variant="body2"> CreatorId: </Typography>
+
               <Typography> {dependency?.creatorId}</Typography>
             </Stack>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <AutoStoriesIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
+              <Typography variant="body2"> PagesCount:</Typography>
+
               <Typography> {dependency?.pagesCount}</Typography>
             </Stack>
 
@@ -92,7 +109,7 @@ const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
                 href={dependency?.pdfUrl || ""}
                 target="_blank"
                 variant="text"
-                sx={{ textTransform: "none", mt: -1 }}
+                sx={{ textTransform: "none", mt: -1, ml: -2 }}
               >
                 Open Dependency File
               </Button>

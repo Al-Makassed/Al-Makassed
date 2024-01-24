@@ -43,20 +43,26 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
       ) : (
         <MaqasidDialog.Body>
           <Stack gap={2.5}>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <VpnKeyIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
-
-              <Typography variant="h6" sx={{ ml: 1 }}>
-                {policy?.code}
-              </Typography>
+              <Typography variant="body2"> Code: </Typography>
+              <Typography>{policy?.code}</Typography>
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <SegmentIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
+              <Typography variant="body2">Summary: </Typography>
+
               <Typography>{policy?.summary}</Typography>
             </Stack>
 
@@ -68,7 +74,7 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
                 href={policy?.pdfUrl || ""}
                 target="_blank"
                 variant="text"
-                sx={{ textTransform: "none", mt: -1 }}
+                sx={{ textTransform: "none", mt: -1, ml: -2 }}
               >
                 Open Policy File
               </Button>

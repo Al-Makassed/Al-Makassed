@@ -17,13 +17,15 @@ import ViewDependencyDialog from "./components/ViewDependencyDialog";
 import ViewMonitoringToolDialog from "./components/ViewMonitoringToolDialog";
 import ViewPolicyDialog from "./components/ViewPolicyDialog";
 import { DialogName, REQUEST_NAME } from "./constants";
-import useApprovedMonitoringTool from "./hooks/useApprovedMonitoringTool";
-import useApprovedPolicy from "./hooks/useApprovedPolicy";
-import useApprovedPolicyDependency from "./hooks/useApprovedPolicyDependency";
+import useApprovedMonitoringTool from "./hooks/useApproveMonitoringTool";
+import useApprovedPolicy from "./hooks/useApprovePolicy";
+import useApprovedPolicyDependency from "./hooks/useApprovePolicyDependency";
 import useDeleteDependency from "./hooks/useDeleteDependency";
 import useDeleteMonitoringTool from "./hooks/useDeleteMonitoringTool";
 import useDeletePolicy from "./hooks/useDeletePolicy";
-import useApprovedRequests from "./hooks/useGetApprovalRequests";
+import useApprovedRequests from "./hooks/useGetRequestsApproval";
+import UserAvatar from "src/components/UserAvatar";
+import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
 
 const DataTable: FC = () => {
   const { requests } = useApprovedRequests();
@@ -32,47 +34,60 @@ const DataTable: FC = () => {
   const closeConfirmDialog = () => setOpenedDialog(null);
 
   const openViewPolicyDialog = () => setOpenedDialog(DialogName.ViewPolicy);
-
   const openViewMonitoringToolDialog = () =>
     setOpenedDialog(DialogName.ViewMonitoringTool);
-
   const openViewDependencyDialog = () =>
     setOpenedDialog(DialogName.ViewDependency);
 
   const { approvePolicy } = useApprovedPolicy();
-
   const { deletePolicy } = useDeletePolicy();
-
   const { removeMonitoringTool } = useDeleteMonitoringTool();
-
   const { approvedPolicyDependency } = useApprovedPolicyDependency();
-
   const { approvedMonitoringTool } = useApprovedMonitoringTool();
-
   const { deleteDependency } = useDeleteDependency();
 
   const theme = useTheme();
 
   const handleApproval = (row: ApprovalRequest) => {
-    if (row.entityType === 0) approvePolicy(row.entityId);
-    else if (row.entityType === 1) approvedPolicyDependency(row.entityId);
-    else approvedMonitoringTool(row.entityId);
+    if (row.entityType === 0) {
+      approvePolicy(row.entityId);
+    } else if (row.entityType === 1) {
+      approvedPolicyDependency(row.entityId);
+    } else {
+      approvedMonitoringTool(row.entityId);
+    }
   };
 
   const handleDeleteRequest = (row: ApprovalRequest) => {
-    if (row.entityType === 0)
+    if (row.entityType === 0) {
       deletePolicy({ chapterId: row.info.chapterId, policyId: row.entityId });
-    else if (row.entityType === 1)
+    } else if (row.entityType === 1) {
       deleteDependency({
         chapterId: row.info.chapterId,
         policyId: row.info.policyId,
         id: row.entityId,
       });
-    else removeMonitoringTool(row.entityId);
+    } else {
+      removeMonitoringTool(row.entityId);
+    }
   };
 
   const columns: GridColDef[] = [
-    { field: "requesterId", headerName: "User ID", width: 200 },
+    {
+      field: "user",
+      headerName: "User",
+      width: 200,
+      renderCell: (params) => (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <UserAvatar
+            src={params.row.requesterAvatarUrl}
+            initials={getAvatarAbbreviation(params.row.requesterUserName)}
+          />
+          <Typography>{params.row.requesterUserName}</Typography>
+        </Stack>
+      ),
+    },
+
     { field: "title", headerName: "Request name", width: 300 },
     {
       field: "entityType",
@@ -136,14 +151,14 @@ const DataTable: FC = () => {
   const handle = (row: ApprovalRequest) => {
     setEntityType(row.entityType);
 
-    if (entityType === 0) {
+    if (row.entityType === 0) {
       setChapterId(row.info.chapterId);
       setPolicyId(row.entityId);
       openViewPolicyDialog();
-    } else if (entityType === 2) {
+    } else if (row.entityType === 2) {
       setMonitoringToolId(row.entityId);
       openViewMonitoringToolDialog();
-    } else if (entityType === 1) {
+    } else if (row.entityType === 1) {
       setChapterId(row.info.chapterId);
       setPolicyId(row.info.policyId);
       setDependencyId(row.entityId);
@@ -164,7 +179,6 @@ const DataTable: FC = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          // maxWidth="1300px"
           height={`calc(100vh - 42px - 64px - 24px - ${theme.mixins.toolbar.height}px)`}
         >
           <DataGrid

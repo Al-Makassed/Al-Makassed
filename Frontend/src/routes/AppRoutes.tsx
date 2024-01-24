@@ -6,7 +6,7 @@ import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
 const SignUpDialog = lazy(() => import("src/pages/SignUpDialog"));
-const ProvedChapterContent = lazy(() => import("src/pages/ApprovalRequest"));
+const ProvedChapterContent = lazy(() => import("src/pages/RequestsApproval"));
 const DefaultView = lazy(
   () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
 );

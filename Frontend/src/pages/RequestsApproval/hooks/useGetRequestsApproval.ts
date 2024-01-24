@@ -7,7 +7,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
 import { AxiosBaseError } from "src/types/axios";
 
-const useApprovedRequests = () => {
+const useRequestsApproval = () => {
   const dispatch = useAppDispatch();
 
   const {
@@ -36,4 +36,4 @@ const useApprovedRequests = () => {
   };
 };
 
-export default useApprovedRequests;
+export default useRequestsApproval;
