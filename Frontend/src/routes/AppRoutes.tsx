@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
+const SignUpDialog = lazy(() => import("src/pages/SignUpDialog"));
 const ProvedChapterContent = lazy(() => import("src/pages/ApprovalRequest"));
 const DefaultView = lazy(
   () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
@@ -30,6 +31,7 @@ const PoliciesAndProcedures = lazy(
   () => import("src/pages/PoliciesAndProcedures"),
 );
 const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
+const UserProfile = lazy(() => import("src/pages/UserProfile"));
 
 const AppRoutes: FC = () => {
   return (
@@ -41,8 +43,11 @@ const AppRoutes: FC = () => {
         <Route path="me" element={<AppLayout />}>
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
+            <Route path="sign-up" element={<SignUpDialog />} />
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
+
+            <Route path="profile" element={<UserProfile />} />
 
             <Route
               path="policies-and-procedures"

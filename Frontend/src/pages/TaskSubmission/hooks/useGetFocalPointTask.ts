@@ -19,7 +19,7 @@ const useGetFocalPointTask = (
     error,
   } = useQuery({
     queryFn: () => getFocalPointTask(departmentId, focalPointTaskId),
-    queryKey: [FOCAL_POINT_TASK_QUERY_KEY],
+    queryKey: [FOCAL_POINT_TASK_QUERY_KEY, focalPointTaskId],
   });
 
   useEffect(() => {

@@ -48,6 +48,11 @@ const AccountMenu: FC = () => {
     navigate("/login");
   };
 
+  const handleProfileClick = () => {
+    handleClose();
+    navigate("/me/profile");
+  };
+
   return (
     <>
       <Tooltip title="Account settings">
@@ -103,7 +108,7 @@ const AccountMenu: FC = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={noop}>
+        <MenuItem onClick={handleProfileClick}>
           <Avatar /> Profile
         </MenuItem>
         <Divider />

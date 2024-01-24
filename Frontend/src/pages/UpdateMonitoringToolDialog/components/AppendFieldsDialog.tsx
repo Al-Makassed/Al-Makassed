@@ -1,14 +1,17 @@
-import React, { FC } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
+import { FC, useState } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import useAddFieldToMonitoringTool from "../hooks/useAddFieldToMonitoringTool";
-import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
 import useMonitoringToolsContext from "src/pages/MonitoringTools/context/useMonitoringToolsContext";
 import { DialogName } from "../constants";
+import useUpdateMonitoringToolContext from "../context/useUpdateMonitoringToolContext";
+import useAddFieldToMonitoringTool from "../hooks/useAddFieldToMonitoringTool";
+import useGetFields from "../hooks/useGetFields";
+import { AppendFieldsDialogProps } from "../types";
+import FieldsCheckboxList from "./FieldsCheckboxList";
 
-const AppendFieldsDialog: FC = () => {
-  const { appendFieldToMT, isPending } = useAddFieldToMonitoringTool();
+const AppendFieldsDialog: FC<AppendFieldsDialogProps> = ({ existedFields }) => {
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const {
     state: { openedDialog },
@@ -19,13 +22,31 @@ const AppendFieldsDialog: FC = () => {
     state: { selectedMonitoringTool },
   } = useMonitoringToolsContext();
 
+  const { fields: allFields } = useGetFields();
+
+  const { appendFieldToMT, isAdding } = useAddFieldToMonitoringTool();
+
+  // get the fields that are not already added to the monitoring tool.
+  const selectableFields = allFields?.filter(
+    (field) => !existedFields?.find((f) => f.id === field.id),
+  );
+
   const handleCloseDialog = () => onCloseDialog();
 
-  const handleSubmit = (fieldsIdes: string[]) => {
+  const handleToggle = (fieldId: string) => {
+    const newSelectedItems = selectedItems.includes(fieldId)
+      ? selectedItems.filter((id) => id !== fieldId)
+      : [...selectedItems, fieldId];
+
+    setSelectedItems(newSelectedItems);
+  };
+
+  const handleSubmit = () => {
     appendFieldToMT({
       monitoringToolId: selectedMonitoringTool!.id,
-      fieldsIdes,
+      fieldsIdes: selectedItems,
     });
+    onCloseDialog();
   };
 
   return (
@@ -34,6 +55,7 @@ const AppendFieldsDialog: FC = () => {
       onClose={handleCloseDialog}
       disableBackdropClick
       disableEscapeKeyDown
+      maxWidth="md"
     >
       <MaqasidDialog.Header>
         <MaqasidDialog.Title title="Append Field" />
@@ -42,20 +64,25 @@ const AppendFieldsDialog: FC = () => {
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
+
       <MaqasidDialog.Body>
-        {/* // TODO: here will go the transfer list after MAK-87 is merged */}
+        <FieldsCheckboxList
+          fields={selectableFields}
+          selectedItems={selectedItems}
+          onToggle={handleToggle}
+        />
       </MaqasidDialog.Body>
+
       <MaqasidDialog.Footer>
         <LoadingButton
-          // TODO: when dialog body is done, pass the list to the handler
-          onClick={() => handleSubmit}
+          onClick={handleSubmit}
           type="submit"
-          //disabled={!dirty || !isValid}
+          disabled={selectedItems.length === 0}
           variant="contained"
           color="primary"
           startIcon={<AddIcon />}
           aria-label="Append Fields"
-          loading={isPending}
+          loading={isAdding}
           loadingPosition="start"
         >
           Add

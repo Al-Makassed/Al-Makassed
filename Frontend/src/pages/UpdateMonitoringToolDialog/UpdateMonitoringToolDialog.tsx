@@ -49,7 +49,7 @@ const MonitoringToolViewDialog: FC = () => {
   const toggleEditMode = () => onToggleEditMode();
 
   const DialogHeader = isFetching ? (
-    <Typography variant="h3" width={"50%"}>
+    <Typography variant="h3" width="50%">
       <Skeleton />
     </Typography>
   ) : (
@@ -88,7 +88,7 @@ const MonitoringToolViewDialog: FC = () => {
         </MaqasidDialog.Header>
 
         {isFetching && (
-          <MaqasidDialog.Body>
+          <MaqasidDialog.Body niceScroll>
             <DialogSkeleton />
           </MaqasidDialog.Body>
         )}
@@ -100,8 +100,8 @@ const MonitoringToolViewDialog: FC = () => {
 
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
-        title="Remove Field From Monitoring Tool"
-        body="Are you sure you want to permanently remove monitoring tool?"
+        title="Delete Monitoring Tool"
+        body="⚠️ Are you sure you want to permanently remove this monitoring tool?"
         onClose={closeConfirmDialog}
         actions={[
           {

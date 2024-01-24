@@ -12,6 +12,7 @@ export interface Policy {
   state: boolean;
   pdfUrl: string;
   chapterId: string;
+  isApproved: boolean;
   dependencies: Dependency[];
 }
 
@@ -22,6 +23,7 @@ export interface Dependency {
   pagesCount: number;
   policyCode: string;
   policyDependencyType: number;
+  isApproved: boolean;
 }
 
 export interface CreateChapterResponse extends Omit<Chapter, "policies"> {}
