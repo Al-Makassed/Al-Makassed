@@ -65,7 +65,7 @@ const SystemSidebar: FC = () => {
           mt: 8,
         },
 
-        display: { xs: "none", md: "block" },
+        display: { xs: "none", sm: "block" },
       }}
       variant="permanent"
       anchor="left"

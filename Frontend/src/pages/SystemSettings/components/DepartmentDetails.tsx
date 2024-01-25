@@ -1,16 +1,24 @@
-import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
-import React, { FC, useState } from "react";
-import AddDepartmentDialog from "./AddDepartmentDialog";
 import AddIcon from "@mui/icons-material/Add";
-import useGetDepartments from "../hooks/useGetDepartments";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Department } from "../API/type";
+import {
+  Button,
+  Grid,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { Theme } from "@mui/material/styles";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import EditDepartmentDialog from "./EditDepartmentDialog";
+import { FC, useState } from "react";
 import ConfirmDialog from "src/components/ConfirmDialog";
+import { Department } from "../API/type";
 import useDeleteDepartment from "../hooks/useDeleteDepartment";
-import { grey } from "@mui/material/colors";
+import useGetDepartments from "../hooks/useGetDepartments";
+import AddDepartmentDialog from "./AddDepartmentDialog";
+import EditDepartmentDialog from "./EditDepartmentDialog";
 
 const DepartmentDetails: FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -20,9 +28,10 @@ const DepartmentDetails: FC = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<Department>();
 
   const { departments } = useGetDepartments();
-  console.log(departments);
 
   const { removeDepartment } = useDeleteDepartment();
+
+  const theme = useTheme<Theme>();
 
   const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
 
@@ -45,11 +54,11 @@ const DepartmentDetails: FC = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 450 },
+    { field: "name", headerName: "Name", width: 350 },
     {
       field: "actions",
       headerName: "Actions",
-      width: 200,
+      width: 170,
       renderCell: (params) => (
         <>
           <Tooltip title="Edit department">
@@ -76,11 +85,10 @@ const DepartmentDetails: FC = () => {
       ),
     },
   ];
-  console.log(isEditDialogOpen);
 
   return (
     <>
-      <Stack gap={1.5} width="73%" pt={3} sx={{ ml: { xs: 2, md: 0 } }}>
+      <Stack gap={1.5} width="73%" py={3} sx={{ ml: { xs: 2, md: 0 } }}>
         <Button
           startIcon={<AddIcon />}
           variant="contained"
@@ -91,10 +99,18 @@ const DepartmentDetails: FC = () => {
         </Button>
 
         <Typography variant="h6" fontWeight={500}>
-          All departments
+          All Departments
         </Typography>
 
-        <Stack sx={{ height: "100%", width: "100%" }}>
+        <Grid
+          container
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: "fit-content",
+            height: `calc(100vh - 48px - 36.5px - 32px - 24px - ${theme.mixins.toolbar.height}px)`,
+          }}
+        >
           <DataGrid
             rows={departments}
             columns={columns}
@@ -108,9 +124,9 @@ const DepartmentDetails: FC = () => {
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
-            sx={{ width: { xs: 320, md: 650, lg: 1100 }, bgcolor: grey[100] }}
+            sx={{ bgcolor: (theme) => theme.palette.grey[100] }}
           />
-        </Stack>
+        </Grid>
       </Stack>
 
       <AddDepartmentDialog open={isDialogOpen} onClose={handleCloseDialog} />
@@ -124,7 +140,7 @@ const DepartmentDetails: FC = () => {
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
         title="Remove Department"
-        body="Are you sure you want to permanently remove department?"
+        body="⚠️ Are you sure you want to permanently remove this department?"
         onClose={handleCloseConfirmDialog}
         actions={[
           {

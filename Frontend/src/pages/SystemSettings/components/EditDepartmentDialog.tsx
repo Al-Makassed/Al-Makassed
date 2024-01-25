@@ -1,13 +1,12 @@
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Stack } from "@mui/material";
 import { FormikProvider } from "formik";
 import { FC, useEffect } from "react";
 import TextField from "src/components/Fields/TextField";
-import { Department } from "../API/type";
 import MaqasidDialog from "src/components/MaqasidDialog";
+import { Department } from "../API/type";
 import useEditDepartmentForm from "../hooks/useEditDepartmentForm";
-// import AutocompleteField from "src/components/Fields/AutocompleteField";
-import { Stack } from "@mui/material";
 
 interface EditDepartmentDialogProps {
   department: Department;
@@ -21,18 +20,8 @@ const EditDepartmentDialog: FC<EditDepartmentDialogProps> = ({
   open,
 }) => {
   if (department == null) return null;
+
   const { formikProps, isRenaming } = useEditDepartmentForm(department);
-
-  // const { focalPoints } = useGetFocalPoint();
-
-  const handleDiscard = () => {
-    onClose();
-  };
-
-  const handleSave = () => {
-    submitForm();
-    onClose();
-  };
 
   const { dirty, isValid, submitForm, resetForm } = formikProps;
 
@@ -41,13 +30,16 @@ const EditDepartmentDialog: FC<EditDepartmentDialogProps> = ({
     resetForm();
   }, [isRenaming]);
 
+  const handleDiscard = () => onClose();
+
+  const handleSave = () => {
+    submitForm();
+    onClose();
+  };
+
   return (
     <>
-      <MaqasidDialog
-        isOpen={open}
-        onClose={onClose}
-        // variant="right"
-      >
+      <MaqasidDialog isOpen={open} onClose={onClose}>
         <MaqasidDialog.Header>
           <MaqasidDialog.Title title="Edit Department" />
           <MaqasidDialog.Actions>
@@ -59,26 +51,11 @@ const EditDepartmentDialog: FC<EditDepartmentDialogProps> = ({
           <FormikProvider value={formikProps}>
             <Stack gap={2}>
               <TextField label="Department Name" name="name" />
-
-              <TextField label="headId" name="headId" />
-
-              {/* <AutocompleteField
-              name="departments"
-              label="Departments"
-              multiple
-              disablePortal
-              id="departments-autocomplete"
-              options={focalPoints}
-              getOptionLabel={(option) => (option as Department).name}
-              onChange={(event, value) => {
-                const values = value as Department[];
-                const departmentsIds = values.map((item) => item.id);
-                setFieldValue("departmentsIdes", departmentsIds);
-              }}
-            /> */}
+              <TextField disabled label="headId" name="headId" />
             </Stack>
           </FormikProvider>
         </MaqasidDialog.Body>
+
         <MaqasidDialog.Footer>
           <LoadingButton
             loading={isRenaming}
@@ -94,6 +71,7 @@ const EditDepartmentDialog: FC<EditDepartmentDialogProps> = ({
             Rename Department
           </LoadingButton>
         </MaqasidDialog.Footer>
+
         <MaqasidDialog.SaveChangesConfirmationDialog
           isDirty={dirty}
           cancelProps={{
