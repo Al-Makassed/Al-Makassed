@@ -1,16 +1,23 @@
-import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
-import React, { FC, useState } from "react";
-// import AddDepartmentDialog from "./AddDepartmentDialog";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Field } from "../API/type";
+import {
+  Button,
+  Grid,
+  IconButton,
+  Stack,
+  Theme,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { FC, useState } from "react";
 import ConfirmDialog from "src/components/ConfirmDialog";
-import { grey } from "@mui/material/colors";
-import AddFieldDialog from "./AddFieldDialog";
-import useGetFields from "../hooks/useGetFields";
+import { Field } from "../API/type";
 import useDeleteField from "../hooks/useDeleteField";
+import useGetFields from "../hooks/useGetFields";
+import AddFieldDialog from "./AddFieldDialog";
 import EditFieldDialog from "./EditFieldDialog";
 
 const FieldDetails: FC = () => {
@@ -23,6 +30,8 @@ const FieldDetails: FC = () => {
   const { fields } = useGetFields();
 
   const { removeField } = useDeleteField();
+
+  const theme = useTheme<Theme>();
 
   const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
 
@@ -45,7 +54,7 @@ const FieldDetails: FC = () => {
   };
 
   const columns: GridColDef[] = [
-    { field: "content", headerName: "Name", width: 650 },
+    { field: "content", headerName: "Content", width: 650, flex: 0.35 },
     {
       field: "actions",
       headerName: "Actions",
@@ -76,11 +85,10 @@ const FieldDetails: FC = () => {
       ),
     },
   ];
-  console.log(fields);
 
   return (
     <>
-      <Stack gap={1.5} width="73%" pt={3} sx={{ ml: { xs: 2, md: 0 } }}>
+      <Stack width="100%" gap={1.5} py={3} pl={{ xs: 2, sm: 0 }}>
         <Button
           startIcon={<AddIcon />}
           variant="contained"
@@ -91,10 +99,17 @@ const FieldDetails: FC = () => {
         </Button>
 
         <Typography variant="h6" fontWeight={500}>
-          All fields
+          All Fields
         </Typography>
 
-        <Stack sx={{ height: "100%", width: "100%" }}>
+        <Grid
+          container
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: `calc(100vh - 48px - 36.5px - 32px - 24px - 10px - ${theme.mixins.toolbar.height}px)`,
+          }}
+        >
           <DataGrid
             rows={fields}
             columns={columns}
@@ -108,9 +123,8 @@ const FieldDetails: FC = () => {
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
-            sx={{ width: { xs: 320, md: 650, lg: 1100 }, bgcolor: grey[100] }}
           />
-        </Stack>
+        </Grid>
       </Stack>
 
       <AddFieldDialog open={isDialogOpen} onClose={handleCloseDialog} />
@@ -124,7 +138,7 @@ const FieldDetails: FC = () => {
       <ConfirmDialog
         isOpen={isConfirmDialogOpen}
         title="Remove Field"
-        body="Are you sure you want to permanently remove this field?"
+        body="⚠️ Are you sure you want to permanently remove this field?"
         onClose={handleCloseConfirmDialog}
         actions={[
           {
