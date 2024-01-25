@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import validationSchema from "../schema";
+import { validationSchema } from "../schema";
 import { initialValues } from "../constants";
 import useAddDepartmentAPI from "./useAddDepartmentAPI";
 import { getDepartment } from "../API/type";
