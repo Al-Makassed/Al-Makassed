@@ -6,4 +6,6 @@ public record GetDepartmentResponse
     public required string Name { get; set; }
 
     public required string HeadId { get; set; }
+
+    public HeadDto Head { get; set; } = null!;
 }

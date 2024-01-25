@@ -47,6 +47,11 @@ const AccountMenu: FC = () => {
     dispatch(logout());
     navigate("/login");
   };
+
+  const handleProfileClick = () => {
+    handleClose();
+    navigate("/me/profile");
+  };
   const handleResetPassword = () => {
     handleClose();
     navigate("/me/reset-password");
@@ -106,7 +111,7 @@ const AccountMenu: FC = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={noop}>
+        <MenuItem onClick={handleProfileClick}>
           <Avatar /> Profile
         </MenuItem>
         <Divider />

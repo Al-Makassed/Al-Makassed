@@ -1,8 +1,9 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, Stack, Typography } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import { FC } from "react";
+import { FC, useState } from "react";
 import useMediaQuery from "src/hooks/useMediaQuery";
+import SearchDialog from "src/pages/SearchDialog/SearchDialog";
 
 const Search = styled(Button)(({ theme }) => ({
   position: "relative",
@@ -25,22 +26,35 @@ const Search = styled(Button)(({ theme }) => ({
   },
 }));
 
-const handleButtonClick = () => {
-  console.log("hello");
-};
-
 const SearchButton: FC = () => {
+  const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
+
   const { isMobile } = useMediaQuery();
+
+  const handleButtonClick = () => {
+    setIsSearchDialogOpen((prev) => !prev);
+  };
+
+  // isSearchDialogOpen && <SearchDialog onClose={() => {}} isOpen={true} />;
   return (
-    <Search onClick={handleButtonClick}>
-      {!isMobile && (
-        <Stack direction="row" alignItems="center" gap={0.5}>
-          <SearchIcon sx={{ color: "white" }} />
-          <Typography variant="body2">Search...</Typography>
-        </Stack>
+    <>
+      <Search onClick={handleButtonClick}>
+        {!isMobile && (
+          <Stack direction="row" alignItems="center" gap={0.5}>
+            <SearchIcon sx={{ color: "white" }} />
+            <Typography variant="body2">Search...</Typography>
+          </Stack>
+        )}
+        {isMobile && <SearchIcon sx={{ color: "white" }} />}
+      </Search>
+
+      {isSearchDialogOpen && (
+        <SearchDialog
+          onClose={() => setIsSearchDialogOpen(false)}
+          isOpen={isSearchDialogOpen}
+        />
       )}
-      {isMobile && <SearchIcon sx={{ color: "white" }} />}
-    </Search>
+    </>
   );
 };
 

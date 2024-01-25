@@ -1,12 +1,11 @@
 import { useFormik } from "formik";
-//import { initialValues } from "../constants";
-import { UpdateMonitoringToolRequest } from "../API/types";
-import validationSchema from "../schema";
-import useUpdateMonitoringToolAPI from "./useUpdateMonitoringToolAPI";
 import { MonitoringTool } from "src/pages/MonitoringTools/API/types";
+import { UpdateMonitoringToolRequest } from "../API/types";
+import { updateMTInfoValidationSchema } from "../schema";
+import useUpdateMonitoringToolAPI from "./useUpdateMonitoringToolAPI";
 
 const useUpdateMonitoringToolForm = (monitoringTool: MonitoringTool) => {
-  const { editMonitoringTool, isPending, status } = useUpdateMonitoringToolAPI(
+  const { editMonitoringTool, isPending } = useUpdateMonitoringToolAPI(
     monitoringTool.id,
   );
 
@@ -24,11 +23,11 @@ const useUpdateMonitoringToolForm = (monitoringTool: MonitoringTool) => {
       name: monitoringTool.name,
       description: monitoringTool.description,
     },
-    validationSchema,
+    validationSchema: updateMTInfoValidationSchema,
     onSubmit: submitForm,
   });
 
-  return { formikProps, isPending, status };
+  return { formikProps, isPending };
 };
 
 export default useUpdateMonitoringToolForm;

@@ -4,12 +4,16 @@ export interface Policy {
   name: string;
   state: boolean;
   pdfUrl: string;
+  summary: string;
   chapterId: string;
   dependencies: Dependency[];
 }
 
 export interface Dependency {
+  id: string;
+  name: string;
   code: string;
+  type: number;
   pdfUrl: string;
   estimatedTime: number;
   pagesCount: number;

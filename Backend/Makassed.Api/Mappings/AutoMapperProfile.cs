@@ -12,6 +12,7 @@ using Makassed.Contracts.MonitoringTool.FocalPointTasks.Submissions;
 using Makassed.Contracts.User;
 using Makassed.Contracts.Submission;
 using Makassed.Contracts.Search;
+using Makassed.Contracts.Readings;
 
 namespace Makassed.Api.Mappings;
 
@@ -24,17 +25,20 @@ public class AutoMapperProfile : Profile
         CreateMap<Chapter, CreateChapterRequest>().ReverseMap();
         CreateMap<Chapter, UpdateChapterRequest>().ReverseMap();
         CreateMap<Chapter, ChapterSearchResponse>().ReverseMap();
+        CreateMap<Chapter, ChapterForReadingResponseDto>().ReverseMap();
 
 
         CreateMap<Policy, GetPolicyResponse>().ReverseMap();
         CreateMap<Policy, CreatePolicyRequest>().ReverseMap();
         CreateMap<Policy, UpdatePolicyRequest>().ReverseMap();
         CreateMap<Policy, PolicySearchResponse>().ReverseMap();
+        CreateMap<Policy, PolicyForReadingResponseDto>().ReverseMap();
         
         CreateMap<Dependency, GetPolicyDependencyResponse>().ReverseMap();
         CreateMap<Dependency, CreatePolicyDependencyRequest>().ReverseMap();
         CreateMap<Dependency, UpdatePolicyDependencyRequest>().ReverseMap();
         CreateMap<Dependency, DependencySearchResponse>().ReverseMap();
+        CreateMap<Dependency, DependencyForReadingResponseDto>().ReverseMap();
 
         CreateMap<MonitoringTool, GetMonitoringToolResponse>().ReverseMap();
         CreateMap<MonitoringTool, GetAllMonitoringToolBaseResponse>().ReverseMap();
@@ -73,5 +77,9 @@ public class AutoMapperProfile : Profile
         CreateMap<Submission, GetFpTaskSubmissionResponse>().ReverseMap();
 
         CreateMap<MakassedUser, Submitter>().ReverseMap();
+        CreateMap<MakassedUser, HeadDto>().ReverseMap();
+
+        CreateMap<PolicyUser, GetPolicyReadingsResponse>().ReverseMap();
+        CreateMap<DependencyUser, GetDependencyReadingsResponse>().ReverseMap();
     }
 }

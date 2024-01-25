@@ -21,7 +21,11 @@ const MobileMenu: FC = () => {
   };
 
   const navigate = useNavigate();
-  const handleNavigate = (page: string) => () => navigate(page);
+
+  const handleButtonClick = (page: string) => {
+    navigate(page);
+    handleCloseNavMenu();
+  };
 
   return (
     <Box
@@ -56,13 +60,12 @@ const MobileMenu: FC = () => {
         {NAVBAR_PAGES.map((page) => (
           <MenuItem
             key={page.name}
-            onClick={handleCloseNavMenu}
             sx={{ color: (theme) => theme.palette.Black }}
           >
             <ListItemButton
               key={page.name}
               sx={{ textTransform: "none", p: 0 }}
-              onClick={handleNavigate(page.path)}
+              onClick={() => handleButtonClick(page.path)}
             >
               <ListItemText primary={page.name} />
             </ListItemButton>

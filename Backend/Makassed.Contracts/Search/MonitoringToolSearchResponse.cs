@@ -9,6 +9,4 @@ public record MonitoringToolSearchResponse : Searchable
     public DateTime LastModified { get; set; }
     
     public bool IsApproved { get; set; }
-
-    public string CreatorId { get; set; } = null!;
 }

@@ -139,14 +139,28 @@ public class PolicyService : IPolicyService
         if (checkBelongingResult.IsError)
             return checkBelongingResult.Errors;
 
-        policy.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policy.MainFile);
-        policy.PageCount = _localFileStorageService.GetPdfFilePageCount(policy.MainFile);
+        var existingPolicy = await _policyRepository.GetPolicyByIdAsync(id);
+
+        if (existingPolicy is null)
+            return Errors.Policy.NotFound;
+
+        // if there is a pdf file, upload it and update the url and page count, else keep the old url and page count
+        if (policy.MainFile is not null)
+        {
+            policy.PdfUrl = await _localFileStorageService.UploadFileAndGetUrlAsync(policy.MainFile);
+            policy.PageCount = _localFileStorageService.GetPdfFilePageCount(policy.MainFile);
+        }
+        else
+        {
+            policy.PdfUrl = existingPolicy.PdfUrl;
+            policy.PageCount = existingPolicy.PageCount;
+        }
         
         var updatePolicyResult = await _policyRepository.UpdatePolicyAsync(id, policy);
 
         if (updatePolicyResult is null)
             return Errors.Policy.NotFound;
-        
+
         return Result.Updated;
     }
 

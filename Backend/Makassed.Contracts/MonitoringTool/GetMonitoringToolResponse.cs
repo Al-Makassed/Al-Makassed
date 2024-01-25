@@ -13,7 +13,7 @@ public class GetMonitoringToolResponse
 
     public DateTime LastModified { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; }
 
     public bool IsApproved { get; set; }
 
