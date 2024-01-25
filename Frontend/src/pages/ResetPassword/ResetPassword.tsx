@@ -1,5 +1,6 @@
-import React, { FC, useState, ChangeEvent, MouseEvent } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LockResetIcon from "@mui/icons-material/LockReset";
+import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
   FormControl,
@@ -12,15 +13,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { ChangeEvent, FC, MouseEvent, useState } from "react";
+import { selectUser } from "src/features/user";
+import useMediaQuery from "src/hooks/useMediaQuery";
+import { useAppSelector } from "src/store/hooks";
 import maqasidLogo from "../../images/logo.jpg";
 import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
-import { selectUser } from "src/features/user";
-import { useAppSelector } from "src/store/hooks";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
 
 const ResetPassword: FC = () => {
   const { userId } = useAppSelector(selectUser);
+
+  const { isMobile } = useMediaQuery();
 
   const [currentPassword, setCurrentPassword] = useState<string>("");
 
@@ -41,24 +44,29 @@ const ResetPassword: FC = () => {
   const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentPassword(event.target.value);
   };
+
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
   const handleMouseDownPasswordConfirm = (
     event: MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
   };
+
   const { resetPassword, isPending } = useResetPasswordAPI();
+
   const handleSubmitForm = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     resetPassword({ userId, currentPassword, newPassword });
   };
+
   return (
     <Grid
       container
       sx={{
-        height: "100vh",
+        height: "calc(100vh - 64px)",
         bgcolor: "grey.100",
       }}
       display="flex"
@@ -67,7 +75,8 @@ const ResetPassword: FC = () => {
       xs={12}
     >
       <Grid
-        width={{ xs: 350, md: 600 }}
+        width={{ xs: "100vw", sm: 550 }}
+        height={{ xs: "calc(100vh - 64px)", sm: "auto" }}
         component={Paper}
         item
         elevation={3}
@@ -75,36 +84,32 @@ const ResetPassword: FC = () => {
         alignItems="center"
         justifyContent="center"
         direction="column"
+        pb={7}
+        pt={{ xs: 0, sm: 2 }}
       >
         <Avatar
           sx={{
-            width: 180,
-            height: 180,
-            display: { xs: "none", md: "flex" },
+            width: 130,
+            height: 130,
           }}
           alt="logo"
           variant="circular"
           src={maqasidLogo}
         />
-        <Stack
-          padding={{ xs: 3, md: 4 }} // responsive for all screen sizes
-          gap={3}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+
+        <Stack gap={1.75} alignItems="center">
           <Typography
             component="h1"
-            variant="h3"
+            variant={isMobile ? "h5" : "h4"}
             fontWeight={500}
-            fontSize={{ xs: "1.8em", sm: "2.3em" }}
           >
             Reset Password
           </Typography>
           <Stack gap={3}>
-            <FormControl sx={{ width: "25ch" }} variant="standard">
+            <FormControl
+              sx={{ width: { xs: "20ch", md: "25ch" } }}
+              variant="standard"
+            >
               <InputLabel htmlFor="standard-adornment-password">
                 Current Password
               </InputLabel>
@@ -126,7 +131,11 @@ const ResetPassword: FC = () => {
                 }
               />
             </FormControl>
-            <FormControl sx={{ width: "25ch" }} variant="standard">
+
+            <FormControl
+              sx={{ width: { xs: "20ch", md: "25ch" } }}
+              variant="standard"
+            >
               <InputLabel htmlFor="standard-adornment-password">
                 New Password
               </InputLabel>
@@ -148,20 +157,21 @@ const ResetPassword: FC = () => {
                 }
               />
             </FormControl>
-
-            <LoadingButton
-              loading={isPending}
-              loadingPosition="start"
-              type="submit"
-              fullWidth
-              variant="contained"
-              startIcon={<LockResetIcon />}
-              aria-label="Reset Password"
-              onClick={handleSubmitForm}
-            >
-              Reset Password
-            </LoadingButton>
           </Stack>
+
+          <LoadingButton
+            loading={isPending}
+            loadingPosition="start"
+            type="submit"
+            fullWidth
+            variant="contained"
+            startIcon={<LockResetIcon />}
+            aria-label="Reset Password"
+            sx={{ mt: 3 }}
+            onClick={handleSubmitForm}
+          >
+            Reset Password
+          </LoadingButton>
         </Stack>
       </Grid>
     </Grid>
