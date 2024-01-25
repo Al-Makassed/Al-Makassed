@@ -21,16 +21,8 @@ const EditUserDialog: FC<EditUserDialogProps> = ({
   onClose,
 }) => {
   if (userRole == null) return null;
+
   const { formikProps, isRenaming } = useEditUserRoleForm(userRole);
-
-  const handleDiscard = () => {
-    onClose();
-  };
-
-  const handleSave = () => {
-    submitForm();
-    onClose();
-  };
 
   const { dirty, isValid, submitForm, resetForm, setFieldValue } = formikProps;
 
@@ -39,15 +31,21 @@ const EditUserDialog: FC<EditUserDialogProps> = ({
     resetForm();
   }, [isRenaming]);
 
+  const handleDiscard = () => {
+    resetForm();
+    onClose();
+  };
+
+  const handleSave = () => {
+    submitForm();
+    onClose();
+  };
+
   return (
     <>
-      <MaqasidDialog
-        isOpen={open}
-        onClose={onClose}
-        // variant="right"
-      >
+      <MaqasidDialog isOpen={open} onClose={onClose}>
         <MaqasidDialog.Header>
-          <MaqasidDialog.Title title="Edit UserRole" />
+          <MaqasidDialog.Title title="Edit User Role" />
           <MaqasidDialog.Actions>
             <MaqasidDialog.Fullscreen />
             <MaqasidDialog.Close />
@@ -70,6 +68,7 @@ const EditUserDialog: FC<EditUserDialogProps> = ({
             </Stack>
           </FormikProvider>
         </MaqasidDialog.Body>
+
         <MaqasidDialog.Footer>
           <LoadingButton
             loading={isRenaming}
@@ -85,6 +84,7 @@ const EditUserDialog: FC<EditUserDialogProps> = ({
             change userRole
           </LoadingButton>
         </MaqasidDialog.Footer>
+
         <MaqasidDialog.SaveChangesConfirmationDialog
           isDirty={dirty}
           cancelProps={{

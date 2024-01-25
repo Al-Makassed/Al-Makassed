@@ -22,18 +22,10 @@ const EditUserDepartmentDialog: FC<EditUserDepartmentDialogProps> = ({
   onClose,
 }) => {
   if (userDepartment == null) return null;
+
   const { formikProps, isRenaming } = useEditUserDepartmentForm(userDepartment);
 
   const { departments } = useGetDepartments();
-
-  const handleDiscard = () => {
-    onClose();
-  };
-
-  const handleSave = () => {
-    submitForm();
-    onClose();
-  };
 
   const { dirty, isValid, submitForm, resetForm, setFieldValue } = formikProps;
 
@@ -42,15 +34,21 @@ const EditUserDepartmentDialog: FC<EditUserDepartmentDialogProps> = ({
     resetForm();
   }, [isRenaming]);
 
+  const handleDiscard = () => {
+    resetForm();
+    onClose();
+  };
+
+  const handleSave = () => {
+    submitForm();
+    onClose();
+  };
+
   return (
     <>
-      <MaqasidDialog
-        isOpen={open}
-        onClose={onClose}
-        // variant="right"
-      >
+      <MaqasidDialog isOpen={open} onClose={onClose}>
         <MaqasidDialog.Header>
-          <MaqasidDialog.Title title="Edit UserDepartment" />
+          <MaqasidDialog.Title title="Edit User Department" />
           <MaqasidDialog.Actions>
             <MaqasidDialog.Fullscreen />
             <MaqasidDialog.Close />
@@ -59,21 +57,10 @@ const EditUserDepartmentDialog: FC<EditUserDepartmentDialogProps> = ({
         <MaqasidDialog.Body niceScroll>
           <FormikProvider value={formikProps}>
             <Stack>
-              {/* <AutocompleteField
-                name="roles"
-                label="roles"
-                disablePortal
-                id="role-autocomplete"
-                options={role}
-                getOptionLabel={(option) => (option as Role).name}
-                onChange={(event, value) => {
-                  setFieldValue("roles", [(value as Role).name]);
-                }}
-              /> */}
               <AutocompleteField
                 name="departments"
                 label="Departments"
-                disablePortal
+                // disablePortal
                 id="departments-autocomplete"
                 options={departments}
                 getOptionLabel={(option) => (option as Department).name}

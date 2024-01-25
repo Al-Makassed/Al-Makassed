@@ -15,11 +15,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { FC, useState } from "react";
 import ConfirmDialog from "src/components/ConfirmDialog";
 import { Field } from "../API/type";
+import { FieldDialogType } from "../constants";
 import useDeleteField from "../hooks/useDeleteField";
 import useGetFields from "../hooks/useGetFields";
 import AddFieldDialog from "./AddFieldDialog";
 import EditFieldDialog from "./EditFieldDialog";
-import { FieldDialogType } from "../constants";
 
 const FieldDetails: FC = () => {
   const [dialogType, setDialogType] = useState<FieldDialogType | null>(null);

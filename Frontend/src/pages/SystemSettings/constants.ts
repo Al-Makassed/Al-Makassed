@@ -31,3 +31,10 @@ export enum FieldDialogType {
   EDIT,
   DELETE,
 }
+
+export enum UserDialogType {
+  ADD,
+  EDIT_DEPARTMENT,
+  EDIT_ROLE,
+  DELETE,
+}

@@ -1,75 +1,89 @@
+import AddIcon from "@mui/icons-material/Add";
+import RoleIcon from "@mui/icons-material/AdminPanelSettingsRounded";
+import BusinessIcon from "@mui/icons-material/Business";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Button,
   Grid,
   IconButton,
   SpeedDial,
   SpeedDialAction,
-  SpeedDialIcon,
   Stack,
+  Theme,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
-import React, { FC, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import { User } from "../API/type";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { FC, useState } from "react";
 import ConfirmDialog from "src/components/ConfirmDialog";
-import { grey } from "@mui/material/colors";
-import useGetUsers from "../hooks/useGetUsers";
-import useDeleteUser from "../hooks/useDeleteUser";
-import EditUserRoleDialog from "./EditUserRoleDialog";
-import EditUserDepartmentDialog from "./EditUserDepartmentDialog";
 import SignUpDialog from "src/pages/SignUpDialog";
+import { formatDate } from "src/utils";
+import { User } from "../API/type";
+import { UserDialogType } from "../constants";
+import useDeleteUser from "../hooks/useDeleteUser";
+import useGetUsers from "../hooks/useGetUsers";
+import EditUserDepartmentDialog from "./EditUserDepartmentDialog";
+import EditUserRoleDialog from "./EditUserRoleDialog";
 
 const UserDetails: FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
-    useState<boolean>(false);
+  const [dialogType, setDialogType] = useState<UserDialogType | null>(null);
+
   const [selectedUser, setSelectedUser] = useState<User>();
 
   const { users } = useGetUsers();
 
-  console.log(users);
-
   const { removeUser } = useDeleteUser();
 
-  const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
+  const theme = useTheme<Theme>();
 
-  const handleOpenAddDialog = () => setIsDialogOpen(true);
+  const handleCloseDialog = () => setDialogType(null);
 
-  const handleCloseDialog = () => setIsDialogOpen(false);
-
-  const handleOpenEditDialog = () => setIsEditDialogOpen(true);
-
-  const handleCloseEditDialog = () => setIsEditDialogOpen(false);
+  const handleAddButtonDialog = () => setDialogType(UserDialogType.ADD);
 
   const handleDeleteButtonClicked = (user: User) => {
     setSelectedUser(user);
-    setIsConfirmDialogOpen(true);
+    setDialogType(UserDialogType.DELETE);
   };
 
-  const handleEditButtonClick = (role: User) => {
+  const handleEditDepartmentButtonClick = (role: User) => {
     setSelectedUser(role);
-    handleOpenEditDialog();
+    setDialogType(UserDialogType.EDIT_DEPARTMENT);
+  };
+
+  const handleEditRoleButtonClick = (role: User) => {
+    setSelectedUser(role);
+    setDialogType(UserDialogType.EDIT_ROLE);
   };
 
   const actions = [
-    { name: "Edit User Department", icon: <EditIcon /> },
-    { name: "Edit User Role", icon: <EditNoteIcon /> },
+    {
+      name: "Edit User Department",
+      icon: <BusinessIcon />,
+      onclick: handleEditDepartmentButtonClick,
+    },
+    {
+      name: "Edit User Role",
+      icon: <RoleIcon />,
+      onclick: handleEditRoleButtonClick,
+    },
   ];
 
   const columns: GridColDef[] = [
-    { field: "fullName", headerName: "Name", width: 175 },
-    { field: "createdOn", headerName: "Member Since", width: 270 },
+    { field: "userName", headerName: "User Name", width: 180 },
+    { field: "fullName", headerName: "Full Name", width: 180 },
+    {
+      field: "createdOn",
+      headerName: "Member Since",
+      width: 220,
+      valueFormatter: (params) => formatDate(params.value),
+    },
     { field: "roles", headerName: "Role", width: 110 },
     {
       field: "department",
       headerName: "Department",
-      width: 220,
+      width: 170,
       renderCell: (params) => <span>{params.row.department.name}</span>,
     },
     {
@@ -84,7 +98,7 @@ const UserDetails: FC = () => {
               sx={{ mr: 0.5 }}
               color="error"
               onClick={() => handleDeleteButtonClicked(params.row)}
-              // size="small"
+              size="small"
             >
               <DeleteIcon />
             </IconButton>
@@ -93,23 +107,27 @@ const UserDetails: FC = () => {
           <SpeedDial
             ariaLabel="SpeedDial"
             sx={{
+              "& .css-14ruj5o-MuiButtonBase-root-MuiFab-root-MuiSpeedDial-fab":
+                {
+                  minHeight: "0px",
+                },
               "& .MuiFab-root": {
-                height: "36px",
+                height: "30px",
               },
               "& .MuiSvgIcon-root": {
-                fontSize: "1.3rem",
+                fontSize: "1rem",
               },
-              width: "160px",
+              width: "155px",
             }}
             direction="right"
-            icon={<SpeedDialIcon />}
+            icon={<EditIcon />}
           >
             {actions.map((action) => (
               <SpeedDialAction
                 key={action.name}
                 icon={action.icon}
                 tooltipTitle={action.name}
-                onClick={() => handleEditButtonClick(params.row)}
+                onClick={action.onclick.bind(null, params.row)}
               />
             ))}
           </SpeedDial>
@@ -120,11 +138,17 @@ const UserDetails: FC = () => {
 
   return (
     <>
-      <Stack gap={1.5} width="73%" pt={3} sx={{ ml: { xs: 2, md: 0 } }}>
+      <Stack
+        gap={1.5}
+        width="100%"
+        py={3}
+        pl={{ xs: 2, sm: 0 }}
+        pr={{ xs: 2, sm: 3 }}
+      >
         <Button
           startIcon={<AddIcon />}
           variant="contained"
-          onClick={handleOpenAddDialog}
+          onClick={handleAddButtonDialog}
           sx={{ width: "fit-content" }}
         >
           User
@@ -133,58 +157,65 @@ const UserDetails: FC = () => {
         <Typography variant="h6" fontWeight={500}>
           All Users
         </Typography>
-        <Grid container>
-          <Stack sx={{ height: "100%", width: "100%" }}>
-            <DataGrid
-              rows={users}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
-                },
-              }}
-              pageSizeOptions={[5, 10, 20]}
-              getRowSpacing={(params) => ({
-                top: params.isFirstVisible ? 0 : 5,
-                bottom: params.isLastVisible ? 0 : 5,
-              })}
-              sx={{ width: { xs: 320, md: 650, lg: 1000 }, bgcolor: grey[100] }}
-            />
-          </Stack>
+
+        <Grid
+          container
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: `calc(100vh - 48px - 36.5px - 32px - 24px - 10px - ${theme.mixins.toolbar.height}px)`,
+          }}
+        >
+          <DataGrid
+            rows={users}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10, 20]}
+            getRowSpacing={(params) => ({
+              top: params.isFirstVisible ? 0 : 5,
+              bottom: params.isLastVisible ? 0 : 5,
+            })}
+          />
         </Grid>
       </Stack>
 
-      <SignUpDialog open={isDialogOpen} onClose={handleCloseDialog} />
+      <SignUpDialog
+        open={dialogType === UserDialogType.ADD}
+        onClose={handleCloseDialog}
+      />
 
       <EditUserRoleDialog
-        open={isEditDialogOpen}
-        onClose={handleCloseEditDialog}
+        open={dialogType === UserDialogType.EDIT_ROLE}
+        onClose={handleCloseDialog}
         userRole={selectedUser!}
       />
 
       <EditUserDepartmentDialog
-        open={isEditDialogOpen}
-        onClose={handleCloseEditDialog}
+        open={dialogType === UserDialogType.EDIT_DEPARTMENT}
+        onClose={handleCloseDialog}
         userDepartment={selectedUser!}
       />
 
       <ConfirmDialog
-        isOpen={isConfirmDialogOpen}
+        isOpen={dialogType === UserDialogType.ADD}
         title="Remove User"
-        body="Are you sure you want to permanently remove this User?"
-        onClose={handleCloseConfirmDialog}
+        body="⚠️ Are you sure you want to permanently remove this User?"
+        onClose={handleCloseDialog}
         actions={[
           {
             text: "Cancel",
-            onClick: handleCloseConfirmDialog,
+            onClick: handleCloseDialog,
             sx: { color: "grey.700" },
           },
           {
             text: "Delete",
             onClick: () => {
-              handleCloseConfirmDialog();
+              handleCloseDialog();
               removeUser(selectedUser!.id);
-              //   handleCloseDialog();
             },
             color: "error",
           },
