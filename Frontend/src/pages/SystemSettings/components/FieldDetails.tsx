@@ -83,7 +83,13 @@ const FieldDetails: FC = () => {
 
   return (
     <>
-      <Stack width="100%" gap={1.5} py={3} pl={{ xs: 2, sm: 0 }}>
+      <Stack
+        width="100%"
+        maxWidth={{ sm: "calc(100vw - 300px - 24px)" }}
+        gap={1.5}
+        py={3}
+        pl={{ xs: 2, sm: 0 }}
+      >
         <Button
           startIcon={<AddIcon />}
           variant="contained"

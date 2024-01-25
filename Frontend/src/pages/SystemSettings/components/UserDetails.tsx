@@ -141,6 +141,7 @@ const UserDetails: FC = () => {
       <Stack
         gap={1.5}
         width="100%"
+        maxWidth={"calc(100vw - 300px - 24px)"}
         py={3}
         pl={{ xs: 2, sm: 0 }}
         pr={{ xs: 2, sm: 3 }}

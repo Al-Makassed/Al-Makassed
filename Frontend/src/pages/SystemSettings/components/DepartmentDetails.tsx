@@ -83,7 +83,13 @@ const DepartmentDetails: FC = () => {
 
   return (
     <>
-      <Stack gap={1.5} width="73%" py={3} sx={{ ml: { xs: 2, md: 0 } }}>
+      <Stack
+        gap={1.5}
+        width="100%"
+        maxWidth={{ sm: "calc(100vw - 300px - 24px)" }}
+        py={3}
+        pl={{ xs: 2, sm: 0 }}
+      >
         <Button
           startIcon={<AddIcon />}
           variant="contained"
@@ -102,7 +108,6 @@ const DepartmentDetails: FC = () => {
           sx={{
             justifyContent: "center",
             alignItems: "center",
-            width: "fit-content",
             height: `calc(100vh - 48px - 36.5px - 32px - 24px - ${theme.mixins.toolbar.height}px)`,
           }}
         >
