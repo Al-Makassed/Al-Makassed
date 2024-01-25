@@ -25,3 +25,9 @@ export enum Category {
   Fields = "Fields",
   Users = "Users",
 }
+
+export enum FieldDialogType {
+  ADD,
+  EDIT,
+  DELETE,
+}

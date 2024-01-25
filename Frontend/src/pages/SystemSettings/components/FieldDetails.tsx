@@ -19,12 +19,11 @@ import useDeleteField from "../hooks/useDeleteField";
 import useGetFields from "../hooks/useGetFields";
 import AddFieldDialog from "./AddFieldDialog";
 import EditFieldDialog from "./EditFieldDialog";
+import { FieldDialogType } from "../constants";
 
 const FieldDetails: FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
-    useState<boolean>(false);
+  const [dialogType, setDialogType] = useState<FieldDialogType | null>(null);
+
   const [selectedField, setSelectedField] = useState<Field>();
 
   const { fields } = useGetFields();
@@ -33,24 +32,20 @@ const FieldDetails: FC = () => {
 
   const theme = useTheme<Theme>();
 
-  const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
+  const handleCloseDialog = () => setDialogType(null);
 
-  const handleOpenAddDialog = () => setIsDialogOpen(true);
-
-  const handleCloseDialog = () => setIsDialogOpen(false);
-
-  const handleOpenEditDialog = () => setIsEditDialogOpen(true);
-
-  const handleCloseEditDialog = () => setIsEditDialogOpen(false);
+  const handleAddButtonClicked = () => {
+    setDialogType(FieldDialogType.ADD);
+  };
 
   const handleDeleteButtonClicked = (field: Field) => {
     setSelectedField(field);
-    setIsConfirmDialogOpen(true);
+    setDialogType(FieldDialogType.DELETE);
   };
 
   const handleEditButtonClick = (field: Field) => {
     setSelectedField(field);
-    handleOpenEditDialog();
+    setDialogType(FieldDialogType.EDIT);
   };
 
   const columns: GridColDef[] = [
@@ -92,7 +87,7 @@ const FieldDetails: FC = () => {
         <Button
           startIcon={<AddIcon />}
           variant="contained"
-          onClick={handleOpenAddDialog}
+          onClick={handleAddButtonClicked}
           sx={{ width: "fit-content" }}
         >
           Field
@@ -127,29 +122,32 @@ const FieldDetails: FC = () => {
         </Grid>
       </Stack>
 
-      <AddFieldDialog open={isDialogOpen} onClose={handleCloseDialog} />
+      <AddFieldDialog
+        open={dialogType === FieldDialogType.ADD}
+        onClose={handleCloseDialog}
+      />
 
       <EditFieldDialog
-        open={isEditDialogOpen}
-        onClose={handleCloseEditDialog}
+        open={dialogType === FieldDialogType.EDIT}
+        onClose={handleCloseDialog}
         field={selectedField!}
       />
 
       <ConfirmDialog
-        isOpen={isConfirmDialogOpen}
+        isOpen={dialogType === FieldDialogType.DELETE}
         title="Remove Field"
         body="⚠️ Are you sure you want to permanently remove this field?"
-        onClose={handleCloseConfirmDialog}
+        onClose={handleCloseDialog}
         actions={[
           {
             text: "Cancel",
-            onClick: handleCloseConfirmDialog,
+            onClick: handleCloseDialog,
             sx: { color: "grey.700" },
           },
           {
             text: "Delete",
             onClick: () => {
-              handleCloseConfirmDialog();
+              handleCloseDialog();
               removeField(selectedField!.id);
               handleCloseDialog();
             },
