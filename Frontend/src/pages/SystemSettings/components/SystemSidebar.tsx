@@ -43,6 +43,8 @@ const SystemSidebar: FC = () => {
     null,
   );
 
+  // TODO: keep the state of the selected category in sync with the url
+
   const navigate = useNavigate();
 
   const handleClick = (category: Category) => {

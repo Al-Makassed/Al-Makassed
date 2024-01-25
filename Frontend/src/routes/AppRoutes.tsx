@@ -16,7 +16,6 @@ const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
 const Counter2 = lazy(() => import("src/pages/Counter2"));
 const PolicyDetails = lazy(() => import("src/pages/PolicyDetails"));
-// const SystemSettings = lazy(() => import("src/pages/SystemSettings"));
 const Unauthenticated = lazy(() => import("src/pages/Unauthenticated"));
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const ForgotPasswordForm = lazy(() => import("src/pages/ForgotPasswordForm"));
