@@ -19,12 +19,13 @@ import useDeleteDepartment from "../hooks/useDeleteDepartment";
 import useGetDepartments from "../hooks/useGetDepartments";
 import AddDepartmentDialog from "./AddDepartmentDialog";
 import EditDepartmentDialog from "./EditDepartmentDialog";
+import { DepartmentDialogType } from "../constants";
 
 const DepartmentDetails: FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] =
-    useState<boolean>(false);
+  const [dialogType, setDialogType] = useState<DepartmentDialogType | null>(
+    null,
+  );
+
   const [selectedDepartment, setSelectedDepartment] = useState<Department>();
 
   const { departments } = useGetDepartments();
@@ -33,24 +34,18 @@ const DepartmentDetails: FC = () => {
 
   const theme = useTheme<Theme>();
 
-  const handleCloseConfirmDialog = () => setIsConfirmDialogOpen(false);
+  const handleCloseDialog = () => setDialogType(null);
 
-  const handleOpenAddDialog = () => setIsDialogOpen(true);
-
-  const handleCloseDialog = () => setIsDialogOpen(false);
-
-  const handleOpenEditDialog = () => setIsEditDialogOpen(true);
-
-  const handleCloseEditDialog = () => setIsEditDialogOpen(false);
+  const handleAddButtonClick = () => setDialogType(DepartmentDialogType.ADD);
 
   const handleDeleteButtonClicked = (department: Department) => {
     setSelectedDepartment(department);
-    setIsConfirmDialogOpen(true);
+    setDialogType(DepartmentDialogType.DELETE);
   };
 
   const handleEditButtonClick = (department: Department) => {
     setSelectedDepartment(department);
-    handleOpenEditDialog();
+    setDialogType(DepartmentDialogType.EDIT);
   };
 
   const columns: GridColDef[] = [
@@ -92,7 +87,7 @@ const DepartmentDetails: FC = () => {
         <Button
           startIcon={<AddIcon />}
           variant="contained"
-          onClick={handleOpenAddDialog}
+          onClick={handleAddButtonClick}
           sx={{ width: "fit-content" }}
         >
           Department
@@ -129,29 +124,32 @@ const DepartmentDetails: FC = () => {
         </Grid>
       </Stack>
 
-      <AddDepartmentDialog open={isDialogOpen} onClose={handleCloseDialog} />
+      <AddDepartmentDialog
+        open={dialogType === DepartmentDialogType.ADD}
+        onClose={handleCloseDialog}
+      />
 
       <EditDepartmentDialog
-        open={isEditDialogOpen}
-        onClose={handleCloseEditDialog}
+        open={dialogType === DepartmentDialogType.EDIT}
+        onClose={handleCloseDialog}
         department={selectedDepartment!}
       />
 
       <ConfirmDialog
-        isOpen={isConfirmDialogOpen}
+        isOpen={dialogType === DepartmentDialogType.DELETE}
         title="Remove Department"
         body="⚠️ Are you sure you want to permanently remove this department?"
-        onClose={handleCloseConfirmDialog}
+        onClose={handleCloseDialog}
         actions={[
           {
             text: "Cancel",
-            onClick: handleCloseConfirmDialog,
+            onClick: handleCloseDialog,
             sx: { color: "grey.700" },
           },
           {
             text: "Delete",
             onClick: () => {
-              handleCloseConfirmDialog();
+              handleCloseDialog();
               removeDepartment(selectedDepartment!.id);
               handleCloseDialog();
             },

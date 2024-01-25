@@ -38,3 +38,9 @@ export enum UserDialogType {
   EDIT_ROLE,
   DELETE,
 }
+
+export enum DepartmentDialogType {
+  ADD,
+  EDIT,
+  DELETE,
+}
