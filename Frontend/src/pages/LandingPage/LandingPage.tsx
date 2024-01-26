@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import KeyIcon from "@mui/icons-material/Key";
 import HomeIcon from "@mui/icons-material/Home";
 import Stack from "@mui/material/Stack";
+import { Link } from "@mui/material";
 
 const LandingPage: FC = () => {
   const navigate = useNavigate();
@@ -37,6 +38,18 @@ const LandingPage: FC = () => {
         >
           Home
         </Button>
+      </Stack>
+
+      <Stack gap={1}>
+        <Link href="/data-grid-infinite" underline="hover">
+          Data Grid Demo (Infinite Scroll)
+        </Link>
+        <Link href="/data-grid-paginated" underline="hover">
+          Data Grid Demo (Pagination)
+        </Link>
+        <Link href="/infinite-scroll" underline="hover">
+          Infinite Scroll Demo
+        </Link>
       </Stack>
     </Container>
   );
