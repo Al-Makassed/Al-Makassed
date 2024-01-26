@@ -1,6 +1,6 @@
-import React, { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { AuthRouteProps } from "./types";
+import { AuthRouteProps } from "src/types";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import { selectUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
