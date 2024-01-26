@@ -7,12 +7,12 @@ import { useAppSelector } from "src/store/hooks";
 import { selectUser } from "src/features/user";
 
 const useResetPasswordForm = () => {
-  const { resetPassword } = useResetPasswordAPI();
+  const { resetPassword, isPending } = useResetPasswordAPI();
 
   const { userId } = useAppSelector(selectUser);
+
   const submitForm = (values: ResetPasswordFormPayload) => {
-    const { currentPassword, newPassword } = values;
-    return resetPassword({ userId, currentPassword, newPassword });
+    return resetPassword({ userId, ...values });
   };
 
   const formikProps = useFormik({
@@ -21,7 +21,7 @@ const useResetPasswordForm = () => {
     onSubmit: submitForm,
   });
 
-  return formikProps;
+  return { formikProps, isResetting: isPending };
 };
 
 export default useResetPasswordForm;

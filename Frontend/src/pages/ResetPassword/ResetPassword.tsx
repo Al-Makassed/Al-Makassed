@@ -1,21 +1,25 @@
-import { FC } from "react";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import { LoadingButton } from "@mui/lab";
 import { Avatar, Grid, Paper, Stack, Typography } from "@mui/material";
+import { FormikProvider } from "formik";
+import { FC } from "react";
+import PasswordField from "src/components/Fields/PasswordField";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import maqasidLogo from "../../images/logo.jpg";
 import useResetPasswordForm from "./hooks/useResetPasswordForm";
-import PasswordField from "src/components/Fields/PasswordField";
-import { FormikProvider } from "formik";
-import useResetPasswordAPI from "./hooks/useResetPasswordAPI";
 
 const ResetPassword: FC = () => {
   const { isMobile } = useMediaQuery();
 
-  const formikProps = useResetPasswordForm();
+  const { formikProps, isResetting } = useResetPasswordForm();
 
-  const { submitForm, dirty, isValid } = formikProps;
-  const { isPending } = useResetPasswordAPI();
+  const { submitForm, dirty, isValid, resetForm } = formikProps;
+
+  const handleClick = async () => {
+    await submitForm();
+    resetForm();
+  };
+
   return (
     <Grid
       container
@@ -73,16 +77,18 @@ const ResetPassword: FC = () => {
                 name="newPassword"
               />
             </Stack>
+
             <LoadingButton
               type="submit"
-              onClick={submitForm}
+              onClick={handleClick}
               disabled={!dirty || !isValid}
               fullWidth
               variant="contained"
               startIcon={<LockResetIcon />}
               aria-label="Reset Password"
-              loading={isPending}
+              loading={isResetting}
               loadingPosition="start"
+              sx={{ mt: 4 }}
             >
               Reset Password
             </LoadingButton>
