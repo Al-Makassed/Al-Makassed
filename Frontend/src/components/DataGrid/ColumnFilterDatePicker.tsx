@@ -26,6 +26,11 @@ export function makeColumnFilterDatePicker<T extends object>(
     const min = column.getFacetedMinMaxValues()?.[0] as string | undefined;
     const max = column.getFacetedMinMaxValues()?.[1] as string | undefined;
 
+    console.log({
+      min,
+      max,
+    });
+
     const minDate = min ? new Date(min).toISOString().slice(0, 10) : null;
     const maxDate = max ? new Date(max).toISOString().slice(0, 10) : null;
 

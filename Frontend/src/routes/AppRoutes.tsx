@@ -32,6 +32,18 @@ const PoliciesAndProcedures = lazy(
 const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const UserProfile = lazy(() => import("src/pages/UserProfile"));
 
+const DataGridInfinitePlayground = lazy(
+  () => import("src/pages/DataGridInfinitePlayground"),
+);
+
+const DataGridPaginatedPlayground = lazy(
+  () => import("src/pages/DataGridPaginatedPlayground"),
+);
+
+const InfiniteScrollPlayground = lazy(
+  () => import("src/pages/InfiniteScrollPlayground"),
+);
+
 const AppRoutes: FC = () => {
   return (
     <Suspense fallback={<BlockUI />}>
@@ -80,6 +92,19 @@ const AppRoutes: FC = () => {
         <Route path="access-denied" element={<AccessDenied />} />
         <Route path="unauthenticated" element={<Unauthenticated />} />
         <Route path="*" element={<NotFound />} />
+
+        {/* Temporary Paths for Testing */}
+        <Route
+          path="data-grid-infinite"
+          element={<DataGridInfinitePlayground />}
+        />
+
+        <Route
+          path="data-grid-paginated"
+          element={<DataGridPaginatedPlayground />}
+        />
+
+        <Route path="infinite-scroll" element={<InfiniteScrollPlayground />} />
       </Routes>
     </Suspense>
   );

@@ -1,10 +1,9 @@
-import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { FC } from "react";
+import Box from "@mui/material/Box";
 import BeatLoader from "react-spinners/BeatLoader";
 import theme from "src/style/maqasidTheme";
 
-const BlockUI: FC = () => {
+const BlockUI = () => {
   return (
     <Modal
       aria-labelledby="suspense-modal"
