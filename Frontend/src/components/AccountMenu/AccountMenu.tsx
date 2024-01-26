@@ -52,7 +52,10 @@ const AccountMenu: FC = () => {
     handleClose();
     navigate("/me/profile");
   };
-
+  const handleResetPassword = () => {
+    handleClose();
+    navigate("/me/reset-password");
+  };
   return (
     <>
       <Tooltip title="Account settings">
@@ -118,7 +121,7 @@ const AccountMenu: FC = () => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={noop}>
+        <MenuItem onClick={handleResetPassword}>
           <ListItemIcon>
             <PasswordIcon fontSize="small" />
           </ListItemIcon>
