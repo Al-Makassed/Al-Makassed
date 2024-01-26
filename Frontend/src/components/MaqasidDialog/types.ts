@@ -24,6 +24,8 @@ export interface MaqasidDialogProps
   fullWidthOnSmallScreen?: boolean;
   /** To view the dialog as normal dialog or horizontal drawer */
   variant?: MaqasidDialogVariant;
+  /** If true, the dialog will be full screen */
+  fullScreen?: boolean;
 }
 
 export interface StyledDialogProps extends DialogProps {
