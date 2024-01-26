@@ -6,14 +6,22 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import AccountMenu from "src/components/AccountMenu";
-import { selectIsNavbarVisible } from "src/features/appSettings/selectors";
-import { useAppSelector } from "src/store/hooks";
+import {
+  selectIsNavbarVisible,
+  selectIsSideDrawerVisible,
+  showSideDrawer,
+  hideSideDrawer,
+} from "src/features/appSettings";
+import { useAppSelector, useAppDispatch } from "src/store/hooks";
 import maqasidLogo from "../../images/logo.jpg";
 import LanguageSelector from "./components/LanguageSelector";
 import MobileMenu from "./components/MobileMenu";
 import SearchButton from "./components/SearchButton";
 import { NAVBAR_PAGES } from "./constants";
+import { IconButton } from "@mui/material";
 // import SearchBar from "./components/SearchBar";
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 const Navbar = () => {
   // const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -26,15 +34,28 @@ const Navbar = () => {
 
   const isNavbarVisible = useAppSelector(selectIsNavbarVisible);
 
+  const isSideDrawerVisible = useAppSelector(selectIsSideDrawerVisible);
+
   const navigate = useNavigate();
 
   const handleNavigate = (page: string) => () => navigate(page);
+
+  const handleToggleAppSideDrawer = () => {
+    const action = isSideDrawerVisible ? hideSideDrawer() : showSideDrawer();
+    dispatch(action);
+  };
+
+  const dispatch = useAppDispatch();
 
   if (!isNavbarVisible) return null;
 
   return (
     <AppBar position="static" elevation={0} color="primary">
       <Toolbar sx={{ gap: { xs: 0.5, sm: 1 } }}>
+        <IconButton onClick={handleToggleAppSideDrawer} color="inherit">
+          {isSideDrawerVisible ? <MenuOpenIcon /> : <MenuIcon />}
+        </IconButton>
+
         <Avatar
           alt="logo"
           sx={{

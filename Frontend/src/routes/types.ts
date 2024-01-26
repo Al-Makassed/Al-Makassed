@@ -1,19 +1,9 @@
-export type Role = "Admin" | "Sub-Admin" | "Focal Point" | "Staff";
+import { ReactElement } from "react";
 
-export interface PageAccessRight {
-  roles: Role[][];
+export interface IAppMenuItem {
+  label: string;
+  link?: string;
+  Icon?: () => ReactElement;
+  items?: IAppMenuItem[];
+  useIsVisible?: () => boolean;
 }
-
-export type PageAccessName =
-  | "Home"
-  | "Dashboard"
-  | "MonitoringTools"
-  | "TaskSubmissionForm"
-  | "Page5";
-
-export interface RouteConfigs {
-  title: string;
-  pageAccessName?: PageAccessName;
-}
-
-export interface AuthRouteProps {}
