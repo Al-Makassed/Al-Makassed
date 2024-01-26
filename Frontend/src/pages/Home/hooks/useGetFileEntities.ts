@@ -31,7 +31,7 @@ const useGetFileEntities = () => {
   }, [error]);
 
   return {
-    fileEntity: fileEntities,
+    fileEntities,
     isFetching,
   };
 };

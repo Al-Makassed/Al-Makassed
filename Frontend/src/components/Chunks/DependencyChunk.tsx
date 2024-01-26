@@ -2,6 +2,7 @@ import PolicyIcon from "@mui/icons-material/AssuredWorkload";
 import HistoryIcon from "@mui/icons-material/History";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import RightArrowIcon from "@mui/icons-material/SubdirectoryArrowRightRounded";
+import DependencyIcon from "@mui/icons-material/DescriptionRounded";
 import {
   Chip,
   ListItemButton,
@@ -64,7 +65,7 @@ const DependencyChunk: FC<DependencyChunkProps> = ({ finishedFile }) => {
 
         <Stack direction="row" alignItems="center" my={0.75}>
           <ListItemIcon sx={{ minWidth: "fit-content", mr: 1 }}>
-            <PolicyIcon sx={{ fontSize: "1.44rem" }} />
+            <DependencyIcon sx={{ fontSize: "1.44rem" }} />
           </ListItemIcon>
           <ListItemText primary={name} />
         </Stack>

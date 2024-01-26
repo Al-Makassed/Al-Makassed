@@ -12,6 +12,7 @@ import {
 import { FC } from "react";
 import { formatDate } from "src/utils";
 import { RecentCreatedDependencyChunkProps } from "./types";
+import DependencyIcon from "@mui/icons-material/DescriptionRounded";
 
 const RecentCreatedDependencyChunk: FC<RecentCreatedDependencyChunkProps> = ({
   lastAccessed,
@@ -57,8 +58,8 @@ const RecentCreatedDependencyChunk: FC<RecentCreatedDependencyChunkProps> = ({
         </Stack>
 
         <Stack direction="row" alignItems="center" my={0.75}>
-          <ListItemIcon sx={{ minWidth: "fit-content", mr: 1 }}>
-            <PolicyIcon sx={{ fontSize: "1.44rem" }} />
+          <ListItemIcon sx={{ minWidth: "fit-content", mr: 0.5 }}>
+            <DependencyIcon sx={{ fontSize: "1.44rem" }} />
           </ListItemIcon>
           <ListItemText primary={name} />
         </Stack>

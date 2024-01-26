@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, Skeleton } from "@mui/material";
 import { FC } from "react";
 import ProgressBar from "src/components/ProgressBar";
 import useGetReadingsPercentage from "../hooks/useGetReadingsPercentage";
@@ -16,7 +16,7 @@ const ProgressCard: FC = () => {
   } = useGetReadingsPercentage(ReadingEntityType.DEPENDENCY);
 
   if (isFetchingPolicyResult || isFetchingDependencyResult)
-    return <h2>Loading...</h2>;
+    return <Skeleton variant="rounded" height={149} />;
 
   if (!policyResult || !dependencyResult) return null;
   const policyPercentage = policyResult.result;
@@ -30,6 +30,7 @@ const ProgressCard: FC = () => {
         justifyContent: "space-around",
         p: 1.5,
         height: "fit-content",
+        borderRadius: 2.5,
       }}
     >
       <ProgressBar
@@ -37,6 +38,7 @@ const ProgressCard: FC = () => {
         type="Policies"
         size={125}
         thickness={3.5}
+        labelWidth={70}
       />
       <ProgressBar
         size={120}
