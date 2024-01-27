@@ -14,9 +14,6 @@ const DefaultView = lazy(
 );
 const TaskSubmission = lazy(() => import("src/pages/TaskSubmission"));
 const PolicyDetails = lazy(() => import("src/pages/PolicyDetails"));
-const AddMonitoringToolForm = lazy(
-  () => import("src/pages/AddMonitoringToolDialog"),
-);
 const PoliciesAndProcedures = lazy(
   () => import("src/pages/PoliciesAndProcedures"),
 );
@@ -25,6 +22,9 @@ const UserProfile = lazy(() => import("src/pages/UserProfile"));
 const Dashboard = lazy(() => import("src/pages/Dashboard"));
 const Home = lazy(() => import("src/pages/Home"));
 
+/**
+ * @description Routes that require login
+ */
 const loginRoutes: RouteObject = {
   path: "/me",
   element: <AppLayout />,
@@ -87,10 +87,6 @@ const loginRoutes: RouteObject = {
             {
               path: "task/:focalPointTaskId",
               element: <TaskSubmission />,
-            },
-            {
-              path: "add",
-              element: <AddMonitoringToolForm />,
             },
           ],
         },

@@ -14,6 +14,9 @@ const InfiniteScrollPlayground = lazy(
   () => import("src/pages/InfiniteScrollPlayground"),
 );
 
+/**
+ * @description Routes for learning and testing new features and libraries
+ */
 const temporaryRoutes: RouteObject = {
   path: "",
   children: [

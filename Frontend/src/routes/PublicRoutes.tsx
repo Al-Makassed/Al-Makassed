@@ -12,6 +12,9 @@ const ResetForgottenPasswordForm = lazy(
   () => import("src/pages/ResetForgottenPasswordForm"),
 );
 
+/**
+ * @description Routes that do not require login
+ */
 const publicRoutes: RouteObject = {
   path: "",
   children: [
