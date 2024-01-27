@@ -43,10 +43,7 @@ const MainCard = forwardRef(
         sx={{
           border: border ? `1px solid ${theme.palette.grey[300]}` : "none",
           borderRadius: 2,
-          borderColor:
-            theme.palette.mode === "dark"
-              ? theme.palette.divider
-              : theme.palette.grey["A700"],
+          borderColor: theme.palette.grey[300],
           boxShadow:
             boxShadow && (!border || theme.palette.mode === "dark")
               ? shadow || theme.shadows[1]
