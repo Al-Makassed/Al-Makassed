@@ -68,7 +68,16 @@ export interface ReadingsPercentage {
   result: number;
 }
 
-export interface Announcement {}
+export interface Announcement {
+  id: string;
+  body: string;
+  isPinned: boolean;
+  createdAt: string;
+  creatorId: string;
+  creatorName: string;
+  creatorFullName: string;
+  creatorAvatarUrl: string;
+}
 
 export interface AnnouncementRequest {
   body: string;

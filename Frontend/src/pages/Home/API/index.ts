@@ -1,5 +1,6 @@
 import axios from "src/API/axios";
 import {
+  Announcement,
   AnnouncementRequest,
   FileEntity,
   FinishedFile,
@@ -38,4 +39,10 @@ export const userDependencyReadingsPercentage = () => {
 
 export const addAnnouncement = ({ body, isPinned }: AnnouncementRequest) => {
   return axios.post<AnnouncementRequest>("/announcements", { body, isPinned });
+};
+
+export const getAnnouncements = () => {
+  return axios
+    .get<Announcement[]>("/announcements?Sorts=-createdAt")
+    .then((res) => res.data);
 };

@@ -1,5 +1,7 @@
+import { USER_AVATAR_PALETTE } from "src/style/palettes";
 import { getReadDependencies, getReadPolicies } from "./API";
 import { FileEntityType } from "./API/types";
+import stringToColor from "src/utils/stringToColor";
 
 const formatDateToYYYYMMDD = (date: Date): string => {
   const year = date.getFullYear();
@@ -39,3 +41,6 @@ export const getRecentReadFiles = async () => {
 
   return [...xArray, ...yArray];
 };
+
+export const getColor = (label: string) =>
+  stringToColor(label, Object.values(USER_AVATAR_PALETTE));
