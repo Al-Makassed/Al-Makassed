@@ -62,8 +62,8 @@ const AnnouncementDialog: FC<AnnouncementDialogProps> = ({
           />
         </Stack>
 
-        <MaqasidDialog.Actions>
-          <MaqasidDialog.Close />
+        <MaqasidDialog.Actions color={(theme) => theme.palette.grey[50]}>
+          <MaqasidDialog.Close color="inherit" />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
 
