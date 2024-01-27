@@ -18,6 +18,7 @@ using Services.ApprovalRequests;
 using Services.Search;
 using Services.Submissions;
 using Makassed.Api.Services.FilesReading;
+using Makassed.Api.Services.Announcements;
 
 public static class ApplicationServicesConfiguration
 {
@@ -64,6 +65,9 @@ public static class ApplicationServicesConfiguration
 
         services.AddScoped<IFileReadingRepository, SqlFileReadingRepository>();
         services.AddScoped<IFilesReadingService, FilesReadingService>();
+
+        services.AddScoped<IAnnouncementService, AnnouncementService>();
+        services.AddScoped<IAnnouncementRepository, SqlAnnouncementRepository>();
 
         return services;
     }

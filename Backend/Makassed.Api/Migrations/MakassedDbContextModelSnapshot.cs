@@ -37,6 +37,33 @@ namespace Makassed.Api.Migrations
                     b.ToTable("FieldMonitoringTool");
                 });
 
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Announcement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsPinned")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Announcements");
+                });
+
             modelBuilder.Entity("Makassed.Api.Models.Domain.Chapter", b =>
                 {
                     b.Property<Guid>("Id")
@@ -602,6 +629,17 @@ namespace Makassed.Api.Migrations
                         .HasForeignKey("MonitoringToolsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Makassed.Api.Models.Domain.Announcement", b =>
+                {
+                    b.HasOne("Makassed.Api.Models.Domain.MakassedUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Makassed.Api.Models.Domain.Department", b =>

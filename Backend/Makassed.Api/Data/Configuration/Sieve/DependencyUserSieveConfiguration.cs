@@ -26,5 +26,9 @@ public class DependencyUserSieveConfiguration : ISieveConfiguration
         mapper.Property<DependencyUser>(du => du.Dependency.Policy.Name)
              .CanFilter()
              .CanSort();
+
+        mapper.Property<DependencyUser>(du => du.LastAccessed)
+              .CanFilter()
+              .CanSort();
     }
 }
