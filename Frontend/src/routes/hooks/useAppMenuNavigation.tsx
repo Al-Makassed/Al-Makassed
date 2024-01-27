@@ -1,10 +1,13 @@
-import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
+// icons
 import BookIcon from "@mui/icons-material/Book";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import HomeIcon from "@mui/icons-material/Home";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ScienceIcon from "@mui/icons-material/Science";
 import TableViewIcon from "@mui/icons-material/TableView";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+
+// project imports
 import { useMemo } from "react";
 import { selectIsManagerUser } from "src/features/user/selectors";
 import { IAppMenuItem } from "src/routes/types";
@@ -24,6 +27,11 @@ const useAppMenuNavigation = () => {
         label: "Home",
         link: "/me",
         Icon: () => <HomeIcon />,
+      },
+      {
+        label: "Dashboard",
+        link: "/me/dashboard",
+        Icon: () => <DashboardIcon />,
       },
       {
         label: "Policies",
@@ -62,7 +70,7 @@ const useAppMenuNavigation = () => {
           {
             label: "Infinite Scroll",
             link: "/infinite-scroll",
-            Icon: () => <AllInclusiveIcon />,
+            // Icon: () => <AllInclusiveIcon />,
           },
         ],
       },

@@ -22,6 +22,7 @@ import { IconButton } from "@mui/material";
 // import SearchBar from "./components/SearchBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import NotificationsMenu from "src/components/NotificationsMenu";
 
 const Navbar = () => {
   // const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -90,38 +91,11 @@ const Navbar = () => {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {/* <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-            color: (theme) => theme.palette.grey[50],
-            bgcolor:"red",
-            width: "100px",
-          }}
-        >
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            keepMounted
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {SETTINGS.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        </Box> */}
-
-        <Stack direction="row" gap={1} alignItems={"center"}>
+        <Stack direction="row" gap={2} alignItems={"center"}>
           {/* {!isMobile && <SearchBar />} */}
           <SearchButton />
           <LanguageSelector />
+          <NotificationsMenu />
           <AccountMenu />
         </Stack>
       </Toolbar>

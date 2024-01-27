@@ -11,7 +11,6 @@ const DefaultView = lazy(
 );
 const TaskSubmission = lazy(() => import("src/pages/TaskSubmission"));
 const LoginPage = lazy(() => import("src/pages/Login"));
-const Home = lazy(() => import("src/pages/Home"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const Counter = lazy(() => import("src/pages/Counter"));
@@ -44,6 +43,10 @@ const InfiniteScrollPlayground = lazy(
   () => import("src/pages/InfiniteScrollPlayground"),
 );
 
+const Dashboard = lazy(() => import("src/pages/Dashboard"));
+
+const Home = lazy(() => import("src/pages/Home"));
+
 const AppRoutes: FC = () => {
   return (
     <Suspense fallback={<BlockUI />}>
@@ -58,6 +61,8 @@ const AppRoutes: FC = () => {
             <Route path="counter-with-provider" element={<Counter2 />} />
 
             <Route path="profile" element={<UserProfile />} />
+
+            <Route path="dashboard" element={<Dashboard />} />
 
             <Route
               path="policies-and-procedures"

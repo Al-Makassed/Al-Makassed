@@ -88,19 +88,16 @@ export const StyledListItemIcon = styled(ListItemIcon, {
 
 export const StyledListItemText = styled(ListItemText, {
   name: "StyledListItemText",
-})<StyledListItemTextProps>(({ theme, isChild, hasIcon }) => ({
+  shouldForwardProp: (prop) =>
+    !["hasIcon", "isChild"].includes(prop.toString()),
+})<StyledListItemTextProps>(({ theme, hasIcon }) => ({
   color: theme.palette.grey[500],
   "& span": {
     fontSize: "12px",
     fontWeight: 400,
     letterSpacing: "0.4px",
   },
-  ...(!hasIcon &&
-    !isChild && {
-      paddingLeft: "35px",
-    }),
-  ...(!hasIcon &&
-    isChild && {
-      paddingLeft: "60px",
-    }),
+  ...(!hasIcon && {
+    paddingLeft: "30px",
+  }),
 }));

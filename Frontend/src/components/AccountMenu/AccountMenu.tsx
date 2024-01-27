@@ -1,63 +1,61 @@
+// MUI
+import {
+  Avatar,
+  Box,
+  Button,
+  CardContent,
+  Grid,
+  IconButton,
+  Menu,
+  Stack,
+  Tooltip,
+  Typography,
+  Tab,
+} from "@mui/material";
+
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+
+// icons
+import UserIcon from "@mui/icons-material/Face";
 import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Logout from "@mui/icons-material/Logout";
-import PasswordIcon from "@mui/icons-material/Password";
-import Settings from "@mui/icons-material/Settings";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Tooltip from "@mui/material/Tooltip";
-import { FC, MouseEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/PowerSettingsNew";
+import SettingsIcon from "@mui/icons-material/Settings";
+
+// project imports
+import { FC } from "react";
+import avatar1 from "src/assets/images/users/avatar-1.png";
 import UserAvatar from "src/components/UserAvatar";
-import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
-import { logout, selectUser } from "src/features/user";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
-import { noop } from "src/utils";
-import getAvatarAbbreviation from "src/utils/getAvatarAbbreviation";
-import useMediaQuery from "src/hooks/useMediaQuery";
+import { AccountContext } from "./context/AccountContext";
+import ProfileTab from "./ProfileTab";
+import SettingsTab from "./SettingsTab";
+import useAccountMenu from "./hooks/useAccountMenu";
+import { menuSlotProps, tabSx, a11yProps } from "./styles";
+import styles from "./styles.module.css";
 
 const AccountMenu: FC = () => {
-  const dispatch = useAppDispatch();
+  const {
+    anchorEl,
+    open,
+    tabValue,
+    userName,
+    avatarUrl,
+    fullName,
+    userInitial,
+    rolesStr,
+    isMobile,
+    handleClick,
+    handleClose,
+    handleChangeTab,
+    handleLogOut,
+  } = useAccountMenu();
 
-  const { isMobile } = useMediaQuery();
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const open = Boolean(anchorEl);
-
-  const { userName, avatarUrl } = useAppSelector(selectUser);
-
-  const userInitial = getAvatarAbbreviation(userName);
-
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const navigate = useNavigate();
-
-  const handleLogOut = () => {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    dispatch(logout());
-    navigate("/login");
-  };
-
-  const handleProfileClick = () => {
-    handleClose();
-    navigate("/me/profile");
-  };
-  const handleResetPassword = () => {
-    handleClose();
-    navigate("/me/reset-password");
-  };
   return (
-    <>
+    <AccountContext.Provider
+      value={{
+        onClose: handleClose,
+        onLogOut: handleLogOut,
+      }}
+    >
       <Tooltip title="Account settings">
         <Button
           onClick={handleClick}
@@ -74,67 +72,97 @@ const AccountMenu: FC = () => {
           <ArrowDownIcon />
         </Button>
       </Tooltip>
+
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-              mt: 1.5,
-              "& .MuiAvatar-root": {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              "&:before": {
-                content: '""',
-                display: "block",
-                position: "absolute",
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: "background.paper",
-                transform: "translateY(-50%) rotate(45deg)",
-                zIndex: 0,
-              },
-            },
-          },
-        }}
+        // onClick={handleClose}
+        slotProps={menuSlotProps}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleProfileClick}>
-          <Avatar /> Profile
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={noop}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem onClick={handleResetPassword}>
-          <ListItemIcon>
-            <PasswordIcon fontSize="small" />
-          </ListItemIcon>
-          Reset password
-        </MenuItem>
-        <MenuItem onClick={handleLogOut}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
+        <CardContent sx={{ width: "350px" }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Stack direction="row" spacing={1.25} alignItems="center">
+                <Avatar
+                  alt="profile user"
+                  src={avatar1}
+                  sx={{ width: 32, height: 32 }}
+                />
+                <Stack>
+                  <Typography variant="subtitle2">{fullName}</Typography>
+                  <Typography variant="caption" color="textSecondary">
+                    {rolesStr}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Grid>
+
+            <Grid item>
+              <Tooltip title="Logout">
+                <IconButton size="large" onClick={handleLogOut}>
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
+        </CardContent>
+
+        <TabContext value={tabValue}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", p: 0 }}>
+            <TabList
+              variant="fullWidth"
+              onChange={handleChangeTab}
+              aria-label="Account Menu Tabs"
+            >
+              <Tab
+                sx={tabSx}
+                label={
+                  <Stack direction="row" gap={1} alignItems="center">
+                    <UserIcon fontSize="small" />
+                    <Typography variant="subtitle2">Profile</Typography>
+                  </Stack>
+                }
+                value="profile"
+                {...a11yProps(0)}
+              />
+              <Tab
+                sx={tabSx}
+                label={
+                  <Stack direction="row" gap={1} alignItems="center">
+                    <SettingsIcon fontSize="small" />
+                    <Typography variant="subtitle2">Settings</Typography>
+                  </Stack>
+                }
+                value="settings"
+                {...a11yProps(1)}
+              />
+            </TabList>
+          </Box>
+
+          <TabPanel
+            value="profile"
+            classes={{
+              root: styles.tabPanelRoot,
+            }}
+          >
+            <ProfileTab />
+          </TabPanel>
+
+          <TabPanel
+            value="settings"
+            classes={{
+              root: styles.tabPanelRoot,
+            }}
+          >
+            <SettingsTab />
+          </TabPanel>
+        </TabContext>
       </Menu>
-    </>
+    </AccountContext.Provider>
   );
 };
 

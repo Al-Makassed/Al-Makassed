@@ -25,13 +25,13 @@ export function makeDataGridHead<T extends object>(
 
     return (
       <TableHead sx={{ width: "100%" }} {...props}>
-        {getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id} sx={{ display: "flex" }}>
+        {getHeaderGroups().map((headerGroup, idx) => (
+          <TableRow key={idx} sx={{ display: "flex" }}>
             {headerGroup.headers.map((header) => (
               <>
                 {header.isPlaceholder ? null : (
                   <TableCell
-                    key={header.id}
+                    key={header.id ?? idx}
                     colSpan={header.colSpan}
                     sx={{
                       // width: shouldFlexGrowCells ? "150px" : header.getSize(),

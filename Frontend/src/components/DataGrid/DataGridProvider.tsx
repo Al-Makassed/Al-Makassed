@@ -132,7 +132,6 @@ export function makeDataGridProvider<T extends object>(
     };
 
     React.useEffect(() => {
-      console.log("USE EFFECT PAGE SIZE");
       setPageSize(pageSize);
     }, [pageSize]);
 
