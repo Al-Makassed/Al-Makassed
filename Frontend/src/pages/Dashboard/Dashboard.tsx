@@ -75,7 +75,13 @@ const Dashboard = () => {
   const [slot, setSlot] = useState("week");
 
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75} sx={{ p: 3 }}>
+    <Grid
+      id="DashboardGrid"
+      container
+      rowSpacing={4.5}
+      columnSpacing={2.75}
+      sx={{ p: 3 }}
+    >
       {/* row 1 */}
       <Grid item xs={12} sx={{ mb: -2.25 }}>
         <Typography variant="h6">Dashboard</Typography>

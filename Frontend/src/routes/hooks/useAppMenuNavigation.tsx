@@ -6,6 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import ScienceIcon from "@mui/icons-material/Science";
 import TableViewIcon from "@mui/icons-material/TableView";
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
 // project imports
 import { selectIsManagerUser } from "src/features/user/selectors";
@@ -68,7 +69,7 @@ const useAppMenuNavigation = () => {
         {
           label: "Infinite Scroll",
           link: "/infinite-scroll",
-          // Icon: () => <AllInclusiveIcon />,
+          Icon: () => <AllInclusiveIcon />,
         },
       ],
     },

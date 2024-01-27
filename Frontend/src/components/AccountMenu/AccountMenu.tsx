@@ -23,7 +23,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 // project imports
 import { FC } from "react";
-import avatar1 from "src/assets/images/users/avatar-1.png";
 import UserAvatar from "src/components/UserAvatar";
 import { AccountContext } from "./context/AccountContext";
 import ProfileTab from "./ProfileTab";
@@ -68,8 +67,7 @@ const AccountMenu: FC = () => {
             color: (theme) => theme.palette.grey[50],
           }}
         >
-          {!isMobile && userName}
-          <ArrowDownIcon />
+          {isMobile ? <ArrowDownIcon /> : userName}
         </Button>
       </Tooltip>
 
@@ -89,7 +87,7 @@ const AccountMenu: FC = () => {
               <Stack direction="row" spacing={1.25} alignItems="center">
                 <Avatar
                   alt="profile user"
-                  src={avatar1}
+                  src={avatarUrl}
                   sx={{ width: 32, height: 32 }}
                 />
                 <Stack>
