@@ -1,4 +1,5 @@
 ﻿using Makassed.Api.Models.Domain;
+using Makassed.Contracts.Readings.FileEntities;
 using Sieve.Models;
 
 namespace Makassed.Api.Repositories.Interfaces;
@@ -21,4 +22,6 @@ public interface IFileReadingRepository
     Task<List<DependencyUser>> GetDependenciesReadingAsync(string userId, SieveModel sieveModel);
 
     Task<float> GetAllDependenciesCountAsync();
+
+    Task<List<GetAllFileEntitiesResponse>> GetApprovedEntitiesAsync();
 }

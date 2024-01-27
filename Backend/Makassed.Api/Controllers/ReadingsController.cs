@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Makassed.Api.Services.FilesReading;
 using Makassed.Contracts.Readings;
+using Makassed.Contracts.Readings.FileEntities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
@@ -19,7 +19,7 @@ public class ReadingsController : ApiController
         _mapper = mapper;
     }
 
-    // finish policy file reading
+    // Finish policy file reading
     [Authorize]
     [HttpPost("policies/{id:guid}/finish-reading")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -116,5 +116,19 @@ public class ReadingsController : ApiController
             result => Ok(_mapper.Map<List<GetDependencyReadingsResponse>>(result)),
             Problem
         );
+    }
+
+    // Get approved system file based entities
+    [Authorize]
+    [HttpGet("system-files")]
+    [ProducesResponseType(typeof(GetAllFileEntitiesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetApprovedFileEntities(
+        )
+    {
+        var result = await _filesReadingService.GetApprovedSystemFiles();
+
+        return Ok(result);
     }
 }

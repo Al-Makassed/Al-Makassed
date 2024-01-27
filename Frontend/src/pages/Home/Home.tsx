@@ -1,166 +1,67 @@
-import React, { FC, useState } from "react";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { HomeContainer } from "./styled";
-import MaqasidDialog from "src/components/MaqasidDialog";
-import Chip from "@mui/material/Chip";
-import { Stack, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/AddRounded";
+import { Button, Grid, Stack } from "@mui/material";
+import { FC, useState } from "react";
+import { selectIsManagerUser } from "src/features/user";
+import useMediaQuery from "src/hooks/useMediaQuery";
+import { useAppSelector } from "src/store/hooks";
+import AnnouncementDialog from "./components/AnnouncementDialog";
+import AnnouncementsList from "./components/AnnouncementsList";
+import StatisticsGrid from "./components/StatisticsGrid";
+import WelcomeSection from "./components/WelcomeSection";
+import StatisticsDialog from "./components/StatisticsDialog";
 
 const Home: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleClose = () => {
-    console.log("close");
-    setIsOpen(false);
-  };
+  const isManager = useAppSelector(selectIsManagerUser);
 
-  const handleClick = () => {
-    setIsOpen(true);
-  };
+  const { isDesktopOrMore } = useMediaQuery();
 
-  const handleChangeTextField = () => {
-    setIsDirty(true);
-  };
-
-  const handleCancel = () => {
-    console.log("cancel");
-    setIsDirty(false);
-  };
-
-  const handleDiscard = () => {
-    console.log("discard");
-    setIsDirty(false);
-  };
-
-  const handleSave = () => {
-    console.log("save");
-    setIsDirty(false);
-  };
-  const navigate = useNavigate();
-  const handleSignUp = () => {
-    navigate("/me/sign-up");
-  };
   return (
-    <HomeContainer>
-      <Typography variant="h4">Welcome to Al-Maqasid</Typography>
-      <Button onClick={handleClick}>Test Dialog</Button>
-      <Button onClick={handleSignUp}>SignUp Dialog</Button>
-      <MaqasidDialog
-        isOpen={isOpen}
-        onClose={handleClose}
-        variant="right"
-        // isFullscreen
-        // disableBackdropClick={true}
-        // disableEscapeKeyDown={true}
+    <>
+      <Grid
+        container
+        pt={2}
+        px={2}
+        height={{ md: "calc(100vh - 64px)" }}
+        sx={{
+          background: `linear-gradient(to bottom left, #0096881a, #ffffff)`,
+        }}
+        rowGap={2}
       >
-        <MaqasidDialog.Header>
-          <MaqasidDialog.Title
-            flex={1}
-            title="Here goes the title"
-            subtitle="This is a subtitle"
-          />
-          <MaqasidDialog.Actions>
-            <Chip label="status" />
-            <MaqasidDialog.Fullscreen />
-            <MaqasidDialog.Close />
-          </MaqasidDialog.Actions>
-        </MaqasidDialog.Header>
-        <MaqasidDialog.Body>
-          <Stack gap={2}>
-            <Typography variant="body1">
-              Here goes the body, here goes the body, here goes the body, here
-            </Typography>
-
-            <TextField
-              label="What dou you think?"
-              variant="outlined"
-              placeholder="e.g. I love this dialog component!"
-              onChange={handleChangeTextField}
-            />
-
-            <Typography variant="body1">
-              Here goes the body, here goes the body, here goes the body, here
-            </Typography>
-
-            <TextField
-              label="What dou you think?"
-              variant="outlined"
-              placeholder="e.g. I love this dialog component!"
-              onChange={handleChangeTextField}
-            />
-
-            <Typography variant="body1">
-              Here goes the body, here goes the body, here goes the body, here
-            </Typography>
-
-            <TextField
-              label="What dou you think?"
-              variant="outlined"
-              placeholder="e.g. I love this dialog component!"
-              onChange={handleChangeTextField}
-            />
-
-            <Typography variant="body1">
-              Here goes the body, here goes the body, here goes the body, here
-            </Typography>
-
-            <TextField
-              label="What dou you think?"
-              variant="outlined"
-              placeholder="e.g. I love this dialog component!"
-              onChange={handleChangeTextField}
-            />
-
-            <Typography variant="body1">
-              Here goes the body, here goes the body, here goes the body, here
-            </Typography>
-
-            <TextField
-              label="What dou you think?"
-              variant="outlined"
-              placeholder="e.g. I love this dialog component!"
-              onChange={handleChangeTextField}
-            />
-
-            <Typography variant="body1">
-              Here goes the body, here goes the body, here goes the body, here
-            </Typography>
-
-            <TextField
-              label="What dou you think?"
-              variant="outlined"
-              placeholder="e.g. I love this dialog component!"
-              onChange={handleChangeTextField}
-            />
+        <Grid item xs={12} md={8} lg={6.5} pr={{ lg: 2 }}>
+          <Stack direction="row" alignItems="center">
+            {isManager && (
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<AddIcon />}
+                sx={{ ml: "auto" }}
+                onClick={() => setIsDialogOpen(true)}
+              >
+                Announcement
+              </Button>
+            )}
           </Stack>
-        </MaqasidDialog.Body>
-        <MaqasidDialog.Footer>
-          <Button variant="contained" color="primary">
-            Save
-          </Button>
-          <Button variant="outlined" color="primary">
-            Cancel
-          </Button>
-        </MaqasidDialog.Footer>
-        <MaqasidDialog.SaveChangesConfirmationDialog
-          isDirty={isDirty}
-          cancelProps={{
-            label: "Cancel",
-            onClick: handleCancel,
-          }}
-          closeAndDiscardProps={{
-            label: "Discard",
-            onClick: handleDiscard,
-          }}
-          saveAndCloseProps={{
-            label: "Save",
-            onClick: handleSave,
-          }}
-        />
-      </MaqasidDialog>
-    </HomeContainer>
+
+          <WelcomeSection />
+
+          <AnnouncementsList />
+        </Grid>
+
+        {isDesktopOrMore && (
+          <Grid item xs={12} md={4} lg={5.5}>
+            <StatisticsGrid />
+          </Grid>
+        )}
+      </Grid>
+      <AnnouncementDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
+
+      <StatisticsDialog isOpen={false} onClose={() => void {}} />
+    </>
   );
 };
 
