@@ -70,28 +70,6 @@ export const RecentlyAddedListCard = () => {
               />
             ),
           )}
-          {fileEntities?.map((file) =>
-            file.type === FileEntityType.Policy ? (
-              <RecentCreatedPolicyChunk
-                key={file.id}
-                id={file.id}
-                name={file.name}
-                chapterId={file.chapterId}
-                chapterName={file.chapterName}
-                lastAccessed={file.createdAt}
-              />
-            ) : (
-              <RecentCreatedDependencyChunk
-                key={file.id}
-                id={file.id}
-                name={file.name}
-                pdfUrl={(file as DependencyFileEntity).PdfUrl}
-                chapterName={file.chapterName}
-                lastAccessed={file.createdAt}
-                policyName={(file as DependencyFileEntity).policyName}
-              />
-            ),
-          )}
         </List>
       )}
     </Card>

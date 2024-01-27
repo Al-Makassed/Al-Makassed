@@ -40,6 +40,7 @@ const PolicyChunk: FC<PolicyChunkProps> = ({ finishedFile }) => {
         ":hover": {
           borderColor: "primary.main",
         },
+        mb: 1,
       }}
       onClick={handlePolicyClick}
     >

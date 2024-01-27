@@ -8,6 +8,7 @@ import AnnouncementDialog from "./components/AnnouncementDialog";
 import AnnouncementsList from "./components/AnnouncementsList";
 import StatisticsGrid from "./components/StatisticsGrid";
 import WelcomeSection from "./components/WelcomeSection";
+import StatisticsDialog from "./components/StatisticsDialog";
 
 const Home: FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -22,7 +23,7 @@ const Home: FC = () => {
         container
         pt={2}
         px={2}
-        height={{ xs: "auto", md: "calc(100vh - 64px)" }}
+        height={{ md: "calc(100vh - 64px)" }}
         sx={{
           background: `linear-gradient(to bottom left, #0096881a, #ffffff)`,
         }}
@@ -58,6 +59,8 @@ const Home: FC = () => {
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
       />
+
+      <StatisticsDialog isOpen={false} onClose={() => void {}} />
     </>
   );
 };

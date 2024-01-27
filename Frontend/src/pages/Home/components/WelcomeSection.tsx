@@ -12,7 +12,7 @@ const WelcomeSection: FC = () => {
       <Typography
         variant="h1"
         fontWeight={700}
-        fontSize={{ xs: "3.5rem", sm: "7rem" }}
+        fontSize={{ xs: "3.6rem", sm: "7rem" }}
         color={teal[100]}
       >
         Welcome
@@ -23,7 +23,7 @@ const WelcomeSection: FC = () => {
         fontSize={{ xs: "0.9rem", lg: "1.3rem" }}
         textAlign="center"
         position="absolute"
-        width="538px"
+        width={{ xs: "275px", sm: "538px" }}
         bgcolor={(theme) => theme.palette.grey[100]}
         px={1}
         sx={{
@@ -31,7 +31,7 @@ const WelcomeSection: FC = () => {
           left: "50%",
           transform: "translate(-50%, -50%)",
         }}
-        ml={1}
+        ml={{ xs: 0.2, sm: 0.9 }}
       >
         Welcome Back {fullName}
       </Typography>
