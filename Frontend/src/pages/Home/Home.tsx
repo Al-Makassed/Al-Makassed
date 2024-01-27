@@ -1,10 +1,10 @@
 import AddIcon from "@mui/icons-material/AddRounded";
 import { Button, Grid, Stack } from "@mui/material";
 import { FC, useState } from "react";
+import { selectIsManagerUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
 import AnnouncementDialog from "./components/AnnouncementDialog";
 import StatisticsGrid from "./components/StatisticsGrid";
-import { selectIsManagerUser } from "src/features/user";
 
 const Home: FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

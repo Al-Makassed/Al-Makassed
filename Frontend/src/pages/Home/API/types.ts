@@ -67,3 +67,10 @@ export interface Dependency {
 export interface ReadingsPercentage {
   result: number;
 }
+
+export interface Announcement {}
+
+export interface AnnouncementRequest {
+  body: string;
+  isPinned: boolean;
+}

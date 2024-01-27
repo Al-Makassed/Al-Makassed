@@ -1,5 +1,10 @@
 import axios from "src/API/axios";
-import { FileEntity, FinishedFile, ReadingsPercentage } from "./types";
+import {
+  AnnouncementRequest,
+  FileEntity,
+  FinishedFile,
+  ReadingsPercentage,
+} from "./types";
 
 export const getFileEntities = () => {
   return axios
@@ -29,4 +34,8 @@ export const userDependencyReadingsPercentage = () => {
   return axios
     .get<ReadingsPercentage>("/readings/dependencies/percentage")
     .then((res) => res.data);
+};
+
+export const addAnnouncement = ({ body, isPinned }: AnnouncementRequest) => {
+  return axios.post<AnnouncementRequest>("/announcements", { body, isPinned });
 };

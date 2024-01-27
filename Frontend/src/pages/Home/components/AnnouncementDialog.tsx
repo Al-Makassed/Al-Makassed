@@ -1,12 +1,22 @@
 import AddIcon from "@mui/icons-material/Add";
 import { LoadingButton } from "@mui/lab";
-import { Slide } from "@mui/material";
+import {
+  FormControlLabel,
+  Slide,
+  Stack,
+  Switch,
+  Typography,
+} from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { FC, ReactElement, Ref, forwardRef, useState } from "react";
+import { FormikProvider } from "formik";
+import { FC, ReactElement, Ref, forwardRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import MaqasidDialog from "src/components/MaqasidDialog";
+import useAddAnnouncementForm from "../hooks/useAddAnnouncementForm";
 import { AnnouncementDialogProps } from "../types";
+import { teal } from "@mui/material/colors";
+import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -21,11 +31,16 @@ const AnnouncementDialog: FC<AnnouncementDialogProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [value, setValue] = useState("");
+  const { formikProps, isPosting } = useAddAnnouncementForm();
+
+  const { submitForm, dirty, isValid, setFieldValue } = formikProps;
+
+  const handleSubmit = () => {
+    submitForm();
+    onClose();
+  };
 
   const handleCloseDialog = () => onClose();
-
-  console.log(value);
 
   return (
     <MaqasidDialog
@@ -36,36 +51,71 @@ const AnnouncementDialog: FC<AnnouncementDialogProps> = ({
       TransitionComponent={Transition}
       fullScreen={true}
     >
-      <MaqasidDialog.Header>
-        <MaqasidDialog.Title title="Post Announcement" />
+      <MaqasidDialog.Header bgColor={teal[400]}>
+        <Stack direction="row" alignItems="center" gap={0.75}>
+          <CampaignRoundedIcon
+            sx={{ color: (theme) => theme.palette.grey[50], mb: 0.2 }}
+          />
+          <MaqasidDialog.Title
+            title="Post an Announcement"
+            color={(theme) => theme.palette.grey[50]}
+          />
+        </Stack>
+
         <MaqasidDialog.Actions>
-          <MaqasidDialog.Fullscreen />
           <MaqasidDialog.Close />
         </MaqasidDialog.Actions>
       </MaqasidDialog.Header>
+
       <MaqasidDialog.Body>
-        <ReactQuill
-          theme="snow"
-          value={value}
-          onChange={setValue}
-          style={{
-            height: `calc(100vh - 64px - 32px - 41.5px - 52.5px - 30%)`,
-          }}
-        />
+        <FormikProvider value={formikProps}>
+          <Stack gap={0.5}>
+            <Stack direction="row" alignItems="center">
+              <Typography
+                color="GrayText"
+                fontSize="1.1rem"
+                sx={{ fontStyle: "italic" }}
+              >
+                What do you want to share?
+              </Typography>
+              <FormControlLabel
+                sx={{ ml: "auto", p: 1 }}
+                control={
+                  <Switch
+                    onChange={(event, value) =>
+                      setFieldValue("isPinned", value)
+                    }
+                  />
+                }
+                label="Pin?"
+              />
+            </Stack>
+
+            <ReactQuill
+              theme="snow"
+              value={formikProps.values.body}
+              onChange={(content) => setFieldValue("body", content)}
+              style={{
+                height: `calc(100vh - 64px - 32px - 41.5px - 52.5px - 54px - 30vh)`,
+                borderRadius: 1,
+              }}
+            />
+          </Stack>
+        </FormikProvider>
       </MaqasidDialog.Body>
       <MaqasidDialog.Footer>
         <LoadingButton
-          // onClick={handleSubmit}
+          onClick={handleSubmit}
           type="submit"
-          disabled={false}
+          disabled={!dirty || !isValid}
           variant="contained"
           color="primary"
           startIcon={<AddIcon />}
           aria-label="Assign Departments"
-          // loading={isPosting}
+          loading={isPosting}
           loadingPosition="start"
         >
-          Add
+          Post
         </LoadingButton>
       </MaqasidDialog.Footer>
     </MaqasidDialog>
