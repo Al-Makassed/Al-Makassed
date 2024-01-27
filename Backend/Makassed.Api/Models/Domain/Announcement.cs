@@ -8,7 +8,7 @@ public class Announcement
 
     public DateTime CreatedAt { get; set; }
 
-    public string UserId { get; set; } = null!;
+    public string CreatorId { get; set; } = null!;
 
     public bool IsPinned { get; set; }
 
