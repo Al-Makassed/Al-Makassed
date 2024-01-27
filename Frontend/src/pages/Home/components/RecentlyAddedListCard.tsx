@@ -13,7 +13,7 @@ import { DependencyFileEntity, FileEntityType } from "../API/types";
 import useGetFileEntities from "../hooks/useGetFileEntities";
 import EmptyList from "./EmptyList";
 
-export const RecentlyAddedCard = () => {
+export const RecentlyAddedListCard = () => {
   const { fileEntities, isFetching } = useGetFileEntities();
 
   const theme = useTheme<Theme>();
@@ -98,4 +98,4 @@ export const RecentlyAddedCard = () => {
   );
 };
 
-export default RecentlyAddedCard;
+export default RecentlyAddedListCard;

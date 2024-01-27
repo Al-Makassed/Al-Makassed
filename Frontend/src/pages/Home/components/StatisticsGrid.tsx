@@ -1,8 +1,8 @@
-import { Grid, Stack, useTheme, Theme } from "@mui/material";
+import { Grid, Stack, Theme, useTheme } from "@mui/material";
 import { FC } from "react";
 import LastAccessedListCard from "./LastAccessedListCard";
 import ProgressCard from "./ProgressCard";
-import RecentlyAddedCard from "./RecentlyAddedCard";
+import RecentlyAddedListCard from "./RecentlyAddedListCard";
 
 const StatisticsGrid: FC = () => {
   const theme = useTheme<Theme>();
@@ -32,7 +32,7 @@ const StatisticsGrid: FC = () => {
       >
         <Stack gap={1.5}>
           <ProgressCard />
-          <RecentlyAddedCard />
+          <RecentlyAddedListCard />
         </Stack>
       </Grid>
 

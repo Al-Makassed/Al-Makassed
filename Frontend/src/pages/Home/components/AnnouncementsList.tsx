@@ -1,4 +1,4 @@
-import { Box, Theme, useTheme } from "@mui/material";
+import { Box, Skeleton, Theme, useTheme } from "@mui/material";
 import { FC } from "react";
 import useGetAnnouncements from "../hooks/useGetAnnouncements";
 import AnnouncementCard from "./AnnouncementCard";
@@ -12,7 +12,13 @@ const AnnouncementsList: FC = () => {
 
   const isManager = useAppSelector(selectIsManagerUser);
 
-  if (isFetching) return null;
+  if (isFetching)
+    return (
+      <Skeleton
+        variant="rounded"
+        height="calc(100vh - 64px - 32px - 36.5px - 130.7px)"
+      />
+    );
 
   if (!announcements) return null;
 
