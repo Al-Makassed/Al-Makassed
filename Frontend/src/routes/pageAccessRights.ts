@@ -1,4 +1,4 @@
-import { PageAccessRight, PageAccessName } from "./types";
+import { PageAccessRight, PageAccessName } from "src/types";
 
 const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
   [

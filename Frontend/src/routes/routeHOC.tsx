@@ -1,4 +1,4 @@
-import React, { ComponentType, FC } from "react";
+import { ComponentType, FC } from "react";
 import pageAccessRights from "./pageAccessRights";
 import { RouteConfigs } from "./HOCs/types";
 import { Navigate } from "react-router-dom";

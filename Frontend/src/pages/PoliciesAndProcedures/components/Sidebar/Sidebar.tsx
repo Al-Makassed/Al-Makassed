@@ -5,6 +5,10 @@ import Title from "./components/Title";
 import ChaptersList from "./components/ChaptersList";
 import { FC } from "react";
 import useSidebarContext from "../../context/useSidebar";
+import { selectIsSideDrawerVisible } from "src/features/appSettings/selectors";
+import { useAppSelector } from "src/store/hooks";
+import { APP_SIDE_DRAWER_WIDTH } from "src/constants";
+import { useTranslation } from "react-i18next";
 
 const Sidebar: FC = () => {
   const drawerWidth = 400;
@@ -13,6 +17,9 @@ const Sidebar: FC = () => {
   const {
     state: { isSidebarOpen },
   } = useSidebarContext();
+
+  const isSideDrawerVisible = useAppSelector(selectIsSideDrawerVisible);
+  const { i18n } = useTranslation();
 
   return (
     <>
@@ -31,6 +38,15 @@ const Sidebar: FC = () => {
               backgroundColor: (theme) => theme.palette.grey[200],
               height: `calc(100% - 64px)`,
               mt: 8,
+              transition: "all 150ms ease-in-out",
+              ...(isSideDrawerVisible &&
+                i18n.dir() === "rtl" && {
+                  right: APP_SIDE_DRAWER_WIDTH,
+                }),
+              ...(isSideDrawerVisible &&
+                i18n.dir() === "ltr" && {
+                  left: APP_SIDE_DRAWER_WIDTH,
+                }),
             },
           }}
           style={{

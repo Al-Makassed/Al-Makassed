@@ -1,10 +1,9 @@
-import React, { FC } from "react";
-import Lottie from "lottie-react";
-import maqasidLoader from "src/animation/maqasidLoader.json";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import BeatLoader from "react-spinners/BeatLoader";
+import theme from "src/style/maqasidTheme";
 
-const BlockUI: FC = () => {
+const BlockUI = () => {
   return (
     <Modal
       aria-labelledby="suspense-modal"
@@ -24,10 +23,7 @@ const BlockUI: FC = () => {
           bgcolor: "grey.100",
         }}
       >
-        <Lottie
-          animationData={maqasidLoader}
-          style={{ width: "1000px", height: "1000px" }}
-        />
+        <BeatLoader color={theme.palette.primary.main} />
       </Box>
     </Modal>
   );

@@ -1,4 +1,4 @@
-import { PageAccessName } from "src/routes/types";
+import { PageAccessName } from "src/types";
 
 export interface RouteConfigs {
   title: string;

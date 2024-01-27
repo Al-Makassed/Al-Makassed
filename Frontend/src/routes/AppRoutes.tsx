@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import AuthRoute from "./AuthRoute";
 import EditChapterDialog from "src/pages/EditChapterDialog";
 import EditPolicyAndDependenciesDialog from "src/pages/EditPolicyAndDependenciesDialog";
-const SignUpDialog = lazy(() => import("src/pages/SignUpDialog"));
+const ResetPasswordForm = lazy(() => import("src/pages/ResetPassword"));
 const DefaultView = lazy(
   () => import("src/pages/PoliciesAndProcedures/components/DefaultView"),
 );
@@ -32,6 +32,18 @@ const PoliciesAndProcedures = lazy(
 const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const UserProfile = lazy(() => import("src/pages/UserProfile"));
 
+const DataGridInfinitePlayground = lazy(
+  () => import("src/pages/DataGridInfinitePlayground"),
+);
+
+const DataGridPaginatedPlayground = lazy(
+  () => import("src/pages/DataGridPaginatedPlayground"),
+);
+
+const InfiniteScrollPlayground = lazy(
+  () => import("src/pages/InfiniteScrollPlayground"),
+);
+
 const AppRoutes: FC = () => {
   return (
     <Suspense fallback={<BlockUI />}>
@@ -42,7 +54,6 @@ const AppRoutes: FC = () => {
         <Route path="me" element={<AppLayout />}>
           <Route element={<AuthRoute />}>
             <Route index path="" element={<Home />} />
-            <Route path="sign-up" element={<SignUpDialog />} />
             <Route path="counter" element={<Counter />} />
             <Route path="counter-with-provider" element={<Counter2 />} />
 
@@ -72,6 +83,7 @@ const AppRoutes: FC = () => {
               />
               <Route path="add" element={<AddMonitoringToolForm />} />
             </Route>
+            <Route path="reset-password" element={<ResetPasswordForm />} />
           </Route>
         </Route>
 
@@ -80,6 +92,19 @@ const AppRoutes: FC = () => {
         <Route path="access-denied" element={<AccessDenied />} />
         <Route path="unauthenticated" element={<Unauthenticated />} />
         <Route path="*" element={<NotFound />} />
+
+        {/* Temporary Paths for Testing */}
+        <Route
+          path="data-grid-infinite"
+          element={<DataGridInfinitePlayground />}
+        />
+
+        <Route
+          path="data-grid-paginated"
+          element={<DataGridPaginatedPlayground />}
+        />
+
+        <Route path="infinite-scroll" element={<InfiniteScrollPlayground />} />
       </Routes>
     </Suspense>
   );

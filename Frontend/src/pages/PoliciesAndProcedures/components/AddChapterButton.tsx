@@ -11,9 +11,9 @@ const AddChapterButton = () => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   return (
-    <Stack sx={{ alignItems: "flex-end", pr: 3 }}>
+    <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
       <Button
-        sx={{ padding: 2 }}
+        sx={{ width: "fit-content" }}
         variant="contained"
         startIcon={<AddIcon />}
         onClick={handleOpenDialog}

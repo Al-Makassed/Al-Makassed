@@ -4,3 +4,5 @@ export const logoUrl =
 export const NAVBAR_HEIGHT = 64;
 
 export const APP_LAYOUT_CONTAINER_ID = "AppLayoutContainer";
+
+export const APP_SIDE_DRAWER_WIDTH = 240;
