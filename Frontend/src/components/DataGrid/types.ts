@@ -22,6 +22,7 @@ import React, {
   ReactNode,
   SetStateAction,
 } from "react";
+import { TableCellProps } from "@mui/material/TableCell";
 
 export type OnRowClick<T> = (cell: Cell<T, unknown>, row: Row<T>) => void;
 
@@ -84,7 +85,7 @@ export interface StyledTableRowProps {
 export interface DataGridContextValues<T> {
   table: Table<T>;
   dataMemoized: T[];
-  columnsMemoized: ColumnDef<T>[];
+  columnsMemoized: ExtendedColumnDef<T>[];
   headerComponentMemoized?: JSX.Element;
   columnFilters: ColumnFiltersState;
   globalFilter: string;
@@ -111,12 +112,17 @@ export interface DataGridContextValues<T> {
   striped?: boolean; // for adding striped effect to the table
 }
 
+export type ExtendedColumnDef<T> = ColumnDef<T> & {
+  align?: TableCellProps["align"];
+};
+
 export interface CreateDataGridOptions<T> {
   name: string;
-  columns: ColumnDef<T>[];
+  columns: ExtendedColumnDef<T>[];
   shouldFlexGrowCells?: boolean;
   pagination?: "on" | "off"; // when `off`, infinite scroll will be used
   pageSize?: number; // page size
+  showTooltip?: boolean; // show tooltip on cell hover
 }
 
 export interface CreateDataGridConfig<T> extends CreateDataGridOptions<T> {

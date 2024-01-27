@@ -13,6 +13,6 @@ declare module "@mui/material" {
 
   interface Theme {
     mixins: MaqasidThemeMixins;
-    palette: Theme["palette"] & MaqasidPalette;
+    palette: Palette;
   }
 }

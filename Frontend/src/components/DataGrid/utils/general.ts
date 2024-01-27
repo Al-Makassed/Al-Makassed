@@ -10,6 +10,7 @@ export const getDefaultOptions = <T extends object>(
     shouldFlexGrowCells: false,
     pagination: "on",
     pageSize: 20,
+    showTooltip: false,
     ...options,
   }) as Required<CreateDataGridOptions<T>>;
 
