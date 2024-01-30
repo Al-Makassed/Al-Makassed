@@ -16,7 +16,7 @@ const useGetMonitoringTools = () => {
     error,
   } = useQuery({
     queryFn: () => getMonitoringTools(),
-    queryKey: MONITORING_TOOLS_QUERY_KEY,
+    queryKey: [MONITORING_TOOLS_QUERY_KEY],
   });
 
   useEffect(() => {

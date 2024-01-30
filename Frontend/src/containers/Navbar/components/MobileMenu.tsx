@@ -23,8 +23,10 @@ const MobileMenu: FC = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = (page: string) => {
-    navigate(page);
     handleCloseNavMenu();
+    setTimeout(() => {
+      navigate(page);
+    }, 300);
   };
 
   return (

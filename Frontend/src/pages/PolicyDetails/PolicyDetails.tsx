@@ -36,13 +36,13 @@ const PolicyDetails: FC = () => {
 
   return (
     <Stack
-      p={3}
+      p={5}
       width="100%"
       height="100vh"
       gap={3}
       // pr={5}
       // pl={{ xs: 5, sm: isSidebarOpen ? 5 : 9 }}
-      // py={{ xs: 5, sm: 1.75 }}
+      // py={{ xs: 5, md: 1.75 }}
       // width={isSidebarOpen ? "calc(100vw - 400px)" : "100vw"}
       sx={{
         transition: "width 350ms ease-in-out",

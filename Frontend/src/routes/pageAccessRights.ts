@@ -26,6 +26,18 @@ const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
     },
   ],
   [
+    "UserProfile",
+    {
+      roles: [["Focal Point"], ["Sub-Admin"], ["Admin"], ["Staff"]],
+    },
+  ],
+  [
+    "PoliciesAndProcedures",
+    {
+      roles: [["Focal Point"], ["Sub-Admin"], ["Admin"], ["Staff"]],
+    },
+  ],
+  [
     "Page5",
     {
       roles: [["Focal Point", "Admin"]], // You must have both roles to access this page

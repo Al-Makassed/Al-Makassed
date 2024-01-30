@@ -9,6 +9,8 @@ export type PageAccessName =
   | "Dashboard"
   | "MonitoringTools"
   | "TaskSubmissionForm"
+  | "UserProfile"
+  | "PoliciesAndProcedures"
   | "Page5";
 
 export interface RouteConfigs {

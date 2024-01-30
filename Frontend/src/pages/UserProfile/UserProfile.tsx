@@ -1,4 +1,4 @@
-import { Card, Grid, Stack } from "@mui/material";
+import { Card, Grid, Stack, Theme, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { selectUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
@@ -18,6 +18,8 @@ const UserProfile: FC = () => {
 
   const { user, isFetching } = useGetUser(userId);
 
+  const theme = useTheme<Theme>();
+
   if (isFetching) return <UserProfileLoadingSkeleton />;
 
   if (!user) return null;
@@ -32,7 +34,6 @@ const UserProfile: FC = () => {
       sx={{
         bgcolor: "grey.100",
         p: { xs: 2, md: 2.5 },
-        height: "calc(100vh - 64px)",
       }}
       display={{ xs: "block", md: "flex" }}
       justifyContent={{ xs: "flex-start", md: "center" }}
@@ -57,7 +58,9 @@ const UserProfile: FC = () => {
             <Card
               sx={{
                 p: 3,
-                height: "calc(100vh - 64px - 40px - 211px - 16px)",
+                minHeight: "calc(100vh - 64px - 40px - 211px - 16px)",
+                overflowY: "auto",
+                ...theme.mixins.niceScroll(),
               }}
             >
               {choice === ChoiceName.Home && <HomeCard />}

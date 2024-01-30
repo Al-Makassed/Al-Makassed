@@ -1,3 +1,4 @@
+import routeHOC from "src/routes/HOCs/routeHOC";
 import PoliciesAndProcedures from "./PoliciesAndProcedures";
 import SidebarProvider from "./context/SidebarProvider";
 
@@ -9,4 +10,9 @@ const PoliciesAndProceduresWithProvider = () => {
   );
 };
 
-export default PoliciesAndProceduresWithProvider;
+const withRouteHoC = routeHOC({
+  title: "Policies & Procedures",
+  pageAccessName: "PoliciesAndProcedures",
+});
+
+export default withRouteHoC(PoliciesAndProceduresWithProvider);
