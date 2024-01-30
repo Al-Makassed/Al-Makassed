@@ -15,7 +15,7 @@ const useAddUserAPI = () => {
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [USER_QUERY_KEY],
+        queryKey: USER_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

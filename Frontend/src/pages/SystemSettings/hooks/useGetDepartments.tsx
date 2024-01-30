@@ -12,7 +12,7 @@ const useGetDepartments = () => {
 
   const { data: departments, error } = useQuery({
     queryFn: () => getDepartments(),
-    queryKey: [DEPARTMENT_QUERY_KEY],
+    queryKey: DEPARTMENT_QUERY_KEY,
   });
 
   useEffect(() => {

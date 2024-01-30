@@ -5,7 +5,7 @@ import useEditDepartmentAPI from "./useEditDepartmentAPI";
 import { Department } from "../API/type";
 
 const useEditDepartmentForm = (department: Department) => {
-  const { editDepartment, isRenaming } = useEditDepartmentAPI(department.id);
+  const { editDepartment, isRenaming } = useEditDepartmentAPI();
 
   const submitForm = (values: EditDepartmentFormValues) => {
     editDepartment({
@@ -23,7 +23,7 @@ const useEditDepartmentForm = (department: Department) => {
     },
     validationSchema,
     onSubmit: submitForm,
-    // enableReinitialize: true,
+    enableReinitialize: true,
     // isInitialValid: false,
   });
 

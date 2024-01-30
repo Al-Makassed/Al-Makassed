@@ -12,7 +12,7 @@ const useGetFields = () => {
 
   const { data: fields, error } = useQuery({
     queryFn: () => getFields(),
-    queryKey: [FIELD_QUERY_KEY],
+    queryKey: FIELD_QUERY_KEY,
   });
 
   useEffect(() => {

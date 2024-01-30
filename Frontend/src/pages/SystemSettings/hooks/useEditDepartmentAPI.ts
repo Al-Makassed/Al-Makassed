@@ -6,7 +6,7 @@ import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { DEPARTMENT_QUERY_KEY } from "../constants";
 
-const useEditDepartmentAPI = (departmentId: string) => {
+const useEditDepartmentAPI = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const useEditDepartmentAPI = (departmentId: string) => {
     mutationFn: renameDepartmentAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [...DEPARTMENT_QUERY_KEY, departmentId],
+        queryKey: DEPARTMENT_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

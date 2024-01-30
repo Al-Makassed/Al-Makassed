@@ -5,7 +5,7 @@ import useEditUserDepartmentAPI from "./useEditUserDepartmentAPI";
 import { User } from "../API/type";
 
 const useEditUserDepartmentForm = (User: User) => {
-  const { editUserDepartment, isRenaming } = useEditUserDepartmentAPI(User.id);
+  const { editUserDepartment, isRenaming } = useEditUserDepartmentAPI();
 
   const submitForm = (values: EditUserDepartmentFormValues) => {
     editUserDepartment({

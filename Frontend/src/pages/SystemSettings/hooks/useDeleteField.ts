@@ -16,7 +16,7 @@ const useDeleteField = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [FIELD_QUERY_KEY],
+        queryKey: FIELD_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

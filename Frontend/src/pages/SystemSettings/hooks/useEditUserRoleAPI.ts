@@ -6,7 +6,7 @@ import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { USER_QUERY_KEY } from "../constants";
 
-const useEditUserRoleAPI = (userId: string) => {
+const useEditUserRoleAPI = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const useEditUserRoleAPI = (userId: string) => {
     mutationFn: renameUserRoleAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [USER_QUERY_KEY, userId],
+        queryKey: USER_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

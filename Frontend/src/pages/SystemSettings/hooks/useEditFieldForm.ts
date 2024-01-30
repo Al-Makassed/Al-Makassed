@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
-// import validationSchema from "../schema";
+import { fieldValidationSchema } from "../schema";
 import { EditFieldFormValues } from "../types";
 import useEditFieldAPI from "./useEditFieldAPI";
 import { Field } from "../API/type";
 
 const useEditFieldForm = (Field: Field) => {
-  const { editField, isRenaming } = useEditFieldAPI(Field.id);
+  const { editField, isRenaming } = useEditFieldAPI();
 
   const submitForm = (values: EditFieldFormValues) => {
     editField({
@@ -19,10 +19,10 @@ const useEditFieldForm = (Field: Field) => {
       id: Field.id,
       content: Field.content,
     },
-    // validationSchema,
+    validationSchema: fieldValidationSchema,
     onSubmit: submitForm,
-    // enableReinitialize: true,
-    // isInitialValid: false,
+    enableReinitialize: true,
+    isInitialValid: false,
   });
 
   return { formikProps, isRenaming };

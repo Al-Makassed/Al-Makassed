@@ -6,7 +6,7 @@ import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { FIELD_QUERY_KEY } from "../constants";
 
-const useEditFieldAPI = (FieldId: string) => {
+const useEditFieldAPI = () => {
   const queryClient = useQueryClient();
 
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const useEditFieldAPI = (FieldId: string) => {
     mutationFn: renameFieldAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [...FIELD_QUERY_KEY, FieldId],
+        queryKey: FIELD_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

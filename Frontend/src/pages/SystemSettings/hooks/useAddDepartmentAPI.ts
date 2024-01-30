@@ -15,7 +15,7 @@ const useAddDepartmentAPI = () => {
     mutationFn: createDepartment,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [DEPARTMENT_QUERY_KEY],
+        queryKey: DEPARTMENT_QUERY_KEY,
       });
       dispatch(
         showSuccessSnackbar({

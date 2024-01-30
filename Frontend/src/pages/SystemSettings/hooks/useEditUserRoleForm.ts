@@ -5,7 +5,7 @@ import { EditUserRoleFormValues } from "../types";
 import useEditUserRoleAPI from "./useEditUserRoleAPI";
 
 const useEditUserRoleForm = (User: User) => {
-  const { editUserRole, isRenaming } = useEditUserRoleAPI(User.id);
+  const { editUserRole, isRenaming } = useEditUserRoleAPI();
 
   const submitForm = (values: EditUserRoleFormValues) => {
     const { id, roles } = values;
