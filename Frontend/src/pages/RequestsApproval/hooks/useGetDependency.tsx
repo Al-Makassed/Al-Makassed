@@ -5,7 +5,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
 import { getDependency } from "../API";
-import { GetDependency } from "../API/types";
+import { GetDependency } from "../API/Types";
 import { Dependency_QUERY_KEY } from "../constants";
 
 const useGetDependency = ({ chapterId, policyId, id }: GetDependency) => {
