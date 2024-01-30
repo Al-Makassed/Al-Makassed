@@ -11,8 +11,8 @@ export const NAVBAR_PAGES: NavbarPage[] = [
     path: "/me/policies-and-procedures",
   },
   {
-    name: "Manuals",
-    path: "/me/manuals",
+    name: " Requests Approval",
+    path: "/me/requests-approval",
   },
   {
     name: "Monitoring Tools",

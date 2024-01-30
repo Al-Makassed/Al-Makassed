@@ -1,29 +1,26 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteChapterAPI } from "../API";
+import { deleteMonitoringTool } from "../API";
 import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { CHAPTER_QUERY_KEY } from "../constants";
-import { useNavigate } from "react-router-dom";
+import { REQUESTS_QUERY_KEY } from "../constants";
 
-const useDeleteChapter = () => {
+const useDeleteMonitoringTool = () => {
   const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: deleteChapter } = useMutation({
-    mutationFn: deleteChapterAPI,
+  const { mutate: removeMonitoringTool, isPending } = useMutation({
+    mutationFn: deleteMonitoringTool,
+
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [CHAPTER_QUERY_KEY],
+        queryKey: REQUESTS_QUERY_KEY,
       });
-      navigate("/me/policies-and-procedures");
       dispatch(
         showSuccessSnackbar({
-          message: "Deleted chapter Successfully!",
+          message: "Monitoring Tool Deleted Successfully!",
         }),
       );
     },
@@ -39,8 +36,9 @@ const useDeleteChapter = () => {
   });
 
   return {
-    deleteChapter,
+    removeMonitoringTool,
+    isPending,
   };
 };
 
-export default useDeleteChapter;
+export default useDeleteMonitoringTool;

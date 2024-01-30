@@ -1,29 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteChapterAPI } from "../API";
+import { deleteDependencyAPI } from "../API";
 import { useAppDispatch } from "src/store/hooks";
 import { showErrorSnackbar, showSuccessSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { CHAPTER_QUERY_KEY } from "../constants";
-import { useNavigate } from "react-router-dom";
+import { REQUESTS_QUERY_KEY } from "../constants";
 
-const useDeleteChapter = () => {
+const useDeleteDependency = () => {
   const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  const { mutate: deleteChapter } = useMutation({
-    mutationFn: deleteChapterAPI,
+  const { mutate: deleteDependency } = useMutation({
+    mutationFn: deleteDependencyAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [CHAPTER_QUERY_KEY],
+        queryKey: REQUESTS_QUERY_KEY,
       });
-      navigate("/me/policies-and-procedures");
       dispatch(
         showSuccessSnackbar({
-          message: "Deleted chapter Successfully!",
+          message: "Deleted Dependency Successfully!",
         }),
       );
     },
@@ -39,8 +35,8 @@ const useDeleteChapter = () => {
   });
 
   return {
-    deleteChapter,
+    deleteDependency,
   };
 };
 
-export default useDeleteChapter;
+export default useDeleteDependency;

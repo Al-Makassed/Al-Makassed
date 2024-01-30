@@ -21,6 +21,7 @@ const MonitoringTools = lazy(() => import("src/pages/MonitoringTools"));
 const UserProfile = lazy(() => import("src/pages/UserProfile"));
 const Dashboard = lazy(() => import("src/pages/Dashboard"));
 const Home = lazy(() => import("src/pages/Home"));
+const RequestsApproval = lazy(() => import("src/pages/RequestsApproval"));
 
 /**
  * @description Routes that require login
@@ -89,6 +90,10 @@ const loginRoutes: RouteObject = {
               element: <TaskSubmission />,
             },
           ],
+        },
+        {
+          path: "requests-approval",
+          element: <RequestsApproval />,
         },
       ],
     },
