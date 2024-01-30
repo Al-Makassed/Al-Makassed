@@ -22,6 +22,7 @@ const useEditUserRoleForm = (User: User) => {
     },
     validationSchema: roleValidationSchema,
     onSubmit: submitForm,
+    enableReinitialize: true,
   });
 
   return { formikProps, isRenaming };
