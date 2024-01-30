@@ -1,6 +1,6 @@
 import type { RootState } from "../../store/store";
 import { createSelector } from "@reduxjs/toolkit";
-import { Role } from "src/routes/types";
+import { Role } from "src/types";
 
 export const selectUser = (state: RootState) => state.user;
 

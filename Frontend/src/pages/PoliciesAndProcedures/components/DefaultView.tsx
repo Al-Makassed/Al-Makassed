@@ -3,62 +3,52 @@ import Lottie from "lottie-react";
 import choose from "src/animation/choose.json";
 import { selectIsManagerUser } from "src/features/user";
 import { useAppSelector } from "src/store/hooks";
-import useSidebarContext from "../context/useSidebar";
 import AddChapterButton from "./AddChapterButton";
 
 const DefaultView = () => {
   const isManager = useAppSelector(selectIsManagerUser);
 
-  const {
-    state: { isSidebarOpen },
-  } = useSidebarContext();
-
   return (
-    <Stack sx={{ alignItems: "flex-end" }}>
+    <Stack
+      height="calc(100vh - 64px)"
+      width="100%"
+      sx={{
+        transition: "width 200ms ease-in-out",
+        p: 3,
+      }}
+      gap={1}
+    >
+      {isManager && <AddChapterButton />}
+
       <Stack
-        height={"calc(100vh - 96px)"}
-        width={isSidebarOpen ? "calc(100vw - 400px + 60px)" : "100vw"}
         sx={{
-          transition: "width 200ms ease-in-out",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
         }}
       >
-        {isManager && <AddChapterButton />}
+        <Lottie
+          animationData={choose}
+          style={{
+            width: "300px",
+            height: "250px",
+          }}
+        />
 
-        <Stack
-          sx={{ justifyContent: "center", alignItems: "center" }}
-          height={`calc(100vh - 64px - 32px - ${isManager ? "154px" : "90px"})`}
+        <Typography
+          variant="h1"
+          fontSize={{
+            xs: "h6.fontSize",
+            sm: "h5.fontSize",
+          }}
+          fontWeight={500}
+          sx={{
+            color: "grey.700",
+            mt: -1.5,
+          }}
         >
-          {isSidebarOpen && (
-            <Lottie
-              animationData={choose}
-              style={{ width: "calc(100vw - 400px)", maxHeight: "calc(50vh)" }}
-            />
-          )}
-          {!isSidebarOpen && (
-            <Lottie
-              animationData={choose}
-              style={{ width: "calc(100vw)", maxHeight: "calc(50vh)" }}
-            />
-          )}
-
-          <Typography
-            variant="h1"
-            fontSize={{
-              xs: "h5.fontSize",
-              sm: "h4.fontSize",
-            }}
-            pl={{ sm: 2, md: 0 }}
-            fontWeight={500}
-            sx={{
-              textAlign: "center",
-              textAlignLast: "center",
-              width: "100%",
-              color: "grey.700",
-            }}
-          >
-            Choose a Policy to be viewed
-          </Typography>
-        </Stack>
+          Choose a Policy to be viewed
+        </Typography>
       </Stack>
     </Stack>
   );

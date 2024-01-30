@@ -1,6 +1,7 @@
 ﻿using Makassed.Api.Data;
 using Makassed.Api.Models.Domain;
 using Makassed.Api.Repositories.Interfaces;
+using Makassed.Contracts.Readings.FileEntities;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
@@ -78,4 +79,40 @@ public class SqlFileReadingRepository : IFileReadingRepository
     {
         return await _dbContext.Dependencies.Where(d => d.IsApproved).CountAsync();
     }
+
+    public async Task<List<GetAllFileEntitiesResponse>> GetApprovedEntitiesAsync()
+    {
+        var policyEntities = await _dbContext.Policies
+            .Where(p => p.IsApproved && p.CreatedAt > DateTime.Now.AddDays(-7))
+            .Select(p => new GetAllFileEntitiesResponse
+            {
+                Id = p.Id,
+                Name = p.Name,
+                CreatedAt = p.CreatedAt,
+                ChapterId = p.ChapterId,
+                ChapterName = p.Chapter.Name,
+                PdfUrl = p.PdfUrl!,
+                Type = FileEntityType.Policy
+            }).ToListAsync();
+
+        var dependencyEntities = await _dbContext.Dependencies
+            .Where(d => d.IsApproved && d.CreatedAt > DateTime.Now.AddDays(-7))
+            .Select(d => new DependencyFileEntityDto
+            {
+                Id = d.Id,
+                Name = d.Name,
+                CreatedAt = d.CreatedAt,
+                PdfUrl = d.PdfUrl,
+                ChapterId = d.Policy.ChapterId,
+                ChapterName = d.Policy.Chapter.Name,
+                PolicyId = d.PolicyId,
+                PolicyName = d.Policy.Name,
+                Type = FileEntityType.Dependency
+            }).ToListAsync();
+
+        var entities = policyEntities.Union(dependencyEntities);
+
+        return entities.ToList();
+    }
+
 }

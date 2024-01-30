@@ -12,7 +12,7 @@ const customMixins: MaqasidThemeMixins = {
         },
       },
       "&::-webkit-scrollbar": {
-        height: 10 /* height of horizontal scrollbar ← You're missing this */,
+        height: 10 /* height of horizontal scrollbar */,
         width /* width of vertical scrollbar */,
         position: "fixed",
         backgroundColor: "rgba(0,0,0,0)",
@@ -27,9 +27,6 @@ const customMixins: MaqasidThemeMixins = {
       "&::-webkit-scrollbar-thumb:hover": {
         borderWidth: "20px",
       },
-      // "&::-webkit-scrollbar-thumb:active": {
-      //     background: "rgba(0,0,0,0.61)",
-      // },
       "&::-webkit-scrollbar-track": {
         "-webkit-box-shadow": "inset 0 0 6px rgba(0, 0, 0, 0.1)",
       },

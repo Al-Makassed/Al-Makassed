@@ -1,4 +1,4 @@
-import routeHOC from "src/routes/routeHOC";
+import routeHOC from "src/routes/HOCs/routeHOC";
 import MonitoringTools from "./MonitoringTools";
 
 const withRouteHoC = routeHOC({

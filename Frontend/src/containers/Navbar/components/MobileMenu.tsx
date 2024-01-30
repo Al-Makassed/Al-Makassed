@@ -60,7 +60,7 @@ const MobileMenu: FC = () => {
         {NAVBAR_PAGES.map((page) => (
           <MenuItem
             key={page.name}
-            sx={{ color: (theme) => theme.palette.Black }}
+            sx={{ color: (theme) => theme.palette.text.primary }}
           >
             <ListItemButton
               key={page.name}

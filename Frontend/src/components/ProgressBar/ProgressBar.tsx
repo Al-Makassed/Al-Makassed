@@ -12,6 +12,9 @@ import { getColor, round } from "./utils";
 const ProgressBar: FC<ProgressBarProps> = ({
   percentage,
   type: label,
+  size = 160,
+  thickness = 3.8,
+  labelWidth,
   ...props
 }) => {
   return (
@@ -19,8 +22,8 @@ const ProgressBar: FC<ProgressBarProps> = ({
       <CircularProgress
         variant="determinate"
         sx={{ color: (theme) => theme.palette.grey[200] }}
-        size={160}
-        thickness={3.8}
+        size={size}
+        thickness={thickness}
         {...props}
         value={100}
       />
@@ -35,8 +38,8 @@ const ProgressBar: FC<ProgressBarProps> = ({
             strokeLinecap: "round",
           },
         }}
-        size={160}
-        thickness={3.8}
+        size={size}
+        thickness={thickness}
         value={percentage}
         {...props}
       />
@@ -53,7 +56,12 @@ const ProgressBar: FC<ProgressBarProps> = ({
         }}
       >
         <Stack alignItems={"center"}>
-          <Typography variant="caption" component="div" color="text.secondary">
+          <Typography
+            variant="caption"
+            width={labelWidth}
+            textAlign="center"
+            color="text.secondary"
+          >
             {`${label} Files`}
           </Typography>
           <Typography variant="body1" component="div">

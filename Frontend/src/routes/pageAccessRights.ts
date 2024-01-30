@@ -1,4 +1,4 @@
-import { PageAccessRight, PageAccessName } from "./types";
+import { PageAccessRight, PageAccessName } from "src/types";
 
 const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
   [
@@ -26,13 +26,13 @@ const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
     },
   ],
   [
-    "Requests Approval",
+    "RequestsApproval",
     {
       roles: [["Admin"]],
     },
   ],
   [
-    "PoliciesAndProceduresWithProvider",
+    "Policies&Procedures",
     {
       roles: [["Focal Point"], ["Sub-Admin"], ["Admin"], ["Staff"]],
     },
