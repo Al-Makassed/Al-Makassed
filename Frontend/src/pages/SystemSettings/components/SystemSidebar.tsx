@@ -14,6 +14,10 @@ import {
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Category } from "../constants";
+import { selectIsSideDrawerVisible } from "src/features/appSettings/selectors";
+import { useAppSelector } from "src/store/hooks";
+import { useTranslation } from "react-i18next";
+import { APP_SIDE_DRAWER_WIDTH } from "src/constants";
 
 const drawerWidth = 300;
 
@@ -45,6 +49,9 @@ const SystemSidebar: FC = () => {
 
   // TODO: keep the state of the selected category in sync with the url
 
+  const isSideDrawerVisible = useAppSelector(selectIsSideDrawerVisible);
+  const { i18n } = useTranslation();
+
   const navigate = useNavigate();
 
   const handleClick = (category: Category) => {
@@ -65,6 +72,14 @@ const SystemSidebar: FC = () => {
         "& .MuiPaper-root": {
           backgroundColor: (theme) => theme.palette.grey[200],
           mt: 8,
+          ...(isSideDrawerVisible &&
+            i18n.dir() === "rtl" && {
+              right: APP_SIDE_DRAWER_WIDTH,
+            }),
+          ...(isSideDrawerVisible &&
+            i18n.dir() === "ltr" && {
+              left: APP_SIDE_DRAWER_WIDTH,
+            }),
         },
 
         display: { xs: "none", sm: "block" },
