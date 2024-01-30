@@ -1,6 +1,6 @@
-import React, { ComponentType, FC } from "react";
-import pageAccessRights from "./pageAccessRights";
-import { RouteConfigs } from "./HOCs/types";
+import { ComponentType, FC } from "react";
+import pageAccessRights from "../pageAccessRights";
+import { RouteConfigs } from "../types";
 import { Navigate } from "react-router-dom";
 import { selectUserRoles } from "src/features/user/selectors";
 import { useAppSelector } from "src/store/hooks";

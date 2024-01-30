@@ -3,12 +3,15 @@ import { APP_LAYOUT_CONTAINER_ID } from "src/constants";
 import {
   hideNavbar,
   selectIsNavbarVisible,
+  selectIsSideDrawerVisible,
   showNavbar,
 } from "src/features/appSettings";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
 const useAppLayoutNavbar = () => {
   const isNavbarVisible = useAppSelector(selectIsNavbarVisible);
+
+  const isSideDrawerVisible = useAppSelector(selectIsSideDrawerVisible);
 
   const dispatch = useAppDispatch();
 
@@ -59,6 +62,7 @@ const useAppLayoutNavbar = () => {
 
   return {
     isNavbarVisible,
+    isSideDrawerVisible,
   };
 };
 

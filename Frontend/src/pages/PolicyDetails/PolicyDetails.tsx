@@ -35,43 +35,44 @@ const PolicyDetails: FC = () => {
   if (!policy) return null;
 
   return (
-    <Stack alignItems={isSidebarOpen ? "flex-end" : "flex-start"}>
-      <Stack
-        gap={3}
-        pr={5}
-        pl={{ xs: 5, sm: isSidebarOpen ? 5 : 9 }}
-        py={{ xs: 5, sm: 1.75 }}
-        width={isSidebarOpen ? "calc(100vw - 400px)" : "100vw"}
-        sx={{
-          transition: "width 350ms ease-in-out",
-        }}
+    <Stack
+      p={3}
+      width="100%"
+      height="100vh"
+      gap={3}
+      // pr={5}
+      // pl={{ xs: 5, sm: isSidebarOpen ? 5 : 9 }}
+      // py={{ xs: 5, sm: 1.75 }}
+      // width={isSidebarOpen ? "calc(100vw - 400px)" : "100vw"}
+      sx={{
+        transition: "width 350ms ease-in-out",
+      }}
+    >
+      <Breadcrumbs
+        aria-label="policy breadcrumb"
+        maxItems={isLargeDesktop ? 4 : 2}
+        separator={<NavigateNextIcon fontSize="small" />}
       >
-        <Breadcrumbs
-          aria-label="policy breadcrumb"
-          maxItems={isLargeDesktop ? 4 : 2}
-          separator={<NavigateNextIcon fontSize="small" />}
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/me/policies-and-procedures"
         >
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/me/policies-and-procedures"
-          >
-            Chapters
-          </Link>
-          {/* //TODO: when chapter dialog is implemented and the href */}
-          <Link underline="hover" color="inherit">
-            {chapterId}
-          </Link>
-          <Link underline="none" color="inherit">
-            Policies
-          </Link>
-          <Typography color="text.primary">{policy.name}</Typography>
-        </Breadcrumbs>
+          Chapters
+        </Link>
+        {/* //TODO: when chapter dialog is implemented and the href */}
+        <Link underline="hover" color="inherit">
+          {chapterId}
+        </Link>
+        <Link underline="none" color="inherit">
+          Policies
+        </Link>
+        <Typography color="text.primary">{policy.name}</Typography>
+      </Breadcrumbs>
 
-        <Header policy={policy} />
+      <Header policy={policy} />
 
-        <DetailsTabs policy={policy} />
-      </Stack>
+      <DetailsTabs policy={policy} />
     </Stack>
   );
 };

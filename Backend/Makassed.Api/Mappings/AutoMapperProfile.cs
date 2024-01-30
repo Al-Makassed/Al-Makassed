@@ -13,6 +13,7 @@ using Makassed.Contracts.User;
 using Makassed.Contracts.Submission;
 using Makassed.Contracts.Search;
 using Makassed.Contracts.Readings;
+using Makassed.Contracts.Announcement;
 
 namespace Makassed.Api.Mappings;
 
@@ -81,5 +82,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<PolicyUser, GetPolicyReadingsResponse>().ReverseMap();
         CreateMap<DependencyUser, GetDependencyReadingsResponse>().ReverseMap();
+
+        CreateMap<Announcement, CreateAnnouncementRequest>().ReverseMap();
+        CreateMap<Announcement, GetAnnouncementResponse>().ReverseMap();
     }
 }

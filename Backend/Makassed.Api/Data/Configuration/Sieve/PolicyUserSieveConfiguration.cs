@@ -34,5 +34,9 @@ public class PolicyUserSieveConfiguration : ISieveConfiguration
         mapper.Property<PolicyUser>(pu => pu.Policy.Chapter.Name)
               .CanFilter()
               .CanSort();
+
+        mapper.Property<PolicyUser>(pu => pu.LastAccessed)
+              .CanFilter()
+              .CanSort();
     }
 }

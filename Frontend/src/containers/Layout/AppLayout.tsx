@@ -4,17 +4,24 @@ import { APP_LAYOUT_CONTAINER_ID } from "src/constants";
 import Navbar from "src/containers/Navbar";
 import useAppLayoutNavbar from "src/hooks/useAppLayoutNavbar";
 import { AppLayoutContainer } from "./styled";
+import AppSideDrawer from "src/components/AppSideDrawer";
+import { useTranslation } from "react-i18next";
 
 const AppLayout: FC = () => {
-  const { isNavbarVisible } = useAppLayoutNavbar();
+  const { isNavbarVisible, isSideDrawerVisible } = useAppLayoutNavbar();
+
+  const { i18n } = useTranslation();
 
   return (
     <>
       <Navbar />
+      <AppSideDrawer />
       <AppLayoutContainer
         id={APP_LAYOUT_CONTAINER_ID}
         container
         isNavbarVisible={isNavbarVisible}
+        isSideDrawerVisible={isSideDrawerVisible}
+        dir={i18n.dir()}
       >
         <Outlet />
       </AppLayoutContainer>

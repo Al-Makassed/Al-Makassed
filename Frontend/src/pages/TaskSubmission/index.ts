@@ -1,4 +1,4 @@
-import routeHOC from "src/routes/routeHOC";
+import routeHOC from "src/routes/HOCs/routeHOC";
 import TaskSubmission from "./TaskSubmission";
 
 const withRouteHoC = routeHOC({

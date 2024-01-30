@@ -5,6 +5,7 @@ using Makassed.Api.ServiceErrors;
 using Makassed.Api.Services.Users;
 using Makassed.Contracts.Enums;
 using Makassed.Contracts.General;
+using Makassed.Contracts.Readings.FileEntities;
 using Sieve.Models;
 
 namespace Makassed.Api.Services.FilesReading;
@@ -158,5 +159,12 @@ public class FilesReadingService : IFilesReadingService
         var finishedDependencies = dependencies.Where(p => p.ReadingState == FileReadingState.Finished).ToList();
 
         return finishedDependencies;
+    }
+
+    public async Task<List<GetAllFileEntitiesResponse>> GetApprovedSystemFiles()
+    {
+        var systemFileEntities = await _fileReadingRepository.GetApprovedEntitiesAsync();
+
+        return systemFileEntities.OrderBy(e => e.CreatedAt).ToList();
     }
 }

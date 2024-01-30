@@ -7,7 +7,7 @@ import { extractErrorMessage } from "src/utils";
 import { CHAPTER_QUERY_KEY } from "../constants";
 import { useNavigate } from "react-router-dom";
 
-const useDeletePolicy = () => {
+const useDeleteChapter = () => {
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const useDeletePolicy = () => {
       queryClient.invalidateQueries({
         queryKey: [CHAPTER_QUERY_KEY],
       });
-      navigate("/me/chapters");
+      navigate("/me/policies-and-procedures");
       dispatch(
         showSuccessSnackbar({
           message: "Deleted chapter Successfully!",
@@ -43,4 +43,4 @@ const useDeletePolicy = () => {
   };
 };
 
-export default useDeletePolicy;
+export default useDeleteChapter;

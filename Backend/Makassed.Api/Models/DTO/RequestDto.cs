@@ -10,6 +10,12 @@ public record RequestDto
 
     public required string RequesterId { get; set; }
 
+    public required string RequesterUserName { get; set; }
+
+    public required string RequesterFullName { get; set; }
+
+    public string? RequesterAvatarUrl { get; set; }
+
     public required RequestEntityType EntityType { get; set; }
 
     public required Guid EntityId { get; set; }
