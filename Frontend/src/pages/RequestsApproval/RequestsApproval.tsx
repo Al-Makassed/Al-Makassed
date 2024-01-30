@@ -20,8 +20,8 @@ const DataTable: FC = () => {
 
   return (
     <>
-      <Stack p={4} gap={3}>
-        <Typography variant="h4" pl={1.15}>
+      <Stack px={4} py={3} gap={3}>
+        <Typography variant="h5" pl={1.15}>
           Approval Requests
         </Typography>
 
@@ -31,13 +31,12 @@ const DataTable: FC = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          height={`calc(100vh - 42px - 64px - 24px - ${theme.mixins.toolbar.height}px)`}
+          height={`calc(100vh - 48px - 32.013px - 24px - ${theme.mixins.toolbar.height}px)`}
         >
           <RequestsDataGrid
             setOpenedDialog={setOpenedDialog}
             setApprovalRequest={setApprovalRequest}
           />
-          ;
         </Grid>
       </Stack>
 
