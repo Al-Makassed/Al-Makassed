@@ -7,22 +7,17 @@ export interface ApprovalRequest {
   entityType: RequestEntityType;
   entityId: string;
   info: Info;
+  requesterUserName: string;
+  requesterFullName: string;
+  requesterAvatarUrl: string;
 }
-// export interface PolicyApprovalRequest {
-//   title: string;
-//   createdAt: string;
-//   requesterId: string;
-//   entityType: RequestEntityType;
-//   entityId: string;
-//   info: PolicyInfo;
-// }
+
 export interface Info {
   chapterId: string;
   policyId: string;
+  dependencyId?: string;
 }
-// export interface PolicyInfo extends Info {
-//   chapterId: string; ////To Edit this
-// }
+
 export interface Field {
   id: string;
   content: string;
@@ -66,7 +61,7 @@ export interface Dependency {
   code: string;
   pdfUrl: string;
   type: number;
-  estimatedTime: number;
+  estimatedTimeInMin: number;
   pagesCount: number;
   createdAt: string;
   isApproved: boolean;

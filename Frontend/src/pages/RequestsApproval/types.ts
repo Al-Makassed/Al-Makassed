@@ -1,3 +1,6 @@
+import { ApprovalRequest, Info } from "./API/Types";
+import { RequestEntityType } from "./constants";
+
 export interface ViewMonitoringToolDialogProps {
   monitoringToolId: string;
   open: boolean;
@@ -5,15 +8,20 @@ export interface ViewMonitoringToolDialogProps {
 }
 
 export interface ViewPolicyDialogProps {
-  chapterId: string;
+  info: Info;
   policyId: string;
   open: boolean;
   onClose: () => void;
 }
+
 export interface ViewDependencyDialogProps {
-  chapterId: string;
-  policyId: string;
+  info: Info;
   dependencyId: string;
   open: boolean;
   onClose: () => void;
+}
+
+export interface RequestsDataGridProps {
+  setOpenedDialog: (r: RequestEntityType) => void;
+  setApprovalRequest: (a: ApprovalRequest) => void;
 }

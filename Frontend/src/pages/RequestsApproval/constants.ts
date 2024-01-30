@@ -18,9 +18,9 @@ export const REQUEST_NAME = new Map([
 ]);
 
 export enum DialogName {
-  ViewPolicy = "ViewPolicy",
-  ViewDependency = "ViewDependency",
-  ViewMonitoringTool = "ViewMonitoringTool",
+  ViewPolicy = 0,
+  ViewDependency = 1,
+  ViewMonitoringTool = 2,
 }
 export enum PolicyDependencyType {
   Form = 0,

@@ -16,8 +16,8 @@ import { FC } from "react";
 import MaqasidDialog from "src/components/MaqasidDialog";
 import { formatDate } from "src/utils";
 import useGetMonitoringTool from "../hooks/useGetMonitoringTool";
+import { ViewMonitoringToolDialogProps } from "../types";
 import ViewMonitoringToolDialogSkeleton from "./ViewMonitoringToolDialogSkeleton";
-import { ViewMonitoringToolDialogProps } from "./types";
 
 const ViewMonitoringToolDialog: FC<ViewMonitoringToolDialogProps> = ({
   monitoringToolId,

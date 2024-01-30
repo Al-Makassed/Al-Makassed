@@ -1,21 +1,21 @@
-import React, { FC } from "react";
-import MaqasidDialog from "src/components/MaqasidDialog";
-import Chip from "@mui/material/Chip";
-import { Button, Skeleton, Stack, Typography } from "@mui/material";
-import useGetPolicy from "../hooks/useGetPolicy";
-import ViewPolicyDialogSkeleton from "./ViewPolicyDialogSkeleton";
-import { ViewPolicyDialogProps } from "./types";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import SummaryIcon from "@mui/icons-material/Subject";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import SegmentIcon from "@mui/icons-material/Segment";
+import { Button, Skeleton, Stack, Typography } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import { FC } from "react";
+import MaqasidDialog from "src/components/MaqasidDialog";
+import useGetPolicy from "../hooks/useGetPolicy";
+import { ViewPolicyDialogProps } from "../types";
+import ViewPolicyDialogSkeleton from "./ViewPolicyDialogSkeleton";
 
 const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
-  chapterId,
-  policyId,
+  info: { chapterId },
+  policyId: id,
   open,
   onClose,
 }) => {
-  const { policy, isFetching } = useGetPolicy(chapterId, policyId);
+  const { policy, isFetching } = useGetPolicy(chapterId, id);
 
   const DialogHeader = isFetching ? (
     <Typography variant="h3" width={"50%"}>
@@ -43,20 +43,26 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
       ) : (
         <MaqasidDialog.Body>
           <Stack gap={2.5}>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <VpnKeyIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
-
-              <Typography variant="h6" sx={{ ml: 1 }}>
-                {policy?.code}
-              </Typography>
+              <Typography variant="body2"> Code: </Typography>
+              <Typography>{policy?.code}</Typography>
             </Stack>
 
-            <Stack direction="row">
-              <SegmentIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+            <Stack direction="row" alignItems="center" gap={1}>
+              <SummaryIcon
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
+              <Typography variant="body2">Summary: </Typography>
+
               <Typography>{policy?.summary}</Typography>
             </Stack>
 
@@ -68,7 +74,7 @@ const ViewPolicyDialog: FC<ViewPolicyDialogProps> = ({
                 href={policy?.pdfUrl || ""}
                 target="_blank"
                 variant="text"
-                sx={{ textTransform: "none", mt: -1 }}
+                sx={{ textTransform: "none", mt: -1, ml: -2 }}
               >
                 Open Policy File
               </Button>

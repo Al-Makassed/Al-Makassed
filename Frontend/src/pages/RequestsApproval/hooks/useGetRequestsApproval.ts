@@ -1,23 +1,22 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Dependency_QUERY_KEY } from "../constants";
+import { getApprovalRequests } from "../API";
+import { REQUESTS_QUERY_KEY } from "../constants";
 import { showErrorSnackbar } from "src/features/snackbar";
 import { useAppDispatch } from "src/store/hooks";
 import { extractErrorMessage } from "src/utils";
-import { AxiosBaseError } from "src/types";
-import { getDependency } from "../API";
-import { GetDependency } from "../API/Types";
+import { AxiosBaseError } from "src/types/axios";
 
-const useGetDependency = ({ chapterId, policyId, id }: GetDependency) => {
+const useRequestsApproval = () => {
   const dispatch = useAppDispatch();
+
   const {
-    data: dependency,
+    data: requests,
     isFetching,
-    isError,
     error,
   } = useQuery({
-    queryFn: () => getDependency({ chapterId, policyId, id }),
-    queryKey: [Dependency_QUERY_KEY, chapterId, policyId, id],
+    queryFn: () => getApprovalRequests(),
+    queryKey: REQUESTS_QUERY_KEY,
   });
 
   useEffect(() => {
@@ -32,10 +31,9 @@ const useGetDependency = ({ chapterId, policyId, id }: GetDependency) => {
   }, [error]);
 
   return {
-    dependency,
+    requests: requests ?? [],
     isFetching,
-    isError,
   };
 };
 
-export default useGetDependency;
+export default useRequestsApproval;

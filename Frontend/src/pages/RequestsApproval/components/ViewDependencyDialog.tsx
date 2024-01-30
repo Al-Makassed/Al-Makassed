@@ -1,19 +1,18 @@
-import React, { FC } from "react";
-import { ViewDependencyDialogProps } from "./types";
-import MaqasidDialog from "src/components/MaqasidDialog";
-import { Button, Chip, Skeleton, Stack, Typography } from "@mui/material";
-import useGetDependency from "../hooks/useGetDependency";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import PersonIcon from "@mui/icons-material/Person";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import { Button, Chip, Skeleton, Stack, Typography } from "@mui/material";
+import { FC } from "react";
+import MaqasidDialog from "src/components/MaqasidDialog";
 import { PolicyDependencyType } from "../constants";
+import useGetDependency from "../hooks/useGetDependency";
+import { ViewDependencyDialogProps } from "../types";
 import ViewDependencyDialogSkeleton from "./ViewDependencyDialogSkeleton";
 
 const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
-  chapterId,
-  policyId,
+  info: { chapterId, policyId },
   dependencyId,
   open,
   onClose,
@@ -21,7 +20,7 @@ const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
   const { dependency, isFetching } = useGetDependency({
     chapterId,
     policyId,
-    id: dependencyId,
+    id: dependencyId!,
   });
 
   const DialogHeader = isFetching ? (
@@ -31,6 +30,7 @@ const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
   ) : (
     <MaqasidDialog.Title flex={1} title={dependency?.name} />
   );
+
   return (
     <MaqasidDialog isOpen={open} onClose={onClose} variant="center">
       <MaqasidDialog.Header>
@@ -56,31 +56,48 @@ const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
       ) : (
         <MaqasidDialog.Body>
           <Stack gap={2.5}>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <VpnKeyIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
-
+              <Typography variant="body2"> Code: </Typography>
               <Typography>{dependency?.code}</Typography>
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <AccessAlarmsIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
-              <Typography>{dependency?.estimatedTime}</Typography>
+              <Typography variant="body2">EstimatedTime: </Typography>
+              <Typography>{dependency?.estimatedTimeInMin}</Typography>
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <PersonIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
+              <Typography variant="body2"> CreatorId: </Typography>
+
               <Typography> {dependency?.creatorId}</Typography>
             </Stack>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center" gap={1}>
               <AutoStoriesIcon
-                sx={{ mr: 2, color: (theme) => theme.palette.grey[600] }}
+                sx={{
+                  color: (theme) => theme.palette.grey[600],
+                  fontSize: "1.25rem",
+                }}
               />
+              <Typography variant="body2"> PagesCount:</Typography>
+
               <Typography> {dependency?.pagesCount}</Typography>
             </Stack>
 
@@ -92,7 +109,7 @@ const ViewDependencyDialog: FC<ViewDependencyDialogProps> = ({
                 href={dependency?.pdfUrl || ""}
                 target="_blank"
                 variant="text"
-                sx={{ textTransform: "none", mt: -1 }}
+                sx={{ textTransform: "none", mt: -1, ml: -2 }}
               >
                 Open Dependency File
               </Button>
