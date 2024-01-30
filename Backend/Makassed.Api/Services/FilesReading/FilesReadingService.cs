@@ -71,6 +71,9 @@ public class FilesReadingService : IFilesReadingService
 
         var policiesCount = await _fileReadingRepository.GetAllPoliciesCountAsync();
 
+        if (policiesCount == 0)
+            return new PercentageSuccessResponse(0);
+
         var percentage = finishedPoliciesCount / policiesCount * 100;
 
         return new PercentageSuccessResponse(percentage);
@@ -121,6 +124,9 @@ public class FilesReadingService : IFilesReadingService
         var finishedDependenciesCount = dependencies.Count(p => p.ReadingState == FileReadingState.Finished);
 
         var dependenciesCount = await _fileReadingRepository.GetAllDependenciesCountAsync();
+
+        if (dependenciesCount == 0)
+            return new PercentageSuccessResponse(0);
 
         var percentage = finishedDependenciesCount / dependenciesCount * 100;
 
