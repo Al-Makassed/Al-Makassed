@@ -17,7 +17,6 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // icons
 import UserIcon from "@mui/icons-material/Face";
-import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from "@mui/icons-material/PowerSettingsNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 
@@ -77,7 +76,7 @@ const AccountMenu: FC = () => {
             color: (theme) => theme.palette.grey[50],
           }}
         >
-          {isMobile ? <ArrowDownIcon /> : userName}
+          {!isMobile && userName}
         </Button>
       </Tooltip>
 
@@ -90,6 +89,7 @@ const AccountMenu: FC = () => {
         slotProps={menuSlotProps}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        // anchorPosition={}
       >
         <CardContent sx={{ width: "350px" }}>
           <Grid container justifyContent="space-between" alignItems="center">

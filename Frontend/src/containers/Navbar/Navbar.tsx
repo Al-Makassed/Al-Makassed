@@ -15,7 +15,7 @@ import {
 import { useAppSelector, useAppDispatch } from "src/store/hooks";
 import maqasidLogo from "../../images/logo.jpg";
 import LanguageSelector from "./components/LanguageSelector";
-import MobileMenu from "./components/MobileMenu";
+// import MobileMenu from "./components/MobileMenu";
 import SearchButton from "./components/SearchButton";
 import { NAVBAR_PAGES } from "./constants";
 import { IconButton } from "@mui/material";
@@ -52,7 +52,7 @@ const Navbar = () => {
 
   return (
     <AppBar position="static" elevation={0} color="primary">
-      <Toolbar sx={{ gap: { xs: 0.5, sm: 1 } }}>
+      <Toolbar sx={{ gap: { xs: 0.5, sm: 1 }, px: 3 }}>
         <IconButton onClick={handleToggleAppSideDrawer} color="inherit">
           {isSideDrawerVisible ? <MenuOpenIcon /> : <MenuIcon />}
         </IconButton>
@@ -66,7 +66,7 @@ const Navbar = () => {
           onClick={handleNavigate("/me")}
         />
 
-        <MobileMenu />
+        {/* <MobileMenu /> */}
 
         <Stack
           direction="row"
