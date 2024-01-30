@@ -22,7 +22,7 @@ import LogoutIcon from "@mui/icons-material/PowerSettingsNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 // project imports
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import UserAvatar from "src/components/UserAvatar";
 import { AccountMenuContext } from "./context/AccountMenuContext";
 import ProfileTab from "./ProfileTab";
@@ -30,6 +30,7 @@ import SettingsTab from "./SettingsTab";
 import useAccountMenu from "./hooks/useAccountMenu";
 import { menuSlotProps, tabSx, a11yProps } from "./styles";
 import styles from "./styles.module.css";
+import { useLocation } from "react-router";
 
 const AccountMenu: FC = () => {
   const {
@@ -47,6 +48,15 @@ const AccountMenu: FC = () => {
     handleChangeTab,
     handleLogOut,
   } = useAccountMenu();
+
+  const { pathname } = useLocation();
+
+  // close menu on route change
+  useEffect(() => {
+    return () => {
+      handleClose();
+    };
+  }, [pathname]);
 
   return (
     <AccountMenuContext.Provider

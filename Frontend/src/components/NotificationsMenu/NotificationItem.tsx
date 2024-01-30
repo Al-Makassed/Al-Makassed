@@ -17,6 +17,7 @@ import WarningIcon from "@mui/icons-material/WarningAmber";
 
 // project imports
 import { NotificationItemProps, NotificationType } from "./types";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 const notificationSx: Record<NotificationType, SxProps> = {
   info: {
@@ -43,6 +44,8 @@ const NotificationItem = ({
   type,
   content: { primary, secondary, time },
 }: NotificationItemProps) => {
+  const { isMobile } = useMediaQuery();
+
   return (
     <>
       <ListItemButton>
@@ -57,7 +60,14 @@ const NotificationItem = ({
         </ListItemAvatar>
 
         <ListItemText
-          primary={<Typography variant="body2">{primary}</Typography>}
+          primary={
+            <Typography
+              variant={isMobile ? "caption" : "body2"}
+              sx={{ display: "flex", width: "calc(100% - 55px)" }}
+            >
+              {primary}
+            </Typography>
+          }
           secondary={secondary}
         />
 
