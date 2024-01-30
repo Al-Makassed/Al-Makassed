@@ -22,6 +22,16 @@ const UserProfile = lazy(() => import("src/pages/UserProfile"));
 const Dashboard = lazy(() => import("src/pages/Dashboard"));
 const Home = lazy(() => import("src/pages/Home"));
 const RequestsApproval = lazy(() => import("src/pages/RequestsApproval"));
+const SystemSettings = lazy(() => import("src/pages/SystemSettings"));
+const DepartmentDetails = lazy(
+  () => import("src/pages/SystemSettings/components/DepartmentDetails"),
+);
+const FieldDetails = lazy(
+  () => import("src/pages/SystemSettings/components/FieldDetails"),
+);
+const UserDetails = lazy(
+  () => import("src/pages/SystemSettings/components/UserDetails"),
+);
 
 /**
  * @description Routes that require login
@@ -94,6 +104,25 @@ const loginRoutes: RouteObject = {
         {
           path: "requests-approval",
           element: <RequestsApproval />,
+        },
+        {
+          path: "settings",
+          element: <SystemSettings />,
+          children: [
+            {
+              index: true,
+              path: "departments",
+              element: <DepartmentDetails />,
+            },
+            {
+              path: "fields",
+              element: <FieldDetails />,
+            },
+            {
+              path: "users",
+              element: <UserDetails />,
+            },
+          ],
         },
       ],
     },

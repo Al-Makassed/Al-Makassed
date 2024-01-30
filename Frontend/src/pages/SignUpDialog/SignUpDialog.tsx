@@ -2,7 +2,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, Stack } from "@mui/material";
 import { FormikProvider } from "formik";
-import { FC, useState } from "react";
+import { FC } from "react";
 import AutocompleteField from "src/components/Fields/AutocompleteField";
 import PasswordField from "src/components/Fields/PasswordField";
 import TextField from "src/components/Fields/TextField";
@@ -13,22 +13,23 @@ import { roles } from "./constants";
 import useSignUpForm from "./hooks/useSignUpForm";
 import { Role } from "./types";
 
-const SignUpDialog: FC = () => {
+interface SignUpDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const SignUpDialog: FC<SignUpDialogProps> = ({ onClose, open }) => {
   const formikProps = useSignUpForm();
 
   const { submitForm, isSubmitting, dirty, isValid, setFieldValue } =
     formikProps;
 
-  const [isOpen, setIsOpen] = useState(true);
-
   const { departments } = useGetDepartments();
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  const handleClose = () => onClose();
 
   return (
-    <MaqasidDialog isOpen={isOpen} onClose={handleClose} variant="right">
+    <MaqasidDialog isOpen={open} onClose={handleClose} variant="right">
       <MaqasidDialog.Header>
         <MaqasidDialog.Title flex={1} title="Register User" />
         <MaqasidDialog.Actions>
