@@ -15,7 +15,7 @@ const useEditUserRoleAPI = (userId: string) => {
     mutationFn: renameUserRoleAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [...USER_QUERY_KEY, userId],
+        queryKey: [USER_QUERY_KEY, userId],
       });
       dispatch(
         showSuccessSnackbar({

@@ -192,7 +192,7 @@ const UserDetails: FC = () => {
       <EditUserRoleDialog
         open={dialogType === UserDialogType.EDIT_ROLE}
         onClose={handleCloseDialog}
-        userRole={selectedUser!}
+        user={selectedUser!}
       />
 
       <EditUserDepartmentDialog
@@ -202,7 +202,7 @@ const UserDetails: FC = () => {
       />
 
       <ConfirmDialog
-        isOpen={dialogType === UserDialogType.ADD}
+        isOpen={dialogType === UserDialogType.DELETE}
         title="Remove User"
         body="⚠️ Are you sure you want to permanently remove this User?"
         onClose={handleCloseDialog}

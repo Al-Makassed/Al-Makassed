@@ -16,7 +16,7 @@ export interface EditFieldFormValues {
 
 export interface EditUserRoleFormValues {
   id: string;
-  roles: string[];
+  roles: Role | null;
 }
 
 export interface EditUserDepartmentFormValues {

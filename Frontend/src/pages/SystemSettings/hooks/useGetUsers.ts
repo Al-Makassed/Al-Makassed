@@ -12,7 +12,7 @@ const useGetUsers = () => {
 
   const { data: users, error } = useQuery({
     queryFn: () => getUsers(),
-    queryKey: USER_QUERY_KEY,
+    queryKey: [USER_QUERY_KEY],
   });
 
   useEffect(() => {

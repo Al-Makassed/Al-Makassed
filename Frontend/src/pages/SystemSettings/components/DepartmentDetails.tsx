@@ -124,7 +124,6 @@ const DepartmentDetails: FC = () => {
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
-            sx={{ bgcolor: (theme) => theme.palette.grey[100] }}
           />
         </Grid>
       </Stack>

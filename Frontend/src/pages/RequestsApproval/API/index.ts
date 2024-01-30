@@ -7,7 +7,7 @@ import {
   GetDependency,
   MonitoringTool,
   Policy,
-} from "./types";
+} from "./Types";
 
 export const getApprovalRequests = () => {
   return axios.get<ApprovalRequest[]>(`requests`).then((res) => res.data);

@@ -10,19 +10,15 @@ import { Role, role } from "../types";
 import AutocompleteField from "src/components/Fields/AutocompleteField";
 
 interface EditUserDialogProps {
-  userRole: User;
+  user: User;
   open: boolean;
   onClose: () => void;
 }
 
-const EditUserDialog: FC<EditUserDialogProps> = ({
-  userRole,
-  open,
-  onClose,
-}) => {
-  if (userRole == null) return null;
+const EditUserDialog: FC<EditUserDialogProps> = ({ user, open, onClose }) => {
+  if (user == null) return null;
 
-  const { formikProps, isRenaming } = useEditUserRoleForm(userRole);
+  const { formikProps, isRenaming } = useEditUserRoleForm(user);
 
   const { dirty, isValid, submitForm, resetForm, setFieldValue } = formikProps;
 
@@ -41,6 +37,11 @@ const EditUserDialog: FC<EditUserDialogProps> = ({
     onClose();
   };
 
+  const handleSubmit = () => {
+    submitForm();
+    onClose();
+  };
+
   return (
     <>
       <MaqasidDialog isOpen={open} onClose={onClose}>
@@ -51,40 +52,38 @@ const EditUserDialog: FC<EditUserDialogProps> = ({
             <MaqasidDialog.Close />
           </MaqasidDialog.Actions>
         </MaqasidDialog.Header>
-        <MaqasidDialog.Body niceScroll>
-          <FormikProvider value={formikProps}>
+        <FormikProvider value={formikProps}>
+          <MaqasidDialog.Body niceScroll>
             <Stack>
               <AutocompleteField
                 name="roles"
-                label="roles"
-                disablePortal
-                id="role-autocomplete"
+                label="ٌRoles"
+                id="roles-autocomplete"
+                defaultValue={null}
                 options={role}
                 getOptionLabel={(option) => (option as Role).name}
                 onChange={(event, value) => {
-                  setFieldValue("roles", [(value as Role).name]);
+                  setFieldValue("roles", value);
                 }}
               />
             </Stack>
-          </FormikProvider>
-        </MaqasidDialog.Body>
-
-        <MaqasidDialog.Footer>
-          <LoadingButton
-            loading={isRenaming}
-            disabled={!dirty || !isValid}
-            loadingPosition="start"
-            size="medium"
-            type="submit"
-            variant="contained"
-            aria-label="Forgot"
-            onClick={submitForm}
-            startIcon={<DriveFileRenameOutlineIcon />}
-          >
-            change userRole
-          </LoadingButton>
-        </MaqasidDialog.Footer>
-
+          </MaqasidDialog.Body>
+          <MaqasidDialog.Footer>
+            <LoadingButton
+              loading={isRenaming}
+              disabled={!dirty || !isValid}
+              loadingPosition="start"
+              size="medium"
+              type="submit"
+              variant="contained"
+              aria-label="Forgot"
+              onClick={handleSubmit}
+              startIcon={<DriveFileRenameOutlineIcon />}
+            >
+              change userRole
+            </LoadingButton>
+          </MaqasidDialog.Footer>
+        </FormikProvider>
         <MaqasidDialog.SaveChangesConfirmationDialog
           isDirty={dirty}
           cancelProps={{
