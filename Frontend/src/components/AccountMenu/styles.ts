@@ -29,7 +29,7 @@ export const menuSlotProps: MenuProps["slotProps"] = {
         ml: -0.5,
         mr: 1,
       },
-      ...arrowTop,
+      // ...arrowTop,
     },
   },
 };

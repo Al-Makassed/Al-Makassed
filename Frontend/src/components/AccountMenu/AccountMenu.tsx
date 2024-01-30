@@ -24,7 +24,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 // project imports
 import { FC } from "react";
 import UserAvatar from "src/components/UserAvatar";
-import { AccountContext } from "./context/AccountContext";
+import { AccountMenuContext } from "./context/AccountMenuContext";
 import ProfileTab from "./ProfileTab";
 import SettingsTab from "./SettingsTab";
 import useAccountMenu from "./hooks/useAccountMenu";
@@ -49,7 +49,7 @@ const AccountMenu: FC = () => {
   } = useAccountMenu();
 
   return (
-    <AccountContext.Provider
+    <AccountMenuContext.Provider
       value={{
         onClose: handleClose,
         onLogOut: handleLogOut,
@@ -160,7 +160,7 @@ const AccountMenu: FC = () => {
           </TabPanel>
         </TabContext>
       </Menu>
-    </AccountContext.Provider>
+    </AccountMenuContext.Provider>
   );
 };
 
