@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { ACCESS_TOKEN_KEY } from "src/constants/localStorage";
+import { getApiUrl } from "src/utils/environment";
 
 const defaultAxiosSettings: AxiosRequestConfig = {
   headers: {
@@ -10,14 +11,14 @@ const defaultAxiosSettings: AxiosRequestConfig = {
 };
 
 const axiosMaqasid = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: getApiUrl(),
   ...defaultAxiosSettings,
 });
 
 export default axiosMaqasid;
 
 export const axiosFormData = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: getApiUrl(),
   headers: {
     ...defaultAxiosSettings.headers,
     Accept: "*/*",

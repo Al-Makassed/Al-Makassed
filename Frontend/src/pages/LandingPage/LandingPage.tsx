@@ -16,7 +16,7 @@ const LandingPage: FC = () => {
   return (
     <Container>
       <Typography variant="h4" fontWeight={500}>
-        Public Landing Page 🚀
+        Public Landing Page 🚀 {import.meta.env.VITE_ENV}
       </Typography>
       <Stack direction="row" gap={1}>
         <Button
