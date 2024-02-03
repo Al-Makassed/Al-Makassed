@@ -23,9 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: |
-          cd Backend
-          dotnet build --configuration Release
+        run: dotnet build Backend/Makassed.Api/Makassed.Api.csproj --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
