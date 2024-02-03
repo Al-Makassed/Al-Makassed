@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+env:
+ AZURE_WEBAPP_NAME: almakassed
+ AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+
 jobs:
   publish:
     runs-on: windows-latest
@@ -25,5 +29,12 @@ jobs:
         run: dotnet build ./Backend/MakassedBackend.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./Backend/MakassedBackend.sln --configuration Release --no-build
+        run: dotnet publish ./Backend/MakassedBackend.sln --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+      - name: Deployment
+        uses: azure/webapps-deploy@2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_ALMAKASSED }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
        
