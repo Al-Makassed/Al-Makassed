@@ -18,6 +18,9 @@ const LandingPage: FC = () => {
       <Typography variant="h4" fontWeight={500}>
         Public Landing Page 🚀 {import.meta.env.VITE_ENV}
       </Typography>
+      <Typography variant="caption" fontWeight={400}>
+        Test staging environment
+      </Typography>
       <Stack direction="row" gap={1}>
         <Button
           startIcon={<KeyIcon />}
