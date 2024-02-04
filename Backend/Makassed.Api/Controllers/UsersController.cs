@@ -130,4 +130,10 @@ public class UsersController : ApiController
             Problem
         );
     }
+
+    [HttpGet("example")]
+    public IActionResult Example()
+    {
+        return Ok("Hello from Users Controller");
+    }
 }
