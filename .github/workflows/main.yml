@@ -31,10 +31,13 @@ jobs:
       - name: Publish
         run: dotnet publish ./Backend/MakassedBackend.sln --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-      - name: Azure Login
+      # - name: Azure Login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure Login using Managed Identity
         uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
     
       - name: Deployment
         uses: azure/webapps-deploy@v2
