@@ -11,7 +11,7 @@ on:
 
 env:
  AZURE_WEBAPP_NAME: maqasid
- AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+ AZURE_WEBAPP_PACKAGE_PATH: "./publish/staging"
  PROJECT_PATH: "Backend/Makassed.Api/Makassed.Api.csproj"
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -57,4 +57,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_MAQASID }}
-          # package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
