@@ -134,6 +134,6 @@ public class UsersController : ApiController
     [HttpGet("example")]
     public IActionResult Example()
     {
-        return Ok("Hello from Users Controller - Staging");
+        return Ok("Hello from Users Controller - Staging 🫡");
     }
 }
