@@ -14,7 +14,7 @@ env:
  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
  PROJECT_PATH: "Backend/Makassed.Api/Makassed.Api.csproj"
 
- jobs:
+jobs:
   build:
     runs-on: windows-latest
 
