@@ -1,11 +1,5 @@
 import axios from "src/API/axios";
-import {
-  Category,
-  CreateFieldRequest,
-  Field,
-  FocalPointTask,
-  MonitoringTool,
-} from "./types";
+import { FocalPointTask, MonitoringTool } from "./types";
 
 export const getMonitoringTools = () => {
   return axios
@@ -17,14 +11,4 @@ export const getFocalPointTasks = (departmentId: string) => {
   return axios
     .get<FocalPointTask[]>(`/focal-point-tasks/departments/${departmentId}`)
     .then((res) => res.data);
-};
-
-export const createField = ({ content, categoryId }: CreateFieldRequest) => {
-  return axios
-    .post<Field>("/fields", { content, categoryId })
-    .then((res) => res.data);
-};
-
-export const getCategories = () => {
-  return axios.get<Category[]>(`/categories`).then((res) => res.data);
 };

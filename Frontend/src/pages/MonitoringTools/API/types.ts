@@ -24,11 +24,6 @@ export interface Category {
   name: string;
 }
 
-export interface CreateFieldRequest {
-  content: string;
-  categoryId: string;
-}
-
 export interface Department {
   id: string;
   name: string;
