@@ -16,36 +16,47 @@ public class SqlFieldRepository : IFieldRepository
     
     public async Task<List<Field>> GetFieldsAsync()
     {
-        return await _dbContext.Fields.ToListAsync();
+        return await _dbContext.Fields
+            .Include(f => f.Category)
+            .ToListAsync();
     }
 
     public async Task<Field?> GetFieldAsync(Guid id)
     {
-        return await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
+        return await _dbContext.Fields
+            .Include(f => f.Category)
+            .FirstOrDefaultAsync(f => f.Id == id);
     }
 
     public async Task<Field?> GetFieldByContentAsync(string fieldContent)
     {
-        return await _dbContext.Fields.FirstOrDefaultAsync(f => f.Content == fieldContent);
+        return await _dbContext.Fields
+            .Include(f => f.Category)
+            .FirstOrDefaultAsync(f => f.Content == fieldContent);
     }
 
     public async Task<Field> CreateFieldAsync(Field field)
     {
-        await _dbContext.Fields.AddAsync(field);
+        var result = await _dbContext.Fields.AddAsync(field);
         await _dbContext.SaveChangesAsync();
 
-        return field;
+        var createdField = await GetFieldAsync(result.Entity.Id);
+
+        return createdField!;
     }
 
     public async Task<Field?> UpdateFieldAsync(Guid id, Field field)
     {
         
-        var fieldToUpdate = await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
+        var fieldToUpdate = await _dbContext.Fields
+            .Include(f => f.Category)
+            .FirstOrDefaultAsync(f => f.Id == id);
 
         if (fieldToUpdate is null)
             return null;
 
         fieldToUpdate.Content = field.Content;
+        fieldToUpdate.CategoryId = field.CategoryId;
 
         await _dbContext.SaveChangesAsync();
 
@@ -54,7 +65,9 @@ public class SqlFieldRepository : IFieldRepository
 
     public async Task<Field?> DeleteFieldAsync(Guid id)
     {
-        var fieldToDelete = await _dbContext.Fields.FirstOrDefaultAsync(f => f.Id == id);
+        var fieldToDelete = await _dbContext.Fields
+            .Include(f => f.Category)
+            .FirstOrDefaultAsync(f => f.Id == id);
 
         if (fieldToDelete is null)
             return null;
