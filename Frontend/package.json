@@ -14,11 +14,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.14.11",
     "@mui/lab": "^5.0.0-alpha.151",
-    "@mui/material": "^5.14.18",
+    "@mui/material": "^5.15.2",
+    "@mui/x-data-grid": "^6.19.1",
     "@mui/x-date-pickers": "^6.19.2",
     "@reduxjs/toolkit": "^1.9.7",
     "@tanstack/match-sorter-utils": "^8.11.7",
@@ -33,6 +35,7 @@
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",
     "i18next-http-backend": "^2.2.2",
+    "material-table": "^2.0.5",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",

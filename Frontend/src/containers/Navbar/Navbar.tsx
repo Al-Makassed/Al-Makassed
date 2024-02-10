@@ -1,3 +1,6 @@
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { IconButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -6,47 +9,45 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import AccountMenu from "src/components/AccountMenu";
+import NotificationsMenu from "src/components/NotificationsMenu";
 import {
+  hideSideDrawer,
   selectIsNavbarVisible,
-  // selectIsSideDrawerVisible,
-  // showSideDrawer,
-  // hideSideDrawer,
+  selectIsSideDrawerVisible,
+  showSideDrawer,
 } from "src/features/appSettings";
-import { useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import maqasidLogo from "../../images/logo.jpg";
 import LanguageSelector from "./components/LanguageSelector";
+import ManagmentMenu from "./components/ManagmentMenu";
 import MobileMenu from "./components/MobileMenu";
 import SearchButton from "./components/SearchButton";
 import { NAVBAR_PAGES } from "./constants";
-// import { IconButton } from "@mui/material";
-// import MenuIcon from "@mui/icons-material/Menu";
-// import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-// import NotificationsMenu from "src/components/NotificationsMenu";
 
 const Navbar = () => {
   const isNavbarVisible = useAppSelector(selectIsNavbarVisible);
 
-  // const isSideDrawerVisible = useAppSelector(selectIsSideDrawerVisible);
+  const isSideDrawerVisible = useAppSelector(selectIsSideDrawerVisible);
 
   const navigate = useNavigate();
 
   const handleNavigate = (page: string) => () => navigate(page);
 
-  // const handleToggleAppSideDrawer = () => {
-  //   const action = isSideDrawerVisible ? hideSideDrawer() : showSideDrawer();
-  //   dispatch(action);
-  // };
+  const handleToggleAppSideDrawer = () => {
+    const action = isSideDrawerVisible ? hideSideDrawer() : showSideDrawer();
+    dispatch(action);
+  };
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   if (!isNavbarVisible) return null;
 
   return (
     <AppBar position="static" elevation={0} color="primary">
       <Toolbar sx={{ gap: { xs: 0.5, sm: 1 } }}>
-        {/* <IconButton onClick={handleToggleAppSideDrawer} color="inherit">
+        <IconButton onClick={handleToggleAppSideDrawer} color="inherit">
           {isSideDrawerVisible ? <MenuOpenIcon /> : <MenuIcon />}
-        </IconButton> */}
+        </IconButton>
 
         <Avatar
           alt="logo"
@@ -78,6 +79,7 @@ const Navbar = () => {
               {page.name}
             </Button>
           ))}
+          <ManagmentMenu />
         </Stack>
 
         <Box sx={{ flexGrow: 1 }} />
@@ -86,7 +88,7 @@ const Navbar = () => {
           {/* {!isMobile && <SearchBar />} */}
           <SearchButton />
           <LanguageSelector />
-          {/* <NotificationsMenu /> */}
+          <NotificationsMenu />
           <AccountMenu />
         </Stack>
       </Toolbar>

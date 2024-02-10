@@ -25,6 +25,7 @@ const AddMonitoringToolForm: FC = () => {
           name="description"
           label="Description"
           placeholder="e.g. Here goes the description"
+          multiline
         />
 
         <AutocompleteField

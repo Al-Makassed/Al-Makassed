@@ -17,19 +17,19 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 // icons
 import UserIcon from "@mui/icons-material/Face";
-import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from "@mui/icons-material/PowerSettingsNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 // project imports
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import UserAvatar from "src/components/UserAvatar";
-import { AccountContext } from "./context/AccountContext";
+import { AccountMenuContext } from "./context/AccountMenuContext";
 import ProfileTab from "./ProfileTab";
 import SettingsTab from "./SettingsTab";
 import useAccountMenu from "./hooks/useAccountMenu";
 import { menuSlotProps, tabSx, a11yProps } from "./styles";
 import styles from "./styles.module.css";
+import { useLocation } from "react-router";
 
 const AccountMenu: FC = () => {
   const {
@@ -47,8 +47,17 @@ const AccountMenu: FC = () => {
     handleLogOut,
   } = useAccountMenu();
 
+  const { pathname } = useLocation();
+
+  // close menu on route change
+  useEffect(() => {
+    return () => {
+      handleClose();
+    };
+  }, [pathname]);
+
   return (
-    <AccountContext.Provider
+    <AccountMenuContext.Provider
       value={{
         onClose: handleClose,
         onLogOut: handleLogOut,
@@ -74,7 +83,7 @@ const AccountMenu: FC = () => {
           >
             <UserAvatar src={avatarUrl} initials={userInitial} />
             {!isMobile && fullName.split(" ")[0]}
-            {isMobile && <ArrowDownIcon />}
+            {/* {isMobile && <ArrowDownIcon />} */}
           </Stack>
         </Button>
       </Tooltip>
@@ -88,6 +97,7 @@ const AccountMenu: FC = () => {
         slotProps={menuSlotProps}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        // anchorPosition={}
       >
         <CardContent sx={{ width: "350px" }}>
           <Grid container justifyContent="space-between" alignItems="center">
@@ -168,7 +178,7 @@ const AccountMenu: FC = () => {
           </TabPanel>
         </TabContext>
       </Menu>
-    </AccountContext.Provider>
+    </AccountMenuContext.Provider>
   );
 };
 

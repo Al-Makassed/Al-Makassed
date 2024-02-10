@@ -1,13 +1,15 @@
 import { useContext } from "react";
-import { AccountContext } from "./AccountContext";
+import { AccountMenuContext } from "./AccountMenuContext";
 
-const useAccountContext = () => {
-  const context = useContext(AccountContext);
+const useAccountMenuContext = () => {
+  const context = useContext(AccountMenuContext);
 
   if (!context)
-    throw new Error("useAccountContext must be used within an AccountProvider");
+    throw new Error(
+      "useAccountMenuContext must be used within an AccountMenuProvider",
+    );
 
   return context;
 };
 
-export default useAccountContext;
+export default useAccountMenuContext;

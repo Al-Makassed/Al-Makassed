@@ -38,7 +38,7 @@ const PolicyDetails: FC = () => {
     <Stack
       p={5}
       width="100%"
-      height="100vh"
+      height="100vh - 64px"
       gap={3}
       // pr={5}
       // pl={{ xs: 5, sm: isSidebarOpen ? 5 : 9 }}

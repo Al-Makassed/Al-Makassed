@@ -11,8 +11,8 @@ const PoliciesAndProceduresWithProvider = () => {
 };
 
 const withRouteHoC = routeHOC({
-  title: "Policies & Procedures",
-  pageAccessName: "PoliciesAndProcedures",
+  title: "Policies&Procedures",
+  pageAccessName: "Policies&Procedures",
 });
 
 export default withRouteHoC(PoliciesAndProceduresWithProvider);

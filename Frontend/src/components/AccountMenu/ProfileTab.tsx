@@ -20,15 +20,13 @@ import useAccountContext from "./context/useAccountContext";
 const ProfileTab = () => {
   const navigate = useNavigate();
 
-  const { onClose, onLogOut } = useAccountContext();
+  const { onLogOut } = useAccountContext();
 
   const handleProfileClick = () => {
-    onClose();
     navigate("/me/profile");
   };
 
   const handleResetPassword = () => {
-    onClose();
     navigate("/me/reset-password");
   };
 

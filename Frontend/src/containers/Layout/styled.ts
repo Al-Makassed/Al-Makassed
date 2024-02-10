@@ -8,7 +8,7 @@ export const AppLayoutContainer = styled(Grid, {
     !["isNavbarVisible", "isSideDrawerVisible"].includes(prop.toString()),
   name: "AppLayoutContainer",
 })<AppLayoutContainerProps>(
-  ({ theme, isNavbarVisible, isSideDrawerVisible, dir }) => ({
+  ({ theme, isNavbarVisible, isSideDrawerVisible, dir, isMobile }) => ({
     position: "absolute",
     top: isNavbarVisible ? NAVBAR_HEIGHT : 0,
     height: isNavbarVisible ? `calc(100% - ${NAVBAR_HEIGHT}px)` : "100%",
@@ -20,10 +20,11 @@ export const AppLayoutContainer = styled(Grid, {
     justifyContent: "center",
     alignItems: "center",
     ...theme.mixins.niceScroll(),
-    ...(isSideDrawerVisible && {
-      ...(dir === "rtl"
-        ? { paddingRight: APP_SIDE_DRAWER_WIDTH }
-        : { paddingLeft: APP_SIDE_DRAWER_WIDTH }),
-    }),
+    ...(isSideDrawerVisible &&
+      !isMobile && {
+        ...(dir === "rtl"
+          ? { paddingRight: APP_SIDE_DRAWER_WIDTH }
+          : { paddingLeft: APP_SIDE_DRAWER_WIDTH }),
+      }),
   }),
 );

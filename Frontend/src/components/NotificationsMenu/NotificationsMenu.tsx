@@ -66,7 +66,7 @@ const NotificationsMenu = () => {
             </IconButton>
           }
           sx={{
-            width: "500px",
+            width: "min(500px, 90vw)",
           }}
         >
           {NOTIFICATIONS.map((item) => (

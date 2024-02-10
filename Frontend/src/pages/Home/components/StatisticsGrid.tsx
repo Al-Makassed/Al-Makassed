@@ -17,7 +17,7 @@ const StatisticsGrid: FC = () => {
       rowGap={1}
       sx={{
         pl: { md: 2, lg: 0 },
-        pb: 2,
+        pb: 1,
         overflowY: { md: "auto" },
         ...theme.mixins.niceScroll(),
       }}

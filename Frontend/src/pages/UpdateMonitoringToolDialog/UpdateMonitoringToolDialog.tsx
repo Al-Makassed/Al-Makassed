@@ -62,6 +62,7 @@ const MonitoringToolViewDialog: FC = () => {
         isOpen={openedMainDialog === MonitoringToolsDialog.MonitoringTool}
         onClose={handleCloseDialog}
         variant="right"
+        maxWidth="md"
       >
         <MaqasidDialog.Header>
           {DialogHeader}

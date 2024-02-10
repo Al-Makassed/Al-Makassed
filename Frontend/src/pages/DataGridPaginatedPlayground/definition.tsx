@@ -27,7 +27,6 @@ export const columns: ColumnDef<UserData>[] = [
     accessorKey: "body",
     header: "Body",
     // minSize: 400,
-    filterFn: "dateBetween",
     // size: "auto",
   },
   {

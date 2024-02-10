@@ -6,11 +6,14 @@ import useAppLayoutNavbar from "src/hooks/useAppLayoutNavbar";
 import { AppLayoutContainer } from "./styled";
 import AppSideDrawer from "src/components/AppSideDrawer";
 import { useTranslation } from "react-i18next";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 const AppLayout: FC = () => {
   const { isNavbarVisible, isSideDrawerVisible } = useAppLayoutNavbar();
 
   const { i18n } = useTranslation();
+
+  const { isMobile } = useMediaQuery();
 
   return (
     <>
@@ -22,6 +25,7 @@ const AppLayout: FC = () => {
         isNavbarVisible={isNavbarVisible}
         isSideDrawerVisible={isSideDrawerVisible}
         dir={i18n.dir()}
+        isMobile={isMobile}
       >
         <Outlet />
       </AppLayoutContainer>
