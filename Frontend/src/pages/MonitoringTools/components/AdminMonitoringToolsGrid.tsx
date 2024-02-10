@@ -1,15 +1,22 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
+import AddFieldDialog from "src/pages/AddFieldDialog/AddFieldDialog";
 import AddMonitoringToolDialog from "src/pages/AddMonitoringToolDialog";
 import UpdateMonitoringToolProvider from "src/pages/UpdateMonitoringToolDialog/context/UpdateMonitoringToolProvider";
 import UpdateMonitoringToolDialog from "../../UpdateMonitoringToolDialog";
+import { MonitoringToolsDialog } from "../constants";
+import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
 import useGetMonitoringTools from "../hooks/useGetMonitoringTools";
 import LoadingSkeleton from "./GridLoadingSkeleton";
 import MonitoringToolCard from "./MonitoringToolCard";
-import AddFieldDialog from "src/pages/AddFieldDialog/AddFieldDialog";
 
 const AdminMonitoringToolsGrid: FC = () => {
   const { monitoringTools, isFetching } = useGetMonitoringTools();
+
+  const {
+    state: { openedDialog },
+    onCloseDialog,
+  } = useMonitoringToolsContext();
 
   if (isFetching) return <LoadingSkeleton key="AdminMonitoringToolsGrid" />;
 
@@ -38,7 +45,10 @@ const AdminMonitoringToolsGrid: FC = () => {
         <UpdateMonitoringToolDialog />
       </UpdateMonitoringToolProvider>
 
-      <AddFieldDialog />
+      <AddFieldDialog
+        open={openedDialog === MonitoringToolsDialog.AddField}
+        onClose={onCloseDialog}
+      />
 
       <AddMonitoringToolDialog />
     </>

@@ -3,28 +3,24 @@ import { LoadingButton } from "@mui/lab";
 import { Stack } from "@mui/material";
 import { Form, FormikProvider } from "formik";
 import { FC, useEffect } from "react";
+import AutocompleteField from "src/components/Fields/AutocompleteField";
 import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import useAddFieldForm from "./hooks/useAddFieldForm";
-import AutocompleteField from "src/components/Fields/AutocompleteField";
 import { Category } from "./API/types";
+import useAddFieldForm from "./hooks/useAddFieldForm";
 import useGetCategories from "./hooks/useGetCategories";
-import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
-import { MonitoringToolsDialog } from "../MonitoringTools/constants";
 
-const AddFieldDialog: FC = () => {
+export interface AddFieldDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const AddFieldDialog: FC<AddFieldDialogProps> = ({ open, onClose }) => {
   const { formikProps, isPending, status } = useAddFieldForm();
 
   const { dirty, isValid, resetForm, submitForm, setFieldValue } = formikProps;
 
   const { categories } = useGetCategories();
-
-  const {
-    state: { openedDialog },
-    onCloseDialog,
-  } = useMonitoringToolsContext();
-
-  const handleCloseDialog = () => onCloseDialog();
 
   const handleSubmitForm = () => {
     submitForm();
@@ -32,7 +28,7 @@ const AddFieldDialog: FC = () => {
 
   useEffect(() => {
     if (!isPending && status === "success") {
-      handleCloseDialog();
+      onClose();
     }
   }, [isPending]);
 
@@ -40,8 +36,8 @@ const AddFieldDialog: FC = () => {
     <FormikProvider value={formikProps}>
       <Form>
         <MaqasidDialog
-          isOpen={openedDialog === MonitoringToolsDialog.AddField}
-          onClose={handleCloseDialog}
+          isOpen={open}
+          onClose={onClose}
           onClosed={() => resetForm()}
           disableBackdropClick={dirty}
           disableEscapeKeyDown={dirty}

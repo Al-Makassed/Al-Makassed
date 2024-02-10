@@ -57,8 +57,3 @@ export interface EditFieldRequest {
   content: string;
   categoryId: string;
 }
-
-export interface CreateFieldRequest {
-  content: string;
-  categoryId: string;
-}
