@@ -1,16 +1,16 @@
 import { useFormik } from "formik";
 import { fieldValidationSchema } from "../schema";
-import { EditFieldFormValues } from "../types";
 import useEditFieldAPI from "./useEditFieldAPI";
-import { Field } from "../API/type";
+import { EditFieldRequest, Field } from "../API/type";
 
 const useEditFieldForm = (Field: Field) => {
   const { editField, isRenaming } = useEditFieldAPI();
 
-  const submitForm = (values: EditFieldFormValues) => {
+  const submitForm = (values: EditFieldRequest) => {
     editField({
       id: values.id,
       content: values.content,
+      categoryId: values.categoryId,
     });
   };
 
@@ -18,6 +18,7 @@ const useEditFieldForm = (Field: Field) => {
     initialValues: {
       id: Field.id,
       content: Field.content,
+      categoryId: Field.category.id,
     },
     validationSchema: fieldValidationSchema,
     onSubmit: submitForm,

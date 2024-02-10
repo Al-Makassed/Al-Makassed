@@ -8,7 +8,7 @@ const useAddFieldForm = () => {
   const { addNewField, isPending, status } = useAddFieldAPI();
 
   const submitForm = (values: CreateFieldRequest) => {
-    addNewField({ content: values.content });
+    addNewField({ content: values.content, categoryId: values.categoryId });
   };
 
   const formikProps = useFormik({

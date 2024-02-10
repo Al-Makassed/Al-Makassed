@@ -7,6 +7,12 @@ export interface Department {
 export interface Field {
   id: string;
   content: string;
+  category: Category;
+}
+
+export interface Category {
+  id: string;
+  name: string;
 }
 
 export interface getField {
@@ -44,4 +50,15 @@ export interface UserRoles {
 export interface UserDepartment {
   id: string;
   departmentId: string;
+}
+
+export interface EditFieldRequest {
+  id: string;
+  content: string;
+  categoryId: string;
+}
+
+export interface CreateFieldRequest {
+  content: string;
+  categoryId: string;
 }

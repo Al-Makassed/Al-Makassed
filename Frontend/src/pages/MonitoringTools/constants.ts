@@ -8,6 +8,7 @@ export const FIELDS_QUERY_KEY = ["Fields"];
 
 export const initialValues: CreateFieldRequest = {
   content: "",
+  categoryId: "",
 };
 
 export enum MonitoringToolsDialog {

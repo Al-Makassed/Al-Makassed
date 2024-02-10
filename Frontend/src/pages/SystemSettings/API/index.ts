@@ -1,6 +1,8 @@
 import axios from "src/API/axios";
 import {
+  CreateFieldRequest,
   Department,
+  EditFieldRequest,
   Field,
   User,
   UserDepartment,
@@ -41,16 +43,24 @@ export const deleteDepartment = (id: string) => {
   return axios.delete<Department>(`/departments/${id}`).then((res) => res.data);
 };
 
-export const createField = (content: string) => {
-  return axios.post<Field>("/fields", { content }).then((res) => res.data);
+export const createField = ({ content, categoryId }: CreateFieldRequest) => {
+  return axios
+    .post<Field>("/fields", { content, categoryId })
+    .then((res) => res.data);
 };
 
 export const deleteField = (id: string) => {
   return axios.delete<Field>(`/fields/${id}`).then((res) => res.data);
 };
 
-export const renameFieldAPI = ({ id, content }: Field) => {
-  return axios.put<Field>(`/fields/${id}`, { content }).then((res) => res.data);
+export const renameFieldAPI = ({
+  id,
+  content,
+  categoryId,
+}: EditFieldRequest) => {
+  return axios
+    .put<Field>(`/fields/${id}`, { content, categoryId })
+    .then((res) => res.data);
 };
 
 //

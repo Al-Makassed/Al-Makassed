@@ -1,4 +1,4 @@
-import { getDepartment, getField, getUser } from "./API/type";
+import { CreateFieldRequest, getDepartment, getUser } from "./API/type";
 
 export const DEPARTMENT_QUERY_KEY = ["Department"];
 
@@ -12,8 +12,9 @@ export const initialValues: getDepartment = {
   name: "",
 };
 
-export const FieldInitialValues: getField = {
+export const FieldInitialValues: CreateFieldRequest = {
   content: "",
+  categoryId: "",
 };
 
 export const UserInitialValues: getUser = {

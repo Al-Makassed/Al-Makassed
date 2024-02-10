@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { getField } from "../API/type";
+import { CreateFieldRequest } from "../API/type";
 import { FieldInitialValues } from "../constants";
 import { fieldValidationSchema } from "../schema";
 import useAddFieldAPI from "./useAddFieldAPI";
@@ -7,8 +7,8 @@ import useAddFieldAPI from "./useAddFieldAPI";
 const useAddFieldForm = () => {
   const { isPending, addNewField } = useAddFieldAPI();
 
-  const submitForm = (values: getField) => {
-    addNewField(values.content);
+  const submitForm = (values: CreateFieldRequest) => {
+    addNewField({ content: values.content, categoryId: values.categoryId });
   };
 
   const formikProps = useFormik({
