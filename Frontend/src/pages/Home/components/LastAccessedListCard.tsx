@@ -24,9 +24,7 @@ const LastAccessedListCard: FC = () => {
   const theme = useTheme<Theme>();
 
   if (isFetching)
-    return (
-      <Skeleton variant="rounded" height={"calc(100vh - 64px - 32px - 12px)"} />
-    );
+    return <Skeleton variant="rounded" height={"calc(100vh - 64px - 32px)"} />;
 
   if (!readFiles) return null;
 
@@ -49,7 +47,7 @@ const LastAccessedListCard: FC = () => {
             overflowY: "auto",
             maxHeight: {
               xs: "100%",
-              lg: "calc(100vh - 64px - 32px - 72.018px)",
+              lg: "calc(100vh - 64px - 32px - 62px)",
             },
             p: 2,
             pt: 0.5,

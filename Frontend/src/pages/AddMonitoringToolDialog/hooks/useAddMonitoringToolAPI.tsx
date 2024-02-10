@@ -3,7 +3,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { showSuccessSnackbar, showErrorSnackbar } from "src/features/snackbar";
 import { AxiosBaseError } from "src/types";
 import { extractErrorMessage } from "src/utils";
-import { MONITORING_TOOL_QUERY_KEY } from "../constants";
+import { MONITORING_TOOLS_QUERY_KEY } from "../constants";
 import { createMonitoringTool } from "../API";
 
 const useAddMonitoringToolAPI = () => {
@@ -15,7 +15,7 @@ const useAddMonitoringToolAPI = () => {
     mutationFn: createMonitoringTool,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: MONITORING_TOOL_QUERY_KEY,
+        queryKey: [MONITORING_TOOLS_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({

@@ -7,3 +7,12 @@
 .htmlText h3 {
   margin: 10px 0;
 }
+
+.htmlText a {
+  color: #009688;
+  text-decoration: none;
+}
+
+.htmlText a:hover {
+  text-decoration: underline;
+}

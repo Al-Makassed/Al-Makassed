@@ -1,6 +1,6 @@
 import { AddMonitoringToolFormPayload } from "./types";
 
-export const MONITORING_TOOL_QUERY_KEY = ["MonitoringTool"];
+export const MONITORING_TOOLS_QUERY_KEY = ["MonitoringTools"];
 
 export const FIELD_QUERY_KEY = ["Field"];
 

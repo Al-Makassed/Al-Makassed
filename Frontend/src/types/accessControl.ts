@@ -9,6 +9,7 @@ export type PageAccessName =
   | "Dashboard"
   | "MonitoringTools"
   | "TaskSubmissionForm"
+  | "UserProfile"
   | "Policies&Procedures"
   | "RequestsApproval"
   | "Page5";

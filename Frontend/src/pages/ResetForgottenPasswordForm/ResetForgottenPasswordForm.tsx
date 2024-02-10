@@ -97,11 +97,12 @@ const ResetForgottenPasswordForm: FC = () => {
         alignItems="center"
         justifyContent="center"
         direction="column"
+        p={3}
       >
         <Avatar
           sx={{
-            width: 180,
-            height: 180,
+            width: 130,
+            height: 130,
             display: { xs: "none", md: "flex" },
           }}
           alt="logo"
@@ -125,6 +126,7 @@ const ResetForgottenPasswordForm: FC = () => {
           >
             Reset Password
           </Typography>
+
           <Stack gap={3}>
             <FormControl sx={{ width: "25ch" }} variant="standard">
               <InputLabel htmlFor="standard-adornment-password">
@@ -180,6 +182,7 @@ const ResetForgottenPasswordForm: FC = () => {
               startIcon={<LockResetIcon />}
               aria-label="Reset Password"
               onClick={handleSubmitForm}
+              sx={{ mt: 3 }}
             >
               Reset Password
             </LoadingButton>

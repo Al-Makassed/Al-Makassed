@@ -36,7 +36,6 @@ const AccountMenu: FC = () => {
     anchorEl,
     open,
     tabValue,
-    userName,
     avatarUrl,
     fullName,
     userInitial,
@@ -70,13 +69,22 @@ const AccountMenu: FC = () => {
           aria-controls={open ? "account-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
-          startIcon={<UserAvatar src={avatarUrl} initials={userInitial} />}
           sx={{
             textTransform: "none",
             color: (theme) => theme.palette.grey[50],
+            p: 0,
           }}
         >
-          {!isMobile && userName}
+          <Stack
+            direction="row"
+            alignItems={"center"}
+            p={0}
+            gap={{ xs: 0, sm: 1 }}
+          >
+            <UserAvatar src={avatarUrl} initials={userInitial} />
+            {!isMobile && fullName.split(" ")[0]}
+            {/* {isMobile && <ArrowDownIcon />} */}
+          </Stack>
         </Button>
       </Tooltip>
 

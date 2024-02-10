@@ -19,7 +19,12 @@ export const RecentlyAddedListCard = () => {
   const theme = useTheme<Theme>();
 
   if (isFetching)
-    return <Skeleton variant="rounded" height={"calc(100vh - 266.018px)"} />;
+    return (
+      <Skeleton
+        variant="rounded"
+        height={"calc(100vh - 64px - 16px - 149px - 12px - 16px)"}
+      />
+    );
 
   if (!fileEntities) return null;
 
@@ -41,7 +46,7 @@ export const RecentlyAddedListCard = () => {
           sx={{
             overflowY: "auto",
             maxHeight: {
-              lg: "calc(100vh - 64px - 16px - 154px - 32px - 62px)",
+              lg: "calc(100vh - 64px - 16px - 149px - 12px - 62px - 12px)",
             },
             p: 1.5,
             pt: 0.5,

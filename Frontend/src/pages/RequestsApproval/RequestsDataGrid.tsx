@@ -34,14 +34,14 @@ const RequestsDataGrid: FC<RequestsDataGridProps> = ({
     {
       field: "user",
       headerName: "User",
-      width: 200,
+      width: 220,
       renderCell: (params) => (
         <Stack direction="row" alignItems="center" spacing={1}>
           <UserAvatar
             src={params.row.requesterAvatarUrl}
             initials={getAvatarAbbreviation(params.row.requesterUserName)}
           />
-          <Typography>{params.row.requesterUserName}</Typography>
+          <Typography>{params.row.requesterFullName}</Typography>
         </Stack>
       ),
     },

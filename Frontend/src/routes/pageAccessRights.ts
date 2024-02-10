@@ -26,6 +26,18 @@ const pagesAccessRights = new Map<PageAccessName, PageAccessRight>([
     },
   ],
   [
+    "UserProfile",
+    {
+      roles: [["Focal Point"], ["Sub-Admin"], ["Admin"], ["Staff"]],
+    },
+  ],
+  [
+    "UserProfile",
+    {
+      roles: [["Focal Point"], ["Sub-Admin"], ["Admin"], ["Staff"]],
+    },
+  ],
+  [
     "RequestsApproval",
     {
       roles: [["Admin"]],

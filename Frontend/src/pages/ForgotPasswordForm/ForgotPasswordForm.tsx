@@ -45,17 +45,17 @@ const ForgetPassword: FC = () => {
         alignItems="center"
         justifyContent="center"
         direction="column"
+        p={4}
       >
         <Avatar
           alt="logo"
           variant="circular"
-          sx={{ width: 160, height: 160, display: { xs: "none", md: "flex" } }}
+          sx={{ width: 130, height: 130, display: { xs: "none", md: "flex" } }}
           src={maqasidLogo}
         />
 
         <Stack
           padding={{ xs: 2, md: 2 }}
-          gap={2}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -73,7 +73,7 @@ const ForgetPassword: FC = () => {
           >
             Forgot Password
           </Typography>
-          <Stack gap={1}>
+          <Stack gap={2} width="100%">
             <TextField
               variant="standard"
               margin="normal"

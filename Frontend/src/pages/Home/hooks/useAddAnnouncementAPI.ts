@@ -15,7 +15,7 @@ const useAddAnnouncementAPI = () => {
     mutationFn: addAnnouncement,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ANNOUNCEMENTS_QUERY_KEY,
+        queryKey: [ANNOUNCEMENTS_QUERY_KEY],
       });
       dispatch(
         showSuccessSnackbar({
