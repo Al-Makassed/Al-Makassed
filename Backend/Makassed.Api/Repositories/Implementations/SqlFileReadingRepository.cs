@@ -37,7 +37,8 @@ public class SqlFileReadingRepository : IFileReadingRepository
         var query = _dbContext.PolicyUsers
             .Include(pu => pu.Policy)
             .ThenInclude(p => p.Chapter)
-            .Where(pu => pu.UserId == userId);
+            .Where(pu => pu.UserId == userId)
+            .Where(pu => pu.Policy.IsApproved);
 
         var result = await _sieveProcessor.Apply(sieveModel, query).ToListAsync();
 
@@ -68,7 +69,8 @@ public class SqlFileReadingRepository : IFileReadingRepository
             .Include(du => du.Dependency)
             .ThenInclude(d => d.Policy)
             .ThenInclude(p => p.Chapter)
-            .Where(du => du.UserId == userId);
+            .Where(du => du.UserId == userId)
+            .Where(du => du.Dependency.IsApproved);
 
         var result = await _sieveProcessor.Apply(sieveModel, query).ToListAsync();
 
