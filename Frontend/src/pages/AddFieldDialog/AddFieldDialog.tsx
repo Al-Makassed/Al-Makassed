@@ -5,12 +5,12 @@ import { Form, FormikProvider } from "formik";
 import { FC, useEffect } from "react";
 import TextField from "src/components/Fields/TextField";
 import MaqasidDialog from "src/components/MaqasidDialog";
-import useMonitoringToolsContext from "../context/useMonitoringToolsContext";
-import useAddFieldForm from "../hooks/useAddFieldForm";
-import { MonitoringToolsDialog } from "../constants";
+import useAddFieldForm from "./hooks/useAddFieldForm";
 import AutocompleteField from "src/components/Fields/AutocompleteField";
-import { Category } from "../API/types";
-import useGetCategories from "../hooks/useGetCategories";
+import { Category } from "./API/types";
+import useGetCategories from "./hooks/useGetCategories";
+import useMonitoringToolsContext from "../MonitoringTools/context/useMonitoringToolsContext";
+import { MonitoringToolsDialog } from "../MonitoringTools/constants";
 
 const AddFieldDialog: FC = () => {
   const { formikProps, isPending, status } = useAddFieldForm();

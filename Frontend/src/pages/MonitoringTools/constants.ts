@@ -6,6 +6,8 @@ export const FOCAL_POINT_TASKS_QUERY_KEY = ["FocalPointTasks"];
 
 export const FIELDS_QUERY_KEY = ["Fields"];
 
+export const CATEGORIES_QUERY_KEY = ["Categories"];
+
 export const initialValues: CreateFieldRequest = {
   content: "",
   categoryId: "",
