@@ -14,6 +14,7 @@ using Makassed.Contracts.Submission;
 using Makassed.Contracts.Search;
 using Makassed.Contracts.Readings;
 using Makassed.Contracts.Announcement;
+using Makassed.Contracts.Category;
 
 namespace Makassed.Api.Mappings;
 
@@ -85,5 +86,9 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Announcement, CreateAnnouncementRequest>().ReverseMap();
         CreateMap<Announcement, GetAnnouncementResponse>().ReverseMap();
+
+        CreateMap<Category, GetCategoryResponse>().ReverseMap();
+        CreateMap<Category, CreateCategoryRequest>().ReverseMap();
+        CreateMap<Category, UpdateCategoryRequest>().ReverseMap();
     }
 }
