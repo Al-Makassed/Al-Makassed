@@ -1,4 +1,4 @@
-import { getDepartment, getField, getUser } from "./API/type";
+import { getDepartment, getUser } from "./API/type";
 
 export const DEPARTMENT_QUERY_KEY = ["Department"];
 
@@ -10,10 +10,6 @@ export const FOCAL_POINT_QUERY_KEY = ["FocalPoint"];
 
 export const initialValues: getDepartment = {
   name: "",
-};
-
-export const FieldInitialValues: getField = {
-  content: "",
 };
 
 export const UserInitialValues: getUser = {

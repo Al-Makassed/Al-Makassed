@@ -18,8 +18,8 @@ import { Field } from "../API/type";
 import { FieldDialogType } from "../constants";
 import useDeleteField from "../hooks/useDeleteField";
 import useGetFields from "../hooks/useGetFields";
-import AddFieldDialog from "./AddFieldDialog";
 import EditFieldDialog from "./EditFieldDialog";
+import AddFieldDialog from "src/pages/AddFieldDialog/AddFieldDialog";
 
 const FieldDetails: FC = () => {
   const [dialogType, setDialogType] = useState<FieldDialogType | null>(null);

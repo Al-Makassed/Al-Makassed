@@ -51,6 +51,12 @@ export interface MonitoringToolSearchResponse extends SearchResponse {
 export interface Field {
   id: string;
   content: string;
+  category: Category;
+}
+
+export interface Category {
+  id: string;
+  name: string;
 }
 
 export interface Department {

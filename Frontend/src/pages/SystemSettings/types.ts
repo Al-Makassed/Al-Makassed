@@ -9,11 +9,6 @@ export interface EditDepartmentFormValues {
   headId: string;
 }
 
-export interface EditFieldFormValues {
-  id: string;
-  content: string;
-}
-
 export interface EditUserRoleFormValues {
   id: string;
   roles: Role | null;

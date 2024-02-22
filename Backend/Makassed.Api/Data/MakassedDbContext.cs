@@ -17,6 +17,7 @@ public class MakassedDbContext : IdentityDbContext<MakassedUser>
     public DbSet<Dependency> Dependencies { get; set; } = null!;
 
     public DbSet<MonitoringTool> MonitoringTools { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Field> Fields { get; set; } = null!;
     public DbSet<Department> Departments { get; set; } = null!;
     public DbSet<Submission> Submissions { get; set; } = null!;

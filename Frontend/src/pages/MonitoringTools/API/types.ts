@@ -16,10 +16,12 @@ export interface FocalPointTask {
 export interface Field {
   id: string;
   content: string;
+  category: Category;
 }
 
-export interface CreateFieldRequest {
-  content: string;
+export interface Category {
+  id: string;
+  name: string;
 }
 
 export interface Department {
