@@ -8,7 +8,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: Makassed.Api\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 7.0.x
-  WORKING_DIRECTORY: Makassed.Api
+  WORKING_DIRECTORY: Backend/Makassed.Api
 jobs:
   build:
     runs-on: windows-latest
