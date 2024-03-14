@@ -37,5 +37,9 @@
     <ProjectReference Include="..\Makassed.Contracts\Makassed.Contracts.csproj" />
     <ProjectReference Include="..\Makassed.Email.Service\Makassed.Email.Service.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Avatars\" />
+  </ItemGroup>
   
 </Project>
