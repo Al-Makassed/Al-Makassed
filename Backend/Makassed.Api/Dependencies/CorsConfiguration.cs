@@ -22,10 +22,10 @@ public static class CorsConfiguration
         // Add CORS services
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll",
-                builder =>
+            options.AddPolicy(name: "AllowAll",
+                policy =>
                 {
-                    builder.AllowAnyOrigin()
+                    policy.AllowAnyOrigin()
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 });

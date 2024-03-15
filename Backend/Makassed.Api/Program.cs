@@ -23,12 +23,6 @@ var app = builder.Build();
 
     app.UseHttpsRedirection();
 
-    //app.UseCors(); // Cross-Origin Resource Sharing
-
-    app.UseAuthentication();
-
-    app.UseAuthorization();
-
     // Serve static files from the "Files" directory under the "/Files" URL path.
     app.UseStaticFiles(new StaticFileOptions
     {
@@ -42,6 +36,12 @@ var app = builder.Build();
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Avatars")),
         RequestPath = "/Avatars"  // specifies the URL path at which the static files will be served.
     });
+
+    app.UseCors("AllowAll"); // Cross-Origin Resource Sharing
+
+    app.UseAuthentication();
+
+    app.UseAuthorization();
 
     app.MapControllers();
 
