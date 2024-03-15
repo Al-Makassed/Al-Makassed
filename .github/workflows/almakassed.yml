@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - main
+  workflow_dispatch: # allows you to run the workflow manually from the Actions tab
+
 env:
   AZURE_WEBAPP_NAME: almakassed
   AZURE_WEBAPP_PACKAGE_PATH: Makassed.Api\publish
@@ -44,5 +46,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.almakassed_5A6B }}
+        publish-profile: ${{ secrets.almakassed_210B }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
