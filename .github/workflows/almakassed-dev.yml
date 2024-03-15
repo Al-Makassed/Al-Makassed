@@ -2,7 +2,9 @@ name: Build and deploy .NET Core application to Web App almakassed-dev
 on:
   push:
     branches:
-    - main
+    - staging
+    workflow_dispatch: # allows you to run the workflow manually from the Actions tab
+
 env:
   AZURE_WEBAPP_NAME: almakassed-dev
   AZURE_WEBAPP_PACKAGE_PATH: Makassed.Api\publish
