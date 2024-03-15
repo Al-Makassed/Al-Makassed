@@ -23,7 +23,7 @@ var app = builder.Build();
 
     app.UseHttpsRedirection();
 
-    app.UseCors(); // Cross-Origin Resource Sharing
+    //app.UseCors(); // Cross-Origin Resource Sharing
 
     app.UseAuthentication();
 
