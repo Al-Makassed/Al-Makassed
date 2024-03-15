@@ -4,7 +4,11 @@ on:
     branches:
     - staging
     - main
+<<<<<<< HEAD
   workflow_dispatch: # allows you to run the workflow manually from the Actions tab
+=======
+    workflow_dispatch: # allows you to run the workflow manually from the Actions tab
+>>>>>>> 9519e191bf1d0550e024f983ba6bb1080b53300c
 
 env:
   AZURE_WEBAPP_NAME: almakassed-dev
