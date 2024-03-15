@@ -3,6 +3,7 @@ on:
   push:
     branches:
     - staging
+    - main
     workflow_dispatch: # allows you to run the workflow manually from the Actions tab
 
 env:
